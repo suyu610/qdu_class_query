@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/splash/splash",    
+    "pages/list/list",
+    "pages/guide/guide",
+    "pages/mine/mine",
+    "pages/course/course",
+    "pages/flag/flag",
+    "pages/class/class",
+    "pages/about/about"
+    
+  ],
+  "themeLocation": "theme.json",
+  "window": {
+    "navigationBarTitleText": "青大空教室查询",
+    "navigationBarBackgroundColor": "@navigationBarBackgroundColor",
+    "navigationBarTextStyle": "@navigationBarTextStyle",
+    "backgroundColor": "@backgroundColor",
+    "backgroundTextStyle": "@backgroundTextStyle"
+  },
+  "tabBar": {
+    "backgroundColor": "#ffffff",
+    "color": "#979795",
+    "selectedColor": "#1c1c1b",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "空教室",
+        "iconPath": "/images/icon/icon_home.png",
+        "selectedIconPath": "/images/icon/icon_home_HL.png"
+      },
+      {
+        "pagePath": "pages/course/course",
+        "text": "课表",
+        "iconPath": "/images/icon/icon_msg.png",
+        "selectedIconPath": "/images/icon/icon_msg_HL.png"
+      },
+      {
+        "pagePath": "pages/flag/flag",
+        "text": "目标",
+        "iconPath": "/images/icon/icon_class.png",
+        "selectedIconPath": "/images/icon/icon_class_HL.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "/images/icon/icon_mine.png",
+        "selectedIconPath": "/images/icon/icon_mine_HL.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "位置信息将用于查询你与教室之间的距离"
+    }
+  }
+}

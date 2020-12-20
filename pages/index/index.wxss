@@ -1,0 +1,283 @@
+/**index.wxss**/
+map{
+  position: fixed;
+  top:0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.weatherPanel{
+  position: fixed;
+  top: 20rpx;
+  right: 20rpx;
+  box-sizing: border-box;
+  background-color:transparent;
+  height: 120rpx;
+  width: 250rpx;
+}
+#slider{
+  display: block;
+  padding: 10vh;
+  
+}
+
+#seqModal{
+  background-color: #000!important;
+}
+.custom-button{
+  background-color:#fee161;
+  font-size: 14px;
+  padding: 10rpx;
+  border-radius: 20rpx;
+  border: 2px solid #000;
+  min-width: 100rpx;
+  text-align: center;
+}
+.poptitle{
+  display: block;
+  padding-top: 1vh;
+  padding-bottom: 5vh;
+}
+.dropdown{
+  box-shadow: 10px 10px 5px #888888!important;
+
+}
+.checkbox{
+  padding-left: 3vw;
+  padding-right: 0vw;
+  width: 27vw;
+  font-size: 14px;
+  display: inline-block;
+  align-self: center;
+  text-align: center;
+  margin:0 auto;
+  padding-top: 0vh;
+
+}
+
+.checkbox:nth-last-child(2){
+  padding-top: 3vh;
+}
+.h4{
+  display: block;
+  height: 4vh;
+}
+.time-checkbox{
+  padding-top: 4vh!important;
+}
+
+
+
+van-checkbox-group{
+  width:100vw;
+  /* padding-left: 2.5vw; */
+  margin: 0;
+  text-align: left;
+  display:block;
+  /* border: 1px solid #000; */
+}
+.weatherPanel .weather{  
+  width: 100%;
+  background-color: #fee161;  
+  text-align: center;    
+  line-height: 40rpx;   
+  font-size: 12px;    
+  color: black;
+  right: 20rpx;
+  border: 2px solid #000;  
+  border-radius: 10rpx;
+}
+
+/* 地图上的点 */
+.customCallout {
+  box-sizing: border-box;
+  background-color: transparent; 
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  text-align: right;
+  margin: 0 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color:#fff;
+  padding-left: 10px;
+}
+
+
+
+.iconImage{
+  margin: 20rpx;
+  width:40rpx;
+  height: 40rpx; 
+  border: none;
+}
+.search{
+  position:fixed;
+  bottom: 220rpx;
+  width: 80rpx;
+  height: 80rpx;
+  margin-top: 100rpx;  
+  border-radius: 8px;  
+  background-color: #fee161;  
+  border: 2px solid #000;  
+  right: 10rpx;
+}
+
+.position{
+  position:fixed;
+  bottom: 330rpx;
+  width: 80rpx;
+  height: 80rpx;  
+  margin-top: 100rpx;  
+  border-radius: 8px;  
+  background-color: #fee161;  
+  border: 2px solid #000;  
+  right: 10rpx;
+}
+
+.changeTheme{
+  position:fixed;
+  right: 10rpx;
+  bottom: 430rpx;
+  width: 80rpx;
+  height: 80rpx;  
+  border-radius: 8px;  
+  box-shadow: lightcyan;
+  /* background-color: #fee161;   */
+  /* border: 2px solid #000;   */
+}
+
+
+.weatherDetail{
+  position: relative;
+  width: 80vw;
+  height: 70vh;
+  background-color: transparent;
+  border-radius: 25rpx;
+  /* border: 2px solid #000; */
+}
+.wrapper .weatherDetail image{
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  z-index:-1;
+  border-radius: 25rpx;
+}
+.weather-header{
+  width: 86%;
+  position: relative;
+  top: 2vh;
+  margin-left: 7%;  
+  margin-right: 7%;  
+  display: block;
+  height: 10vh;
+}
+.weather-header .location{  
+  color:black;
+  position:absolute;
+  display: inline;
+  left: 0;
+}
+.weather-header .time{  
+  color:#000;
+  position: absolute;
+  display: inline;
+  right: 0;
+}
+.weather-content{
+  text-align: center;
+  position: relative;
+  display:block;
+  height: 40vh;
+  margin: 0 auto;
+  top:10vh;
+}
+
+.weather-content .info image{
+  text-align: center;
+  display: block;
+  height: 50px;
+  width: 50px;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 25rpx;
+}
+.weather-content .weather-info{  
+  font-size: 20px;
+  text-shadow: 5px 5px 8px #fed467;
+
+}
+.weather-content .temperature{
+  margin-top: 15rpx;
+  font-size: 28px;
+  font-weight: bold;
+}
+.weather-content .rain{
+  margin-top: 15rpx;
+  font-size: 16px;  
+}
+
+.weather-lukcy,
+.weather-suggest {
+  text-shadow: 5px 5px 8px #fed467;
+  padding-top: 15rpx;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.weather-foot{
+  font-size: 16px;  
+  text-align: center;
+  position: relative;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.sequence{
+  position:fixed;
+  margin-top: 200rpx;
+  bottom: 50rpx;
+  right: 10rpx;
+  width: 150rpx;
+  height: 140rpx;
+  border-radius: 8px;
+  border: 2px solid #000;  
+  background-color: #fee161;  
+  font-size: 12px;
+  text-align: center;
+}
+
+.sequence .seq-title{
+  height: 50rpx;
+  line-height: 50rpx;
+  width: 100%;
+  font-size: 12px;
+  text-align: center;
+  border-bottom: 2px solid #000;
+}
+/* 右下角那个 */
+.sequence  .seq-content{
+  height: 80rpx;
+  width: 80%!important;
+  font-size: 12px;
+  line-height: 45rpx;
+  text-align: center;
+  padding-left:10%;
+  margin:0px;
+  word-break: break-word;
+  display: flex; 
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+  vertical-align: middle;
+  font-weight: bold;
+}

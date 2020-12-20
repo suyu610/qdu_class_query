@@ -1,0 +1,29 @@
+<!--pages/course/course.wxml-->
+<view class="container">
+  <scroll-view  scroll-y="true" scroll-x="true" class="scroll" style="position:fixed;top:0">
+  <view class='top'>
+    <view wx:for="{{['一','二','三','四','五','六','日']}}" class='top-text'>周{{item}}</view>
+  </view>
+    <view style="width:150vw;display:flex;">
+      <view>
+        <view wx:for="{{[1,2,3,4,'t1',6,7,8,9,'t2',11,12,13]}}" class='left'>{{item}}</view>
+      </view>
+      <view wx:for="{{[1,2,3,4,'t1',6,7,8,9,'t2',11,12,13]}}">
+
+        <!-- 画线 -->
+        <view style="width:150vw;margin-top:{{(index+1)*100}}rpx;  position: absolute;border-bottom:1rpx dotted {{index==4?'lightblue':'lightgray'}};"/>
+
+      </view>
+      <!--课表-->
+      <view wx:for="{{wlist}}">
+        <view class="flex-item kcb-item" bindtap="showCardView" id='0' data-statu="open" data-index="{{index}}"       
+        style="margin-left:{{(item.week-1)*150}}rpx;margin-top:{{(item.start-1)*100}}rpx;height:{{item.long*100-10}}rpx;box-sizing:border-box">
+          <text class="smalltext ">{{item.className}}</text>
+          <text class="smalltext" >#{{item.build}}</text>
+          <text class="smalltext ">{{item.weekInfo}}</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+</view>

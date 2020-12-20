@@ -1,0 +1,16 @@
+{
+  "usingComponents": {
+    "van-swipe-cell": "/miniprogram_npm/@vant/weapp/swipe-cell/index",
+    "van-cell": "/miniprogram_npm/@vant/weapp/cell/index",
+    "van-cell-group": "/miniprogram_npm/@vant/weapp/cell-group/index",    
+    "van-dialog": "/miniprogram_npm/@vant/weapp/dialog/index",
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-row": "/miniprogram_npm/@vant/weapp/row/index",
+    "van-col": "/miniprogram_npm/@vant/weapp/col/index",
+    "van-divider": "/miniprogram_npm/@vant/weapp/divider/index",
+    "van-notify": "/miniprogram_npm/@vant/weapp/notify/index",
+    "van-field": "/miniprogram_npm/@vant/weapp/field/index",
+    "van-switch": "/miniprogram_npm/@vant/weapp/switch/index"
+
+  }
+}

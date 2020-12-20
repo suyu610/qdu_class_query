@@ -1,0 +1,93 @@
+<view class="container">
+  <!-- <view class="userinfo-avatar">
+      <open-data type="userAvatarUrl"></open-data>
+  </view> -->
+  <van-cell-group title="基本信息">
+    <van-field
+    size="large"
+    label="昵称"
+    left-icon="user-o"
+    use-button-slot
+    value="{{ userInfo.nickName }}"
+    placeholder="请输入用户名"    
+    bind:change="changeNickname">
+      <van-button slot="button" size="small" open-type="getInfo" color="#000" round type="primary" plain>点击登录</van-button>
+      </van-field>      
+      <van-cell size="large" icon="fire-o" title="小目标" value="0" is-link link-type="navigateTo" url="/pages/flag/flag"/> 
+      <van-cell size="large" icon="chat-o dot" value="4" is-link link-type="navigateTo" url="/pages/flag/flag">
+        <view slot="title">
+          <view class="van-cell-text">消息 <van-tag round color="#fde06b" text-color="#000">New</van-tag></view>          
+        </view>
+      </van-cell>   
+    </van-cell-group>
+
+    <van-cell-group title="设置">
+
+    <!-- 校区选择 -->
+    <van-action-sheet    
+      show="{{ showCampusSheet }}"
+      actions="{{ campusOptions }}"
+      bind:close="onSwitchCampusClose"
+      bind:select="onSwitchCampusSelect"
+      />
+    <van-cell is-link size="large" icon="location-o" bind:click="onShowSwitchCampus" title="校区" value="{{currentCampus}}" />    
+    
+    <!-- 风格设置 -->
+    <van-action-sheet
+      show="{{ showThemesSheet }}"
+      actions="{{ themesOptions }}"      
+      bind:close="onSwitchThemesClose"
+      bind:select="onSwitchThemesSelect"/>
+    
+    
+    <van-cell 
+      is-link 
+      size="large"
+      icon="flower-o"
+      bind:click="onShowSwitchThemes" 
+      title="主题" 
+      value="{{currentTheme}}" />        
+    
+      <van-cell 
+      size="large"
+      icon="setting-o"
+      title="小目标启动页" 
+      >
+      <van-switch 
+      size="24px"
+      active-color="#fde06b"
+      inactive-color="#ffffff"
+      checked="{{ openSplashSwitch }}" bind:change="onSplashSwitchChange" />
+
+      </van-cell>        
+    
+  </van-cell-group>
+
+  <van-popup
+    show="{{ showAboutPop }}"
+    closeable
+    close-icon-position="top-right"
+    close-icon="close"
+    position="bottom"
+    round
+    custom-style="height: 40%"
+    bind:close="onAboutPopClose"
+  >
+  <view class="aboutPop">
+    <van-image
+      round
+      width="3.7rem"
+      height="3.7rem"
+      src="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/logo.png"
+      style="margin: 15rpx;"
+    />
+    <text style="margin: 10rpx;color:lightgray">由 青岛大学 电子信息学院</text>
+    <text style="margin: 5rpx;font-size:20px">微纳四班 & 素语工作室</text>
+    <text style="margin: 10rpx;color:lightgray">联合开发</text>
+  </view>
+</van-popup>
+  <van-cell size="large"icon="gem-o" title="开发报告" bind:click="jumpToAboutPage" is-link />   
+  <van-cell size="large"icon="like-o" title="关于青空" bind:click="onAboutShow" is-link />       
+    <button class="contact" open-type='share'>分享给好友</button>
+    <button class="contact" open-type='contact'>联系我们</button>
+  </view>

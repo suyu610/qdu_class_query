@@ -1,0 +1,115 @@
+/* pages/splash/splash.wxss */
+
+.container{  
+  font-size: 22px;
+  padding: 10rpx;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  text-align: center;
+  height: 100vh;
+  border-left: 1px solid #e9e5e544;
+  border-top: 1px solid #e9e5e544;
+  background-image: -webkit-linear-gradient(180deg, #e9e5e544 1px, transparent 1px), -webkit-linear-gradient(90deg, #e9e5e544 1px, transparent 1px);
+}
+.stripes {
+  -webkit-background-size: 20px 20px;
+  -moz-background-size: 20px 20px;
+  background-size: 20px 20px;
+  /* 控制条纹的大小 */
+}
+#motto{
+  width: 100vw;
+  font-weight: 900;
+  padding: 10rpx;
+  padding-top: 40vh;
+  display: block;
+  
+}
+#author{
+  display: block;
+  font-size: 16px;
+  margin: 20rpx;
+  margin-top: 50rpx;
+  padding-right: 10%;
+  width: 80%;
+  float: right;
+  text-align: right;
+}
+
+.like {
+  margin-top: 200rpx;
+  align-items: center;  
+  width: 100vw;
+  height: 70rpx;
+
+}
+
+.like text{
+  text-align: center;
+  display: block;
+  /* line-height: 70rpx; */
+  font-size: 15px;
+  color:gray;
+  font-weight: bold;
+  
+}
+.like image{  
+  display: inline-block;
+  align-self: center;
+  text-align: center;
+  width: 70rpx;
+  height: 70rpx;
+}
+
+#write{
+  position: fixed;
+  bottom: 40rpx;
+  width: 100vw;
+  text-align: center;
+  font-size: 15px;
+  color:gray;
+  text-decoration:underline;
+  
+}
+
+
+#jump{
+  position: fixed;
+  right: -80rpx;
+  bottom: 0rpx;
+  height: 250rpx;
+  width: 250rpx;
+  background-color: #fee161;
+  border-top-left-radius: 300rpx;
+  border-left: 3px solid #000;
+  border-top: 3px solid #000;  
+  /* opacity: 0.6; */
+  animation:viewMove 3s ease-in-out forwards;
+  animation-delay:1s;
+
+}
+@keyframes viewMove{
+  from {right:-80rpx;
+    bottom: 0rpx;}
+  to {right:-250rpx;
+    bottom: -250rpx;
+}
+}
+
+@keyframes textMove{
+  from {right:30rpx;
+  bottom: 70rpx;}
+  to {right:-200rpx;
+    bottom:-0rpx}
+}
+
+#jumpText{
+  position: fixed;
+  font-weight: bold;
+  right: 30rpx;
+  bottom: 70rpx;
+  font-size: 16px;
+  animation:textMove 3s ease-in-out forwards;
+  animation-delay:1s;
+}

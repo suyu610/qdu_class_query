@@ -1,0 +1,22 @@
+swiper {
+  /*这个是绝对布局*/
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.swiper-image {
+  height: 100%;
+  width: 100%;
+  /*透明度*/
+  opacity: 0.9;
+}
+
+.button-img {
+  /*这个是绝对布局*/
+  position: relative;
+  bottom: 90px;
+  height: 40px;
+  width: 120px;
+  opacity: 0.6;
+}

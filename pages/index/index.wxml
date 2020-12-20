@@ -1,0 +1,149 @@
+<!--index.wxml-->
+<view class="container">
+  <map
+  style="z-index:-1"
+id="map"
+longitude="{{longitude}}"
+latitude="{{latitude}}"
+scale="{{scale}}"
+include-points="{{markers}}"
+skew="40"
+enable-rotate
+show-location
+enable-3D
+show-compass
+subkey="5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO"
+markers="{{markers}}"
+bindmarkertap="bindmarkertap"
+bindcallouttap="bindmarkertap"
+layer-style="{{theme}}">
+</map>
+
+<!-- 搜索课序 -->
+<van-popup 
+  id="seqModal" 
+  show="{{ modalSeqShow }}"     
+  bind:close="modalSeqClose" 
+  position="bottom"       
+  round  
+  border="false"  
+  custom-style="height: 45vh;width:100%;text-align:center;">
+  <!-- 上午下午晚上 -->  
+  <van-row>
+    <van-col span="20" offset="2">  
+      <van-checkbox-group value="{{ timeResult }}" bind:change="timeChange" >   
+        <van-checkbox class="checkbox time-checkbox" wx:key="index" wx:for="{{['上午','下午','晚上'] }}" wx:for-item="i" shape="square" checked-color="#fed457" name="{{index}}">
+          <text class="checkboxText">{{i}}</text>          
+        </van-checkbox>
+      </van-checkbox-group>
+    </van-col>
+  </van-row>
+  <!-- 分割线 -->
+  <van-divider dashed contentPosition="center" customStyle="color: lightgrey; border-color: lightgrey; ">按课次</van-divider>
+  <!-- 课次 -->
+  <van-row>
+    <van-col span="20" offset="2">  
+      <van-checkbox-group value="{{ seqResult }}" bind:change="seqChange">
+        <van-checkbox class="checkbox" shape="square" checked-color="#fed457" name="{{index}}" wx:for="{{ 5 }}" wx:key="index" wx:for-item="i">{{classSeq[index]}}节      
+        </van-checkbox>    
+      </van-checkbox-group>
+    </van-col>
+  </van-row>
+      <view class="h4"></view>
+  <!-- 底部搜索按钮 -->
+  <van-row>
+    <van-col span="5" offset="4">  
+      <van-button custom-style="font-size:14px;margin-top:4vw;text-align:center;height:60rpx;color:black;border: 2px solid #000 ;border-radius: 12rpx;" bindtap="modalSeqClose" size="large">关闭</van-button>  
+    </van-col>
+    <van-col span="5"  offset="6">
+      <van-button custom-style="font-size:14px;margin-top:4vw;color:black;height:60rpx;border: 2px solid #000;background-color:#fed457 ;border-radius: 12rpx;text-align:center" bindtap="searchBySeq" size="large" >搜索</van-button>
+    </van-col>
+  </van-row>
+</van-popup>
+
+<!-- 天气详细 -->
+<van-overlay show="{{ modalWeatherShow }}" bind:click="modalWeatherClose">
+  <view class="wrapper">
+    <view class="block weatherDetail" catch:tap="noop" >
+      <image src="/images/sun.png"></image>
+      <view class="weather-header">
+        <view class="location">青岛</view>
+        <view class="time">现在</view>      
+      </view>
+      <view class="weather-content">
+        <view class="info">
+        <image src="/images/icon/407.png"></image>
+      </view>
+        <text class="weather-info">多云</text>
+        <view class="temperature">6 ℃</view>
+        <view class="rain">降雨概率 40%</view>          
+      </view>
+      <van-divider content-position="center" customStyle="color: black; border-color: transparent; ">小素建议</van-divider>
+      <view class="weather-foot">
+        <view class="weather-suggest">带伞!!</view>
+      </view>
+      
+    </view>
+  </view>
+</van-overlay>
+
+
+<!-- 详细搜索 -->
+<van-popup 
+  id="searchModal" 
+  show="{{ modalSearchShow }}"     
+  bind:close="modalSearchClose" 
+  position="bottom"       
+  round  
+  border="false"  
+  custom-style="height: 50vh;width:100%;">
+
+  <van-dropdown-menu class="dropdown">
+    <van-dropdown-item value="{{ floorValue }}" options="{{ floorOption }}"
+    bind:change="floorValueChange" />
+    <van-dropdown-item value="{{ durationValue }}" options="{{ durationOption }}" 
+    bind:change="durationValueChange"
+    />
+  </van-dropdown-menu>
+  <view id="slider">
+    <view class="poptitle">距离(有点问题)</view>
+    <van-slider class="slider" value="2000" min="100" max="2000" bind:drag-end="onDragEnd" 
+    bar-height="4px" use-button-slot bind:drag="onDrag" active-color="#fed457" customStyle="margin:100px">
+      <view class="custom-button" slot="button">
+        {{ distance }} m
+      </view>
+    </van-slider>
+  </view>
+  <van-row>
+    <van-col span="5" offset="4">  
+      <van-button custom-style="margin-top:4vw;text-align:center;height:60rpx;color:black;border: 2px solid #000 ;border-radius: 12rpx;" bindtap="modalSearchClose" size="large">关闭</van-button>  
+    </van-col>
+    <van-col span="5"  offset="6">
+      <van-button custom-style="margin-top:4vw;color:black;height:60rpx;border: 2px solid #000;background-color:#fed457 ;border-radius: 12rpx;text-align:center" bindtap="searchByDetail" size="large">搜索</van-button>
+    </van-col>
+  </van-row>
+
+</van-popup>
+
+
+<view class="changeTheme" bindtap="changeTheme" >
+  <image class="iconImage" src='/images/icon/icon_style.png'></image>
+</view>
+
+<!-- bindtap="showWeather" -->
+<view class="weatherPanel" bindtap="showWeather">  
+  <view class="weather">{{weatherInfo}}</view>
+</view>
+
+
+<view class="search" bindtap="showSearch" >
+    <image class="iconImage" src='/images/icon/icon_search.png'></image>
+  </view>
+  <view class="position" bindtap="getUserLocation" >
+    <image class="iconImage" src='/images/icon/location.png'></image>
+  </view>
+  <view class="sequence" bindtap="showSeq">
+    <view class="seq-title">筛选课次</view>
+    <view class="seq-content">{{seqContent}}</view>
+  </view>  
+</view>

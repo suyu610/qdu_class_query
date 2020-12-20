@@ -1,0 +1,60 @@
+/* pages/class.wxss */
+.container{
+  width: 100vw;
+  perspective-origin: 10px 10px; /*增*/
+  perspective: 500px;
+  height: 100vh;
+}
+.title{
+  width: 40vw;
+  margin-left: 30vw;
+  margin-top: 5vh;
+  text-align: center;
+  background-color: #fde06b;
+}
+.table-title{
+  padding-top: 30rpx;
+  text-align: center;
+}
+.table {
+  padding: 20rpx;  
+  border: 0px solid darkgray;
+  font-size: 14px;
+  border-radius: 12px;
+ }
+ .tr {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 3rem;
+  align-items: center;
+ }
+
+ .td {
+  width: 12.5%;
+  justify-content: center;
+  text-align: center;
+ }
+ 
+ .bg-w{
+  background: snow;
+ }
+ .bg-g{
+  background: #E6F3F9;
+ }
+ .th {    
+  width: 12.5%;
+  justify-content: center;
+  background: #fde06b;
+  color: #000;
+  display: flex;
+  height: 3rem;
+  align-items: center;
+ }
+ .th:first-child{
+   border-top-left-radius: 12px;
+ }
+ .th:last-child{
+  border-top-right-radius: 12px;
+ }
+ 

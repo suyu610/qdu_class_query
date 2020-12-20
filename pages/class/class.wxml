@@ -1,0 +1,43 @@
+<!--pages/class.wxml-->
+<view class="container" id="container">
+  <view class="title">博文楼101</view>
+  <scroll-view scroll-x="{{true}}" class="sub-nav">    
+    <block wx:for="[1,2,3,4,5]">
+      <view class="table-title">第{{index+13}}周</view>
+      <view class="table">
+        <view class="tr bg-w">
+          <view class="th">课次</view>
+          <view class="th">周一</view>
+          <view class="th">周二</view>
+          <view class="th">周三</view>
+          <view class="th">周四</view>
+          <view class="th">周五</view>
+          <view class="th">周六</view>
+          <view class="th">周日</view>
+        </view>
+        <block wx:for="{{listData}}">
+          <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
+            <view class="td">第{{item.code}}节</view>
+            <view class="td">{{item.text}}</view>
+            <view class="td">{{item.text}}</view>
+            <view class="td">{{item.type}}</view>
+            <view class="td">{{item.type}}</view>
+            <view class="td">{{item.type}}</view>
+            <view class="td">{{item.type}}</view>  
+            <view class="td">{{item.type}}</view>
+          </view>
+          <view class="tr" wx:else>
+            <view class="td">第{{item.code}}节</view>
+            <view class="td">{{item.text}}</view>
+            <view class="td">{{item.text}}</view>
+            <view class="td">{{item.type}}</view>
+            <view class="td">{{item.type}}</view>
+            <view class="td">{{item.type}}</view>
+            <view class="td">{{item.type}}</view>  
+            <view class="td">{{item.type}}</view>
+          </view>
+        </block>
+      </view>
+    </block>
+  </scroll-view>
+</view>

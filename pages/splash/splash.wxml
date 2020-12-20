@@ -1,0 +1,12 @@
+<!--pages/splash/splash.wxml--> 
+<view  class="container horizonal stripes">
+  <text id="motto">{{jinrishici}}</text>
+  <text id="author"> <text>by : </text> {{author}}</text>
+  <view class="like"  bindtap='onLike'>
+    <image src="{{like?icon_like:icon_unlike}}" class="pickimg" animation="{{animation}}"></image>
+    <text>加油</text>
+  </view>
+  <view id="write" bindtap="jumpToFlag">我也要写小目标</view>
+  <view id="jump" bindtap="onJumpBtnClick"></view>
+  <text id="jumpText" bindtap="onJumpBtnClick">跳过</text>
+</view>

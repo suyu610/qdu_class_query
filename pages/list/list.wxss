@@ -1,0 +1,276 @@
+page {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: white;
+}
+
+.nav {
+  height: 80rpx;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background-color: #fde06b;
+  color: #000;
+  z-index: 997;  
+}
+
+.sub-nav {
+  white-space: nowrap;
+  display: flex;
+  padding-bottom: 8px;
+  height: 80rpx;
+}
+
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.nav-item {
+  display: inline-block;
+  font-size: small;
+  border-radius: 12px;
+  padding: 6px 14px;
+  height: 40rpx;
+}
+
+.nav-item.date {
+  font-size: 12px;
+}
+
+.nav-item:first-child {
+  margin-left: 16px;
+}
+
+.nav-item:last-child {
+  margin-right: 16px;
+}
+
+.nav-item.choosed {
+  background-color: #000;
+  color:white;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6rem;
+  margin-bottom: -70rpx;
+  z-index: 998;
+}
+.build-info{
+  height: 40rpx;
+  line-height: 40rpx;
+  background-color: #fcdf74;
+  position: fixed;
+  top: 80rpx;
+  z-index: 999;
+  padding: 8px 16px;
+  font-size: 12px;
+  color:black;
+  width: 100vw;
+  text-align: center;
+}
+.tr {  
+  display: flex;
+  justify-content: space-between;
+  align-items: center	;
+  height: 28px;
+  padding: 8px 16px;  
+  /* background-color: #fffddd; */
+  border-bottom: 1px dashed lightgray;
+  border-radius: 20rpx;
+}
+.tabs{
+  /* background-color: lightgray; */
+  /* padding: 0; */
+  /* margin: 0; */
+}
+.tr:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.tr.comment {
+  z-index: 995;
+  height: 16px;
+  /* background: linear-gradient(to right, #DFE7EE, white 70%); */
+  /* background: #fcdf73; */
+  border:0;
+  font-size: small;  
+}
+
+.comment-cell {
+  display: flex;
+}
+
+.comment-item {
+  color: #1B4B78;
+}
+
+.c1 {
+  margin-left: 3rpx;
+  margin-right: 13rpx;
+}
+
+.c2 {
+  margin-left: 3rpx;
+  margin-right: 13rpx;
+}
+.c3 {
+  margin-left: 5rpx;
+}
+
+.c4 {
+  margin-right: 43rpx;
+}
+
+.c5 {
+  margin-right: 26rpx;
+}
+
+.c6 {
+  margin-right: 39rpx;
+}
+.c7 {
+  margin-right: 15rpx;
+}
+.c8 {
+  margin-right: 10px;
+}
+
+.td.room-name-tuple {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-name {
+  font-size: 14px;
+  color: black;
+}
+
+.room-metadata {
+  display: flex;
+  color: #7795b1;
+  font-size: 8px;
+  margin-top: -3px;
+}
+
+.room-metadata view {
+  margin-right: 3px;
+}
+
+.td.status-list {
+  display: flex;
+}
+
+.status {
+  width: 20rpx;
+  height: 30rpx;
+  border-radius: 8rpx;
+  margin: 1px;
+  /* border: 2px solid #000; */
+}
+
+.status.free {
+  background-color: lightgreen;
+  border: 2px solid #000;
+  box-sizing: border-box;
+}
+ /* 被占 */
+ 
+ .status.busy {
+  background-color: lightgray;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+
+.status.inuse {
+  background-color: white;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+
+/* 符合条件的 */
+.fit{
+  /* border: 2px solid #fcdf73; */
+  /* border-left-style:0 */
+  background-color: lightyellow;
+  color: black;
+}
+.status.now:after {
+  content: '∙';
+  color: #1B4B78;
+  position: relative;
+  top: 9px;
+  display: flex;
+  justify-content: center;
+  width: 11rpx;
+  border-radius: 50%;
+}
+
+.status.loading {
+  background-color: lightgrey;
+}
+
+.delimiter {
+  width: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  page {
+    background-color: #08141F;
+  }
+  .nav {
+    color: #000;
+    background-color: #0B2843;
+  }
+  .nav-item.choosed {
+    background-color: #08141F;
+  }
+  .tr {
+    background-color: #102e4b;
+  }
+  .tr.comment {
+    background: linear-gradient(to right, #102e4b, #08141F 70%);
+  }
+  .comment-item {
+    color: lightgray;
+  }
+  .room-name {
+    color: #B2C3D2;
+  }
+  .room-metadata {
+    color: #7597b6;
+    font-size: 8px;
+    margin-top: -3px;
+  }
+
+  .status.free {
+    background-color: #4B8437;
+    border: 2px solid #000;
+    box-sizing: border-box;
+  }
+  
+  .status.inuse {
+    background-color: #A72F2F;
+  }
+  /* 被占 */
+  .status.busy {
+    background-color: #f00;
+    border: 2px solid #000;
+    box-sizing: border-box;
+  }
+  .status.now:after {
+    color: #7597b6;
+  }
+  
+  .status.loading {
+    background-color: #555555;
+  }
+}

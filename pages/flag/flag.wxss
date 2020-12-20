@@ -1,0 +1,96 @@
+/* pages/flag/flag.wxss */
+.container{
+  width: 100vw;
+  height: 100vh;
+  background-image: -webkit-linear-gradient(180deg, #e9e5e544 1px, transparent 1px), -webkit-linear-gradient(90deg, #e9e5e544 1px, transparent 1px);
+  display: block;
+}
+#writeBtn{
+  height:30vw;
+  width: 30vw;
+  background-color: #fde06b;
+  position: fixed;
+  bottom: -15vw;
+  right: -15vw;
+  border-bottom-left-radius: 15vw;
+  border-top-left-radius: 15vw;
+  border: 2px solid #000;  
+}
+#writeIcon{
+  position: fixed;
+  bottom: 3.25vw;
+  right: 2vw;
+}
+.stripes {
+  -webkit-background-size: 20px 20px;
+  -moz-background-size: 20px 20px;
+  background-size: 20px 20px;
+  /* 控制条纹的大小 */
+}
+.listShowView{
+  background-color: transparent;
+}
+.intro{
+  height:20vh;
+  padding-top: 40rpx;
+  padding-bottom: 30rpx; 
+  width: 100vw;
+  text-align: center;
+}
+.intro .title{
+  font-size: 20px;
+  padding-bottom: 30rpx;
+  text-align: center;
+}
+.intro .item{    
+  color: gray;
+  text-align: left;
+  font-size: 14px;
+}
+
+.demo-swipe-cell {
+  user-select: none;
+}
+
+.flagListCell{
+  font-weight: 500;
+  font-size: 16px!important;
+  background-color: transparent;
+}
+.van-cell-text{
+  color: lightgray;
+  font-weight: normal;
+  padding-right: 10rpx;
+  vertical-align: middle;
+
+}
+.van-swipe-cell__left,
+.van-swipe-cell__right {
+  width: 65px;
+  font-size: 15px;  
+  color: white;
+  text-align: center;
+  background-color: red;
+  height: 100%;
+  display: flex; 
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+.van-swipe-cell__left{
+  background-color: #fde06b;
+  color: black;
+}
+
+.private{
+  padding: 20rpx;
+  padding-right: 40rpx;
+  height: 100%;
+  display: flex;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+  vertical-align: middle;
+}
