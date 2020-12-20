@@ -37,9 +37,7 @@
     "userConfirmedBundleSwitch": true,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "remoteDebugLogEnable": false,
-    "prefetch": false
+    "minifyWXSS": true
   },
   "compileType": "miniprogram",
   "libVersion": "2.10.4",

@@ -55,7 +55,7 @@ component_1.VantComponent({
       this.touchMove(event);
       this.dragStatus = 'draging';
       this.getRect('.van-slider').then(function (rect) {
-        var diff = (_this.deltaX / rect.width) * 100;
+        var diff = (_this.deltaX / rect.width) * _this.data.max;
         _this.newValue = _this.startValue + diff;
         _this.updateValue(_this.newValue, false, true);
       });

@@ -1,15 +1,15 @@
 // pages/splash/splash.js
-import jinrishici from '../../libs/jinrishici.js'
+const app = getApp();
 
 Page({
   data: {
     timer:'',
-    jinrishici:'今年六级一定要超过800分！',
-    author:"19电信xxx",
-	    icon_like: '../../images/icon/icon_like.png',
-	    icon_unlike: '../../images/icon/icon_unlike.png',
-	    like:false, //是否已点赞
-	    count:0   //点赞数量
+    jinrishici:'',
+    author:"",
+	  icon_like: '../../images/icon/icon_like.png',
+	  icon_unlike: '../../images/icon/icon_unlike.png',
+	  like:false, //是否已点赞
+	  count:0   //点赞数量
   },
   onLike(e) {
     wx.vibrateShort() //手机振动API
@@ -19,8 +19,6 @@ Page({
       delay: 10, // 动画延迟时间，单位 ms
       transformOrigin: '50% 50%' // 动画的中心点
     })
-
-
  let like = this.properties.like
  let count = this.properties.count
 
@@ -52,14 +50,6 @@ Page({
       backgroundColor: '#fff',
       frontColor: '#000000',
     })
-    jinrishici.load(result => {
-      // 下面是处理逻辑示例
-      this.setData({
-        // "author":result.data.origin.author,
-        // "jinrishici": result.data.content
-      })
-
-    })
 
     this.data.timer = setTimeout(function() {
       wx.switchTab({      
@@ -79,7 +69,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      jinrishici:app.globalData.jinrishici,
+      author:app.globalData.author
+    })
   },
 
   /**

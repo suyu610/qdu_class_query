@@ -102,15 +102,14 @@ layer-style="{{theme}}">
     <van-dropdown-item value="{{ floorValue }}" options="{{ floorOption }}"
     bind:change="floorValueChange" />
     <van-dropdown-item value="{{ durationValue }}" options="{{ durationOption }}" 
-    bind:change="durationValueChange"
-    />
+    bind:change="durationValueChange"/>
   </van-dropdown-menu>
   <view id="slider">
-    <view class="poptitle">距离(有点问题)</view>
+    <view class="poptitle">距离(beta)</view>
     <van-slider class="slider" value="2000" min="100" max="2000" bind:drag-end="onDragEnd" 
     bar-height="4px" use-button-slot bind:drag="onDrag" active-color="#fed457" customStyle="margin:100px">
       <view class="custom-button" slot="button">
-        {{ distance }} m
+        {{ distance }}
       </view>
     </van-slider>
   </view>

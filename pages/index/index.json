@@ -1,6 +1,5 @@
 {
-  "usingComponents": {
-    "dialog":"../../components/dialog/Dialog",
+  "usingComponents": {    
     "van-popup": "/miniprogram_npm/@vant/weapp/popup/index",
     "van-grid": "/miniprogram_npm/@vant/weapp/grid/index",
     "van-grid-item": "/miniprogram_npm/@vant/weapp/grid-item/index",

@@ -1,7 +1,4 @@
 <view class="container">
-  <!-- <view class="userinfo-avatar">
-      <open-data type="userAvatarUrl"></open-data>
-  </view> -->
   <van-cell-group title="基本信息">
     <van-field
     size="large"
@@ -13,10 +10,11 @@
     bind:change="changeNickname">
       <van-button slot="button" size="small" open-type="getInfo" color="#000" round type="primary" plain>点击登录</van-button>
       </van-field>      
-      <van-cell size="large" icon="fire-o" title="小目标" value="0" is-link link-type="navigateTo" url="/pages/flag/flag"/> 
-      <van-cell size="large" icon="chat-o dot" value="4" is-link link-type="navigateTo" url="/pages/flag/flag">
+      <van-cell size="large" icon="chat-o dot" value="4" is-link link-type="switchTab" url="/pages/flag/flag">
         <view slot="title">
-          <view class="van-cell-text">消息 <van-tag round color="#fde06b" text-color="#000">New</van-tag></view>          
+          <view class="van-cell-text">消息 
+            <van-tag round color="#fde06b" text-color="#000">New</van-tag>
+          </view>          
         </view>
       </van-cell>   
     </van-cell-group>
@@ -73,7 +71,10 @@
     custom-style="height: 40%"
     bind:close="onAboutPopClose"
   >
-  <view class="aboutPop">
+  <view 
+    bindtap='copyText' 
+    data-text="744080689"
+    class="aboutPop">
     <van-image
       round
       width="3.7rem"
@@ -84,6 +85,7 @@
     <text style="margin: 10rpx;color:lightgray">由 青岛大学 电子信息学院</text>
     <text style="margin: 5rpx;font-size:20px">微纳四班 & 素语工作室</text>
     <text style="margin: 10rpx;color:lightgray">联合开发</text>
+    <text style="font-size:10px;margin: 10rpx;color:lightgray">qq群: 744080689(点击复制)</text>
   </view>
 </van-popup>
   <van-cell size="large"icon="gem-o" title="开发报告" bind:click="jumpToAboutPage" is-link />   

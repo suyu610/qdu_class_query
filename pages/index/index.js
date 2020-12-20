@@ -22,7 +22,7 @@ Page({
     modalSearchShow:false,  //是否隐藏搜索对话框
     modalSeqShow:false,     //是否隐藏课序选择对话框
     modalWeatherShow:false, //是否隐藏天气详情
-    distance: 2000,
+    distance: "无限",
     theme:1,
     scale:17,    
     longitude:app.globalData.longitude,
@@ -48,16 +48,16 @@ Page({
     ],
     durationOption: [
       { text: '无课时长', value: '0' },
-      { text: '1小节课', value: '1' },
-      { text: '2小节课', value: '2' },
-      { text: '3小节课', value: '3' },
-      { text: '4小节课', value: '4' },
-      { text: '5小节课', value: '5' },
-      { text: '6小节课', value: '6' },
-      { text: '7小节课', value: '7' },
-      { text: '8小节课', value: '8' },
-      { text: '9小节课', value: '9' },
-      { text: '10小节课', value: '10' },
+      { text: '1节', value: '1' },
+      { text: '2节', value: '2' },
+      { text: '3节', value: '3' },
+      { text: '4节', value: '4' },
+      { text: '5节', value: '5' },
+      { text: '6节', value: '6' },
+      { text: '7节', value: '7' },
+      { text: '8节', value: '8' },
+      { text: '9节', value: '9' },
+      { text: '10节', value: '10' },
     ],
     floorValue: -1,
     durationValue: '0',
@@ -75,9 +75,15 @@ Page({
   },
   // 距离选择
   onDrag(event) {
-    this.setData({
-      distance: event.detail.value ,
-    });
+    if(event.detail.value>=2000){
+      this.setData({
+        distance: "无限" ,
+      });
+    }else{
+      this.setData({
+        distance: event.detail.value + "m",
+      });
+    }
   },
   onDragEnd(event){
   },
@@ -91,22 +97,22 @@ Page({
   },
 
   searchByDetail:function(e){
-    console.log(e)
+    // console.log(e)
     var _this = this;
     this.modalSearchClose();
     wx.showLoading({
       title: '拼命搜索中..',
     });
 
-    let url = 'http://localhost:4396/api/class/today/1710-1738-1748-1756-1769-1783-1847-1904-1954-2036-2050-2099-2139-2186-2204-2237-2260-2278-2306-2308-2310-2349-2419-2503-4842-5893-6182/'+ _this.data.floorValue+'/'+_this.data.durationValue
+    let url = 'https://room.qdu.life/api/class/today/1710-1738-1748-1756-1769-1783-1847-1904-1954-2036-2050-2099-2139-2186-2204-2237-2260-2278-2306-2308-2310-2349-2419-2503-4842-5893-6182/'+ _this.data.floorValue+'/'+_this.data.durationValue
     // 发送请求
-    console.log(url)
+    // console.log(url)
 
     wx.request({      
     url: url,
     method:'POST',
     success (res) {        
-      console.log(res)
+      // console.log(res)
       app.globalData.currentStatus = res.data.data;
       _this.handleResSuccess(res);
       wx.hideLoading();
@@ -173,7 +179,7 @@ Page({
 
     // 发送请求
     wx.request({      
-      url: 'http://localhost:4396/api/class/sequence/today/' + seq,
+      url: 'https://room.qdu.life/api/class/sequence/today/' + seq,
       method:'POST',
       success (res) {        
         app.globalData.currentStatus = res.data.data;
@@ -184,7 +190,7 @@ Page({
   },
 
   handleResSuccess(res){
-    console.log(res)
+    // console.log(res)
     let markers=[];
     let tempData =  res.data.data;
     tempData.forEach(element => {
@@ -234,7 +240,7 @@ Page({
   },
 
   bindmarkertap:function(e){
-    console.log(e.markerId)
+    // console.log(e.markerId)
     app.globalData.tapBuildName = e.markerId;    
     // 带着id跳转到列表页
     wx.navigateTo({
@@ -304,12 +310,13 @@ Page({
     let _this=this; 
     this.mapCtx = wx.createMapContext('map')
     qqmapsdk = new QQMapWX({
-      key: "5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO" 
+      key: app.globalData.key 
     });
     wx.setNavigationBarTitle({
       title: '当前的空教室',
     })
-
+    // todo
+    // 自动识别当前位置，等一系列推荐
     // 请求现在的空教室    
   },
 
