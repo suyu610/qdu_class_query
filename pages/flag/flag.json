@@ -10,7 +10,11 @@
     "van-divider": "/miniprogram_npm/@vant/weapp/divider/index",
     "van-notify": "/miniprogram_npm/@vant/weapp/notify/index",
     "van-field": "/miniprogram_npm/@vant/weapp/field/index",
-    "van-switch": "/miniprogram_npm/@vant/weapp/switch/index"
+    "van-switch": "/miniprogram_npm/@vant/weapp/switch/index",        
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-slideview": "weui-miniprogram/slideview/slideview",
+    "van-loading": "/miniprogram_npm/@vant/weapp/loading/index"
 
   }
 }

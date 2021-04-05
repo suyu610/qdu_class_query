@@ -1,26 +1,86 @@
-<view class="container">
-  <van-cell-group title="基本信息">
-    <van-field
-    size="large"
-    label="昵称"
-    left-icon="user-o"
-    use-button-slot
-    value="{{ userInfo.nickName }}"
-    placeholder="请输入用户名"    
-    bind:change="changeNickname">
-      <van-button slot="button" size="small" open-type="getInfo" color="#000" round type="primary" plain>点击登录</van-button>
-      </van-field>      
-      <van-cell size="large" icon="chat-o dot" value="4" is-link link-type="switchTab" url="/pages/flag/flag">
-        <view slot="title">
-          <view class="van-cell-text">消息 
-            <van-tag round color="#fde06b" text-color="#000">New</van-tag>
-          </view>          
-        </view>
-      </van-cell>   
-    </van-cell-group>
+<scroll-view class="container">
+  <view style="padding-top:5vh"></view>
+  <van-row>    
+    <!-- loginByWx -->
+    <van-col span="8" offset="8" bindtap="onTapAvatar">    
+      <van-image  
+        wx:if="{{avatar!=null}}"     
+        id="avatarImg"
+        use-loading-slot 
+        use-error-slot
+        width="60px"
+        height="60px"
+        round
+        src="{{avatar}}">
+          <van-loading slot="loading" type="spinner" size="20" vertical />
+          <text slot="error">加载失败</text>
+      </van-image>
 
-    <van-cell-group title="设置">
+      <van-image
+        wx:else     
+        id="avatarImg"
+        use-loading-slot 
+        use-error-slot
+        width="60px"
+        height="60px"
+        round
+        src="https://cdns.qdu.life/icons/logo_mini.png">   
+          <van-loading slot="loading" type="spinner" size="20" vertical />
+          <text slot="error">加载失败</text>
+      </van-image>
 
+
+    </van-col>
+  </van-row>
+  <van-row>
+    <van-col span="8" offset="8" bindtap="onTapAvatar">
+      <view class="isBindView">
+        <text id="isBindText">{{nickname!=null?nickname:'未登录'}}</text>
+      </view>
+    </van-col>
+  </van-row>
+  <van-cell  center icon="chat-o dot" value="0" is-link link-type="switchTab" url="/pages/flag/flag">
+    <view slot="title">
+      <view class="van-cell-text">消息 
+        <van-tag round color="#fde06b" text-color="#000">no</van-tag>
+      </view>
+    </view>
+  </van-cell>
+
+  <van-cell-group title="设置">
+    <!-- 风格设置 -->
+    <van-cell 
+      center
+      icon="flower-o"
+      bind:click="onShowSwitchThemes" 
+      title="主题色" 
+      >
+        <van-icon slot="right-icon" name="stop" class="custom-icon" size="30px" color="{{currentTheme}}" />
+    
+      </van-cell>
+      <van-cell 
+        center
+        icon="setting-o"
+        title="自动搜索当前空教室" 
+      >
+        <van-switch 
+          size="24px"
+          active-color="#fde06b"
+          inactive-color="#ffffff"
+          checked="{{ openAutoSearchSwitch }}" bind:change="onAutoSearchSwitchChange" />
+      </van-cell>
+      <van-cell
+        center
+        icon="setting-o"
+        title="显示小目标页" 
+      >
+        <van-switch 
+          size="24px"
+          active-color="#fde06b"
+          inactive-color="#ffffff"
+          checked="{{ openSplashSwitch }}" bind:change="onSplashSwitchChange" />
+      </van-cell>        
+    
     <!-- 校区选择 -->
     <van-action-sheet    
       show="{{ showCampusSheet }}"
@@ -28,37 +88,23 @@
       bind:close="onSwitchCampusClose"
       bind:select="onSwitchCampusSelect"
       />
-    <van-cell is-link size="large" icon="location-o" bind:click="onShowSwitchCampus" title="校区" value="{{currentCampus}}" />    
-    
-    <!-- 风格设置 -->
-    <van-action-sheet
-      show="{{ showThemesSheet }}"
-      actions="{{ themesOptions }}"      
-      bind:close="onSwitchThemesClose"
-      bind:select="onSwitchThemesSelect"/>
-    
-    
+    <van-cell is-link  center icon="location-o" bind:click="onShowSwitchCampus" title="校区" value="{{currentCampus}}" />    
+    <!-- 启动页 -->
+    <van-action-sheet    
+      show="{{ showFirstLauchSheet }}"
+      actions="{{ firstLauchPageOptions }}"
+      bind:close="onSwitchFirstLauchPageClose"
+      bind:select="onSwitchFirstLauchPageSelect"
+      safe-area-inset-bottom="{{true}}"
+    />
     <van-cell 
       is-link 
-      size="large"
-      icon="flower-o"
-      bind:click="onShowSwitchThemes" 
-      title="主题" 
-      value="{{currentTheme}}" />        
-    
-      <van-cell 
-      size="large"
-      icon="setting-o"
-      title="小目标启动页" 
-      >
-      <van-switch 
-      size="24px"
-      active-color="#fde06b"
-      inactive-color="#ffffff"
-      checked="{{ openSplashSwitch }}" bind:change="onSplashSwitchChange" />
-
-      </van-cell>        
-    
+      center
+      icon="apps-o"
+      title="默认打开" 
+      bind:click="onShowFirstLauchPage" 
+      value="{{firstLauchPage}}" 
+    />
   </van-cell-group>
 
   <van-popup
@@ -71,10 +117,10 @@
     custom-style="height: 40%"
     bind:close="onAboutPopClose"
   >
-  <view 
-    bindtap='copyText' 
-    data-text="744080689"
-    class="aboutPop">
+    <view 
+      bindtap='copyText' 
+      data-text="744080689"
+      class="aboutPop">
     <van-image
       round
       width="3.7rem"
@@ -86,10 +132,16 @@
     <text style="margin: 5rpx;font-size:20px">微纳四班 & 素语工作室</text>
     <text style="margin: 10rpx;color:lightgray">联合开发</text>
     <text style="font-size:10px;margin: 10rpx;color:lightgray">qq群: 744080689(点击复制)</text>
-  </view>
-</van-popup>
-  <van-cell size="large"icon="gem-o" title="开发报告" bind:click="jumpToAboutPage" is-link />   
-  <van-cell size="large"icon="like-o" title="关于青空" bind:click="onAboutShow" is-link />       
-    <button class="contact" open-type='share'>分享给好友</button>
-    <button class="contact" open-type='contact'>联系我们</button>
-  </view>
+    </view>
+  </van-popup>
+
+  <van-cell-group title="关于">
+    <van-cell  center icon="gem-o" title="官网" bind:click="jumpToAboutPage" is-link />   
+    <van-cell  center icon="like-o" title="开发团队" bind:click="onAboutShow" is-link />       
+  </van-cell-group>
+    <button class="contact cu-btn" open-type='contact'>客服</button>    
+    <button class="contact cu-btn bg-gradual-green" open-type='share'>分享给好友</button>
+    
+  </scroll-view>
+
+  <color-picker-theme bindchangeColor="pickColor" initColor="{{rgb}}" show="{{showPickTheme}}" />

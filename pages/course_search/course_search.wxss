@@ -1,0 +1,67 @@
+/* pages/course_search/course_search.wxss */
+.container{
+  background-color: #fff;
+  height: 100vh;  
+  background-image: -webkit-linear-gradient(180deg, #e9e5e544 1px, transparent 1px), -webkit-linear-gradient(90deg, #e9e5e544 1px, transparent 1px);
+}
+.stripes {
+  -webkit-background-size: 20px 20px;
+  -moz-background-size: 20px 20px;
+  background-size: 20px 20px;
+  /* 控制条纹的大小 */
+}
+.result{
+  background-color:transparent;
+}
+.search-info{
+  background-color: #fff!important;
+  height: 30px;
+  line-height: 30px;
+}
+
+.result-info{
+  line-height: 30px;
+  background-color: #fff;  
+  font-size: 12px;  
+  text-align: left;
+}
+
+.intro{
+  background-color:transparent;
+  padding-top: 10vh;  
+  text-align: center;
+  font-weight: bold;
+}
+
+.search-btn{
+  width:34px;
+  height: 34px;
+  text-align: center;
+  line-height: 34px;
+  background-color: transparent;
+}
+
+.search-btn:active{
+  background-color: transparent;
+}
+
+.stepper{
+  text-align: center;
+  background-color: white;
+}
+.dropdown-title{
+  font-size: 12px!important;
+}
+.stepper-input{
+  background-color: transparent!important;
+  color: black!important;
+}
+.stepper-plus {
+  background-color: transparent!important;
+  color: black!important;
+}
+
+.stepper-minus {
+  background-color: transparent!important;
+  color: black!important;
+}

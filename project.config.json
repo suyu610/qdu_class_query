@@ -22,8 +22,9 @@
     "checkSiteMap": false,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "useMultiFrameRuntime": false,
+    "useMultiFrameRuntime": true,
     "useApiHook": true,
+    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -40,7 +41,7 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.10.4",
+  "libVersion": "2.15.0",
   "appid": "wx607821b428f6d5d1",
   "projectname": "qduClassQuery",
   "isGameTourist": false,

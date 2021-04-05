@@ -1,3 +1,9 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-skeleton": "/miniprogram_npm/@vant/weapp/skeleton/index",
+    "van-notify": "/miniprogram_npm/@vant/weapp/notify/index"
+
+
+  }
 }

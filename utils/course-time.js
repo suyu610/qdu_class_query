@@ -1,13 +1,37 @@
-let time = [
-  [
-    ["08:20", ""], ["", "09:50"], ["10:30", "11:15"], ["11:25", "12:10"], ["13:50", ""], ["", "15:20"], ["15:40", ""], ["", "17:10"], ["17:45", ""], ["", "19:15"], ["19:20", ""], ["", "20:50"]
-  ],
-  [
-    ["08:20", ""], ["", "09:50"], ["10:10", ""], ["", "11:40"], ["13:50", ""], ["", "15:20"], ["15:40", ""], ["", "17:10"], ["17:45", ""], ["", "19:15"], ["19:20", ""], ["", "20:50"]
-  ],
-  [
-    ["08:30", ""], ["", "10:00"], ["10:30", ""], ["", "12:00"], ["14:00", ""], ["", "15:30"], ["16:00", ""], ["", "17:30"], ["18:30", ""], ["", "20:00"], ["20:30", ""], ["", "22:00"]
-  ]
-]
+const dayjs = require('../pages/list/dayjs/dayjs.js')
 
-module.exports = time
+// 用来获取当前第几节课
+const timeIntervals = {
+  1: [{h: 0, m: 0}, {h: 8, m: 50}],  
+  2: [{h: 8, m: 50}, {h: 9, m: 50}],  
+  3: [{h: 9, m: 50}, {h: 11, m: 0}],
+  4: [{h: 11, m: 0}, {h: 12, m: 0}],    
+  5: [{h: 12, m: 0}, {h: 13, m: 30}],
+  6: [{h: 13, m: 30}, {h: 14, m: 20}],  
+  7: [{h: 14, m: 20}, {h: 15, m: 20}],  
+  8: [{h: 15, m: 20}, {h: 16, m: 20}], 
+  9: [{h: 16, m: 20}, {h: 17, m: 20}], 
+  10: [{h: 17, m: 20}, {h: 18, m: 0}],
+  11: [{h: 18, m: 0}, {h: 19, m: 20}],
+  12: [{h: 19, m: 20}, {h: 23, m: 59}],
+};
+
+function getNowCourseSeq(){
+  let now = dayjs()
+  let today = now.startOf('day')
+
+  let nowInterval = 0;
+  for (let i in timeIntervals) {
+    let startTime = today.add(timeIntervals[i][0].h, 'hour').add(timeIntervals[i][0].m, 'minute')
+    let endTime = today.add(timeIntervals[i][1].h, 'hour').add(timeIntervals[i][1].m, 'minute')
+    if (now.isAfter(startTime) && now.isBefore(endTime)) {
+      nowInterval = i
+      break
+    }
+  }
+  return nowInterval;
+}
+
+module.exports = {
+  getNowCourseSeq: getNowCourseSeq,
+}

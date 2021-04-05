@@ -1,0 +1,32 @@
+{
+  "usingComponents": {
+    "van-search": "/miniprogram_npm/@vant/weapp/search/index",
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-tab": "/miniprogram_npm/@vant/weapp/tab/index",
+    "van-tabs": "/miniprogram_npm/@vant/weapp/tabs/index",
+    "van-toast": "/miniprogram_npm/@vant/weapp/toast/index",
+    "van-skeleton": "/miniprogram_npm/@vant/weapp/skeleton/index",
+    "van-overlay": "/miniprogram_npm/@vant/weapp/overlay/index",
+    "van-tag": "/miniprogram_npm/@vant/weapp/tag/index",
+    "van-popup": "/miniprogram_npm/@vant/weapp/popup/index",
+    "van-checkbox": "/miniprogram_npm/@vant/weapp/checkbox/index",
+    "van-checkbox-group": "/miniprogram_npm/@vant/weapp/checkbox-group/index",
+    "van-cell": "/miniprogram_npm/@vant/weapp/cell/index",
+    "van-cell-group": "/miniprogram_npm/@vant/weapp/cell-group/index",
+    "van-divider": "/miniprogram_npm/@vant/weapp/divider/index",
+    "van-sticky": "/miniprogram_npm/@vant/weapp/sticky/index",
+    "van-collapse": "/miniprogram_npm/@vant/weapp/collapse/index",
+    "van-collapse-item": "/miniprogram_npm/@vant/weapp/collapse-item/index",
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index",
+    "van-row": "/miniprogram_npm/@vant/weapp/row/index",
+    "van-col": "/miniprogram_npm/@vant/weapp/col/index",
+    "van-loading": "/miniprogram_npm/@vant/weapp/loading/index",
+    "van-picker": "/miniprogram_npm/@vant/weapp/picker/index",
+    "van-dropdown-menu": "/miniprogram_npm/@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "/miniprogram_npm/@vant/weapp/dropdown-item/index",
+    "van-stepper": "/miniprogram_npm/@vant/weapp/stepper/index"
+    
+  },
+  "enablePullDownRefresh": false,
+  "backgroundTextStyle": "dark" 
+}

@@ -3,6 +3,16 @@ var filters = {
     return value.toFixed(2)//此处2为保留两位小数
   }
 }
+
+var format = function (text) {
+	if (!text) {
+        return
+    }
+    var reg = getRegExp('\\\\n', 'g')
+    return text.replace(reg,'\n')
+}
+
 module.exports = {
+  format:format,
   toFix: filters.toFix
 }

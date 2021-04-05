@@ -1,0 +1,165 @@
+<van-toast id="van-toast" />
+<view class="container" style="{{ themeData.myStyle }}">
+  <van-search value="{{ value }}" label="常见问题" color="#ffffff" left-icon="" placeholder="请输入搜索关键词"
+    placeholder-style="font-size:14px;font-weight:normal" use-action-slot bind:change="onChange" bind:search="onSearch"
+    shape="round">
+    <view slot="action" bind:tap="onClick">
+      <view class="search-btn">搜索</view>
+    </view>
+  </van-search>
+  <!-- 顶部轮播图 -->
+  <view class="top-relate">
+    <swiper class="screen-swiper {{DotStyle?'square-dot':'round-dot'}}" indicator-dots="true" circular="true"
+      autoplay="true" interval="5000" duration="500">
+      <swiper-item wx:for="{{swiperList}}" wx:key="index" bindtap="tapHeaderImage" data-index="{{index}}">
+        <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+        <video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover"
+          wx:if="{{item.type=='video'}}"></video>
+      </swiper-item>
+    </swiper>
+  </view>
+  <van-tabs ellipsis="{{false}}" color="#fde06b" animated swipeable active="{{ tabIndex }}">
+
+    <van-tab title="{{tabList[0].name}}">
+      <!-- 资讯 -->
+      <view class="tab-content">
+        <!-- 教务资讯的关键词筛选框 -->
+        <view class="padding-sm flex flex-wrap">
+          <view class="padding-xs" wx:for="{{userTag}}" wx:key="index">
+            <van-tag color="{{'#aaaaaa'}}" closeable plain size="medium" type="primary" id="{{TagList[item].id}}"
+              bindtap="onCloseTag">{{TagList[item].title}}
+            </van-tag>
+          </view>
+          <!-- 添加的按钮 -->
+          <view bindtap="onTapAddTagBtn" class="padding-xs">
+            <van-tag color="#00b689"  text-color="white" size="medium" type="primary" id="primary" bind:close="onClose">
+              添加关键词
+            </van-tag>
+          </view>
+        </view>
+        <van-divider hairline />
+        <van-skeleton title avatar row="3" loading="{{ loading }}">
+          <view class="cu-card case no-card">
+            <view class="cu-item ">
+              <view class="image">
+                <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big20008.jpg" mode="aspectFill"></image>
+                <view class="cu-tag radius bg-black">青空通知</view>
+                <view class="cu-bar bg-shadeBottom">
+                  <text class="text-cut">等学校备案后，再开放信息流功能</text>
+                </view>
+              </view>
+              <view class="cu-list menu-avatar">
+                <view class="cu-item">
+                  <view class="cu-avatar round lg"
+                    style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big20008.jpg);">
+                  </view>
+                  <view class="content flex-sub">
+                    <view class="text-gray">青空通知</view>
+                    <view class="text-gray text-sm flex justify-between">
+                      2020-12-24
+                      <view class="text-gray text-sm">
+                        <text class="cuIcon-attentionfill margin-lr-xs"></text> 10
+                        <text class="cuIcon-appreciatefill margin-lr-xs"></text> 20
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </van-skeleton>
+        <view class="r-bottom">{{btoText}}</view>
+      </view>
+    </van-tab>
+    <!-- 青大百科 -->
+    <van-tab title="{{tabList[1].name}}">
+      <view class="padding-sm flex ">
+          <!-- 添加的按钮 -->
+          <view bindtap="onTapDevBtn" class="padding-xs">
+            <van-tag color="red"  text-color="white" size="medium" type="primary" id="primary" bind:close="onClose">
+              反馈错误信息
+            </van-tag>
+          </view>
+          <view bindtap="onTapDevBtn" class="padding-xs">
+            <van-tag color="#00b689"  text-color="white" size="medium" type="primary" id="primary" bind:close="onClose">
+              提交你认为常见的问题
+            </van-tag>
+          </view>
+        </view>
+      <view class="tab-content">
+        <block wx:if="{{wikiList.data.length != 0}}" wx:for="{{wikiList.data}}" wx:for-item="wiki"
+          wx:key="index">
+          <van-collapse accordion value="{{ activeNames }}" bind:change="onTapWikiItem">
+            <van-collapse-item size="large" center label="{{wiki.desc}}" name="{{index}}">
+              <view slot="title">
+                <van-row>
+                  <van-col span="24">
+                    <text>{{wiki.title}}</text>
+                  </van-col>
+                </van-row>
+              </view>
+              <view class="course-detail">
+                <view style="padding-bottom:10px">                  
+                  <rich-text nodes="{{wiki.detail}}"></rich-text>
+                </view>   
+                <van-row>
+                  <van-col span="14" offset="10" style="text-align:right">
+                    <van-button icon="plus" size="small" custom-class="showWikiDetailBtn" type="primary" bindtap="onTapViewDetail">
+                      查看详情
+                    </van-button>
+                  </van-col>
+                </van-row>
+              </view>
+            </van-collapse-item>
+          </van-collapse>
+        </block>
+        <view class="r-bottom">{{btoText}}</view>
+      </view>
+    </van-tab>
+    <!-- 青鸟说 -->
+    <van-tab title="{{tabList[2].name}}">
+      <view class="tab-content">
+        <view class="r-bottom">采访一些保研学长、优秀的校友等等，听听他们的成长故事</view>
+      </view>
+    </van-tab>
+    <!-- </block> -->
+  </van-tabs>
+
+  <!-- <van-overlay
+  show="{{showNoticePopup}}" 
+  position="center"
+  bind:click="hideNoticePopup" 
+  >
+  <view style="display: flex;align-items: center;justify-content: center;height: 100%;">
+  <view class="padding-lg" style="background:white;height:60vh;width:80vw; border-radius:10px;">
+    <view style="text-align:center;font-size:18px">信息流还在开发中</view>  
+    <view style="text-align:center; padding-top:10px">2.3版本会做三个栏目</view>
+    <view style="padding-top:10px">一、教务资讯</view> 
+    <view> - 可以设置关键词，比如"奖学金","竞赛"</view> 
+    <view> - 快捷查看附件内容</view>
+    <view style="padding-top:10px">二、常见疑问</view>   
+    <view> - 会收集大家常见问题，由学校相关部门、老师、学长们进行解答。\n</view>   
+    <view> - 大家可以去客服留言，我们会记录。</view>
+    <view style="padding-top:10px">三、青鸟说</view>   
+    <view> - 采访一些优秀的青大校友，学长学姐等等，分享他们的成长故事。</view>  
+    <view> - 如果大家感兴趣，我们也会写一些开发日记在上面。</view>   
+  </view>
+</view>
+</van-overlay> -->
+
+</view>
+
+<van-toast id="custom-selector" />
+
+<van-popup show="{{ showAddTag}}" close-icon-position="top-left" position="bottom" custom-style="height: 50%" round
+  bind:close="onTapCloseTagBtn">
+  <view style="margin:5px!important">
+    <van-divider dashed borderColor="transparent" textColor="lightgrey" contentPosition="center">关键词列表</van-divider>
+    <van-checkbox-group value="{{ userTag }}">
+      <van-cell wx:for="{{ TagList }}" wx:key="index" center border="{{false}}" title="{{ item.title }}"
+        value-class="value-class" clickable label="话题数: {{index+4}}" data-index="{{ index }}" catchtap="toggleTag">
+        <van-checkbox class="checkboxes-{{ index }}" name="{{ item.id }}" />
+      </van-cell>
+    </van-checkbox-group>
+  </view>
+</van-popup>

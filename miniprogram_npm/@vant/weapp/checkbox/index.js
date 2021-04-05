@@ -49,7 +49,8 @@ component_1.VantComponent({
         this.emitChange(!value);
       }
     },
-    onClickLabel: function () {
+    onClickLabel: function (e) {
+      console.log(e)
       var _a = this.data,
         labelDisabled = _a.labelDisabled,
         parentDisabled = _a.parentDisabled,

@@ -1,0 +1,138 @@
+<view id="container" style="font-size:14px;background-color:#fff">
+  <van-row>    
+    <van-col span="22" offset="1" style=";">    
+      <view style="text-align:center;padding-top:6vh;padding-bottom:4vh;">
+        <text style="font-size:20px">不晦涩难懂的用户须知</text>
+      </view>
+    </van-col>
+  </van-row>
+
+  <van-row>
+    <van-col span="22" offset="1" style="text-align:left;color:grey">    
+      <view>
+        <text style="color:black;font-size:16px">1. 我们会获取的信息\n</text>
+        <view style="padding-top:1vh"></view>
+        <text>会获取不超过课表、姓名*、学号*、专业名*数据，并将它们加密并存储在数据库中，带*为可去除项。\n</text>
+        <text>获取实名信息，是为接下来的二手交易、约活动等实名功能做准备。\n</text>
+        <view style="padding-top:1vh"></view>
+        <text style="color:black;font-size:16px">2. 导入的流程\n</text>        
+        <view style="padding-top:1vh"></view>
+        <van-row>
+          <van-col span="10" offset="7">
+            <image src="https://cdns.qdu.life/img/login_flow_v1.png" style="width:100%" mode="widthFix"></image>
+          </van-col>
+        </van-row>
+        <text style="color:black;font-size:16px">3、风险\n</text>
+        <view style="padding-top:1vh"></view>
+        <text>尽管我们尽所能，保障你的信息安全，但可以发现在上述流程中，仍有风险。\n</text>     
+        <view style="padding-top:1vh"></view>   
+        <text>3.1 怎么保证我们不是说一套做一套?\n</text>
+        <text>3.2 怎么保证我们的数据库不被他人攻破?\n</text>
+        <text>3.3 怎么保证在2到3的过程中，你的信息不被外部截取?\n</text>        
+        <view style="padding-top:1vh"></view>
+        <text>> 3.1.1 我们团队成员来自2019级各个学院，身份信息可查，同时小程序将在学校备案；\n> 3.1.2 前后端代码都放在github上进行开源，欢迎监督。\n但即使这样也无法保证线上代码，与仓库代码一致，请自行评估风险。\n</text>
+        <view style="padding-top:1vw"></view>   
+        <text>> 3.2 我们会在近日，去公安部门做好相应的信息安全等级保护备案。\n</text>
+        <view style="padding-top:1vw"></view>   
+        <text>> 3.3 https是我们的第一道防线。即便被窃听，你的信息也是经DES与一串时刻改变的密钥加密后，才在网络上传输。</text>
+        <view style="padding-top:1vh"></view>   
+        <text style="color:black;font-size:16px">4、你要做的事\n</text>
+        <view style="padding-top:1vh"></view>   
+        <text>1. 充分了解风险，并不要轻易在（ 包括我们在内的 ）第三方平台，输入你的重要密码。无论他长得有多像，比如下面这个</text>
+          <view bindtap="navToFakeJw" class="underline">点击进入演示用的钓鱼网站</view>
+          <view style="padding-top:1vh"></view>   
+
+        <text style="font-weight:bold">2. 建议在导入课表后，及时修改你的教务密码。\n</text>
+        <text>3. 如果你有更好的建议，欢迎告诉我，感激。\n\n</text>
+        <view style="text-align:right"><text>青空开发团队\n2021/3/7</text></view>        
+      </view>
+    </van-col>
+  </van-row>
+  <view style="padding-top:5vh"></view>
+
+
+  <van-row>
+    <van-col span="22" offset="1">
+      <view class="license-view">
+          <van-checkbox 
+            icon-size="18px"
+            checked-color="#fee161"
+            value="{{ acceptLicense }}" 
+            bind:change="onCheckButtonChange">  
+            <text >已了解风险，授权青空获取我的课表信息</text>            
+          </van-checkbox>
+        </view>
+    </van-col>
+  </van-row>
+  <van-row>
+    <van-col span="12" offset="2">
+      <view style="text-align:center">
+        <button class="contact cu-btn" bindtap="tapReturnBtn">不同意，返回手动导入</button>
+      </view>
+    </van-col>
+    <van-col span="4" offset="2">
+      <view style="text-align:right">
+        <button class="contact cu-btn bg-gradual-orange" bindtap="onTapQduLogin">登陆</button>
+      </view>
+    </van-col>
+  </van-row>
+  <view style="padding-bottom:5vh"></view>
+
+  <van-popup   
+    position="top"
+    custom-style="height: 45%;padding:3vh"
+    round    
+    show="{{ showQduLogin }}" 
+    bind:close="onQduLoginClose">
+  <!-- 中间的输入框 -->
+    <van-cell-group border="{{false}}">
+      <van-cell  title="学号"center  >
+        <van-field
+          value="{{ username }}"
+          placeholder="学号"
+          type="number"
+          border="{{ false }}"
+          bind:change="onUserNameChange"
+        />
+      </van-cell>    
+      <van-cell title="教务密码" center >      
+        <van-field
+          value="{{ password }}"
+          placeholder="密码"
+          type="password"
+          border="{{ false }}"
+          bind:change="onPasswordChange"
+        />    
+      </van-cell>
+      <van-cell  center >      
+          <van-image
+            slot="title"
+            width="120px"
+            height="37.5px"
+            bindtap='refreshCaptchaImg'
+            src="{{captchaUrl}}"
+          />  
+          <van-field        
+            value="{{ captcha }}"
+            type="number"
+            placeholder="验证码(点击刷新)"
+            border="{{ false }}"
+            bind:change="onCaptchaChange"
+          />    
+      </van-cell>
+    </van-cell-group>
+    <view style="padding-top:3vh"></view>
+
+    <van-row>
+      <van-col span="8" offset="8">    
+        <van-button 
+          color="#fde06b" 
+          custom-style="color:black;width:100%;border-radius:5px"
+          bindtap="onTapLogin">        
+          登陆
+        </van-button>
+      </van-col>
+    </van-row>
+  </van-popup>
+
+</view>

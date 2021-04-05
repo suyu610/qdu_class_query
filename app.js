@@ -1,45 +1,27 @@
 //app.js
 const storage = require('./utils/storage');
 
-
 App({
   storage: storage,
   getOpenid: function() {  
     let that = this;  //获取openid不需要授权
-    wx.cloud.callFunction({   
-      name: 'getOpenid',   
-      complete: res => {    
-        // console.log('云函数获取到的openid: ', res.result)    
-        var openid = res.result.openid;
-        // 保存到全局
-        this.globalData.openid = openid;        
+    wx.cloud.callFunction({
+      name: 'getOpenid',
+      complete: res => {
+        this.globalData.openid = res.result.openid;        
       }
     });
   },
+  onLoad:function(){
+    console.log("app.js=>onLoad")
+    // 发起
 
-
-  onLaunch: function () {    
-    // 判断是否第一次登陆
-    let isFirst = wx.getStorageSync('guide')    
-    if(!isFirst){
-     wx.redirectTo({
-        url: '/pages/guide/guide',
-      });      
-    }     
-
-    
-    wx.cloud.init({   
+  },
+  onShow: function () {    
+    wx.cloud.init({
       env: 'qdu-class-query-0gjy63ub39e21b96',   traceUser: true
     })
-
-    //如果openid为空
-    if(this.globalData.openid == "" ){
-      // 应该持久化
-      this.getOpenid();
-    }    
-  },
-
-  onShow: function () {
+    this.getOpenid()
   },
 
   //获取配置，支持使用“.”
@@ -68,12 +50,15 @@ App({
   },
 
   globalData: {
-    author:"林则徐",
-    jinrishici:"苟利国家生死以，岂因祸福避趋之",
+    rediretTo:"",
+    debug:false,
     // 当前样式,注意这里配合腾讯地图，所以是从1开始
     currentTheme:1,
     currentCampus:0,
+    currentCourse:"",
     openid:"",
+    token:"",
+    userInfo:null,
     // 初始中心点
     longitude:120.423621,
     latitude:36.070106,    
@@ -83,5 +68,17 @@ App({
     listBuildID: 0,
     tapBuildName:"",
     currentStatus:'',
+    // 由于tabbar不能传参，所以放在这
+    // 这是给course.js用的
+    onImportJwCourseOk:false,
+    weather:{
+      createtime:"",
+      suggest:"今日降雨概率为0，但风很大",
+      shorttext:"多云",
+      rain:0,
+      dayt:3,
+      nightt:0,
+      iconcode:408,
+    },
     },
 })

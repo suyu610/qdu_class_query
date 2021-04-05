@@ -1,0 +1,3 @@
+<!--pages/eat/eat.wxml-->
+<web-view src="{{url}}">
+</web-view>

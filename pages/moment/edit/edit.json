@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "van-dropdown-menu": "/miniprogram_npm/@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "/miniprogram_npm/@vant/weapp/dropdown-item/index",
+    "mp-uploader": "weui-miniprogram/uploader/uploader",
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index"
+
+  }
+  
+
+  
+  
+}

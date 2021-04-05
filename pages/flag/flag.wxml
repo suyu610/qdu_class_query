@@ -1,77 +1,107 @@
 <view class="container stripes">
-  <view class="intro">
+  <view class="intro">    
+    <view class="doommview">
+      <block wx:for="{{doommData}}" wx:key="id">
+        <text wx:if="{{item.display}}" class="aon" style="animation: first {{item.time}}s linear forwards;top:{{item.top}}%;color:{{item.color}};">{{item.text}}</text>
+      </block>
+      <view class="dmSwitch" bindtap="toggleDM">{{showDM?"关":"开"}}</view>
+    </view>
     <view class="title">小目标功能说明</view>
     <van-row class="item">
-      <van-col span="20" offset="2"> 1. 小目标当前仅为自己可见</van-col>
+      <van-col span="20" offset="2"> 1. 如果选择公开，你的小目标会展示在其他用户的启动页，他们可以对你进行点赞。</van-col>
     </van-row>
     <van-row class="item">
-      <van-col span="20" offset="2"> 2. 未来版本可能会增设在其他用户启动页</van-col>
+      <van-col span="20" offset="2"> 2. 当你的目标为公开，将需要经过内容审核。</van-col>
     </van-row>
-    <!-- <van-row class="item">
-      <van-col span="20" offset="2"> 3. 请发布积极正向内容。</van-col>
-    </van-row> -->
+    <view style="height:0.2vh"></view>
+    <van-row class="item">
+      <van-col span="20" offset="2"> 3. <van-icon  name="https://cdns.qdu.life/icons/icon_lock.png" class="custom-icon" size="14px"/> 为个人可见，<van-icon  name="https://cdns.qdu.life/icons/icon_unlock.png" class="custom-icon" size="14px"/> 为公开可见，点击可更改。
+      </van-col>
+    </van-row>
+    <van-row class="item">
+      <van-col span="20" offset="2"> 4.左滑: 删除，点击: 查看点赞列表。</van-col>
+    </van-row>
   </view>
 
-  <van-divider  customStyle="color: #000; border-color: #000; font-size: 14px;"></van-divider>
-  <view class="listShowView" wx:for="{{flagList}}" wx:for-index="index" wx:for-item="itemName" wx:key="index">
-    <van-swipe-cell
-      id="{{itemName.id}}"
-      center
-      right-width="{{ 65 }}"
-      left-width="{{ 65 }}"
-      async-close
-      bind:close="onClose">
-      <view slot="left">公开</view>
-      <van-cell-group>
-        <van-cell id="{{itemName.id}}"  value-class="flagListCell" title-class="flagListCell"  center size="large" title="{{itemName.title}}" center use-label-slot>
-
-          <view slot="icon" id="{{itemName.id}}" bindtap="reversePrivate" class="private">
-            <van-icon  name="{{ itemName.isPrivate==true ? 'https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/icon_lock.png' : 'https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/icon_unlock.png'}}" class="custom-icon" size="20px"  />
-          </view>        
-
-          <van-icon slot="right-icon" id="{{itemName.id}}"  bind:click="modifyItem"  name="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/icon_write.png" class="custom-icon" size="25px"  />
-          
-          <view slot="label">
-            <view class="van-cell-text"> 
-              <van-icon slot="right-icon" name="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/icon_eye.png" class="custom-icon" size="14px"/> {{itemName.likeCount}}  
-              <van-icon slot="right-icon" name="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/icon_unlike.png" class="custom-icon" size="14px"  /> {{itemName.showCount}}
-            </view>
-          </view>
-
-        </van-cell>
-      </van-cell-group>
-      <view slot="right">删除</view>
-    </van-swipe-cell>
+  <van-divider customStyle="color: #000; border-color: #00000055; font-size: 14px;margin:0"></van-divider>
+  <!-- 如果没有flag,显示该view -->
+  <view wx:if="{{flagList.length == 0}}" class="empty-flaglist">
+    <van-loading wx:if="{{getFlagListLoading}}" type="spinner" color="#000"/>
+    <view wx:else>列表为空，点击右下角添加小目标哦</view>
   </view>
-  <view id="writeBtn" bindtap="insertItemBtn"></view>
-  <van-icon id="writeIcon" bindtap="insertItemBtn" name="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/icon_write.png" class="custom-icon" size="25px"/>
+  <view wx:else>
+    <view class="listShowView" wx:for="{{flagList}}" wx:for-index="index" wx:for-item="itemName" wx:key="index">
+      <view class="weui-slidecells flagListCell" icon >
+        <mp-slideview id="{{itemName.flag_id}}" buttons="{{slideButtons}}" icon="{{true}}" bindbuttontap="slideButtonTap">
+            <van-cell-group border="{{ false }}" custom-class="cell-group">
+              <van-cell 
+                id="{{itemName.flag_id}}"  
+                value-class="flagListCell" 
+                title-class="flagListCell" 
+                title-width="64vw" 
+                center 
+                size="large" 
+                border="{{ false }}"
+                title="{{itemName.content}}" 
+                use-label-slot>
+                <view slot="icon" id="{{itemName.flag_id}}" bindtap="togglePrivate" class="private">
+                  <van-icon  name="{{ itemName.is_public==0 ? 'https://cdns.qdu.life/icons/icon_lock.png' : 'https://cdns.qdu.life/icons/icon_unlock.png'}}" class="custom-icon" size="20px"  />
+                </view>
+                <view slot="right-icon"  style="text-align:right;font-size:12px">
+                  <van-icon wx:if="{{itemName.is_verify==1 || itemName.is_public==0}}"  name="success" />
+                  <text wx:elif="{{itemName.is_verify==0}}" style="color:grey">审核中</text>
+                  <text wx:else style="color:red">未通过</text>
+                  <view>
+                    <text style="color:lightgrey;font-weight:normal">{{itemName.create_date}}</text>
+                  </view>
+                </view>
+                <view slot="label">
+                  <view class="van-cell-text"> 
+                    <van-icon slot="right-icon" name="https://cdns.qdu.life/icons/icon_eye.png" class="custom-icon" size="12px"/> {{itemName.show_count}}  
+                    <van-icon slot="right-icon" name="https://cdns.qdu.life/icons/icon_unlike.png" class="custom-icon" size="12px"  /> {{itemName.like_count}}
+                  </view>
+                </view>
+              </van-cell>
+            </van-cell-group>
+        </mp-slideview>
+      </view>       
+    </view>
+  </view>
+
+  <view id="writeBtn" bindtap="onTapInsertItemBtn"></view>    
+  <van-icon id="writeIcon" bindtap="onTapInsertItemBtn" name="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/icon_write.png" class="custom-icon" size="25px"/>
+
 </view>
 
+<!-- 点赞的人的详情 -->
 <van-dialog
   use-slot
-  title="修改"
-  show="{{ writeDialogShow }}"
+  title="新增小目标"
+  show="{{ showLikePersons }}"
   show-cancel-button
   showConfirmButton
   bind:close="onClose"
   confirm-button-text="提交"
   transition="fade"
-  bind:confirm="modify"
+  bind:confirm="insertItem"
   confirm-button-color="#000"
   close-on-click-overlay
   >
   <van-field
-    maxlength="{{40}}"
-    model:value="{{ currentFlagMessge }}"
+    maxlength="{{120}}"
+    model:value="{{ insertFlagMessge }}"
     type="textarea"
-    placeholder="输入你的小目标"
+    placeholder="在此输入你的小目标"
     adjust-position="{{true}}"
     autosize="{{autosize}}"
     show-word-limit
     cursor-spacing="{{50}}"
   />
-
+  <van-cell title="{{ checked? '公开' : '不公开'}}">
+    <van-switch checked="{{ checked }}" slot="right-icon" size="24px" bind:change="privateSwitch" />
+  </van-cell>  
 </van-dialog>
+
 <!-- 新增 -->
 <van-dialog
   use-slot

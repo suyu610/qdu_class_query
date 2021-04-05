@@ -1,0 +1,22 @@
+@import '../../common/index.wxss';
+
+.my-block__title {
+  margin: 0;
+  padding: 20px 15px 15px;
+  color: rgba(69, 90, 100, 0.6);
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.my-block__card {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.my-block--padding {
+  padding: 0 15px;
+}
+
+.my-block--padding .my-block__title {
+  padding-left: 0;
+}

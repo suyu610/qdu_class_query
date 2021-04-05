@@ -9,7 +9,16 @@ page {
   justify-content: flex-start;
   background-color: white;
 }
+.building-pics{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #000;
+  z-index: 999;
 
+}
 .nav {
   height: 80rpx;
   display: flex;
@@ -19,8 +28,8 @@ page {
   width: 100%;
   padding-top: 4px;
   padding-bottom: 4px;
-  background-color: #fde06b;
-  color: #000;
+  background-color: var(--themeColor);
+  color: var(--titleColor);
   z-index: 997;  
 }
 
@@ -28,7 +37,7 @@ page {
   white-space: nowrap;
   display: flex;
   padding-bottom: 8px;
-  height: 80rpx;
+  /* height: 80rpx; */
 }
 
 ::-webkit-scrollbar{
@@ -43,6 +52,8 @@ page {
   border-radius: 12px;
   padding: 6px 14px;
   height: 40rpx;
+  line-height: 40rpx;
+  box-sizing: content-box;
 }
 
 .nav-item.date {
@@ -58,27 +69,38 @@ page {
 }
 
 .nav-item.choosed {
-  background-color: #000;
-  color:white;
+  padding: 3px 14px;
+  border-radius: 5px;
+  border: 1px dashed  var(--titleColor);  
+  border-right: 2px solid  var(--titleColor);  
+  border-bottom: 2px solid  var(--titleColor);  
+  color: var(--titleColor);
+
 }
 
 .table {
   position: fixed;
   display: flex;
   flex-direction: column;
-  top: 165rpx;
+  top: 155rpx;
   z-index: 998;
   width: 100%;
   background-color: #fff;
 }
-swiper{
+.wrapper > swiper{
   padding-top: 220rpx;
   height:1200rpx;
   z-index:999;
 }
+
+.buildingImgSwiper{
+  padding-top: 50rpx;
+  height:1200rpx;
+  z-index:999;
+}
+
 swiper-item{
   overflow:scroll;
-
 }
 .test{
   background-color: #f00;
@@ -89,13 +111,14 @@ swiper-item{
 .build-info{
   height: 40rpx;
   line-height: 40rpx;
-  background-color: #fcdf74;
+  background-color: var(--themeColor);
+  color:var(--titleColor);
+box-sizing: content-box;
   position: fixed;
   top: 80rpx;
   z-index: 998;
   padding: 8px 16px;
   font-size: 12px;
-  color:black;
   width: 100vw;
   text-align: center;
 }
@@ -108,9 +131,16 @@ swiper-item{
   /* background-color: #fffddd; */
   border-bottom: 1px dashed lightgray;
   border-radius: 20rpx;
+  box-sizing: content-box!important;
 }
 
-.tr:not(:last-child) {
+.endFloor{
+  border-radius: 5rpx;
+  border-bottom: 2px solid #308ae614;
+
+}
+
+.tr {
   margin-bottom: 8px;
 }
 

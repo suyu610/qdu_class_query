@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vant/weapp": "^1.6.2"
+    "@vant/weapp": "^1.6.2",
+    "crypto-js": "^4.0.0"
   }
 }

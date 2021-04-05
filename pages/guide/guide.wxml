@@ -3,13 +3,38 @@
     current="{{currentSwiper}}"
     bindchange="swiperChange"
   >
-    <block wx:for="{{imgs}}" wx:for-index="index" wx:key="index">
       <swiper-item class="swiper-items">
-        <image class="swiper-image" src="{{item}}"></image>
-        <view class="swiper-text">{{text[index]}}</view>
-        <button class="button-img" bindtap="start" wx:if="{{index == imgs.length - 1}}">冲呀，青大人</button>
+          <image class="swiper-image" src="https://cdns.qdu.life/class/onboarding_1.png"></image>
+          <view class="swiper-text">
+            <view class="swiper-text-title">一键查询空教室</view>
+            <view class="swiper-text-subtitle">按楼层</view>
+            <view class="swiper-text-subtitle">按课次</view>
+            <view class="swiper-text-subtitle">...</view>
+          </view>
       </swiper-item>
-    </block>
+      <swiper-item class="swiper-items">
+          <image class="swiper-image" src="https://cdns.qdu.life/class/onboarding_2.png"></image>
+          <view class="swiper-text">
+            <view class="swiper-text-title" style="font-size:20px">查看天气</view>
+            <view class="swiper-text-subtitle">出门别忘带伞\n\n</view>
+            <view class="swiper-text-title" style="font-size:20px">青大百科</view>
+            <view class="swiper-text-subtitle">将常见问题数据化</view>
+            <view class="swiper-text-subtitle">...</view>
+          </view>
+        
+
+      </swiper-item>
+
+      <swiper-item class="swiper-items">
+          <image class="swiper-image" src="https://cdns.qdu.life/class/onboarding_last.png"></image>
+          <view class="swiper-text">
+            <view class="swiper-text-title">愿满天星光因你而闪烁\n\n</view> 
+            <view class="swiper-text-subtitle">青空\n</view>            
+            <view class="swiper-text-subtitle" style="opacity:0.7;font-size:12px">v2.0\n\n</view>                                    
+          </view>      
+        <button class="button-img" bindtap="start">冲呀，青大人</button>        
+      </swiper-item>
+
   </swiper>
 
   <view class="dots">  

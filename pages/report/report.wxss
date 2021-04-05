@@ -1,0 +1,90 @@
+/* pages/report/report.wxss */
+.container{
+  height: 100vh;
+  width: 100vw;
+  background-color: #fff;
+  background-image: -webkit-linear-gradient(180deg, #e9e5e544 1px, transparent 1px), -webkit-linear-gradient(90deg, #e9e5e544 1px, transparent 1px);
+}
+
+.stripes {
+  -webkit-background-size: 20px 20px;
+  -moz-background-size: 20px 20px;
+  background-size: 20px 20px;
+  /* 控制条纹的大小 */
+}
+
+.insertContent{
+  padding-left:2vh;
+  padding-right:2vh
+}
+
+.dropdown-item-title{
+  font-size: 14px!important;
+}
+.search-info{
+  background-color: #fff!important;
+  height: 30px;
+  line-height: 30px;
+}
+
+.result-info{
+  line-height: 30px;
+  background-color: #fff;  
+  font-size: 12px;  
+  text-align: left;
+}
+.feedback-content{
+  text-align: left;
+}
+
+.stepper{
+  text-align: center;
+  background-color: white;
+}
+.stepper-input{
+  background-color: transparent!important;
+  color: black!important;
+}
+.stepper-plus {
+  background-color: transparent!important;
+  color: black!important;
+}
+
+.stepper-minus {
+  background-color: transparent!important;
+  color: black!important;
+}
+.dropdown-title{
+  font-size: 12px!important;
+}
+
+
+#jumpText-shadow{
+  position: fixed;
+  font-weight: bold;
+  right: 30rpx;
+  font-size: 16px;
+  line-height: 200rpx;
+  height:200rpx;
+  bottom:-20px;
+}
+.weui-uploader__info,.weui-uploader__title{
+  font-size: 14px!important;
+}
+
+
+
+
+#jump{
+  position: fixed;
+  right: -84rpx;
+  bottom: 0rpx;
+  height: 200rpx;
+  width: 250rpx;
+  background-color: #fee161;
+  border-top-left-radius: 300rpx;
+  border-left: 3px solid #000;
+  border-top: 3px solid #000;  
+}
+
+

@@ -10,7 +10,10 @@
     "van-tag": "/miniprogram_npm/@vant/weapp/tag/index",
     "van-popup": "/miniprogram_npm/@vant/weapp/popup/index",
     "van-image": "/miniprogram_npm/@vant/weapp/image/index",
-    "van-switch": "/miniprogram_npm/@vant/weapp/switch/index"
+    "van-switch": "/miniprogram_npm/@vant/weapp/switch/index",
+    "van-row": "/miniprogram_npm/@vant/weapp/row/index",
+    "van-col": "/miniprogram_npm/@vant/weapp/col/index",
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index"
 
   }
 }

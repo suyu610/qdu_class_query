@@ -2,6 +2,7 @@
 .container{
   width: 100vw;
   height: 100vh;
+  background-color: #fff;
 }
 
 van-cell-group{
@@ -26,7 +27,6 @@ van-cell-group{
   line-height: 65rpx;
   background-color: #fff;
   text-align: center;
-  border: 2px solid #000;
   padding: 0;
   margin: 0;
   width: 40%;
@@ -48,5 +48,20 @@ van-cell-group{
   display: flex;
   align-items: center;
   flex-direction: column;
+}
 
+#isBindText{  
+  padding-top: 1vh;
+  font-size: 14px;
+  text-align: center;
+  color: lightgrey;
+}
+#avatarImg{  
+  display: flex; 
+  justify-content: center; /** flex 属性， 水平居中**/
+}
+.isBindView{
+  display:flex;
+align-items:center;
+justify-content:center;
 }

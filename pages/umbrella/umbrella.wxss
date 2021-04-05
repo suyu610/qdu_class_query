@@ -1,0 +1,6 @@
+/* pages/umbrella/umbrella.wxss */
+.container{
+  padding:3vh;
+  background-color: #fff;
+  font-size: 14px;
+}

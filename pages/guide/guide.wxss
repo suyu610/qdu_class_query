@@ -16,6 +16,7 @@ swiper {
 }
 .swiper-text{
   position: fixed;
+  display: block;
   width: 100%;
   height: 100%;
   top: 50%;
@@ -24,13 +25,22 @@ swiper {
   /* 保留换行 */
   white-space:pre-wrap
 }
+.swiper-text-title{
+  font-size: 22px;
+  text-align: center;
 
+}
+.swiper-text-subtitle{
+  font-size: 18px;
+  text-align: center;
+
+}
 .button-img {
   /*这个是绝对布局*/
   background-color: #fcdf73;
   position: fixed;  
   left: 225rpx;
-  bottom: 200rpx;
+  bottom: 140rpx;
   height: 90rpx;
   line-height: 90rpx;
   border-radius: 24rpx;
@@ -39,7 +49,7 @@ swiper {
   box-shadow: 0 2px 2px rgba(10,16,20,.24),0 0 2px rgba(10,16,20,.12);
 
   font-size: 14px;
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 .dots{  
@@ -56,8 +66,8 @@ swiper {
 }  
 /*未选中时的小圆点样式 */
 .dot{  
-  width: 30rpx;  
-  height: 30rpx;   
+  width: 20rpx;  
+  height: 20rpx;   
   border-radius: 50%;
   margin-right: 26rpx;
   background-color: white;

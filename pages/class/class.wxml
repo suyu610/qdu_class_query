@@ -1,43 +1,39 @@
-<!--pages/class.wxml-->
-<view class="container" id="container">
-  <view class="title">博文楼101</view>
-  <scroll-view scroll-x="{{true}}" class="sub-nav">    
-    <block wx:for="[1,2,3,4,5]">
-      <view class="table-title">第{{index+13}}周</view>
-      <view class="table">
-        <view class="tr bg-w">
-          <view class="th">课次</view>
-          <view class="th">周一</view>
-          <view class="th">周二</view>
-          <view class="th">周三</view>
-          <view class="th">周四</view>
-          <view class="th">周五</view>
-          <view class="th">周六</view>
-          <view class="th">周日</view>
-        </view>
-        <block wx:for="{{listData}}">
-          <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-            <view class="td">第{{item.code}}节</view>
-            <view class="td">{{item.text}}</view>
-            <view class="td">{{item.text}}</view>
-            <view class="td">{{item.type}}</view>
-            <view class="td">{{item.type}}</view>
-            <view class="td">{{item.type}}</view>
-            <view class="td">{{item.type}}</view>  
-            <view class="td">{{item.type}}</view>
-          </view>
-          <view class="tr" wx:else>
-            <view class="td">第{{item.code}}节</view>
-            <view class="td">{{item.text}}</view>
-            <view class="td">{{item.text}}</view>
-            <view class="td">{{item.type}}</view>
-            <view class="td">{{item.type}}</view>
-            <view class="td">{{item.type}}</view>
-            <view class="td">{{item.type}}</view>  
-            <view class="td">{{item.type}}</view>
-          </view>
-        </block>
+<van-toast id="van-toast" />
+<scroll-view scroll-y="true" class="tab-scroll sub-nav" style="{{themeData.myStyle}}" >
+<view class="container" id="container"  wx:if="{{!loading}}">
+  <view class="title"><view style="position: absolute;top: -.7em;text-align:center; width: 34vw;">{{cname}}第{{whichweek}}周 </view></view>
+  <!-- <van-icon name="arrow-down" id="arrow-down-btn"/> -->
+<view class="table-title"></view>
+  <view class="table" wx:if="{{!loading}}">
+    <view class="tr bg-w">
+      <view class="th">课次</view>
+      <view class="th" style="">周一</view>
+      <view class="th" style="">周二</view>
+      <view class="th" style="">周三</view>
+      <view class="th" style="">周四</view>
+      <view class="th" style="">周五</view>
+      <view class="th" style="">周六</view>
+      <view class="th" style="">周日</view>
+    </view>
+  </view>
+      
+  <view class="tab-container" wx:if="{{!loading}}" >
+    <!--分节-->
+    <view class="tab-section">
+      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11,12]}}" wx:key="*this" class="tab-section-divide tab-section-item">
+          <text>{{sequence[item]}}</text>
       </view>
-    </block>
-  </scroll-view>
+    </view>
+
+
+    <!--课程-->
+    <view wx:for="{{tasklist}}" wx:index="index"  wx:key="id">
+      <view class="course-item" bindtap="showCardView" data-index="{{index}}" data-type="{{item.type}}" style="margin-left:{{item.day*93}}rpx;margin-top:{{(item.start-1)*54}}px;height:{{item.sections*53}}px;">
+        <view class="course-item-inner course-item-notself {{item.type==-1?'unknow':''}} " style="height:{{item.sections*53}}px;}}">
+          <text >{{item.course}}</text> 
+        </view>
+      </view>
+    </view>
+  </view>
 </view>
+</scroll-view>

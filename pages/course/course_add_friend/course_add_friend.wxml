@@ -1,0 +1,42 @@
+<view style="background:white">
+
+<van-notice-bar
+  mode="closeable"
+  color="#000000"
+  background="#fde06b"
+  left-icon="info-o"
+  scrollable="{{ false }}"
+  text="左滑删除共享课表，功能正在开发中.."
+  speed="{{10}}"
+  delay="{{10}}"
+/>
+<my-block title="与你共享课表的人"/>
+<view style="padding-bottom:1vh">
+  <van-skeleton title avatar row="2" loading="{{ loading }}">
+    <van-swipe-cell
+      async-close
+      id="swipe-cell2"
+      right-width="{{ 65 }}"
+      name="示例"
+      bind:open="onOpen"
+    >
+      <van-cell-group>
+        <van-cell title="黄鹏宇" value="2021-3-9" />
+      </van-cell-group>
+      <view slot="right" class="van-swipe-cell__right">取消绑定</view>
+    </van-swipe-cell>
+    <van-swipe-cell
+      id="swipe-cell2"
+      right-width="{{ 65 }}"
+      name="示例"
+      bind:open="onOpen"
+    >
+      <van-cell-group>
+        <van-cell title="皇甫素素" value="2021-3-8" />
+      </van-cell-group>
+      <view slot="right" class="van-swipe-cell__right">取消绑定</view>
+    </van-swipe-cell>
+  </van-skeleton>
+</view>
+
+</view>

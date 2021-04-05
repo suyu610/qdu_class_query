@@ -1,6 +1,7 @@
 <wxs module="filters" src="../../utils/tofix.wxs"></wxs>
 
-<view class="wrapper">
+
+<view class="wrapper" style="{{themeData.myStyle}}">
   <view class="nav">    
     <scroll-view      
       scroll-with-animation="{{true}}" 
@@ -54,9 +55,8 @@
         data-campus="{{item}}"      
       >
       <scroll-view
-      refresher-triggered = '{{loading}}' 
-      bindrefresherrefresh="onRefresh"
-
+        refresher-triggered = '{{loading}}' 
+        bindrefresherrefresh="onRefresh"
         refresher-enabled="true"
         class="item-scroll-view"        
         scroll-y="true" 
@@ -71,9 +71,9 @@
         wx:for-item="statusList"
         wx:key="roomName"
         id="{{statusList['rname']}}"
-        class="tr"                
+        class="tr {{data[index]['classList'][roomName]['rfloor'] == data[index]['classList'][roomName+1]['rfloor'] ? '':'endFloor'}}"                
       > 
-        <view class="td room-name-tuple" bindtap="tapCourse">
+        <view class="td room-name-tuple" data-cname="{{statusList['rname']}}" bindtap="tapCourse">
           <view class="room-name">{{statusList['rname']}}</view>
           <view class="room-metadata">
             <view>座位数 {{ statusList['rspace']}}</view>
@@ -135,8 +135,40 @@
     </view>  
   </scroll-view>        
 </swiper-item>
- 
+ </swiper>
+
+ <van-popup 
+  show="{{ showBuildingPics }}"
+  position="top"
+  z-index="900"
+  closeable
+  custom-style="height: 80%;z-index:999;background-color:#000000d0"
+  bind:close="onCloseBuildingPics"
+  close-icon-position="bottom-right"
+>
+  <view style="text-align:center;width:100vw;padding-top:20px">
+    <text style="text-align:center;width:100vw;color:white">{{buildings[choosedBuilding]}}平面图 - {{buildingFloorIndex+1}}楼</text>
+  </view>
+
+  <swiper bindchange="changeBuildingImgSwiper" indicator-dots="{{true}}" autoplay="{{false}}" class="buildingImgSwiper" >
+    <block wx:for="{{[1,2,3,4,5]}}" wx:key="*this">
+      <swiper-item>        
+        <view class="swiper-item {{item}}" style="color:white">
+          <!-- bindtap="preview"  -->
+          <van-image width="90vw" height="65vh" style="padding-left:5vw" fit="contain" src="{{buildingImgSrc}}"/>
+        </view>
+      </swiper-item>
+    </block>
   </swiper>
+
+</van-popup>
+
+<!-- <van-overlay show="{{ showBuildingPics }}" bind:click="onCloseBuildingPics" >
+  <view class="wrapper">
+    <view class="block" catch:tap="noop" />
+  </view>
+</van-overlay> -->
+
 <!-- 长按反馈 -->
 <van-popup
   round
@@ -155,10 +187,10 @@
         </van-checkbox>
       </van-checkbox-group>
     <van-field
-    value="{{ value }}"
-    placeholder="请输入反馈意见(可为空)"
+    value="{{ feedBackValue }}"
+    placeholder="反馈意见或联系方式(可为空)"
     border="{{ false }}"
-    bind:change="onChange"
+    bind:change="onfeedBackTextChange"
   />
     <view slot="footer" >
       <van-button size="small" bindtap="onFeedBackClose">取消</van-button>

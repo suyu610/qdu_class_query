@@ -1,0 +1,22 @@
+.van-swipe-cell__left,
+.van-swipe-cell__right {
+  width: 65px;
+  font-size: 12px;  
+  color: white;
+  text-align: center;
+  background-color: red;
+  height: 100%;
+  display: flex; 
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+  vertical-align: middle;
+}
+.van-swipe-cell__left{
+  background-color: #fde06b;
+  color: black;
+}
+.reply-icon{
+  padding-left: 5vw;
+}

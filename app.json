@@ -1,15 +1,30 @@
 {
   "pages": [
-    "pages/splash/splash",   
-    "pages/guide/guide",
-    "pages/index/index",     
-    "pages/list/list",
-    "pages/mine/mine",
+    "pages/empty/empty",
     "pages/course/course",
     "pages/flag/flag",
+    "pages/umbrella/umbrella",
+    "pages/splash/splash",
+    "pages/index/index",
+    "pages/list/list",
     "pages/class/class",
-    "pages/about/about"
-    
+    "pages/course/course_import/course_import",
+    "pages/moment/moment",
+    "pages/mine/login/login",
+    "pages/reward/reward",
+    "pages/mine/mine",
+    "pages/more/more",
+    "pages/course/course_add_friend/course_add_friend",
+    "pages/guide/guide",
+    "pages/moment/edit/edit",
+    "pages/mine/privacy_license/privacy_license",
+    "pages/about/about",
+    "pages/webview/webview",
+    "pages/course/course_setting/course_setting",
+    "pages/course_search/course_search",
+    "pages/report/report",
+    "pages/cheat/cheat",
+    "pages/flower/flower"
   ],
   "themeLocation": "theme.json",
   "window": {
@@ -33,14 +48,20 @@
       {
         "pagePath": "pages/course/course",
         "text": "课表",
-        "iconPath": "/images/icon/icon_msg.png",
-        "selectedIconPath": "/images/icon/icon_msg_HL.png"
-      },
-      {
-        "pagePath": "pages/flag/flag",
-        "text": "目标",
         "iconPath": "/images/icon/icon_class.png",
         "selectedIconPath": "/images/icon/icon_class_HL.png"
+      },
+      {
+        "pagePath": "pages/moment/moment",
+        "text": "信息流",
+        "iconPath": "/images/icon/icon_moments.png",
+        "selectedIconPath": "/images/icon/icon_moments_HL.png"
+      },
+      {
+        "pagePath": "pages/more/more",
+        "text": "更多功能",
+        "iconPath": "/images/icon/icon_msg.png",
+        "selectedIconPath": "/images/icon/icon_msg_HL.png"
       },
       {
         "pagePath": "pages/mine/mine",
@@ -53,7 +74,14 @@
   "sitemapLocation": "sitemap.json",
   "permission": {
     "scope.userLocation": {
-      "desc": "位置信息将用于查询你与教室之间的距离"
+      "desc": "用于查询教室距离，非必选，仅影响距离功能"
     }
+  },
+  "usingComponents": {
+    "my-block": "./components/my-block/index",
+    "color-picker-theme": "./components/color-picker-theme/color-picker-theme"
+  },
+  "useExtendedLib": {
+    "weui": true
   }
 }

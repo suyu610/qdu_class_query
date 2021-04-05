@@ -1,5 +1,10 @@
 {
   "usingComponents": {
-    "van-sticky": "/miniprogram_npm/@vant/weapp/sticky/index"
+    "van-sticky": "/miniprogram_npm/@vant/weapp/sticky/index",
+    "van-loading": "/miniprogram_npm/@vant/weapp/loading/index",
+    "van-overlay": "/miniprogram_npm/@vant/weapp/overlay/index",
+    "van-toast": "/miniprogram_npm/@vant/weapp/toast/index",
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index"
+
   }
 }

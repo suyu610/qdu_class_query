@@ -1,6 +1,7 @@
 /* pages/splash/splash.wxss */
 
 .container{  
+  background-color: #fff;
   font-size: 22px;
   padding: 10rpx;
   align-items: center;
@@ -19,18 +20,22 @@
   /* 控制条纹的大小 */
 }
 #motto{
-  width: 100vw;
+  /* width: 100vw; */
   font-weight: 900;
-  padding: 10rpx;
-  padding-top: 40vh;
+  padding: 3vh;
+  padding-top: 30vh;
   display: block;
+  text-align: center;
+  line-height: 200%;
+  font-size: 0.8em;
+
   
 }
 #author{
   display: block;
   font-size: 16px;
   margin: 20rpx;
-  margin-top: 50rpx;
+  margin-top: 30rpx;
   padding-right: 10%;
   width: 80%;
   float: right;
@@ -38,11 +43,10 @@
 }
 
 .like {
-  margin-top: 200rpx;
+  margin-top: 100rpx;
   align-items: center;  
   width: 100vw;
   height: 70rpx;
-
 }
 
 .like text{
@@ -50,7 +54,7 @@
   display: block;
   /* line-height: 70rpx; */
   font-size: 15px;
-  color:gray;
+  color:lightgray;
   font-weight: bold;
   
 }
@@ -61,16 +65,21 @@
   width: 70rpx;
   height: 70rpx;
 }
+.skeleton{
+  padding-top: 30vh;
+}
+.loading{
+  padding-top:30vh
+}
 
 #write{
   position: fixed;
   bottom: 40rpx;
   width: 100vw;
   text-align: center;
-  font-size: 15px;
-  color:gray;
-  text-decoration:underline;
-  
+  font-size: 14px;
+  color:lightgray;
+  /* text-decoration:underline;   */
 }
 
 
@@ -78,23 +87,41 @@
   position: fixed;
   right: -80rpx;
   bottom: 0rpx;
+  height: 246rpx;
+  width: 246rpx;
+  background-color: #fee161;
+  border-top-left-radius: 300rpx;
+  /* opacity: 0.6; */
+  animation:viewMove 3s ease-in-out forwards;
+  animation-delay:1s;
+}
+
+
+
+#jumpCover{
+  position: fixed;
+  right: -80rpx;
+  bottom: 0rpx;
   height: 250rpx;
   width: 250rpx;
-  background-color: #fee161;
   border-top-left-radius: 300rpx;
   border-left: 3px solid #000;
   border-top: 3px solid #000;  
   /* opacity: 0.6; */
-  animation:viewMove 3s ease-in-out forwards;
+  animation:textFadeout 3s ease-in-out forwards;
   animation-delay:1s;
-
 }
 @keyframes viewMove{
-  from {right:-80rpx;
-    bottom: 0rpx;}
-  to {right:-250rpx;
-    bottom: -250rpx;
-}
+  from {
+    right:-80rpx;
+    bottom: 0rpx;
+    opacity: 1;
+  }
+  to {
+    right:-160rpx;
+    bottom: -160rpx;
+    opacity: 0;
+  }
 }
 
 @keyframes textMove{
@@ -104,6 +131,12 @@
     bottom:-0rpx}
 }
 
+
+@keyframes textFadeout{
+  from {opacity: 1;}
+  to {opacity:0;
+}
+}
 #jumpText{
   position: fixed;
   font-weight: bold;
@@ -111,5 +144,16 @@
   bottom: 70rpx;
   font-size: 16px;
   animation:textMove 3s ease-in-out forwards;
+  animation-delay:1s;
+}
+
+#jumpText-shadow{
+  position: fixed;
+  font-weight: bold;
+  right: 30rpx;
+  bottom: 70rpx;
+  font-size: 16px;
+  /* opacity: 0.3; */
+    animation:textFadeout 3s ease-in-out forwards;
   animation-delay:1s;
 }

@@ -1,52 +1,30 @@
 // pages/mine/mine.js
 const app = getApp();
+import {initNavigationColor,themeData,getThemeKey,setThemeKey} from '../../config/theme'
+const router = require('../../router/index.js');
+var userCourseService = require('../../net/userCourseService.js')
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {    
     showCampusSheet:false,
-    showThemesSheet:false,
+    showFirstLauchSheet:false,
     showAboutPop:false,
-    currentTheme:'墨渊',
+    showPickTheme:false,
+    currentTheme:'默认', 
     currentCampus:'浮山校区',
+    firstLauchPage:'空教室页',
+    rgb: 'rgb(0,0,0)',
     message:"",
     openSplashSwitch:true,
-    campusOptions:[
-      {
-        name: '浮山校区',
-      },
-      {
-        name: '金家岭校区',
-        subname: '暂不支持,马上就好！',
-      },
-      {
-        name: '其他校区',
-        subname: '现在还有bug',
-      },
-    ],
-
-    themesOptions:[
-      {
-        name: '墨渊',
-        subname: '深色',
-        id:'1',
-      },
-      {
-        name: '澹月',
-        subname: '蓝色',
-        id:'2',
-      },
-      {
-        name: '烟翠',
-        subname: '浅色',
-        id:'3',
-      },
-
-    ],
+    openAutoSearchSwitch:false,
+    firstLauchPageOptions:[{name: '空教室页',},{name: '课表页',},{name: '信息流',},],
+    campusOptions:[{name: '浮山校区',},{name: '金家岭校区',subname: '暂不支持,马上就好！',},{name: '其他校区',subname: '现在还有bug',},],
     userInfo: {},
     hasUserInfo: false,
-    canIUse: true,//wx.canIUse('button.open-type.getUserInfo'),
+    canIUse: true, //wx.canIUse('button.open-type.getUserInfo'),
     activeNames: '',
     nickname:'素语'
   },
@@ -61,9 +39,19 @@ Page({
             wx.showToast({title: '复制成功'})}})}})
       this.onAboutPopClose()
   },
+
+  onAutoSearchSwitchChange(detail){    
+    // 这是bug？
+    wx.setStorage({key:"autoSearch",data:detail.detail})
+    this.setData({ openAutoSearchSwitch: detail.detail });
+  },
+
   onSplashSwitchChange({detail}){
+    console.log(detail)
+    wx.setStorage({key:"openSplash",data:detail})
     this.setData({ openSplashSwitch: detail });
   },
+  
   onSwitchCampusSelect(e) {
     // 把全局数据也同步修改
     this.setData({
@@ -75,14 +63,32 @@ Page({
     })
   },
 
-  onSwitchThemesSelect(e){
-    app.globalData.currentTheme = e.detail.id;
+  onSwitchFirstLauchPageSelect(e){    
+    wx.setStorageSync('first-page', e.detail.name)
     this.setData({
-      currentTheme:e.detail.name
+      firstLauchPage:e.detail.name
     });
     
     wx.showToast({
       title: "切换 : " +e.detail.name,
+    })
+  },
+  onTapAvatar(e){
+    wx.getUserProfile({
+      // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      desc: '用于他人绑定课表时，确认身份', 
+      success: (res) => {        
+        app.globalData.nickname = res.userInfo.nickName
+        app.globalData.avatar = res.userInfo.avatarUrl
+        this.setData({
+          nickname: res.userInfo.nickName,
+          avatar:res.userInfo.avatarUrl,
+          hasUserInfo: true
+        })
+        // 向后端发送更新用户数据请求
+        let params = {nickname:res.userInfo.nickName,avatar:res.userInfo.avatarUrl}        
+        userCourseService.updateUserinfo(params)
+      }
     })
   },
   sendAdvice(){
@@ -102,19 +108,35 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    // console.log(this.hexToRgb(getThemeKey('--themeColor')))
+
+    // 拉取全局风格
+    this.setData({
+      avatar:app.globalData.avatar,
+      nickname:app.globalData.nickname,      
+      currentTheme:getThemeKey('--themeColor'),
+      rgb:this.hexToRgb(getThemeKey('--themeColor'))
+    })
   },
+
   // 显示校区选择
   onShowSwitchCampus(){
     this.setData({
       showCampusSheet:true
     })    
   },
-  // 显示选择
-  onShowSwitchThemes(){
+  onShowFirstLauchPage(){
     this.setData({
-      showThemesSheet:true
+      showFirstLauchSheet:true
     })    
   },
+
+  onSwitchFirstLauchPageClose(e){
+    this.setData({
+      showFirstLauchSheet:!this.data.showFirstLauchSheet
+    })    
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -125,8 +147,46 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  
+  onShow: function () {    
+    let that = this
+    wx.setNavigationBarTitle({
+      title: '个人设置', 
+    })
+    initNavigationColor()
+    
+    wx.getStorage({
+      key: 'openSplash',
+      success (res) {
+        that.setData({openSplashSwitch:res.data})
+      },
+      fail(res){
+        that.setData({openSplashSwitch:true})
+      }
+    })
+
+    wx.getStorage({
+      key:"autoSearch",
+      success (res) {
+        that.setData({openAutoSearchSwitch:res.data})
+      },
+      fail(res){
+        that.setData({openAutoSearchSwitch:false})
+      }
+    })
+
+    wx.getStorage({
+      key: 'first-page',
+      success (res) {
+        that.setData({
+          firstLauchPage:res.data
+        });        
+      },
+      fail(res){
+        that.setData({firstLauchPage:"空教室页"})
+      }
+    })
+
+
   },
 
   /**
@@ -150,7 +210,7 @@ Page({
   // 跳转到公众号的文章
   jumpToAboutPage(){
     wx.navigateTo({
-      url: '../../pages/about/about',
+      url: '../webview/webview',
     })
 
   },
@@ -201,16 +261,108 @@ Page({
   onSwitchCampusClose(){
     this.setData({ showCampusSheet: false });
   },
-  onSwitchThemesClose(){
-    this.setData({ showThemesSheet: false });
+
+
+
+  onShowSwitchThemes:function(){
+    this.setData({
+      showPickTheme:true
+    })
   },
 
-  onShow:function(){    
-    wx.setNavigationBarTitle({
-      title: '个人设置',
-    })
-    // 拉取全局风格
-    this.setData({currentTheme:this.data.themesOptions[app.globalData.currentTheme-1].name})
-  }
+  pickColor(e) {
+    // 这里先只修改主题色和文字颜色    
+    console.log(e)
+    let rgb = e.detail.color;
+    let backgroundColor = this.rgb2hex(rgb)
+    let frontColor = this.brightness(rgb)
+    setThemeKey("--themeColor",backgroundColor)
+    setThemeKey("--titleColor",frontColor)
 
+    this.setData({
+      rgb,currentTheme:backgroundColor
+    })
+    
+    wx.setStorageSync('themeData', themeData['myStyle'])
+
+    wx.setNavigationBarColor({
+      backgroundColor:backgroundColor,
+      frontColor:frontColor,
+      animation: {
+        duration: 400,
+        timingFunc: 'easeIn'
+      }
+    })
+  },
+  
+  /**
+   * @desc 判断标题用白色还是黑色
+   * @param {String} color:'rgb(255,0,0)'
+   * @return {String} '#000000'
+   */
+  brightness:function(color){
+    let rgb = color.split(',');
+    let R = parseInt(rgb[0].split('(')[1]);
+    let G = parseInt(rgb[1]);
+    let B = parseInt(rgb[2].split(')')[0]);
+    let bright =  0.299 * R + 0.587 * G + 0.114 * B;    
+    return bright >= 151 ? "#000000" : "#ffffff";    
+  },
+
+  /**
+   * @param {String} color:'rgb(255,0,0)'
+   * @return {String} hex:'#000' 
+   */
+
+  rgb2hex:function(color){
+    let rgb = color.split(',');
+    let R = parseInt(rgb[0].split('(')[1]);
+    let G = parseInt(rgb[1]);
+    let B = parseInt(rgb[2].split(')')[0]);
+    let hex = "#" + ((1 << 24) + (R << 16) + (G << 8) + B).toString(16).slice(1);
+    return hex;
+  },
+
+  /**
+   * @param {String} hex:'#000' color:'rgb(255,0,0)'
+   * @return {String} color:'rgb(255,0,0)'
+   */
+
+  hexToRgb:function (hex) { //十六进制转为RGB
+    var rgb = []; // 定义rgb数组
+    if (/^\#[0-9A-F]{3}$/i.test(hex)) { //判断传入是否为#三位十六进制数
+     let sixHex = '#';
+     hex.replace(/[0-9A-F]/ig, function(kw) {
+      sixHex += kw + kw; //把三位16进制数转化为六位
+     });
+     hex = sixHex; //保存回hex
+    }
+    if (/^#[0-9A-F]{6}$/i.test(hex)) { //判断传入是否为#六位十六进制数
+     hex.replace(/[0-9A-F]{2}/ig, function(kw) {
+      rgb.push('0x' + kw); //十六进制转化为十进制并存如数组
+     });
+     return `rgb(${rgb.join(',')})`; //输出RGB格式颜色
+    } else {
+     console.log(`Input ${hex} is wrong!`);
+     return 'rgb(0,0,0)';
+    }
+   },
+
+  loginByWx:function(e){
+    // 用这个获取用户基本信息
+    wx.getUserProfile({
+      desc:"吧啦吧啦吧啦啦吧啦",
+      success:function(e){
+        console.log(e)
+        // 用这个换openid
+        // 发送补充微信信息
+        // url/api/user/updateWxInfo
+
+      },
+      fail:(res)=>{
+        console.error("====fail====")
+        console.error(res)
+      }
+    })
+  },
 })

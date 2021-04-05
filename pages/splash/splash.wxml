@@ -1,12 +1,28 @@
 <!--pages/splash/splash.wxml--> 
+<van-notify id="van-notify" />
+
 <view  class="container horizonal stripes">
-  <text id="motto">{{jinrishici}}</text>
-  <text id="author"> <text>by : 2019级 </text> {{author}}</text>
-  <view class="like"  bindtap='onLike'>
-    <image src="{{like?icon_like:icon_unlike}}" class="pickimg" animation="{{animation}}"></image>
-    <text>加油</text>
+  <view style="">
+    <text id="motto">{{flag.content}}</text>
+    <text id="author"> {{flag.nickname}} </text>
+    <view style="">
+      <view style="color:lightgrey;display:inline-block;padding-right:6vw;padding-top:3vh">
+        <van-icon name="eye-o" size="16" custom-style="display:inline;bottom:-3px;font-weight:bolder"/>        
+        <text style="display:inline;font-size:14px;line-height:16px;color:lightgrey"> {{flag.show_count}} </text>
+      </view>    
+      <view style="color:lightgrey;display:inline-block" >
+        <van-icon name="like-o" size="16" custom-style="display:inline;bottom:-3px;font-weight:bolder"/>
+        <text style="display:inline;font-size:14px;line-height:16px;color:lightgrey"> {{flag.like_count}}</text>
+      </view>
+    </view>
+
+    <view class="like"  bindtap='onLike'>
+      <image src="{{flag.is_like?icon_like:icon_unlike}}" class="pickimg" animation="{{animation}}"></image>    
+      <text>{{flag.is_like?'收到你的祝福':'点击加油'}}</text>  
+    </view>
+    <view id="write" bindtap="jumpToFlag">我也要写小目标</view>
+    <view id="jumpCover" bindtap="onJumpBtnClick"></view>
+    <view id="jump" bindtap="onJumpBtnClick"></view>
+    <text id="jumpText-shadow" bindtap="onJumpBtnClick">跳过</text>
   </view>
-  <view id="write" bindtap="jumpToFlag">我也要写小目标</view>
-  <view id="jump" bindtap="onJumpBtnClick"></view>
-  <text id="jumpText" bindtap="onJumpBtnClick">跳过</text>
 </view>

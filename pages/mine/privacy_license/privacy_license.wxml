@@ -1,0 +1,39 @@
+<!--pages/mine/license/license.wxml-->
+
+<van-row>  
+  <van-col span="8" offset="8">
+  <view style="display:flex;align-items:center;justify-content:center;padding-top:6vh">
+    <van-image
+  width="60px"
+  height="60px"
+  fit="contain"
+  round
+  src="/images/logo.png"
+/>
+
+  </view>
+  </van-col>
+</van-row>
+<van-row>  
+  <van-col span="8" offset="8">
+  <view style="display:flex;align-items:center;justify-content:center;padding-top:4vh">
+    <text style="font-size:18px">隐私协议</text>
+  </view>
+  </van-col>
+</van-row>
+
+<van-row>  
+  <van-col span="22" offset="1">
+    <view style="padding-top:2vh">
+      <text style="color:grey;font-size:14px;font-weight:normal">      
+在使用课表、约活动、学习资料、求助等功能时,「青空」 需要使用你的教务信息作为实名验证,「青空」会遵守法律，恪守道德妥善处理这些敏感数据，并将以国标GB/T 35273-2017对待这些信息。
+
+当进行教务绑定时，你的账号密码将只存储在你本机中，不会存储在任何服务器中，并会随着小程序的删除而删除。如果你希望下次能够更方便的使用上述服务，请选择「绑定学号」。如果你担心密码有泄漏的风险，请不要进行「绑定学号」。
+
+「青空」不会向任何第三方提供、出售、出租、分享或交易您的个人信息，使用过程中所产生的任何信息将只保存在你的本机中，当你删除「青空」时，这些信息也将会一同删除。
+
+同时，我们的前后端代码都在github上开源，欢迎大家监督与star。
+</text>
+</view>
+  </van-col>
+</van-row>

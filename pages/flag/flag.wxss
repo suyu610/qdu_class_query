@@ -2,24 +2,27 @@
 .container{
   width: 100vw;
   height: 100vh;
+  background-color: #fff;
   background-image: -webkit-linear-gradient(180deg, #e9e5e544 1px, transparent 1px), -webkit-linear-gradient(90deg, #e9e5e544 1px, transparent 1px);
   display: block;
 }
 #writeBtn{
   height:30vw;
   width: 30vw;
-  background-color: #fde06b;
+  background-color: #fde06bee;
   position: fixed;
   bottom: -15vw;
   right: -15vw;
   border-bottom-left-radius: 15vw;
   border-top-left-radius: 15vw;
   border: 2px solid #000;  
+  z-index: 999;
 }
 #writeIcon{
   position: fixed;
   bottom: 3.25vw;
   right: 2vw;
+  z-index: 999;
 }
 .stripes {
   -webkit-background-size: 20px 20px;
@@ -32,14 +35,13 @@
 }
 .intro{
   height:20vh;
-  padding-top: 40rpx;
-  padding-bottom: 30rpx; 
   width: 100vw;
   text-align: center;
 }
 .intro .title{
   font-size: 20px;
-  padding-bottom: 30rpx;
+  padding-bottom: 10rpx;
+  padding-top: 10rpx;
   text-align: center;
 }
 .intro .item{    
@@ -54,35 +56,17 @@
 
 .flagListCell{
   font-weight: 500;
-  font-size: 16px!important;
-  background-color: transparent;
+  font-size: 14px!important;
+  padding-bottom: 5px;
+  background-color: transparent!important;
 }
-.van-cell-text{
+.van-cell-text{  
   color: lightgray;
   font-weight: normal;
   padding-right: 10rpx;
   vertical-align: middle;
+}
 
-}
-.van-swipe-cell__left,
-.van-swipe-cell__right {
-  width: 65px;
-  font-size: 15px;  
-  color: white;
-  text-align: center;
-  background-color: red;
-  height: 100%;
-  display: flex; 
-  align-items: center;
-  align-content: center;
-  align-self: center;
-  justify-content: center;
-  vertical-align: middle;
-}
-.van-swipe-cell__left{
-  background-color: #fde06b;
-  color: black;
-}
 
 .private{
   padding: 20rpx;
@@ -93,4 +77,64 @@
   align-self: center;
   justify-content: center;
   vertical-align: middle;
+}
+
+
+/* 弹幕 */
+
+/**index.wxss**/
+.button{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.aon{
+  position: absolute;
+  white-space:nowrap;/* 防止向下换行*/
+  animation-timing-function: linear;
+  animation-fill-mode: none;
+  background-color: #fde06b;
+  height: 3vh;
+  line-height: 3vh;
+  font-weight: bold;
+  font-size: 12px;
+  opacity: 0.6;
+  padding-left:1vh;
+  padding-right:1vh;
+  min-width: 100px;
+  padding-top: 0.2vh;
+  padding-bottom: 0.2vh;
+  border-radius: 10px;
+}
+.doommview{
+  z-index: 3;
+  height:20vh;
+  width: 100%;
+  position: absolute;
+}
+
+@keyframes first{
+  from{left: 100%; }
+  to{left: -100%;}
+}
+.dmSwitch{
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  background-color: #fde06b;
+  line-height: 30px;
+  width: 30px;
+  font-size: 12px;
+  height: 25px;
+  border-top-left-radius: 15px;
+  /* border-radius: 15px; */
+}
+
+.empty-flaglist{
+  line-height: 40vh;
+  height:40vh;
+  /* padding: 5vh; */
+  text-align:center;
+  font-weight: bold;
+
 }

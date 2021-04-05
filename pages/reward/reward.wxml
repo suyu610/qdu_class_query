@@ -1,0 +1,57 @@
+<view class="container">
+
+  <!-- 头部 -->
+  <view class="header">
+    <view class="group">
+      <image src="{{logo}}" />
+      <text class="name">量力而行，每一份鼓励，都会让我感动很久</text>
+      <text style="font-size:14px; color: #4e5b65;">还没开发好，等会儿再来鼓励我吧</text>
+    </view>
+  </view>
+
+  <!-- 分割线 -->
+  <view class="line"></view> 
+
+  <!-- 金额列表 -->
+  <view class="price-list">
+    <view class="item" wx:for="{{prices}}" wx:key="item" data-item="{{item}}" bindtap="selectItem">
+      <view class="price-box {{selected==item?'active':''}}">
+        <em><text class="price">{{item}}</text>  元</em> 
+      </view>
+    </view>
+  </view>
+  <view class="line"></view> 
+  <van-cell-group     border="{{ false }}">
+
+  <van-field
+    value="{{ sms }}"
+    center    
+    clearable
+    type="textarea"
+    autosize
+    placeholder="请输入你想对青空说的话"
+    use-button-slot    
+  >
+    <van-button slot="button" autosize plain >
+      发送
+    </van-button>
+  </van-field>
+
+  <van-cell          
+    border="{{ false }}"  
+    size="large"
+    icon="setting-o"
+    title="匿名" >      
+    <van-switch 
+      size="24px"
+      active-color="#fde06b"
+      inactive-color="#ffffff"
+      checked="{{ openAlarmValue }}" bind:change="openClockChange" />
+  </van-cell>
+</van-cell-group>
+   <!-- 支持我的人 -->  
+  <van-cell-group title="支持青空的人">
+    <van-cell title="皇甫素素" value="**元" label="很精美的小程序"/>
+    <van-cell title="黄*宇" value="**元" label="希望你们能越做越好" border="{{ false }}" />
+  </van-cell-group>
+</view>

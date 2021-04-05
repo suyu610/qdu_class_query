@@ -1,0 +1,30 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/mine/login/login",
+          "pathName": "pages/course/course",
+          "query": "",
+          "scene": 1011
+        },
+        {
+          "name": "empty",
+          "pathName": "pages/empty/empty",
+          "query": "url=course&params=eyJhbGciOiJIUzUxMiJ9.eyJvcGVuaWQiOiJvckdxMzVNMXZZWXF5MzhQQURWRGJxLVEtaXN3In0.b4wwm0w2P2lMQV12iVbdqawCMlpIXE_GoYbZFlFRV5BXxKBSNebwpPnJLFzyM9daxncx53siGBrnY4qjzucFww",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

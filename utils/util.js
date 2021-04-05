@@ -1,8 +1,16 @@
-function formatTime2(date) {
-  var year = date.getFullYear()
+function formatTime2(date) {  
   var month = date.getMonth() + 1
   var day = date.getDate()
-  return [year, month, day].map(formatNumber).join('-')
+  return month+"月"+day+"日"
+}
+/** 两个日期之间相差几天 **/
+function gapDay(startTime,endTime) {
+  //转成毫秒数，两个日期相减
+  var ms = startTime.getTime() - endTime.getTime();
+  //转换成天数
+  var day = parseInt(ms / (1000 * 60 * 60 * 24));
+  
+  return day
 }
 
 /** 自定义 */
@@ -20,17 +28,21 @@ function formatTime3(date) {
  * 时间戳转换为时间格式
  */
 function formatTime(number, format) {
+
   var formateArr = ['Y', 'M', 'D', 'h', 'm', 's'];
   var returnArr = [];
-  var date = new Date(number * 1000);
+
+  var date = new Date(number);
   returnArr.push(date.getFullYear());
   returnArr.push(formatNumber(date.getMonth() + 1));
   returnArr.push(formatNumber(date.getDate()));
+
   returnArr.push(formatNumber(date.getHours()));
   returnArr.push(formatNumber(date.getMinutes()));
   returnArr.push(formatNumber(date.getSeconds()));
+
   for (var i in returnArr) {
-    format = format.replace(formateArr[i], returnArr[i]);
+      format = format.replace(formateArr[i], returnArr[i]);
   }
   return format;
 }
@@ -159,23 +171,6 @@ function getConfig(key){
   return configs
 }
 
-//是否是tab页
-function isTabPage(page){
-  let pages = [
-    '/pages/index/index',
-    '/pages/course/course',
-    '/pages/tool/tool',
-    '/pages/my/my',
-  ]
-  if(!page){
-    return false
-  }
-  if(pages.indexOf(page) === -1){
-    return false
-  }
-  return true
-}
-
 //数组的深拷贝
 function deepCopyArray(obj){
   if(!obj instanceof Array){
@@ -196,6 +191,7 @@ function getFirstDayOfWeek(year,month) {
     return new Date(Date.UTC(year,month-1, 1)).getDay();
 }
 module.exports = {
+  gapDay:gapDay,
   formatTime: formatTime,
   formatTime2: formatTime2,
   formatTime3: formatTime3,
@@ -206,7 +202,6 @@ module.exports = {
   formatAddress:formatAddress,
   isDefaultNickname:isDefaultNickname,
   getConfig:getConfig,
-  isTabPage:isTabPage,
   deepCopyArray: deepCopyArray,
   getThisMonthDays: getThisMonthDays,
   getFirstDayOfWeek: getFirstDayOfWeek, 

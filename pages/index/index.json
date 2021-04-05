@@ -16,8 +16,12 @@
     "van-slider": "/miniprogram_npm/@vant/weapp/slider/index",
     "van-dropdown-menu": "/miniprogram_npm/@vant/weapp/dropdown-menu/index",
     "van-dropdown-item": "/miniprogram_npm/@vant/weapp/dropdown-item/index",
-    "van-overlay": "/miniprogram_npm/@vant/weapp/overlay/index"
-
+    "van-overlay": "/miniprogram_npm/@vant/weapp/overlay/index",
+    "van-dialog": "/miniprogram_npm/@vant/weapp/dialog/index",
+    "van-radio": "/miniprogram_npm/@vant/weapp/radio/index",
+    "van-radio-group": "/miniprogram_npm/@vant/weapp/radio-group/index",
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-picker": "/miniprogram_npm/@vant/weapp/picker/index"
 
   }
 }

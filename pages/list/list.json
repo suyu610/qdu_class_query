@@ -7,7 +7,13 @@
     "van-popup": "/miniprogram_npm/@vant/weapp/popup/index",
     "van-field": "/miniprogram_npm/@vant/weapp/field/index",
     "van-checkbox": "/miniprogram_npm/@vant/weapp/checkbox/index",
-    "van-checkbox-group": "/miniprogram_npm/@vant/weapp/checkbox-group/index"
+    "van-checkbox-group": "/miniprogram_npm/@vant/weapp/checkbox-group/index",
+    "van-transition": "/miniprogram_npm/@vant/weapp/transition/index",
+    "van-overlay": "/miniprogram_npm/@vant/weapp/overlay/index",
+    "van-image": "/miniprogram_npm/@vant/weapp/image/index"
+
+
+
   }  
   
 }

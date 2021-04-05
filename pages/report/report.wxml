@@ -1,0 +1,146 @@
+<!--pages/report/report.wxml-->
+<scroll-view class="container stripes">
+  <van-notice-bar
+    left-icon="volume-o"
+    color="#000"
+    background="transparent"
+    mode="closeable"
+    left-icon="https://cdns.qdu.life/icons/icon_report.png"
+    text="在使用过程中遇到的问题、发现的bug、想到的好点子，都可以在这提出来，让我们一起来使青大生活更便捷吧~"
+  />
+  <van-notice-bar
+    left-icon="diamond-o"
+    color="#000"
+    scrollable="{{ false }}"
+    bindclick="copyQQqun"
+    background="transparent"    
+    text="青空用户群: 744080689~ (点击复制)"
+  />
+
+  <!-- 筛选条件 -->
+  <van-dropdown-menu class="dropdown-menu">
+    <van-dropdown-item title-class="dropdown-title" value="{{ feedbackType }}" options="{{ feedbackTypeList }}" bind:change="seqChange" />
+    <van-dropdown-item title-class="dropdown-title" value="{{ feedbackStatus }}" options="{{ feedbackStatusList }}" bind:change="weekChange"  />
+    <van-dropdown-item title-class="dropdown-title" value="{{ feedbackSort }}" options="{{ feedbackSortList }}" bind:change="campusChange"  />
+  </van-dropdown-menu>
+  <van-row custom-class="search-info">
+    <van-col span="15" offset="1">
+      <view class="result-info" wx:if="{{feedbackResult.feedback!=null && feedbackResult.feedback.length != 0}}">共有 {{feedbackResult.totalfeedbacks}} 个反馈，总共 {{feedbackResult.totalPages}} 页</view>
+    </van-col>
+    <!-- 步进器 -->
+    <van-col span="8">
+      <van-stepper wx:if="{{feedbackResult.feedback!=null && feedbackResult.feedback.length != 0}}" theme="{{round}}" custom-class="stepper" input-class="stepper-input"	plus-class="stepper-plus" minus-class="stepper-minus" disable-input	min="{{1}}" max="{{feedbackResult.totalPages}}" value="{{ 1 }}" long-press="{{ false }}" bind:change="onStepperChange" />
+    </van-col>
+  </van-row>
+  <view class="result">
+      <block wx:if="{{feedbackResult.feedback.length != 0}}" wx:for="{{feedbackResult.feedback}}" wx:for-item="feedback" wx:key="index">
+        <van-collapse  accordion value="{{ activeNames }}" bind:change="onTapSearchItem">
+          <van-collapse-item size="large" label="{{feedback.info_str}}" name="{{index}}">
+            <view slot="title" style="  display: inline-block;white-space: nowrap; width: 90vw; overflow: hidden;text-overflow:ellipsis;">
+                <view  style="width: 70vw; display: inline-block;white-space: nowrap; overflow: hidden;text-overflow:ellipsis;">
+                  {{feedback.content}}
+                </view>
+
+                <view style="display: inline-block;width: 6vw;text-align:right">
+                  <van-tag plain color="#9b9b9d">{{feedback.type}}</van-tag>                  
+                </view>
+            </view>
+            <view class="feedback-detail">
+              <van-cell title-width="12vw" border="{{false}}" icon="location-o"  title="描述"  >
+                <view class="feedback-content">{{feedback.content}}</view>
+              </van-cell>
+              <van-cell border="{{false}}" icon="manager-o"  title="发布者" value="{{feedback.nickname}}" />        
+              <van-cell border="{{false}}" icon="filter-o"  title="赞同数" value="{{feedback.goodjobCount}}" />
+              <van-cell border="{{false}}" icon="award-o"  title="发布时间" value="{{feedback.posttime}}" />
+
+              <van-cell border="{{false}}" icon="wap-home-o"  title="状态" value="{{feedback.status}}" />
+              <van-divider hairline />
+              <van-row>
+                <van-col span="14" offset="10" style="text-align:right">
+                  <van-button icon="good-job-o" size="small" round type="primary" bindtap="onTapAddToMyfeedback">赞同</van-button>
+                </van-col>
+              </van-row>
+            </view>
+          </van-collapse-item>
+        </van-collapse>    
+      </block>
+  </view>
+
+</scroll-view>
+
+<!-- 右下角添加按钮 -->
+<view id="jump" bindtap="onInsertBtnClick">
+  <view id="jumpText-shadow" bindtap="onInsertBtnClick">
+    <van-icon name="edit" size="60rpx" />
+  </view>
+</view>
+
+
+<van-popup
+  show="{{ showInsert }}"
+  close-icon="close"
+  round
+  position="bottom"
+  custom-style="height: 50%"
+  bind:close="onCloseInsertPopup"
+>
+  <view class="insertContent">
+    <van-cell title="类型" center>
+      <van-dropdown-menu>    
+        <van-dropdown-item 
+          title-class="dropdown-item-title" 
+          value="{{ feedback }}" 
+          options="{{ feedbackOption }}" 
+        />
+      </van-dropdown-menu>
+    </van-cell>
+      <!-- 双向绑定 -->    
+      <van-field
+        center
+        value="{{ report_text }}"
+        bind:change="changeText"
+        type="textarea"
+        placeholder="请输入留言"        
+        autosize
+        maxlength="{{520}}"
+        show-word-limit
+        border="{{ false }}"
+      >
+       
+      </van-field>
+
+
+      <view class="weui-cells">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <view class="weui-uploader">
+            <view class="weui-uploader__hd">
+              <view class="weui-uploader__overview">
+                <view class="weui-uploader__title">图片上传</view>
+                <view class="weui-uploader__info">{{files.length}}/9</view>
+              </view>
+              <view class="weui-uploader__tips" wx:if="{{files.length>0}}">
+                长按删除
+              </view>
+            </view>
+            <view class="weui-uploader__bd">
+              <view class="weui-uploader__files" id="uploaderFiles">
+                <block wx:for="{{files}}" wx:key="index">
+                  <view class="weui-uploader__file" bindlongpress="deleteImg" data-index="{{index}}" bindtap="previewImage" id="{{item}}">
+                    <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+                  </view>
+                </block>
+              </view>
+              <view class="weui-uploader__input-box" wx:if="{{files.length<9}}">
+                <view class="weui-uploader__input" bindtap="chooseImage"></view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <van-cell border="{{false}}">
+        <van-button size="normal" type="primary">提交</van-button>
+      </van-cell>
+  </view>
+ </van-popup>
