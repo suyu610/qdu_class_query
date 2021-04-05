@@ -1,8 +1,20 @@
-<swiper indicator-dots="true">
-  <block wx:for="{{imgs}}" wx:for-index="index">
-    <swiper-item class="swiper-items">
-      <image class="swiper-image" src="{{item}}"></image>
-      <button class="button-img" bindtap="start" wx:if="{{index == imgs.length - 1}}">立即体验</button>
-    </swiper-item>
-  </block>
-</swiper>
+<view class="wrap">
+  <swiper 
+    current="{{currentSwiper}}"
+    bindchange="swiperChange"
+  >
+    <block wx:for="{{imgs}}" wx:for-index="index" wx:key="index">
+      <swiper-item class="swiper-items">
+        <image class="swiper-image" src="{{item}}"></image>
+        <view class="swiper-text">{{text[index]}}</view>
+        <button class="button-img" bindtap="start" wx:if="{{index == imgs.length - 1}}">冲呀，青大人</button>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <view class="dots">  
+    <block wx:for="{{imgs}}" wx:key="index">  
+        <view class="dot{{index == currentSwiper ? ' active' : ''}}"></view>  
+    </block>  
+  </view>  
+</view>

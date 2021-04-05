@@ -65,22 +65,22 @@ layer-style="{{theme}}">
 <van-overlay show="{{ modalWeatherShow }}" bind:click="modalWeatherClose">
   <view class="wrapper">
     <view class="block weatherDetail" catch:tap="noop" >
-      <image src="/images/sun.png"></image>
+      <!-- <image src="/images/sun.png"></image> -->
       <view class="weather-header">
-        <view class="location">青岛</view>
-        <view class="time">现在</view>      
+        <view class="location"></view>
+        <view class="time">12月23日</view>      
       </view>
       <view class="weather-content">
         <view class="info">
-        <image src="/images/icon/407.png"></image>
+        <image src="/images/icon/weatherIcon/{{weather.iconcode}}.png"></image>
       </view>
-        <text class="weather-info">多云</text>
-        <view class="temperature">6 ℃</view>
-        <view class="rain">降雨概率 40%</view>          
-      </view>
-      <van-divider content-position="center" customStyle="color: black; border-color: transparent; ">小素建议</van-divider>
+        <text class="weather-info">{{weather.shorttext}}</text>
+        <view class="temperature">{{weather.dayt}} ℃ <view class="temp-intro">昼</view></view>
+        <view class="temperature">{{weather.nightt}} ℃ <view class="temp-intro">夜</view></view>
+        <view class="rain">降雨概率 {{weather.rain}}</view>          
+      </view>      
       <view class="weather-foot">
-        <view class="weather-suggest">带伞!!</view>
+        <!-- <view class="weather-suggest">注意保暖</view> -->
       </view>
       
     </view>
@@ -131,14 +131,14 @@ layer-style="{{theme}}">
 
 <!-- bindtap="showWeather" -->
 <view class="weatherPanel" bindtap="showWeather">  
-  <view class="weather">{{weatherInfo}}</view>
+  <view class="weather">{{weather.text}}</view>
 </view>
 
 
 <view class="search" bindtap="showSearch" >
     <image class="iconImage" src='/images/icon/icon_search.png'></image>
   </view>
-  <view class="position" bindtap="getUserLocation" >
+  <view class="position" bindtap="handleMoveToBtn" >
     <image class="iconImage" src='/images/icon/location.png'></image>
   </view>
   <view class="sequence" bindtap="showSeq">

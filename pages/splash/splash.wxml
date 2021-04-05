@@ -1,7 +1,7 @@
 <!--pages/splash/splash.wxml--> 
 <view  class="container horizonal stripes">
   <text id="motto">{{jinrishici}}</text>
-  <text id="author"> <text>by : </text> {{author}}</text>
+  <text id="author"> <text>by : 2019级 </text> {{author}}</text>
   <view class="like"  bindtap='onLike'>
     <image src="{{like?icon_like:icon_unlike}}" class="pickimg" animation="{{animation}}"></image>
     <text>加油</text>

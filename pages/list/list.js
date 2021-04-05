@@ -1,6 +1,9 @@
 const dayjs = require('dayjs')
 const roomMetadata = require('./room-metadata')
+
 let buildUtil = require('../../utils/building.js')
+let locationUtil = require('../../utils/location.js')
+
 let QQMapWX = require('../../libs/qqmap-wx-jssdk.min.js');
 let qqmapsdk = "";
 
@@ -19,13 +22,17 @@ const timeIntervals = {
 var app = getApp();
 Page({
   data: {
+    loading:true,
+    showFeedBack:false,
     distance:[],
     index:0,
     buildings:[], 
     choosedBuilding:"",
     roomMetadata,
     data:{},
-    isShowAll:false
+    feedbackClassName:"",
+    isShowAll:false,
+    feedBackCheckbox:[],
   },
 
   onLoad: function(options) {
@@ -33,42 +40,53 @@ Page({
   },
   // 切换tab
   changeTabs:function(event){    
-    const building = event.currentTarget.dataset.building        
-    this.setData({ index:event.detail.index,choosedBuilding: event.detail.name })
+    const building = event.detail.current        
+    this.setData({ index:event.detail.current,choosedBuilding: event.detail.current })
   },
+  onFeedBackClose:function(){
+    this.setData({
+      showFeedBack:false
+    })
+  },
+  onFeedBackDone:function(){
+    this.setData({
+      showFeedBack:false
+    })
+    wx.showToast({
+      title: '感谢反馈!',
+    })
+  },
+  feedBackCheckboxChange:function(e){
+    this.setData({
+      feedBackCheckbox: e.detail,
+    });
+  },
+
   onShow: function() { 
     let _this = this 
-
-    let distance = [];
+    let distance = [];    
     // 计算距离
     qqmapsdk = new QQMapWX({
       key: app.globalData.key 
     });
 
     app.globalData.currentStatus.forEach(e=>{
-      setTimeout(() => {              
-        let longitude = buildUtil.buildingsInfo[e.bname]["longitude"]
-        let latitude = buildUtil.buildingsInfo[e.bname]["latitude"]    
-        // console.log(buildUtil.buildingsInfo[e.bname])
-        
-      qqmapsdk.calculateDistance({
-        from: '', //若起点有数据则采用起点坐标，若为空默认当前地址
-        to: latitude+','+longitude, //终点坐标
-        success:function(res,data){
-          
-          let result = res.result;
-          let distance = result.elements[0].distance
-          _this.handleDistanceDone(distance)
-        }
-      })
-    }, 400);      
+      
+      let toLongitude = buildUtil.buildingsInfo[e.bname]["longitude"]
+      let toLatitude = buildUtil.buildingsInfo[e.bname]["latitude"]    
+      console.log(e.bname+"的经纬度为"+buildUtil.buildingsInfo[e.bname]["longitude"]+"\n"+buildUtil.buildingsInfo[e.bname]["latitude"] )
+      
+      // lat1,lng1,lat2,lng2
+      _this.handleDistanceDone(locationUtil.GetDistance(
+        app.globalData.latitude,
+        app.globalData.longitude,
+        toLatitude,
+        toLongitude,
+      ));
+  
     })
 
     
-
-    wx.setNavigationBarTitle({
-      title: '',
-    })
     
     let now = dayjs()
     let today = now.startOf('day')
@@ -94,22 +112,25 @@ Page({
     this.setData({buildings})
     
     let firstChoosed = app.globalData.tapBuildName
+    firstChoosed = buildings.indexOf(firstChoosed)
+    console.log(firstChoosed)
     this.setData({
       data:app.globalData.currentStatus,
       choosedBuilding:firstChoosed
     })
   },
   handleDistanceDone(newDistance){
-    // console.log(newDistance)
     let distance = [];
     distance = this.data.distance;
     distance.push(newDistance);
     this.setData({
       distance
-    })      
+    })
   },
   tapBuilding: function(event) {
-    const building = event.currentTarget.dataset.building
+    console.log(event)
+    const building = this.data.buildings.indexOf(event.currentTarget.dataset.building)
+    
     this.setData({ choosedBuilding: building })
   },
 
@@ -119,16 +140,34 @@ Page({
     })
   },
 
-  onPullDownRefresh(e){  
-    wx.showToast({
-      icon:"none",
-      title: this.data.isShowAll? '显示符合条件的教室' : '显示所有教室'  ,
-    });
-    wx.stopPullDownRefresh();  
-    this.setData({
-      isShowAll:!this.data.isShowAll
-    })
+  /**
+   * 下拉刷新
+   */
+  onRefresh: function () {
+    const self = this;    
+    setTimeout(() => {
 
-    
+      wx.showToast({
+        icon:"none",
+        title: this.data.isShowAll ? '显示符合条件的教室':'显示全部教室',
+      })
+      self.setData({
+        loading:false,
+        isShowAll:!this.data.isShowAll
+      })
+    }, 500)
   },
+
+  // 长按开启反馈
+  handleShowFeedBack(e){
+    // console.log(e)
+    this.setData({
+      feedbackClassName: e.currentTarget.id
+    });
+    
+    this.setData({
+      showFeedBack:true
+    })
+  },
+
 })

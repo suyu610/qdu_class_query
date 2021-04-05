@@ -1,16 +1,19 @@
-<view >
+<wxs module="filters" src="../../utils/tofix.wxs"></wxs>
+
+<view class="wrapper">
   <view class="nav">    
-    <scroll-view  
+    <scroll-view      
       scroll-with-animation="{{true}}" 
       scroll-into-view="a{{index}}"  
       enable-flex="true" 
       scroll-x="true" 
+      scroll-y="false" 
     class="sub-nav">
       <view
         id="a{{index}}"
         wx:for="{{buildings}}"
         wx:key="index"
-        class="nav-item {{choosedBuilding == item ? 'choosed' : ''}}"
+        class="nav-item {{buildings[choosedBuilding] == item ? 'choosed' : ''}}"
         data-building="{{item}}"
         bindtap="tapBuilding"
       >
@@ -18,7 +21,8 @@
       </view>
     </scroll-view>
   </view> 
-  <view class="build-info">(beta) 距离{{distance[index]}}米，走路预计{{distance[index]/50}}分钟</view>
+  <view class="build-info"> 直线距离{{distance[index]}}米，走路预计    
+    {{filters.toFix(distance[index]/50)}}分钟</view>
    <view class="table">
     <view class="tr comment">
       <view class="comment-cell">
@@ -35,25 +39,38 @@
       </view>
       </view>
   </view>
-  <van-tabs 
-    active="{{choosedBuilding}}" 
-    bind:change="changeTabs" 
+
+  <swiper 
+    circular
+    duration="300"
+    current="{{choosedBuilding}}"
+    bindanimationfinish="changeTabs"
     nav-class="tabs" 
-    swipeable   
-    lazy-render    
+    
   >
-    <block
+    <swiper-item
         wx:for="{{buildings}}"
         wx:key="index"
         data-campus="{{item}}"      
       >
-      <van-tab name="{{item}}">
-    <view wx:if="{{data}}" style="min-height:90vh">
+      <scroll-view
+      refresher-triggered = '{{loading}}' 
+      bindrefresherrefresh="onRefresh"
+
+        refresher-enabled="true"
+        class="item-scroll-view"        
+        scroll-y="true" 
+        name="{{item}}">
+    <view       
+      wx:if="{{data}}"           
+      >
       <view
+        bindlongpress="handleShowFeedBack" 
         wx:for="{{data[index]['classList']}}"
         wx:for-index="roomName"
         wx:for-item="statusList"
         wx:key="roomName"
+        id="{{statusList['rname']}}"
         class="tr"                
       > 
         <view class="td room-name-tuple" bindtap="tapCourse">
@@ -79,7 +96,7 @@
             class="status {{statusList['status'][n-1] == 1 ? 'inuse' : ''}}{{statusList['status'][n-1] == 0? 'free':''}}{{statusList['status'][n-1] == -1? 'busy':''}} {{nowInterval == n  ? 'now' : ''}}"
           ></view>
           <view class="delimiter"></view>
-          <view
+          <view            
             wx:for="{{[11,12,13]}}"
             wx:for-item="n"
             wx:key="n"
@@ -116,8 +133,37 @@
         </view>
       </view>
     </view>  
-</van-tab>        
-</block>
+  </scroll-view>        
+</swiper-item>
  
-</van-tabs>
+  </swiper>
+<!-- 长按反馈 -->
+<van-popup
+  round
+  close-on-click-overlay
+  show="{{ showFeedBack }}"
+  position="bottom"
+  closeable
+  custom-style="height: 40%;z-index:999"
+  overlay-style="z-index:999"
+  bind:close="onFeedBackClose"
+>
+  <van-panel title="{{feedbackClassName}}" desc="信息有误?" use-footer-slot footer-class="feedBackFooter">
+    <van-checkbox-group value="{{ feedBackCheckbox }}" bind:change="feedBackCheckboxChange" >   
+        <van-checkbox class="checkbox time-checkbox" wx:key="index" wx:for="{{['教室类型错误','教室状态错误','压根没这个教室','其他'] }}" wx:for-item="i" shape="square" checked-color="#fed457" name="{{index}}">
+          <text class="checkboxText">{{i}}</text>          
+        </van-checkbox>
+      </van-checkbox-group>
+    <van-field
+    value="{{ value }}"
+    placeholder="请输入反馈意见(可为空)"
+    border="{{ false }}"
+    bind:change="onChange"
+  />
+    <view slot="footer" >
+      <van-button size="small" bindtap="onFeedBackClose">取消</van-button>
+      <van-button size="small" bindtap="onFeedBackDone" color="#fde06b" custom-style="color:#000;margin-left:30rpx">反馈</van-button>
+    </view>
+  </van-panel>
+</van-popup>
 </view>

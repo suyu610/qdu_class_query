@@ -2,6 +2,8 @@
 
 var QQMapWX = require('../../libs/qqmap-wx-jssdk.min.js');
 var buildUtil = require('../../utils/building.js')
+var locationUtil = require('../../utils/location.js')
+
 const app = getApp()
 var qqmapsdk = "";
 
@@ -9,7 +11,15 @@ Page({
   noop(){
   },
   data: {
-    weatherInfo:"今日降雨概率为0，但风很大",
+    weather:{
+      text:"今日降雨概率为0，但风很大",
+      shorttext:"多云",
+      rain:0,
+      dayt:3,
+      nightt:0,
+      iconcode:408,
+    },
+    
     markers:[
       {
         latitude: app.globalData.latitude, 
@@ -233,12 +243,14 @@ Page({
       timeResult: e.detail,
     });
   },
+  // 课次多选框
   toggle(event){
     const { index } = event.currentTarget.dataset;
     const checkbox = this.selectComponent(`.checkboxes-${index}`);
     checkbox.toggle();
   },
 
+  // 点击建筑物时
   bindmarkertap:function(e){
     // console.log(e.markerId)
     app.globalData.tapBuildName = e.markerId;    
@@ -272,46 +284,30 @@ Page({
   modalSearchClose() {
     this.setData({ modalSearchShow: false});
   },
-
-  addMarkers:function(){
-    // 1. 显示加载中Toast
-    wx.showLoading({
-      title: '努力搜索中..',
-    })
-  
-    setTimeout(() => {
-    
-      // 3. 发送网络请求, 得到response
-      var response = "[{},{},{},{},{},{},{}]"
-      // 4. 解析网络请求
-      var resJson = JSON.parse(response)
-      let markers=[];
-      for(var i of resJson) {            
-        markers.push(buildUtil.getMarkersRandom())
-      };
-
-      // 5. 设置新的值
-      this.setData({
-        markers
-      })
-      // 6. 隐藏loading，并提示找到的结果
-      wx.hideLoading({
-        success: (res) => {                
-          // 6. Toast.show 提示符合要求的有多少个
-          wx.showToast({
-            title: '找到34个教室',
-          })
-        },
-      })
-    }, 1000);
-  },
   
   onLoad: function () {   
     let _this=this; 
     this.mapCtx = wx.createMapContext('map')
+
     qqmapsdk = new QQMapWX({
       key: app.globalData.key 
     });
+    this.getUserLocation()
+    // 获取天气
+    wx.request({          
+      url: 'http://localhost:4396/api/weather/today',
+      success (res) {
+        if(res.statusCode == 200){
+         _this.handleGetWeatherSuccess(res.data.data)
+        }else{
+
+        }
+      },
+      fail(e){
+        console.log(e)
+      }
+    })
+
     wx.setNavigationBarTitle({
       title: '当前的空教室',
     })
@@ -319,40 +315,19 @@ Page({
     // 自动识别当前位置，等一系列推荐
     // 请求现在的空教室    
   },
-
-  onReady:function(){
-      // this.moveToLocation();
-  },
-
-  moveToLocation: function () {
-    this.mapCtx.moveToLocation()
-  },
-  
-  changeTheme:function(){
-    let tmp = this.data.theme;
-    if(tmp < 3){
-      tmp += 1;
-    }else{
-      tmp = 1;
-    }
+  handleGetWeatherSuccess(data){
+    console.log(data)
     this.setData({
-      theme:tmp
+      weather:data
+      
     })
-    app.globalData.currentTheme = tmp;
   },
-
-  
-  getUserLocation: function() {
-    let vm = this;
+  // 获得坐标
+ getUserLocation() {
+    let _this = this;
     wx.getSetting({
-      success: (res) => {
-        this.setData({scale:17})
-        this.mapCtx.scale = 17
-
-        // res.authSetting['scope.userLocation'] == undefined    表示 初始化进入该页面
-        // res.authSetting['scope.userLocation'] == false    表示 非初始化进入该页面,且未授权
-        // res.authSetting['scope.userLocation'] == true    表示 地理位置授权
-        if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+      success: (res) => {              
+          if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
           wx.showModal({
             title: '需要使用你的位置',
             content: '可以不授权，仅影响距离筛选功能',
@@ -373,7 +348,7 @@ Page({
                         duration: 1000
                       })
                       //再次授权，调用wx.getLocation的API
-                      vm.getLocation();
+                      _this.getLocation();
                     } else {
                       wx.showToast({
                         title: '授权失败',
@@ -388,45 +363,57 @@ Page({
           })
         } else if (res.authSetting['scope.userLocation'] == undefined) {          
           //调用wx.getLocation的API
-          vm.getLocation();
-          wx.showToast({          
-            title: '定位成功',
-            icon: 'success',
-            duration: 500,
-          });
+          _this.getLocation();
         } else {
           //调用wx.getLocation的API
-          vm.getLocation();
-          wx.showToast({          
-            title: '定位成功',
-            icon: 'success',
-            duration: 500,
-          });
+          _this.getLocation();
         }
       }
     })
   },
+
   // 微信获得经纬度
-  getLocation: function() {
-    let vm = this;
+  getLocation() {
+    console.log("???")
+    let _this = this;
     wx.getLocation({
       type: 'gcj02',
       success: function(res) {
-        vm.setData({
-          "latitude":res.latitude, "longitude":res.longitude
-        })
+        app.globalData.latitude = res.latitude;
+        app.globalData.longitude = res.longitude;
       },
       fail: function(res) {
         wx.hideLoading();
       }
     })
   },
-
+  
+  onReady:function(){      
+  },
+  
+  changeTheme:function(){
+    let tmp = this.data.theme;
+    if(tmp < 3){
+      tmp += 1;
+    }else{
+      tmp = 1;
+    }
+    this.setData({
+      theme:tmp
+    })
+    app.globalData.currentTheme = tmp;
+  },
 
   onShow:function(){      
     this.setData({theme:app.globalData.currentTheme})    
   },
-
+  handleMoveToBtn:function(){
+    this.getUserLocation()
+    this.mapCtx.moveToLocation({
+      longitude:app.globalData.longitude,
+      latitude:app.globalData.latitude,
+    })
+  },
    /**
    * 用户点击右上角分享
    */

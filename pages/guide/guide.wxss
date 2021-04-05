@@ -3,20 +3,68 @@ swiper {
   position: absolute;
   height: 100%;
   width: 100%;
+  background-color: #fff5ca;
 }
 
 .swiper-image {
-  height: 100%;
+  position: fixed;
+  top: 12%;  
+  left: 30vw;
+  width: 40vw;  
+  height: 40vw;  
+  border-radius: 50%;
+}
+.swiper-text{
+  position: fixed;
   width: 100%;
-  /*透明度*/
-  opacity: 0.9;
+  height: 100%;
+  top: 50%;
+  text-align: center;
+  font-size: 24px;
+  /* 保留换行 */
+  white-space:pre-wrap
 }
 
 .button-img {
   /*这个是绝对布局*/
-  position: relative;
-  bottom: 90px;
-  height: 40px;
-  width: 120px;
-  opacity: 0.6;
+  background-color: #fcdf73;
+  position: fixed;  
+  left: 225rpx;
+  bottom: 200rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  border-radius: 24rpx;
+  width: 300rpx;
+  border: 2px solid #000;
+  box-shadow: 0 2px 2px rgba(10,16,20,.24),0 0 2px rgba(10,16,20,.12);
+
+  font-size: 14px;
+  font-weight: bolder;
 }
+
+.dots{  
+  width: 168rpx;
+  text-align: center;
+  align-self: center;
+  height: 30rpx; 
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 582rpx;
+  bottom: 20rpx;
+
+}  
+/*未选中时的小圆点样式 */
+.dot{  
+  width: 30rpx;  
+  height: 30rpx;   
+  border-radius: 50%;
+  margin-right: 26rpx;
+  background-color: white;
+  border: 2px solid #000;
+  box-sizing: border-box;
+}  
+/*选中以后的小圆点样式  */
+.active{  
+  background-color: #000;  
+}  

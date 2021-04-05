@@ -1,28 +1,35 @@
 Page({
   data: {
     imgs: [
-      " https://api.ixiaowai.cn/gqapi/gqapi.php",
-      " https://api.ixiaowai.cn/gqapi/gqapi.php",
-      " https://api.ixiaowai.cn/gqapi/gqapi.php",
+      " https://cdns.qdu.life/class/onboarding_1-min.png",
+      " https://cdns.qdu.life/class/onboarding_2-min.png",
+      " /images/logo.png",      
     ],
+    currentSwiper: 0,
+    text:["一键查询空教室\n按楼层\n按课次\n...","[ 天气预报 ]\n出门别忘带伞\n\n[ 小目标 ]\n全校为你加油","愿满天星光因你而闪烁"]
+  },
 
-    img: " https://api.ixiaowai.cn/gqapi/gqapi.php",
+  swiperChange: function (e) {
+    this.setData({
+      currentSwiper: e.detail.current
+    })
+  },
+  onLoad(){
+    wx.setNavigationBarColor({
+      backgroundColor: '#fff4cc',
+      frontColor: '#000000',
+    })
   },
 
   start() {
     
     try {
-      wx.setStorageSync('first', 'value')
+      wx.setStorageSync('guide', 'value')
     } catch (e) {
       console.log(e)
-     }
-    console.log(wx.getStorage({
-      key: 'first',
-    }))
-    wx.navigateTo({     
-      url: '../splash/splash'
+     }    
+    wx.switchTab({     
+      url: '../index/index'
     })
   },
-
-
 })

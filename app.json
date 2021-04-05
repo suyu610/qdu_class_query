@@ -1,9 +1,9 @@
 {
   "pages": [
     "pages/splash/splash",   
+    "pages/guide/guide",
     "pages/index/index",     
     "pages/list/list",
-    "pages/guide/guide",
     "pages/mine/mine",
     "pages/course/course",
     "pages/flag/flag",

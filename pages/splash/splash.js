@@ -1,5 +1,6 @@
 // pages/splash/splash.js
 const app = getApp();
+import jinrishici from '../../libs/jinrishici.js'
 
 Page({
   data: {
@@ -45,6 +46,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    jinrishici.load(result => {
+      // console.log(result.data)
+      this.setData({
+        author : result.data.origin.author,
+        jinrishici : result.data.content
+      })
+      
+    })
     // 设置顶部bar为主题色
     wx.setNavigationBarColor({
       backgroundColor: '#fff',

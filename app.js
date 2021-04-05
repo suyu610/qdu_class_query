@@ -1,6 +1,5 @@
 //app.js
 const storage = require('./utils/storage');
-import jinrishici from '/libs/jinrishici.js'
 
 
 App({
@@ -21,17 +20,13 @@ App({
 
   onLaunch: function () {    
     // 判断是否第一次登陆
-    let isFirst = wx.getStorageSync('first')    
+    let isFirst = wx.getStorageSync('guide')    
     if(!isFirst){
      wx.redirectTo({
         url: '/pages/guide/guide',
       });      
     }     
-    jinrishici.load(result => {
-      console.log(result.data)
-      this.globalData.author = result.data.origin.author,
-      this.globalData.jinrishici = result.data.content
-    })
+
     
     wx.cloud.init({   
       env: 'qdu-class-query-0gjy63ub39e21b96',   traceUser: true
@@ -73,8 +68,8 @@ App({
   },
 
   globalData: {
-    jinrishici:"苟利国家生死以，岂因祸福避趋之",
     author:"林则徐",
+    jinrishici:"苟利国家生死以，岂因祸福避趋之",
     // 当前样式,注意这里配合腾讯地图，所以是从1开始
     currentTheme:1,
     currentCampus:0,

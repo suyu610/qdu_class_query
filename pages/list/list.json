@@ -1,8 +1,13 @@
 {
   "usingComponents": {
     "van-tab": "/miniprogram_npm/@vant/weapp/tab/index",
-    "van-tabs": "/miniprogram_npm/@vant/weapp/tabs/index"  
-  },
-  "enablePullDownRefresh": true
+    "van-tabs": "/miniprogram_npm/@vant/weapp/tabs/index",
+    "van-panel": "/miniprogram_npm/@vant/weapp/panel/index",
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index",
+    "van-popup": "/miniprogram_npm/@vant/weapp/popup/index",
+    "van-field": "/miniprogram_npm/@vant/weapp/field/index",
+    "van-checkbox": "/miniprogram_npm/@vant/weapp/checkbox/index",
+    "van-checkbox-group": "/miniprogram_npm/@vant/weapp/checkbox-group/index"
+  }  
   
 }

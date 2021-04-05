@@ -6,7 +6,7 @@
     "navigationBarTextStyle": "black"
   },
   "dark": {
-    "backgroundColor": "#08141F",
+    "backgroundColor": "#fde06b",
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#fee161",
     "navigationBarTextStyle": "black"

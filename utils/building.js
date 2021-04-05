@@ -16,7 +16,7 @@ function getMarkersByBuildId(id,count){
       bgColor:'#000000' ,
       anchorX:10, 
       anchorY:20,
-      color:'#ffffff',      
+      color:'#ffffff',
       content:"#"+buildingsInfo[id]["name"] + "\n" + count + "个",
       display: 'ALWAYS',
     },

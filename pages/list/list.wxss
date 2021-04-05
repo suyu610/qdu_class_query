@@ -1,4 +1,9 @@
+.wrapper{
+  height: 100vh;
+  overflow: hidden;
+}
 page {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -58,11 +63,28 @@ page {
 }
 
 .table {
+  position: fixed;
   display: flex;
   flex-direction: column;
-  margin-top: 6rem;
-  margin-bottom: -70rpx;
+  top: 165rpx;
   z-index: 998;
+  width: 100%;
+  background-color: #fff;
+}
+swiper{
+  padding-top: 220rpx;
+  height:1200rpx;
+  z-index:999;
+}
+swiper-item{
+  overflow:scroll;
+
+}
+.test{
+  background-color: #f00;
+  margin-top:180rpx;  
+  min-height: 90vh;
+  width: 100%;
 }
 .build-info{
   height: 40rpx;
@@ -70,7 +92,7 @@ page {
   background-color: #fcdf74;
   position: fixed;
   top: 80rpx;
-  z-index: 999;
+  z-index: 998;
   padding: 8px 16px;
   font-size: 12px;
   color:black;
@@ -87,11 +109,7 @@ page {
   border-bottom: 1px dashed lightgray;
   border-radius: 20rpx;
 }
-.tabs{
-  /* background-color: lightgray; */
-  /* padding: 0; */
-  /* margin: 0; */
-}
+
 .tr:not(:last-child) {
   margin-bottom: 8px;
 }
@@ -127,21 +145,21 @@ page {
 }
 
 .c4 {
-  margin-right: 43rpx;
+  margin-right: 32rpx;
 }
 
 .c5 {
-  margin-right: 26rpx;
+  margin-right: 17rpx;
 }
 
 .c6 {
-  margin-right: 39rpx;
+  margin-right: 25rpx;
 }
 .c7 {
   margin-right: 15rpx;
 }
 .c8 {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .td.room-name-tuple {
@@ -174,6 +192,7 @@ page {
   height: 30rpx;
   border-radius: 8rpx;
   margin: 1px;
+  z-index:0;
   /* border: 2px solid #000; */
 }
 
@@ -181,6 +200,7 @@ page {
   background-color: lightgreen;
   border: 2px solid #000;
   box-sizing: border-box;
+  z-index:0;
 }
  /* 被占 */
  
@@ -221,56 +241,26 @@ page {
 .delimiter {
   width: 8px;
 }
+.feedBackFooter{
+  float: right;
+}
+.checkbox{
+  padding-left: 5vw;
+  padding-right: 5vw;
+  width: 40vw;
+  font-size: 14px;
+  display: inline-block;
+  align-self: center;
+  text-align: center;
+  margin:0 auto;
+  padding-top: 2vh;
 
-@media (prefers-color-scheme: dark) {
-  page {
-    background-color: #08141F;
-  }
-  .nav {
-    color: #000;
-    background-color: #0B2843;
-  }
-  .nav-item.choosed {
-    background-color: #08141F;
-  }
-  .tr {
-    background-color: #102e4b;
-  }
-  .tr.comment {
-    background: linear-gradient(to right, #102e4b, #08141F 70%);
-  }
-  .comment-item {
-    color: lightgray;
-  }
-  .room-name {
-    color: #B2C3D2;
-  }
-  .room-metadata {
-    color: #7597b6;
-    font-size: 8px;
-    margin-top: -3px;
-  }
+}
 
-  .status.free {
-    background-color: #4B8437;
-    border: 2px solid #000;
-    box-sizing: border-box;
-  }
-  
-  .status.inuse {
-    background-color: #A72F2F;
-  }
-  /* 被占 */
-  .status.busy {
-    background-color: #f00;
-    border: 2px solid #000;
-    box-sizing: border-box;
-  }
-  .status.now:after {
-    color: #7597b6;
-  }
-  
-  .status.loading {
-    background-color: #555555;
-  }
+.checkbox:nth-last-child(2){
+  padding-top: 2vh;
+}
+.item-scroll-view{
+  height: 90vh;
+  z-index: 999;
 }

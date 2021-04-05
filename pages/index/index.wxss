@@ -154,9 +154,9 @@ van-checkbox-group{
   position: relative;
   width: 80vw;
   height: 70vh;
-  background-color: transparent;
+  background-color: #fde06b;
   border-radius: 25rpx;
-  /* border: 2px solid #000; */
+  border: 2px solid #000;
 }
 .wrapper .weatherDetail image{
   width: 100%;
@@ -172,7 +172,7 @@ van-checkbox-group{
   margin-left: 7%;  
   margin-right: 7%;  
   display: block;
-  height: 10vh;
+  height: 5vh;
 }
 .weather-header .location{  
   color:black;
@@ -190,7 +190,7 @@ van-checkbox-group{
   text-align: center;
   position: relative;
   display:block;
-  height: 40vh;
+  height: 45vh;
   margin: 0 auto;
   top:10vh;
 }
@@ -198,38 +198,48 @@ van-checkbox-group{
 .weather-content .info image{
   text-align: center;
   display: block;
-  height: 50px;
-  width: 50px;
+  height: 80px;
+  width: 80px;
   position: relative;
   text-align: center;
   margin: 0 auto;
-  margin-bottom: 25rpx;
+  margin-bottom: 0rpx;
+  z-index: 999;
 }
 .weather-content .weather-info{  
   font-size: 20px;
   text-shadow: 5px 5px 8px #fed467;
-
 }
 .weather-content .temperature{
   margin-top: 15rpx;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: bold;
 }
+
+.weather-content .temperature:last-child{
+  margin-top: 5rpx;
+}
+
+.weather-content .temperature .temp-intro{
+  display: inline;  
+  font-size: 14px;
+  font-weight: normal;
+}
 .weather-content .rain{
-  margin-top: 15rpx;
-  font-size: 16px;  
+  margin-top: 20rpx;
+  font-size: 20px;  
 }
 
 .weather-lukcy,
 .weather-suggest {
   text-shadow: 5px 5px 8px #fed467;
-  padding-top: 15rpx;
+  padding-top: 45rpx;
   color: black;
-  font-weight: bold;
   font-size: 20px;
 }
 
 .weather-foot{
+  padding-top: 3vh;
   font-size: 16px;  
   text-align: center;
   position: relative;
