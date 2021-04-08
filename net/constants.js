@@ -20,6 +20,12 @@ export const FeedBackUrl = 'feedback/postnew'
 // 查询
 export const GetTodayFreeRoomUrl = 'class/sequence/today/'
 
+// 详细查询明天的
+export const getTomorrowDetailRoomStatusUrl = 'classroomstatus/tomorrow'
+
+// 详细查询今天的
+export const getTodayDetailRoomStatusUrl = 'classroomstatus/today'
+
 ///////////////
 /// 个人课表 ///
 //////////////
@@ -30,6 +36,7 @@ export const getMyAddCourseUrl = 'user/getAddCourse/'
 export const GetFriendJwCourseUrl = 'user/getCourse/friend/'
 export const CheckBindFriendUrl = 'user/checkBindFriend/'
 export const CheckTokenAndBindUrl = 'user/checkTokenAndBind'
+export const DismissFriendUrl = 'user/dismissFriend'
 
 ///////////////
 //// 用户 /////

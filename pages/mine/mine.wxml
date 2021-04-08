@@ -88,7 +88,7 @@
       bind:close="onSwitchCampusClose"
       bind:select="onSwitchCampusSelect"
       />
-    <van-cell is-link  center icon="location-o" bind:click="onShowSwitchCampus" title="校区" value="{{currentCampus}}" />    
+    <van-cell is-link  center icon="location-o" bind:click="onShowSwitchCampus" title="校区" value="{{currentCampusName}}" />    
     <!-- 启动页 -->
     <van-action-sheet    
       show="{{ showFirstLauchSheet }}"
@@ -137,7 +137,9 @@
 
   <van-cell-group title="关于">
     <van-cell  center icon="gem-o" title="官网" bind:click="jumpToAboutPage" is-link />   
-    <van-cell  center icon="like-o" title="开发团队" bind:click="onAboutShow" is-link />       
+    <van-cell  center icon="like-o" title="青空团队" bind:click="onAboutShow" is-link />       
+    <van-cell  center icon="like-o" title="开发进度" bind:click="onAboutShow" is-link />       
+
   </van-cell-group>
     <button class="contact cu-btn" open-type='contact'>客服</button>    
     <button class="contact cu-btn bg-gradual-green" open-type='share'>分享给好友</button>

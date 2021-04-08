@@ -12,8 +12,7 @@ Page({
   jumpWhere:function(){
     // 如果
     // 否则跳过        
-    // 获取第一页是谁
-    
+    // 获取第一页是谁    
     wx.getStorage({
       key: 'first-page',
       success (res) {
@@ -34,7 +33,8 @@ Page({
       },
       fail(){
         // 当没有设置启动页的时候，跳转空教室页
-        router.push({name:'splash'})
+        // router.push({name:'splash'})
+        router.push({name:'index'})
       }
     })  
   },
@@ -175,6 +175,28 @@ Page({
       app.globalData.url = options.url
       app.globalData.params = options.params      
     }
+
+    // 判断校区
+    // 如果没获取到值，则为浮山校区
+    wx.getStorage({
+      key: 'currentCampus',
+      success (res) {
+        if(res.data == "浮山校区"){
+          app.globalData.currentCampus = 1709
+          app.globalData.longitude = 120.423621
+          app.globalData.latitude = 36.070106
+        }else{
+          app.globalData.currentCampus = 13041
+          app.globalData.longitude = 120.479515
+          app.globalData.latitude = 36.115372
+        }
+      },
+      fail(){
+        app.globalData.currentCampus = 1709
+        app.globalData.longitude = 120.423621
+        app.globalData.latitude = 36.070106
+      }
+    })    
 
     // 首先登陆
     this.login(options)

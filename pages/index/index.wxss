@@ -118,7 +118,9 @@ van-checkbox-group{
 }
 .search{
   position:fixed;
-  bottom: 40rpx;  
+  bottom: 40rpx;
+  /* bottom: 440rpx;   */
+
   width: 150rpx;
   height: 80rpx;
   line-height: 80rpx;
@@ -136,13 +138,13 @@ van-checkbox-group{
   box-shadow: lightgrey;
   position:fixed;
   bottom: 40rpx;  
+  /* bottom: 440rpx;   */
   left:100vw;
   width: 0;
   height: 95rpx;
   border-radius: 15px;  
   color: var(--titleColor);
   background-color: var(--themeColor);
-
   border: 2px solid black!important;  
   display:flex;
   align-items: center;  /* 垂直居中 */
@@ -189,12 +191,11 @@ van-checkbox-group{
   width: 30%;
 }
 .search-item-search-btn{
-  padding-left: 2vw;
+  width:20%;  
   padding-top: 1vw;
+  text-align: center;
 }
-.search-item-search-btn van-icon{
-  padding-left: 2vw;
-}
+
 
 .position{
   position:fixed;
@@ -271,7 +272,7 @@ van-checkbox-group{
 .weatherDetail{
   position: relative;
   width: 80vw;
-  height: 50vh;
+  height: 53vh;
   background-color: var(--themeColor);
   color:var(--titleColor);
   border-radius: 25rpx;
@@ -311,14 +312,18 @@ van-checkbox-group{
   position: absolute;
   display:block;  
   margin: 0 auto;
-  top:5vh;  
+  top:5vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
-
+.weather-content .tomorrow{
+  color:#00000088;
+}
 .weather-content .info image{
   text-align: center;
   display: block;
-  height: 80px;
-  width: 80px;
+  height: 70px;
+  width: 70px;
   position: relative;
   text-align: center;
   margin: 0 auto;
@@ -368,12 +373,7 @@ van-checkbox-group{
   width: 100%;
   bottom: 8vh;
 }
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
+
 
 .sequence{
   position:fixed;

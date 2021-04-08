@@ -18,6 +18,8 @@ swiper {
   position: fixed;
   display: block;
   width: 100%;
+  padding:8vw;
+  padding-left: 12vw;
   height: 100%;
   top: 50%;
   text-align: center;
@@ -28,12 +30,11 @@ swiper {
 .swiper-text-title{
   font-size: 22px;
   text-align: center;
-
+  font-weight: bold;
 }
 .swiper-text-subtitle{
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
-
 }
 .button-img {
   /*这个是绝对布局*/
@@ -41,9 +42,9 @@ swiper {
   position: fixed;  
   left: 225rpx;
   bottom: 140rpx;
-  height: 90rpx;
-  line-height: 90rpx;
-  border-radius: 24rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 10rpx;
   width: 300rpx;
   border: 2px solid #000;
   box-shadow: 0 2px 2px rgba(10,16,20,.24),0 0 2px rgba(10,16,20,.12);
@@ -69,7 +70,7 @@ swiper {
   width: 20rpx;  
   height: 20rpx;   
   border-radius: 50%;
-  margin-right: 26rpx;
+  margin-right: 10rpx;
   background-color: white;
   border: 2px solid #000;
   box-sizing: border-box;

@@ -1,7 +1,7 @@
 import httpService from "./httpService";
 
 import {
-  GetMyJwCourseUrl,CheckBindFriendUrl,UpdateUserinfoUrl,GetFriendJwCourseUrl,CheckTokenAndBindUrl,getMyAddCourseUrl
+  GetMyJwCourseUrl,CheckBindFriendUrl,UpdateUserinfoUrl,GetFriendJwCourseUrl,CheckTokenAndBindUrl,getMyAddCourseUrl,DismissFriendUrl,
 } from "./constants";
 
 
@@ -16,6 +16,16 @@ function getFriendJwCourse(handleSuccess) {
 
     });
 }
+
+function dismissFriend(handleSuccess){
+  httpService.get(
+    DismissFriendUrl,
+    "",
+    res=>{
+      handleSuccess(res.data['data'])
+    })
+}
+
 function checkTokenAndBind(params,handleSuccess){
   httpService.post(
     CheckTokenAndBindUrl,
@@ -71,5 +81,6 @@ module.exports = {
   updateUserinfo:updateUserinfo,
   getFriendJwCourse:getFriendJwCourse,
   checkTokenAndBind:checkTokenAndBind,
-  getMyAddCourse:getMyAddCourse
+  getMyAddCourse:getMyAddCourse,
+  dismissFriend:dismissFriend
 }

@@ -14,14 +14,14 @@ Page({
     showAboutPop:false,
     showPickTheme:false,
     currentTheme:'默认', 
-    currentCampus:'浮山校区',
+    currentCampusName:'浮山校区',
     firstLauchPage:'空教室页',
     rgb: 'rgb(0,0,0)',
     message:"",
     openSplashSwitch:true,
     openAutoSearchSwitch:false,
     firstLauchPageOptions:[{name: '空教室页',},{name: '课表页',},{name: '信息流',},],
-    campusOptions:[{name: '浮山校区',},{name: '金家岭校区',subname: '暂不支持,马上就好！',},{name: '其他校区',subname: '现在还有bug',},],
+    campusOptions:[{name: '浮山校区',},{name: '金家岭校区',subname: '已支持',}],
     userInfo: {},
     hasUserInfo: false,
     canIUse: true, //wx.canIUse('button.open-type.getUserInfo'),
@@ -54,8 +54,19 @@ Page({
   
   onSwitchCampusSelect(e) {
     // 把全局数据也同步修改
+    wx.setStorageSync('currentCampus', e.detail.name)
+    if(e.detail.name == "浮山校区"){
+      app.globalData.currentCampus = 1709
+      app.globalData.longitude = 120.423621
+      app.globalData.latitude = 36.070106
+    }else{
+      app.globalData.currentCampus = 13041
+      app.globalData.longitude = 120.479515
+      app.globalData.latitude = 36.115372
+    }    
+    
     this.setData({
-      currentCampus:e.detail.name
+      currentCampusName:e.detail.name
     });
     
     wx.showToast({
@@ -163,6 +174,16 @@ Page({
         that.setData({openSplashSwitch:true})
       }
     })
+    wx.getStorage({
+      key: 'currentCampus',
+      success (res) {
+        that.setData({currentCampusName:res.data})
+      },
+      fail(res){
+        that.setData({currentCampusName:"浮山校区"})
+      }
+    })
+    
 
     wx.getStorage({
       key:"autoSearch",

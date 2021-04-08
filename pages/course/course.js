@@ -92,6 +92,8 @@ Page({
     rgb: 'rgb(0,0,0)',
     type0CourseColor:"",
     type0CourseTextColor:"",
+    type3CourseColor:"lightgrey",
+    type3CourseTextColor:"black",
     // 
     modalAlarmFailureShow:false,
     //  显示天气详情
@@ -453,14 +455,25 @@ Page({
       }
     }
 
-    if(type == 0) this.setData({
+    if(type == 0|| type==3) this.setData({
       showCourseDetailPopup_type0:true,tapCourse:course,turn_img
     })
-    if(type == 1) this.setData({showCourseDetailPopup_type1:true,tapCourse:course})    
+    if(type == 1 ) this.setData({showCourseDetailPopup_type1:true,tapCourse:course})    
     if(type == 2) this.setData({showCourseDetailPopup_type2:true,tapCourse:course})    
-    if(type == 3) this.setData({showCourseDetailPopup_type3:true,tapCourse:course})
+    // if(type == 3) this.setData({showCourseDetailPopup_type3:true,tapCourse:course})
   },
-
+  deleteItem:function(){
+    wx.showToast({
+      icon:'none',      
+      title: '删除功能正在开发中',
+    })
+  },
+  modifyItem:function(){
+    wx.showToast({
+      icon:'none',      
+      title: '修改功能正在开发中',
+    })
+  },
   onCourseDetailPopupClose:function(){
     this.animation_main = wx.createAnimation({
       duration:400,
@@ -565,7 +578,7 @@ Page({
         return false
       }
     })
-   return course 
+   return course
   },
 
   updateAddCourse:function(){
@@ -580,7 +593,7 @@ Page({
         let section = (e.seq).lastIndexOf('1')-(e.seq).indexOf('1')+1
         courselist.push({
           id:index,
-          type:0,
+          type:3,
           day:e.week-1,
           start:start,
           sections:section,
@@ -1147,18 +1160,22 @@ deleteBgImg:function(e){
      return 'rgb(0,0,0)';
     }
    },
-
-   handleConfirmDissmissFriend:function(){
-
-     wx.showToast({
-       title: '解绑成功',
-     })
-    this.setData({friend_realname:""})
-   },
+  
 
 
   ///////  多人课表
-
+  
+  // 解除绑定
+  handleDismissFriendSuccess:function(){
+    this.setData({friend_realname:"",showSharePopup:false})    
+    wx.showToast({
+      title: '解绑成功',
+    })
+  },
+  
+  handleConfirmDissmissFriend:function(){
+      userCourseService.dismissFriend(this.handleDismissFriendSuccess)   
+   },
   // 分享课表
 
   onShareAppMessage(e) {
@@ -1226,6 +1243,30 @@ deleteBgImg:function(e){
           that.setColor('1',color['color1'])
           that.setColor('2',color['color2'])      
         }
+      }
+    })
+  },
+  
+  // 导航
+  navigateTo:function(e){
+    let className = encodeURI(e.currentTarget.dataset.class_name)
+    // 调用腾讯的接口
+    let url = "https://apis.map.qq.com/ws/place/v1/search?boundary=region(%E9%9D%92%E5%B2%9B,0)&keyword="+className+"&page_size=20&page_index=1&orderby=_distance&key=5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO"
+    wx.request({
+      url: url,
+      success (res) {              
+        console.log(res)
+        const latitude = res.data.data[0].location.lat;
+        const longitude = res.data.data[0].location.lng;     
+        const address = res.data.data[0].address;     
+        const name = res.data.data[0].title;     
+        wx.openLocation({
+          latitude,
+          longitude,
+          name: name,
+          address:address,
+          scale: 18
+        })        
       }
     })
   }

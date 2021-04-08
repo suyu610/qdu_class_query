@@ -126,35 +126,27 @@
               </text>
             </view>
           </view>
-        </view>
-      </view>
       
       <!-- type1好友的课程 -->
-      <view wx:if="{{courselist.length!=0}}">
-        <view wx:for="{{courselist}}" wx:index="index"  wx:key="index">
-          <view
-            wx:if="{{showFriendCourse && item.type == 1}}"
-            class="{{showSunday?'course-item':'course-item-without'}}" 
-            bindtap="showCardView"
-            data-index="{{index}}"
-            data-type="{{item.type}}"
-            style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;"
-          >
-            <van-icon wx:if="{{item.type==1}}" name="manager" style=" position: absolute;bottom: -.2em;right: -.2em;" custom-class="badge" size="32rpx"  color="#ffffff88"/>
-            <!-- 设置课程框的背景颜色 -->
-            <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}}  bg-red" style="height:{{item.sections*55-5}}px; color:{{type1CourseTextColor}};background-color:{{type1CourseColor}}">
-              <text >{{item.course}}</text>
-              <text style="font-weight:bold" class="place">@{{item.place}}
-                <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
-              </text>
-            </view>
+        <view
+          wx:if="{{showFriendCourse && item.type == 1}}"
+          class="{{showSunday?'course-item':'course-item-without'}}" 
+          bindtap="showCardView"
+          data-index="{{index}}"
+          data-type="{{item.type}}"
+          style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;"
+        >
+          <van-icon wx:if="{{item.type==1}}" name="manager" style=" position: absolute;bottom: -.2em;right: -.2em;" custom-class="badge" size="32rpx"  color="#ffffff88"/>
+          <!-- 设置课程框的背景颜色 -->
+          <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}}  bg-red" style="height:{{item.sections*55-5}}px; color:{{type1CourseTextColor}};background-color:{{type1CourseColor}}">
+            <text >{{item.course}}</text>
+            <text style="font-weight:bold" class="place">@{{item.place}}
+              <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
+            </text>
           </view>
         </view>
-      </view>
 
       <!-- type2共同的课程 -->
-      <view wx:if="{{courselist.length!=0}}">
-        <view wx:for="{{courselist}}" wx:index="index"  wx:key="index">
           <view
             wx:if="{{showFriendCourse &&  item.type == 2}}"
             class="{{showSunday?'course-item':'course-item-without'}}" 
@@ -163,7 +155,7 @@
             data-type="{{item.type}}"
             style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;"
           >
-            <van-icon wx:if="{{item.type==2}}" name="friends" style=" position: absolute;bottom: -.2em;right: -.2em;" custom-class="badge" size="32rpx"  color="#ffffff88"/>
+            <van-icon name="friends" style=" position: absolute;bottom: -.2em;right: -.2em;" custom-class="badge" size="32rpx"  color="#ffffff88"/>
             <!-- 设置课程框的背景颜色 -->
             <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} bg-purple" style="height:{{item.sections*55-5}}px; color:{{type2CourseTextColor}};background-color:{{type2CourseColor}}">
               <text >{{item.myCourse}}</text>
@@ -172,9 +164,28 @@
               </text>
             </view>
           </view>
+       
+       <!--type3教务添加的课-->       
+          <view
+            wx:if="{{item.type == 3}}"
+            class="{{showSunday?'course-item':'course-item-without'}}" 
+            bindtap="showCardView" 
+            data-index="{{index}}"
+            data-type="{{item.type}}"
+            style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;"
+          >
+          <van-icon  name="search" style=" position: absolute;bottom: 0em;right: -.1em;" custom-class="badge" size="28rpx"  color="#00000088"/>
+            <!-- 设置课程框的背景颜色 -->
+            <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} next-course bg-black " style="height:{{item.sections*55-5}}px; color:{{type3CourseTextColor}};background-color:{{type3CourseColor}}">
+              <text >{{item.course}}</text>
+              <text style="font-weight:bold" class="place">@{{item.place}}
+                <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
+              </text>
+            </view>
+          </view>
         </view>
       </view>
-
+        
       <view wx:else style="width:100%;height:100%;text-align:center">
         <view style="margin-top:30vh;width:40vw;margin-left:25vw">        
           <button  bindtap="tapImportCourseBtn" class="cu-btn" style="width:100%;background-color:#fde06b;border:1px solid black">添加课表</button>
@@ -459,19 +470,19 @@
         <van-row gutter="20">
           <!-- 删除 -->
           <van-col span="8" >
-            <button class="cu-btn icon line-white shadow round lg" catchtap="a">
+            <button class="cu-btn icon line-white shadow round lg" catchtap="deleteItem">
               <text class="cuIcon-delete"></text>
             </button>
           </van-col>
           <!-- 修改 -->
-          <van-col  span="8" >          
-            <button class="cu-btn icon line-white round lg bordersize" catchtap="a">
+          <van-col  span="8" >
+            <button class="cu-btn icon line-white round lg bordersize" catchtap="modifyItem">
               <text class="cuIcon-edit"></text>
-            </button> 
+            </button>
           </van-col>
-          <!-- 查看平面图 -->
+          <!-- 导航 -->
           <van-col span="8" >
-            <button class="cu-btn icon line-white round lg bordersize" catchtap="a">
+            <button class="cu-btn icon line-white round lg bordersize" data-class_name="{{tapCourse.place}}" catchtap="navigateTo">
               <text class="cuIcon-location"></text>
             </button>
           </van-col> 
@@ -549,23 +560,25 @@
         <van-row gutter="20">
           <!-- 删除 -->
           <van-col span="8" >
-            <button class="cu-btn icon line-white shadow round lg" catchtap="a">
+            <button class="cu-btn icon line-white shadow round lg" catchtap="deleteItem">
               <text class="cuIcon-delete"></text>
             </button>
           </van-col>
           <!-- 修改 -->
-          <van-col  span="8" >          
-            <button class="cu-btn icon line-white round lg bordersize" catchtap="a">
+          <van-col  span="8" >
+            <button class="cu-btn icon line-white round lg bordersize" catchtap="modifyItem">
               <text class="cuIcon-edit"></text>
-            </button> 
-          </van-col>
-          <!-- 查看平面图 -->
-          <van-col span="8" >
-            <button class="cu-btn icon line-white round lg bordersize" catchtap="a">
-              <text class="cuIcon-location"></text>
             </button>
           </van-col>
- 
+          <!-- 导航 -->
+          <van-col span="8" >
+            <button 
+              class="cu-btn icon line-white round lg bordersize" 
+              data-class_name="{{tapCourse.place!=null?tapCourse.place:tapCourse.myPlace}}" 
+              catchtap="navigateTo">
+              <text class="cuIcon-location"></text>
+            </button>
+          </van-col> 
         </van-row>
       </view>
   </view>

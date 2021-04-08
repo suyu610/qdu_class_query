@@ -1,14 +1,14 @@
-.wrapper{
+.list-wrapper{
   height: 100vh;
   overflow: hidden;
-}
-page {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  position: relative;
   background-color: white;
 }
+page{
+  background-color: white;
+}
+
+
 .building-pics{
   position: fixed;
   top: 0;
@@ -23,7 +23,7 @@ page {
   height: 80rpx;
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: relative;
   top: 0;
   width: 100%;
   padding-top: 4px;
@@ -78,19 +78,23 @@ page {
 
 }
 
-.table {
-  position: fixed;
+.status-info {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  top: 155rpx;
+  top: 93rpx;
+  min-height: 50rpx;
   z-index: 998;
   width: 100%;
   background-color: #fff;
 }
-.wrapper > swiper{
-  padding-top: 220rpx;
-  height:1200rpx;
+
+.list-wrapper > swiper{
+  position: absolute;
   z-index:999;
+  top:150rpx;
+  min-height: 90vh;
+  width: 100%;
 }
 
 .buildingImgSwiper{
@@ -102,12 +106,7 @@ page {
 swiper-item{
   overflow:scroll;
 }
-.test{
-  background-color: #f00;
-  margin-top:180rpx;  
-  min-height: 90vh;
-  width: 100%;
-}
+
 .build-info{
   height: 40rpx;
   line-height: 40rpx;

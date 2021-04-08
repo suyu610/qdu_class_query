@@ -4,7 +4,7 @@ import {
 const app = getApp()
 function myrequest(url, method,param, successCallback, failCallback) {
     if(app.globalData.debug) console.log('准备发起请求 :>> ', url);
-    var _this = this;
+    var that = this;
     let token = app.globalData.token
 
     if(token == "") token = wx.getStorageSync('token')
@@ -72,7 +72,7 @@ function myrequest(url, method,param, successCallback, failCallback) {
                         if(res.data['status']['code'] == 200){                
                           wx.setStorageSync('token', res.data['data'])
                           app.globalData.token = res.data['data']
-                          this.myrequest()
+                          that.myrequest()
                         }else{
                           console.log(res.data['status']['msg'])
                         }

@@ -5,3 +5,38 @@
   display: inline-block;
 }
 
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #000000;
+}
+.wrapper .guide{
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  background-color: #000000;
+}
+
+ .wrapper .guide image{
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: transparent;
+}
+ .wrapper .guide-okbtn{
+  position: fixed;
+  bottom: 7vh;
+  height:15vw;
+  line-height: 15vw;
+  font-weight:bold;
+  width: 15vw;
+  border-radius: 50%;
+  text-align: center;
+  left:42.5vw;
+  color: #fff;
+  background-color: transparent;
+  border: 3px dashed #fff;
+}

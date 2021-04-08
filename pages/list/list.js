@@ -23,17 +23,53 @@ const timeIntervals = {
   11: [{h: 18, m: 0}, {h: 19, m: 20}],
   12: [{h: 19, m: 20}, {h: 23, m: 59}],
 };
-
+const buildingImgSrcHead = "https://cdns.qdu.life/building_flat_img";
+let buildingImgSrc = {
+  "博远楼":[
+    buildingImgSrcHead + "/博远楼/0.png",
+    buildingImgSrcHead + "/博远楼/1.png",
+    buildingImgSrcHead + "/博远楼/2.png",
+    buildingImgSrcHead + "/博远楼/3.png",
+    buildingImgSrcHead + "/博远楼/4.png",
+  ],
+  "博学楼":[
+    buildingImgSrcHead + "/博学楼/0.png",
+    buildingImgSrcHead + "/博学楼/1.png",
+    buildingImgSrcHead + "/博学楼/2.png",
+    buildingImgSrcHead + "/博学楼/3.png",
+    buildingImgSrcHead + "/博学楼/4.png",
+  ],
+  "博文楼":[
+    buildingImgSrcHead + "/博文楼/0.png",
+    buildingImgSrcHead + "/博文楼/1.png",
+    buildingImgSrcHead + "/博文楼/2.png",
+    buildingImgSrcHead + "/博文楼/3.png",
+    buildingImgSrcHead + "/博文楼/4.png",
+  ],
+  "博知楼":[
+    buildingImgSrcHead + "/博知楼/0.png",
+    buildingImgSrcHead + "/博知楼/1.png",
+    buildingImgSrcHead + "/博知楼/2.png",
+    buildingImgSrcHead + "/博知楼/3.png",
+    buildingImgSrcHead + "/博知楼/4.png",
+  ],
+  "德雅楼":[
+    buildingImgSrcHead + "/德雅楼/0.png",
+    buildingImgSrcHead + "/德雅楼/1.png",
+    buildingImgSrcHead + "/德雅楼/2.png",
+    buildingImgSrcHead + "/德雅楼/3.png",
+    buildingImgSrcHead + "/德雅楼/4.png",
+  ],
+}
 var app = getApp();
 Page({
   data: {
-    buildingImgSrc:"https://cdns.qdu.life/building_flat_img/boyuanlou.png",
+    buildingImgSrc:["https://cdns.qdu.life/img/logo.png"],
     themeData,
     color:"#fee161",
     feedBackValue:"",
     loading:true,
     showFeedBack:false,
-    distance:[],
     index:0,
     buildings:[], 
     choosedBuilding:1,
@@ -52,13 +88,14 @@ Page({
       this.setData({
         color:"white"
       })
-    }
+    }    
   },
   // 切换平面图
   changeBuildingImgSwiper:function(event){
     console.log(event)
-    let buildingImgSrc = "https://cdns.qdu.life/building_flat_img/" + this.data.buildings[this.data.choosedBuilding] + "/" + event.detail.current + ".png"
-    this.setData({buildingImgSrc,buildingFloorIndex:event.detail.current})
+    let buildingFloorIndex = event.detail.current;
+    // 楼层高度++
+    this.setData({buildingFloorIndex})
   },
 
   // 切换tab
@@ -142,20 +179,7 @@ Page({
   }
   },
   onShowHasDate(){
-    let distance = [];    
-    var _this = this;
-    console.log(app.globalData.currentStatus)
-    app.globalData.currentStatus.forEach(e=>{   
-      let toLongitude = buildUtil.buildingsInfo[e.bname]["longitude"]
-      let toLatitude = buildUtil.buildingsInfo[e.bname]["latitude"]          
-      // lat1,lng1,lat2,lng2
-      _this.handleDistanceDone(locationUtil.GetDistance(
-        app.globalData.latitude,
-        app.globalData.longitude,
-        toLatitude,
-        toLongitude,
-      ));
-    })
+
     let now = dayjs()
     let today = now.startOf('day')
     let nowInterval = 0
@@ -194,14 +218,7 @@ Page({
     })
 
   },
-  handleDistanceDone(newDistance){
-    let distance = [];
-    distance = this.data.distance;
-    distance.push(newDistance);
-    this.setData({
-      distance
-    })
-  },
+
   tapBuilding: function(event) {
     // console.log(event)
     const building = this.data.buildings.indexOf(event.currentTarget.dataset.building)    
@@ -231,21 +248,9 @@ Page({
    * 下拉刷新
    */
   onRefresh: function () {
-    const self = this;    
-    let buildingImgSrc = "https://cdns.qdu.life/building_flat_img/" + this.data.buildings[this.data.choosedBuilding] + "/0.png"
-
-    this.setData({buildingImgSrc,showBuildingPics:true,loading:false})
-    
-    // setTimeout(() => {
-    //   wx.showToast({
-    //     icon:"none",
-    //     title: this.data.isShowAll ? '显示符合条件的教室':'显示全部教室',
-    //   })
-    //   self.setData({
-    //     loading:false,
-    //     isShowAll:!this.data.isShowAll
-    //   })
-    // }, 500)
+    console.log("下拉")
+    let tmpbuildingImgSrc = buildingImgSrc[this.data.buildings[this.data.choosedBuilding]]
+    this.setData({buildingImgSrc:tmpbuildingImgSrc,showBuildingPics:true,loading:false})
   },
 
   // 长按开启反馈

@@ -1,21 +1,14 @@
 <!--pages/report/report.wxml-->
 <scroll-view class="container stripes">
-  <van-notice-bar
+  <!-- <van-notice-bar
     left-icon="volume-o"
     color="#000"
     background="transparent"
     mode="closeable"
     left-icon="https://cdns.qdu.life/icons/icon_report.png"
     text="在使用过程中遇到的问题、发现的bug、想到的好点子，都可以在这提出来，让我们一起来使青大生活更便捷吧~"
-  />
-  <van-notice-bar
-    left-icon="diamond-o"
-    color="#000"
-    scrollable="{{ false }}"
-    bindclick="copyQQqun"
-    background="transparent"    
-    text="青空用户群: 744080689~ (点击复制)"
-  />
+  /> -->
+
 
   <!-- 筛选条件 -->
   <van-dropdown-menu class="dropdown-menu">
@@ -65,7 +58,14 @@
         </van-collapse>    
       </block>
   </view>
-
+  <van-notice-bar
+    left-icon="diamond-o"
+    color="#000"
+    scrollable="{{ false }}"
+    bindclick="copyQQqun"
+    background="transparent"    
+    text="青空用户群: 744080689~ (点击复制)"
+  />
 </scroll-view>
 
 <!-- 右下角添加按钮 -->
@@ -100,7 +100,7 @@
         value="{{ report_text }}"
         bind:change="changeText"
         type="textarea"
-        placeholder="请输入留言"        
+        placeholder="此功能暂时不可用"        
         autosize
         maxlength="{{520}}"
         show-word-limit

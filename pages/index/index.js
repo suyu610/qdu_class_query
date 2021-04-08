@@ -11,17 +11,27 @@ var roomService = require('../../net/roomService.js')
 
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 import {initNavigationColor,themeData} from '../../config/theme'
+const router = require('../../router/index.js');
 
+const columns_fushan=["全部教学楼","博远楼","博学楼","博文楼","博知楼","东12教","浩园一教"];
+const columns_jjl=["全部教学楼","西院1教","西院2实","西院2教","西院3实","东院1教","东院2教","东院3教","东院4教","东院图书馆"];
+const buildingColumnId_fushan = [-1,1954,1783,1847,1904,2278,6182];
+const buildingColumnId_jjl = [-1,2706,2791,2748,2821,2556,2585,2610,2641,5743];
 
 Page({
   noop(){
   },
   
   data: {
-    columns:["全部教学楼","博远楼","博学楼","静思楼","博雅楼","博文楼","东12教","慎思楼","慎行楼","行思楼","学思楼"],
+    columns:columns_fushan,
+    buildingColumnId:buildingColumnId_fushan,
+
+    // 和上面是对应的,浮山
+
     buildingListPopup:false,
-    searchBuildingName:"全部教学楼",
+    searchBuildingIndex:0,
     themeData: "",
+    guide_index:"",
     dialog:{
       title:"2020/12/25公告",
       content:"1.吧啦吧啦吧啦吧啦吧啦\n1.吧啦吧啦吧啦吧啦吧啦\n1.吧啦吧啦吧啦吧啦吧啦\n1.吧啦吧啦吧啦吧啦吧啦\n1.吧啦吧啦吧啦吧啦吧啦\n2.无吧啦吧啦吧啦\n3.无吧啦吧啦吧啦\n2.无\n2.无\n2.无",
@@ -47,67 +57,103 @@ Page({
         width:0
       }
     ],
+    showDetailSeqModal:false,
     modalSearchShow:false,  //是否隐藏搜索对话框
     modalSeqShow:false,     //是否隐藏课序选择对话框
     modalWeatherShow:false, //是否隐藏天气详情
     showDetail:false,
     animationFadeOut: '',
     animationFadeIn:'',
-    distance: "无限",
+    fadeAnimation:'',
     theme:1,
+    searchBuildingName:'全部教学楼',
     scale:8,    
+    
+    // 地图的中心
     longitude:app.globalData.longitude,
     latitude:app.globalData.latitude,
+
     key: app.globalData.key,
     address: '',
     city: '',
     date:'今天',
-    show: false,
+    show: false,    
     seqResult: [],
+    detailSeqResultParams:"_____________",
+    detailSeqResult:[],
     timeResult:[],
-    customCalloutMarkerIds: [2503, 2260, 1847, 1783, 2237, 2204, 1954, 1904, 1756, 2050, 2349, 2419, 2278, 5893, 6182, 2139, 2099, 2186, 1769, 1748, 2308, 2036, 4842, 2306, 1738, 2310, 1710],
     activeIcon:"images/icon/flag_1.png",    
     buildListJson:[],
-    seqContent:"未选择课次",
+    seqDetailContent:"任意课次",
+    seqContent:"任意课次",
     minDate: new Date().getTime(),
     maxDate: new Date().getTime()+1000 * 60 * 60 * 24 * 7,
     classSeq:['第1 2','第3 4','第5 6','第7 8','第9 10'],
-    floorOption: [
-      { text: '楼层', value: -1 },
-      { text: '1楼', value: 1 },
-      { text: '2楼', value: 2 },
-      { text: '3楼', value: 3 },
-      { text: '4楼', value: 4 },
-      { text: '5楼', value: 5 },
-      { text: '6楼', value: 6 },
-    ],
-    durationOption: [
-      { text: '无课时长', value: '0' },
-      { text: '1节', value: '1' },
-      { text: '2节', value: '2' },
-      { text: '3节', value: '3' },
-      { text: '4节', value: '4' },
-      { text: '5节', value: '5' },
-      { text: '6节', value: '6' },
-      { text: '7节', value: '7' },
-      { text: '8节', value: '8' },
-      { text: '9节', value: '9' },
-      { text: '10节', value: '10' },
-    ],
-    floorValue: -1,
+    
     durationValue: '0',
   },
-  floorValueChange({detail}){
-    this.setData({
-      floorValue:detail
-    })
-  },
-  durationValueChange({detail}){
-    this.setData({
-      durationValue:detail
-    })
+
+  showDetailSeq:function(){
+    this.setData({showDetailSeqModal:true})
   },
 
+  hideDetailSeq(){
+    // 这个地方弄一下课次
+
+    let seq;
+    if(this.data.detailSeqResult.length == 0){
+       seq="_____________"
+       this.setData({
+        seqDetailContent:"任意课次",
+      });
+    }else{
+      //将["2", "1", "4"]转化为int值
+      let temp = [];
+      this.data.detailSeqResult.forEach(element => {
+        temp.push(Number(element)*2+1)
+        temp.push(Number(element)*2+2)
+      });
+ 
+      // 改进sort,让10排在9后面
+      temp = temp.sort(function (a,b) {
+        if (a < b ) {
+            return -1;
+        }
+        if (a > b ) {
+            return 1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+      // 将______转为___00__
+      seq = ['_','_','_','_','_', '_','_','_','_','_',  '_','_','_',];
+      // 因为没有t1,t2，所以要进行下面的变换
+      temp.forEach(element =>{
+        if(element<5){
+          element -=1
+        }
+        // 1234 可以直接替换
+        if(element>=5 && element<=8){
+        }
+        if(element >=9){
+          element +=1
+        }
+        seq[element] = '0';                  
+      });
+
+      seq = seq.join("");
+      temp = temp.join(" ");
+      
+      this.setData({
+        detailSeqResultParams:seq,
+        seqDetailContent:temp,
+      });
+      // 发送请求
+    }
+    this.setData({showDetailSeqModal:false})
+  },
+  
+  // 当地图移动时，隐藏搜索栏
   regionchange(e) {
     // 将搜索框隐藏
     // e.type = begin/end
@@ -144,6 +190,24 @@ Page({
     });
   },
 
+  // test
+  fadeAnimationTest: function () {
+    this.fadeAnimation.opacity(0).step()    
+    this.setData({
+      fadeAnimation: this.fadeAnimation.export()
+    })
+  },
+
+
+  onClickHideGuide(){
+    this.fadeAnimationTest()
+    let that = this
+    setTimeout(() => {
+      that.setData({guide_index:false})  
+    }, 500);
+    
+    wx.setStorage({key:"guide_index",data:false})
+  },
   // 距离选择
   onDrag(event) {
     if(event.detail.value>=2000){
@@ -180,58 +244,76 @@ Page({
     });
   },
 
-  searchByDetail:function(e){
-    // console.log(e)
-    var _this = this;
-    this.modalSearchClose();
-    wx.showLoading({
-      title: '拼命搜索中..',
+  detailSeqChange:function(e){    
+    this.setData({
+      detailSeqResult: e.detail,
     });
-    
-    // 发送的是所有教学楼的id
-    let url = 'https://room.qdu.life/api/class/today/1710-1738-1748-1756-1769-1783-1847-1904-1954-2036-2050-2099-2139-2186-2204-2237-2260-2278-2306-2308-2310-2349-2419-2503-4842-5893-6182/'+ _this.data.floorValue+'/'+_this.data.durationValue
-
-    wx.request({
-      url: url,
-      method:'POST',
-      success (res) {        
-        console.log(res)
-        app.globalData.currentStatus = res.data.data;
-        _this.handleResSuccess(res);
-        wx.hideLoading();
-      }    
-    })
   },
-  // 搜索教学楼
+
+  // 详细搜索框中的，教学楼搜索
   showBuildingList:function(){
     this.setData({
       buildingListPopup:true
     })
   },
-  onBuildingListChange:function(e){
-    console.log(e)
+  onBuildingListChange:function(e){    
     let searchBuildingName = e.detail.value;
-    this.setData({searchBuildingName})
-    
+    let searchBuildingIndex = e.detail.index;
+    this.setData({searchBuildingName,searchBuildingIndex})
   },
   onBuildingListPopupClose:function(){
     this.setData({
       buildingListPopup:false
     })
   },
+
+  // 详细搜索
+  searchDetail:function(e){
+    wx.showLoading({
+      title: '搜索中',
+    })
+    // 搜索的教学楼id，如果为-1，则搜索所有的教学楼
+    let searchBuildingId = -1;
+    
+    //  日期
+    let date = this.data.date;    
+    if(this.data.searchBuildingIndex != 0){
+      searchBuildingId = this.data.buildingColumnId[this.data.searchBuildingIndex]
+    }    
+    console.log("教学楼:"+searchBuildingId)
+    console.log("时间:"+date)
+    console.log("课次:"+this.data.detailSeqResultParams)
+    let params={
+      "buildingIdList":searchBuildingId,
+      "onlyFree":true,
+      "expectStatus":this.data.detailSeqResultParams,
+      "campuseId":app.globalData.currentCampus,
+    }
+
+
+    //发送请求
+    if(date == "今天"){
+      roomService.getTodayDetailRoomStatus(params,this.handleResSuccess);
+    }else{
+      roomService.getTomorrowDetailRoomStatus(params,this.handleResSuccess);
+    }
+  },
+
+  
   // 按课次搜索
-  searchBySeq:function(e){   
+  searchBySeq:function(e){
+
     var _this = this;
     let seq;
-    if(this.data.seqResult.length == 0){    
-       seq="_____________"      
+    if(this.data.seqResult.length == 0){
+       seq="_____________"
        this.setData({
-        seqContent:"未选择课次",
+        seqContent:"任意课次",
       });
     }else{
       //将["2", "1", "4"]转化为int值
       let temp = [];
-      this.data.seqResult.forEach(element => {      
+      this.data.seqResult.forEach(element => {
         temp.push(Number(element)*2+1)
         temp.push(Number(element)*2+2)
       });
@@ -272,24 +354,26 @@ Page({
       // 发送请求
     }
 
+    let params={
+      "buildingIdList":-1,
+      "onlyFree":true,
+      "expectStatus":seq,
+      "campuseId":app.globalData.currentCampus,
+    }
+  
+    roomService.getTodayDetailRoomStatus(params,this.handleResSuccess);
     this.modalSeqClose();
     wx.showLoading({
       title: '拼命搜索中..',
     });
-
-    roomService.getTodayFreeRoom(seq,this.handleResSuccess);    
-
-
-
-
-
   },
-
+  
+  // 搜索结果
   handleResSuccess(res){
-    wx.hideToast({
-      success: (res) => {},
-    })
+    console.log(res)
 
+    wx.hideToast()
+    wx.hideLoading()
     let markers=[];
     var tempData;
     if(res.data == null){
@@ -300,8 +384,12 @@ Page({
       tempData =  res.data.data
       app.globalData.currentStatus = res.data.data
     }
-    
-    setTimeout(() => {wx.hideLoading();  }, 800);       
+
+    // 如果返回的数据，只有一个，那么就直接进入list页面
+    if(res.length == 1){
+      router.push({name:"list"})
+    }
+
     tempData.forEach(element => {
       let marker = buildUtil.getMarkersByBuildId(element["bname"],element["matchedCount"]);
       markers.push(marker)
@@ -349,22 +437,10 @@ Page({
   },
 
   // 点击建筑物时
-  bindmarkertap:function(e){    
-    let markerId = e.markerId;
-    console.log(e)
-    // for (let item of markers){
-    //   if (item.id === markerId) {
-    //     lat = item.latitude;
-    //     lon = item.longitude;
-    //     name = item.callout.content;
-    //     console.log(name)
-    //   }
-    // }
+  bindmarkertap:function(e){        
     app.globalData.tapBuildName =  buildUtil.getNameById(e.detail.markerId) ;
     // 带着id跳转到列表页
-    wx.navigateTo({
-      url: '/pages/list/list',
-    })
+    router.push({name:"list"})
   },
 
   showSeq:function(){  
@@ -424,16 +500,32 @@ Page({
     weatherService.getWeatherRequest();    
   },
   onLoad: function () {
+    let that=this; 
+    
+    // 引导页
+    wx.getStorage({
+      key: 'guide_index',
+      // 有值，则不用打开引导层
+      success() {
+        that.setData({
+          guide_index:false
+        })
+      },
+        fail(){
+          that.setData({
+            guide_index:true
+          })
+        }
+    })
+    
     wx.setNavigationBarTitle({
       title: '青大空教室',
     })
-    let that=this; 
     this.mapCtx = wx.createMapContext('map')
 
     wx.getStorage({
       key: 'autoSearch',
-      success (res) {
-        console.log(res.data)
+      success (res) {        
         //  如果存在，又为True，就自动搜索当前的教室
         if(res.data){
           wx.showLoading({
@@ -442,10 +534,16 @@ Page({
           let seq = courseSeq.getNowCourseSeq();
           let seqs = "_____________"
           let request_seq = that.changeStr(seqs,seq);
-          
-          roomService.getTodayFreeRoom(request_seq,that.handleResSuccess);    
-        }        
-      }      
+          let params={
+            "buildingIdList":-1,
+            "onlyFree":true,
+            "expectStatus":request_seq,
+            "campuseId":app.globalData.currentCampus,
+          }
+        
+          roomService.getTodayDetailRoomStatus(params,that.handleResSuccess);
+      }
+      }
     })
     
     qqmapsdk = new QQMapWX({
@@ -500,6 +598,7 @@ Page({
       url: '../about/about',
     })
   },
+
   // 获得坐标
  getUserLocation() {
     let _this = this;
@@ -565,7 +664,12 @@ Page({
     })
   },
   
-  onReady:function(){     
+  onReady:function(){
+    this.fadeAnimation = wx.createAnimation({
+       duration: 600,
+       timingFunction: 'ease',    
+    });
+
     this.animationFadeIn = wx.createAnimation({
       duration: 300,  
       timingFunction: 'linear',
@@ -626,6 +730,24 @@ Page({
   },
 
   onShow:function(){
+    // 判断校区
+    console.log(app.globalData.currentCampus)
+    if(app.globalData.currentCampus == 1709){
+      this.setData({
+        columns:columns_fushan,
+        buildingColumnId:buildingColumnId_fushan,
+      })
+    }else{
+      this.setData({
+        columns:columns_jjl,
+        buildingColumnId:buildingColumnId_jjl,
+      })
+    }
+    // 切换地图
+    this.setData({
+      longitude:app.globalData.longitude,
+      latitude:app.globalData.latitude
+    })
     // 在这个地方设置导航颜色
     initNavigationColor()
     this.setData({

@@ -6,6 +6,7 @@ Page({
       "https://cdns.qdu.life/class/onboarding_1.png",
       "https://cdns.qdu.life/class/onboarding_2.png",
       "https://cdns.qdu.life/class/onboarding_last.png",
+      "https://cdns.qdu.life/class/onboarding_last.png",
     ],
     currentSwiper: 0,
   },
@@ -33,8 +34,6 @@ Page({
     } catch (e) {
       console.log(e)
      }    
-      router.push({name:'splash'})
-
-
+      router.push({name:'index'})
   },
 })

@@ -256,6 +256,12 @@
   align-items: center;
 }
 
+.next-course{
+}
+
+
+
+
 .course-item-without{
   width: 160rpx;
   position: absolute;
@@ -502,7 +508,6 @@
   background-color: var(--themeColor);
   color:var(--titleColor);
   border-radius: 25rpx;
-  border: 2px solid black !important;
 }
 .wrapper .weatherDetail image{
   width: 100%;

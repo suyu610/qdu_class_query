@@ -1,4 +1,5 @@
 <wxs src="../../utils/tofix.wxs" module="util"></wxs>
+<!-- <add-tips name="青空"/> -->
 
 <!--index.wxml-->
 <view class="container" style="{{ themeData.myStyle }}">
@@ -7,8 +8,7 @@
     style="z-index:-1"
     id="map"
     longitude="{{longitude}}"
-    latitude="{{latitude}}"
-    
+    latitude="{{latitude}}"    
     include-points="{{markers}}"
     skew="40"
     enable-rotate
@@ -64,6 +64,28 @@
   </van-row>
 </van-popup>
 
+
+<!-- 详细搜索时候，课次选择的弹出框 -->
+<van-popup 
+  id="seqModal" 
+  show="{{ showDetailSeqModal }}"     
+  bind:close="hideDetailSeq" 
+  position="bottom"       
+  round  
+  border="false"
+  custom-style="height: 24vh;width:100%;text-align:center;overflow:hidden;padding-top:4vh">
+  <!-- 课次 -->
+  <van-row>
+    <van-col span="20" offset="2">  
+      <van-checkbox-group value="{{ detailSeqResult }}" bind:change="detailSeqChange">
+        <van-checkbox class="checkbox" shape="square" checked-color="#fed457" name="{{index}}" wx:for="{{ 5 }}" wx:key="index" wx:for-item="i">{{classSeq[index]}}节
+        </van-checkbox>
+      </van-checkbox-group>
+    </van-col>
+  </van-row>    
+</van-popup>
+
+
 <!-- 天气详细 -->
 <van-overlay show="{{ modalWeatherShow }}" bind:click="modalWeatherClose">
   <view class="wrapper">
@@ -74,58 +96,29 @@
       </view>
       <view class="weather-content">
         <view class="info">
-        <image src="https://cdns.qdu.life/icons/weatherIcon/{{weather.iconcode}}.png"></image>
-      </view>
+          <image src="https://cdns.qdu.life/icons/weatherIcon/{{weather.iconcode}}.png"></image>
+        </view>
         <text class="weather-info">{{weather.shorttext}}</text>
         <view class="temperature">{{weather.dayt}} ℃ <view class="temp-intro">昼</view></view>
         <view class="temperature">{{weather.nightt}} ℃ <view class="temp-intro">夜</view></view>
         <view class="rain">降雨概率 {{weather.rain}}%</view>   
         <view style="padding-top:1vh">           
           <van-icon name="star" custom-style="bottom:-.1em;padding-right:4px"/> 适合学习 <van-icon name="star" custom-style="bottom:-.1em;padding-left:4px"/> 
-        </view>       
+        </view>
+        <van-divider 
+          dashed
+          borderColor="#00000055" 
+          textColor="#00000055" 
+          contentPosition="center">
+          明日
+        </van-divider>
+        <view class="tomorrow">
+          <view class="info">{{weather.shorttext}}  {{weather.nightt}} - {{weather.dayt}}℃   </view>          
+        </view>
       </view>      
-
-      
     </view>
   </view>
 </van-overlay>
-
-
-<!-- 详细搜索 -->
-<van-popup 
-  id="searchModal" 
-  show="{{ modalSearchShow }}"     
-  bind:close="modalSearchClose" 
-  position="bottom"       
-  round  
-  border="false"  
-  custom-style="height: 50vh;width:100%;">
-  <van-dropdown-menu class="dropdown">
-    <van-dropdown-item value="{{ floorValue }}" options="{{ floorOption }}"
-    bind:change="floorValueChange" />
-    <van-dropdown-item value="{{ durationValue }}" options="{{ durationOption }}" 
-    bind:change="durationValueChange"/>
-  </van-dropdown-menu>
-  <view id="slider">
-    <view class="poptitle">距离(beta)</view>
-    <van-slider class="slider" value="2000" min="100" max="2000" bind:drag-end="onDragEnd" 
-    bar-height="4px" use-button-slot bind:drag="onDrag" active-color="#fed457" customStyle="margin:100px">
-      <view class="custom-button" slot="button">
-        {{ distance }}
-      </view>
-    </van-slider>
-  </view>
-  <van-row>
-    <van-col span="5" offset="4">  
-      <van-button custom-style="margin-top:4vw;text-align:center;height:60rpx;color:black;border: 2px solid #000 ;border-radius: 12rpx;" bindtap="modalSearchClose" size="large">关闭</van-button>  
-    </van-col>
-    <van-col span="5"  offset="6">
-      <van-button custom-style="margin-top:4vw;color:black;height:60rpx;border: 2px solid #000;background-color:#fed457 ;border-radius: 12rpx;text-align:center" bindtap="searchByDetail" size="large">搜索</van-button>
-    </van-col>
-  </van-row>
-
-</van-popup>
-
 
 <!-- <view class="changeTheme" bindtap="changeTheme" >
   <image class="iconImage" src='/images/logo3@0,5x.png'></image>
@@ -145,18 +138,18 @@
      <view class="seq-title"><text>课次</text></view>
     <view class="seq-content">{{seqContent}}</view> 
   </view>  
-
+  
+  <!-- 详细搜索框 -->
   <view class="search-container" animation="{{animationFadeIn}}">    
     <view class="search-container-background"></view>
     <view class="search-container-item search-item-building" bindtap="showBuildingList">{{searchBuildingName}}</view>
     <view class="search-container-divider"></view>
     <view class="search-container-item search-item-floor"  bindtap="changeDate">{{date}}</view>
     <view class="search-container-divider"></view>
-    <view class="search-container-item search-item-seq" bindtap="showSeq">{{seqContent}}</view>
+    <view class="search-container-item search-item-seq" bindtap="showDetailSeq">{{seqDetailContent}}</view>
     <view class="search-container-divider"></view>
-    <view class="search-container-item search-item-search-btn">
-      <van-icon name="search" bindtap="searchBySeq" size="30rpx"/>
-      <van-icon name="arrow"  bindtap="hideDetailSearch" size="30rpx"/>
+    <view class="search-container-item search-item-search-btn" bindtap="searchDetail">
+      <van-icon name="search" size="30rpx"/>      
     </view>
   </view>
 
@@ -179,8 +172,7 @@
       show-toolbar    
       bind:cancel="onBuildingListPopupClose"
       bind:confirm="onBuildingListPopupClose"
-
-      title="(服务端还未开发)\n选择教学楼"
+      title="选择教学楼"
   /></van-popup>
 
   <van-dialog
@@ -188,5 +180,16 @@
     bind:confirm="onDialogConfirm"
   >
   </van-dialog>
-
+  <view class="overlay" 
+    animation="{{fadeAnimation}}"
+    wx:if="{{ guide_index }}" bindtap="onClickHideGuide" custom-style="height:100vh;width:100vw">
+    <view class="wrapper">
+      <view class="guide">
+        <image src="https://cdns.qdu.life/img/guide/guide-index@v1.jpg" mode="widthFix"></image>
+      </view>
+      <view class="guide-okbtn"><van-icon name="cross" /></view>
+    </view>
+  </view>
 </view>
+
+

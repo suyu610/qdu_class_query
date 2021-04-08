@@ -79,7 +79,8 @@
   },
   "usingComponents": {
     "my-block": "./components/my-block/index",
-    "color-picker-theme": "./components/color-picker-theme/color-picker-theme"
+    "color-picker-theme": "./components/color-picker-theme/color-picker-theme",
+    "add-tips":"./components/add-tips/index"
   },
   "useExtendedLib": {
     "weui": true

@@ -12,7 +12,7 @@ function getMarkersByBuildId(id,count){
     callout: {
       id:id,
       borderRadius:5,
-      padding:7,      
+      padding:7,
       bgColor:'#000000' ,
       anchorX:10, 
       anchorY:20,
@@ -26,37 +26,44 @@ function getMarkersByBuildId(id,count){
 function getNameById(id){ 
   return buildingNameAndId[id]
 }
-// 模拟数据
-function getMarkersRandom(){
-  let list = [1710,2310,1738,2306,4842,2036,2308,1748,1769,2186,2099,2139,6182,5893,2278,2419,2349,2050,1756,1904,1954,2204,2237,1783,1847,2260,2503];
-  
-  let count = Math.floor(Math.random()*list.length) + 1
-  let id = list[count]
-  
-  return {
-    title: buildingsInfo[id]["name"], 
-    id: buildingsInfo[id]["id"],
-    latitude:  buildingsInfo[id]["latitude"], 
-    longitude: buildingsInfo[id]["longitude"], 
-    width: 50,
-    height:50, 
-    iconPath:"../../images/icon/icon_flag.png",
-    callout: {
-      id:id,
-      borderRadius:5,
-      padding:7,      
-      bgColor:'#000000' ,
-      anchorX:10, 
-      anchorY:20,
-      color:'#ffffff',      
-      content:"#"+buildingsInfo[id]["name"] + "\n" + count + "个",
-      display: 'ALWAYS',
-    },
-  }  
-
-}
 let buildingNameAndId={
-  1710:"睿思楼",  2310:"音乐厅",  1738:"学思楼",  2306:"行思楼",  4842:"西院体育馆",  2306:"西院体育场",  2308:"慎行楼",  1748:"慎思楼",  1769:"凝思楼",  2186:"静思三教",  2099:"静思二教",  2139:"静思一教",  6182:"浩园1号教学楼",  5893:"东院体育场",  2278:"东12教", 2419:"德晖楼", 2349:"德音楼", 2050:"德雅楼", 1756:"诚思楼", 1904:"博知楼", 1954:"博远楼", 2204:"博逸楼", 2237:"博雅楼", 1783:"博学楼", 1847:"博文楼", 2260:"博观楼",2503:"北院体育馆"
+  1710:"睿思楼",  
+  2310:"音乐厅", 
+  1738:"学思楼",  
+  2306:"行思楼",  
+  4842:"西院体育馆",  
+  2306:"西院体育场",  
+  2308:"慎行楼",  
+  1748:"慎思楼",  
+  1769:"凝思楼",  
+  2186:"静思三教",  
+  2099:"静思二教",  
+  2139:"静思一教",  
+  6182:"浩园1号教学楼",  
+  5893:"东院体育场",  
+  2278:"东12教", 
+  2419:"德晖楼", 
+  2349:"德音楼", 
+  2050:"德雅楼", 
+  1756:"诚思楼", 
+  1904:"博知楼", 
+  1954:"博远楼", 
+  2204:"博逸楼", 
+  2237:"博雅楼",
+  1783:"博学楼", 
+  1847:"博文楼", 
+  2260:"博观楼",
+  2503:"北院体育馆",
+  2556:"东院1教",
+  2585:"东院2教",
+  2610:"东院3教",
+  2641:"东院4教",
+  2706:"西院1教",
+  2791:"西院2实",
+  2748:"西院2教",
+  2821:"西院3实",
+  4121:"西院图文中心",
+  5743:"东院图书馆"
 }
 let buildingsInfo = {
   "睿思楼":{name:"睿思楼",latitude:"36.069972",longitude:"120.426991",id:1710},
@@ -85,12 +92,21 @@ let buildingsInfo = {
   "博学楼":{name:"博学楼",latitude:"36.069352",longitude:"120.422761",id:1783},
   "博文楼":{name:"博文楼",latitude:"36.070280",longitude:"120.422069",id:1847},
   "博观楼":{name:"博观楼",latitude:"36.070635",longitude:"120.422709",id:2260},
-  "北院体育馆":{name:"北院体育馆",latitude:"36.074781",longitude:"120.426910",id:2503}
+  "北院体育馆":{name:"北院体育馆",latitude:"36.074781",longitude:"120.426910",id:2503},
+  "东院1教":{name:"东院1教",latitude:"36.115011",longitude:"120.4812",id:2556},
+  "东院2教":{name:"东院2教",latitude:"36.115532",longitude:"120.481521",id:2585},
+  "东院3教":{name:"东院3教",latitude:"36.115785",longitude:"120.480627",id:2610},
+  "东院4教":{name:"东院4教",latitude:"36.115821",longitude:"120.48004",id:2641},
+  "西院1教":{name:"西院1教",latitude:"36.113892",longitude:"120.477091",id:2706},
+  "西院2实":{name:"西院2实",latitude:"36.113892",longitude:"120.478011",id:2791},
+  "西院2教":{name:"西院2教",latitude:"36.114206",longitude:"120.476892",id:2748},
+  "西院3实":{name:"西院3实",latitude:"36.113892",longitude:"120.478011",id:2821},
+  "西院图文中心":{name:"西院图文中心",latitude:"36.114741",longitude:"120.47749",id:4121},
+  "东院图书馆":{name:"东院图书馆",latitude:"36.116341",longitude:"120.48035",id:5743},
 };
 
 module.exports = { 
   getMarkersByBuildId : getMarkersByBuildId,
-  getMarkersRandom:getMarkersRandom,
   buildingsInfo:buildingsInfo,
   getNameById:getNameById
 }

@@ -325,7 +325,7 @@ Page({
       </tr>
     </tbody>
   </table>`,
-      url:"http://www.baidu.com"
+      url:"https://mp.weixin.qq.com/s/qbshMMCHVDxiCGPSLKHVlg"
     }
   ]},
     swiperList:
@@ -333,17 +333,17 @@ Page({
       id: 0,
       type: 'image',
       url: 'https://cdns.qdu.life/img/header_1@v4.jpg',
-      navUrl:'https://www.baidu.com'
+      navUrl:'https://mp.weixin.qq.com/s/qbshMMCHVDxiCGPSLKHVlg'
     }, {
       id: 1,
         type: 'image',
         url: 'https://cdns.qdu.life/img/header_2@v4.jpg',
-        navUrl:'https://www.qq.com'
+        navUrl:'https://mp.weixin.qq.com/s/qbshMMCHVDxiCGPSLKHVlg'
     }, {
       id: 2,
       type: 'image',
       url: 'https://cdns.qdu.life/img/header_1.jpeg',
-      navUrl:'https://www.baidu.com'
+      navUrl:'https://mp.weixin.qq.com/s/qbshMMCHVDxiCGPSLKHVlg'
     },],
     themeData,
     activeNames:['1'],
