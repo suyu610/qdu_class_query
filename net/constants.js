@@ -28,7 +28,7 @@ export const getTodayDetailRoomStatusUrl = 'classroomstatus/today'
 
 ///////////////
 /// 个人课表 ///
-//////////////
+////////////// 
 
 // 获得个人教务课表
 export const GetMyJwCourseUrl = 'user/getCourse/'
