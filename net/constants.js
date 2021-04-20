@@ -13,10 +13,10 @@ export const GetWeatherUrl = 'weather/today';
 ///////////////
 /// 教室状态 ///
 //////////////
-
+ 
 // 反馈
 export const FeedBackUrl = 'feedback/postnew'
-
+// 测试
 // 查询
 export const GetTodayFreeRoomUrl = 'class/sequence/today/'
 
