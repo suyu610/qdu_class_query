@@ -15,6 +15,9 @@ module.exports = {
   course_import:{
     path: '/pages/course/course_import/course_import'
   },
+  multi_course:{
+    path:'/pages/multi_course/multi_course'
+  },
   list:{
     path:'/pages/list/list'
   },
@@ -43,5 +46,11 @@ module.exports = {
   },
   course_search: {
     path: '/pages/course_search/course_search',
+  },
+  telephone:{
+    path:'/pages/telephone/telephone'
+  },
+  eatwhat:{
+    path:'/pages/eatwhat/eatwhat'
   }
 };

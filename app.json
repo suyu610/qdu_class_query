@@ -24,7 +24,12 @@
     "pages/course_search/course_search",
     "pages/report/report",
     "pages/cheat/cheat",
-    "pages/flower/flower"
+    "pages/flower/flower",
+    "pages/telephone/telephone",
+    "pages/eatwhat/eatwhat",
+    "pages/multi_course/multi_course",
+    "pages/profile/profile",
+    "pages/team/team"
   ],
   "themeLocation": "theme.json",
   "window": {
@@ -80,7 +85,7 @@
   "usingComponents": {
     "my-block": "./components/my-block/index",
     "color-picker-theme": "./components/color-picker-theme/color-picker-theme",
-    "add-tips":"./components/add-tips/index"
+    "add-tips": "./components/add-tips/index"
   },
   "useExtendedLib": {
     "weui": true

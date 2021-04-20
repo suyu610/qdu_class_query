@@ -27,7 +27,7 @@ Page({
             router.push({name:'moment'})
             break;
           default:
-            router.push({name:'index'})
+            router.replace({name:'index'})
             break;
         }
       },
@@ -43,7 +43,7 @@ Page({
     app.globalData.flag = data
     // 如果有特定的参数，则直接跳到那个参数    
     if(app.globalData.url != null){
-      router.push({
+      router.replace({
         name:app.globalData.url
       })
       return 
@@ -114,7 +114,7 @@ Page({
                 wx.showToast({
                   title: res.data['status']['msg'],                  
                 })
-                router.push({name:"splash"})
+                router.replace({name:"splash"})
               }
             },
             fail(){
@@ -122,7 +122,7 @@ Page({
                 icon:'none',
                 title: "服务器出了点问题",
               })
-              router.push({name:"splash"})
+              router.replace({name:"splash"})
              }
           })
       },fail(res){
@@ -167,7 +167,7 @@ Page({
     // 这里是debug用的
      if(app.globalData.debug) {
       console.log("empty.js: debug模式")
-      router.push({name:'guide'});
+      router.replace({name:app.globalData.debugRouter});
       return; 
     }
     
@@ -187,8 +187,8 @@ Page({
           app.globalData.latitude = 36.070106
         }else{
           app.globalData.currentCampus = 13041
-          app.globalData.longitude = 120.479515
-          app.globalData.latitude = 36.115372
+          app.globalData.longitude = 120.478779
+          app.globalData.latitude = 36.115249
         }
       },
       fail(){
@@ -196,7 +196,7 @@ Page({
         app.globalData.longitude = 120.423621
         app.globalData.latitude = 36.070106
       }
-    })    
+    })
 
     // 首先登陆
     this.login(options)

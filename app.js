@@ -48,6 +48,7 @@ App({
   globalData: {
     rediretTo:"",
     debug:false,
+    debugRouter:"moment",
     // 当前样式,注意这里配合腾讯地图，所以是从1开始
     currentTheme:1,
     currentCampus:1709,
@@ -56,11 +57,12 @@ App({
     token:"",
     userInfo:null,
     // 初始中心点
-    // longitude:120.423621,
-    // latitude:36.070106,    
+    longitude:120.423621,
+    latitude:36.070106,
 
-    longitude:120.479515,
-    latitude:36.115372,  
+    // longitude:120.479515,
+    // latitude:36.115372,
+
     // 腾讯地图的key
     key:"5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO",
     // list界面的id,如果为0，则显示默认值

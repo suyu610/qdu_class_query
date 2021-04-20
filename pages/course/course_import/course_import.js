@@ -129,7 +129,7 @@ Page({
               key: 'my-jw-course-v1',
               success(res) {
                 app.globalData.onImportJwCourseOk = true
-                router.push({name:'course'})                  
+                router.push({name:'course'})
               }
             })          
           }
@@ -138,17 +138,22 @@ Page({
               icon:'none',
               title: '账号或密码错误',
             })
-
             that.getCaptchaImage()
           }
-          else{
+          else if(res.data.data == '-2'){
             wx.showToast({
               icon:'none',
               title: '验证码错误',
             })
             that.getCaptchaImage()
-          }          
-
+          }
+          else if(res.data.data == '-3'){
+            wx.showToast({
+              icon:'none',
+              title: '系统错误，请联系客服。',
+            })
+            that.getCaptchaImage()
+          }
         },fail(res){
           wx.showToast({
             icon:'none',

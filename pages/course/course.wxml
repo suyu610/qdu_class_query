@@ -97,9 +97,8 @@
       <view class="tab-divide"></view>
       <view class="tab-section">
         <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11,12]}}" wx:key="*this" class="tab-section-divide tab-section-item">
-            <text>{{sequence[item]}}</text>
+            <text>{{showSeqTime?sequenceWithTime[item]:sequence[item]}}</text>
       </view>
-  
     </view>
 
       <!--线条-->
@@ -216,8 +215,7 @@
     <view wx:if="{{nickname==null}}">
       <van-button  bindtap="getUserProfile">
         请先登录
-      </van-button>
-      
+      </van-button>      
     </view>
     <view wx:else>    
     <van-cell
@@ -253,8 +251,7 @@
       open-type="share"
     >
       <van-button
-        dataset="id1234"
-        
+        dataset="id1234"        
         slot="right-icon" 
         icon="share-o" 
         type="primary" 
@@ -334,6 +331,17 @@
         inactive-color="#ffffff"
         checked="{{ showSunday }}" bind:change="changeShowSunday" />
     </van-cell>
+    
+    <van-cell
+      icon="smile-o"
+      title="显示上课时间" >
+      <van-switch 
+        size="20px"
+        active-color="#fde06b"
+        inactive-color="#ffffff"
+        checked="{{ showSeqTime }}" bind:change="changeShowSeqTime" />
+    </van-cell>
+
     </van-cell-group>
 
     <van-cell-group title="背景色" border="{{false}}">

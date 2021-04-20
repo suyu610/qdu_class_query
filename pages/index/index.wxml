@@ -12,7 +12,6 @@
     include-points="{{markers}}"
     skew="40"
     enable-rotate
-    show-location
     enable-3D
     subkey="5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO"
     markers="{{markers}}"

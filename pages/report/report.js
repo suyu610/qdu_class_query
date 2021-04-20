@@ -41,6 +41,20 @@ Page({
       totalPages:2,
       feedback:[
         {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+        {content:"我觉得教室类型要加上考研教室，因为经常走错地方了...另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},
+
         {content:"我觉得教室类型",type:"表扬",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"},  
         {content:"我觉得教室类型要加上考另外你们这个小程序很棒，大大的表扬",type:"bug反馈",nickname:"suyu.cool",goodjobCount:"12",posttime:"2021-4-4",status:"正在进行可行性分析"}
       ],

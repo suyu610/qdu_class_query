@@ -136,9 +136,9 @@
   </van-popup>
 
   <van-cell-group title="关于">
-    <van-cell  center icon="gem-o" title="官网" bind:click="jumpToAboutPage" is-link />   
-    <van-cell  center icon="like-o" title="青空团队" bind:click="onAboutShow" is-link />       
-    <van-cell  center icon="like-o" title="开发进度" bind:click="onAboutShow" is-link />       
+    <!-- <van-cell  center icon="gem-o" title="官网" bind:click="jumpToAboutPage" is-link />    -->
+    <van-cell  center icon="like-o" title="关于我们" bind:click="onAboutShow" is-link />       
+    <!-- <van-cell  center icon="like-o" title="开发进度" bind:click="onAboutShow" is-link />        -->
 
   </van-cell-group>
     <button class="contact cu-btn" open-type='contact'>客服</button>    

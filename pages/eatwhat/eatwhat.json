@@ -1,0 +1,22 @@
+{
+  "usingComponents": {
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-rate": "/miniprogram_npm/@vant/weapp/rate/index",
+    "van-tag": "/miniprogram_npm/@vant/weapp/tag/index",
+    "van-row": "/miniprogram_npm/@vant/weapp/row/index",
+    "van-col": "/miniprogram_npm/@vant/weapp/col/index",
+    "van-divider": "/miniprogram_npm/@vant/weapp/divider/index",
+    "van-slider": "/miniprogram_npm/@vant/weapp/slider/index",
+    "van-popup": "/miniprogram_npm/@vant/weapp/popup/index",
+    "van-switch": "/miniprogram_npm/@vant/weapp/switch/index",
+    "van-cell": "/miniprogram_npm/@vant/weapp/cell/index",
+    "van-cell-group": "/miniprogram_npm/@vant/weapp/cell-group/index",
+    "van-dropdown-menu": "/miniprogram_npm/@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "/miniprogram_npm/@vant/weapp/dropdown-item/index",
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index"
+
+    
+  
+
+  }
+}

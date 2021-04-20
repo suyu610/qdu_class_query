@@ -26,7 +26,9 @@
   height: 30px;
   line-height: 30px;
 }
-
+.result{
+  height: 90vh;
+}
 .result-info{
   line-height: 30px;
   background-color: #fff;  

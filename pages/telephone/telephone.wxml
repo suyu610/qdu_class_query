@@ -1,0 +1,77 @@
+<van-notice-bar 
+  mode="closeable" 
+  text="外地拨打别忘加青岛区号0532"
+  color="#000"
+  
+  scrollable="{{false}}"
+  />
+
+<van-sticky>
+  <van-search
+    value="{{ value }}"
+    placeholder="模糊搜索"
+    show-action
+    bind:search="onSearch"
+    bind:cancel="onCancel"
+  />
+</van-sticky>
+<van-index-bar 
+  sticky-offset-top="{{53}}"	
+  index-list="{{ indexList }}"
+  >
+  <view>
+    <van-index-anchor index="报警"/>
+    <van-cell title="浮山校区" value="85951110" is-link data-tel="85951110" bindtap="tel"/>  
+    <van-cell title="金家岭校区" value="85959110" is-link data-tel="85959110" bindtap="tel"/>
+  </view>
+  <view>
+    <van-index-anchor index="常用"/>
+    <van-cell value="85955120" is-link data-tel="85955120" bindtap="tel">  
+      <view slot="title">
+        <view class="van-cell-text">校医院</view>
+        <van-tag type="primary" plain>浮山校区</van-tag>
+      </view>
+    </van-cell>
+
+    <van-cell value="85958230" is-link data-tel="85958230" bindtap="tel">  
+      <view slot="title">
+        <view class="van-cell-text">校医院</view>
+        <van-tag type="success" plain>金家岭校区</van-tag>
+      </view>
+    </van-cell>
+
+    <van-cell title="学生公寓管理中心" 
+      value="85953265" 
+      is-link
+      label="断电" 
+      data-tel="85953265" 
+      bindtap="tel"
+    />
+  </view>
+  <view>
+    <van-index-anchor index="1">标题2</van-index-anchor>
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+  </view>
+  <view>
+    <van-index-anchor index="2">标题2</van-index-anchor>
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+  </view>
+  <view>
+    <van-index-anchor index="3">标题2</van-index-anchor>
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+  </view>
+  <view>
+    <van-index-anchor index="4">标题2</van-index-anchor>
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+    <van-cell title="文本" />
+  </view>
+
+
+</van-index-bar>

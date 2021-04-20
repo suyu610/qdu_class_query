@@ -56,6 +56,7 @@ Page({
     loading:false,
     showClock:false,
     showSunday:true,
+    showSeqTime:true,
     showFriendCourse:true,
     hours,
     minutes,
@@ -73,6 +74,7 @@ Page({
     selfAddCourse:[],// 自己的自定义课表
     friendJwCourse:[],// 好友的教务课表
     sequence : ["1",2,3,4,'T1',5,6,7,8,'T2',9,10,11],
+    sequenceWithTime : ["1\n8:00 8:50","2\n9:00 9:50","3\n10:10 11:00","4\n11:10 12:00","T1\n12:50 13:30","5\n13:30 14:20","6\n14:30 15:20","7\n15:30 16:20","8\n16:30 17:20","T2\n17:21 18:00","9\n 18:30 19:20","10\n19:30 20:20","11\n20:30 21:20"],
     showSharePopup:false,     
     showSettingPopup:false,
     showImportPopup:false,
@@ -144,6 +146,11 @@ Page({
     wx.setStorage({key:"showSunday",data:e.detail})
     this.setData({showSunday:e.detail})
   },
+  changeShowSeqTime:function(e){
+    wx.setStorage({key:"showSeqTime",data:e.detail})
+    this.setData({showSeqTime:e.detail})
+  },
+
   modalAlarmFailureClose:function(e){
     this.setData({modalAlarmFailureShow:false})
   },
@@ -978,6 +985,8 @@ deleteBgImg:function(e){
       if (folderMenu == ""){
         folderMenu = false
       }
+      
+      // 显示周末
       let showSunday = true;
       wx.getStorage({
         key:"showSunday",
@@ -987,6 +996,18 @@ deleteBgImg:function(e){
           that.setData({showSunday})
         }
       })
+
+      //  显示上课时间
+      let showSeqTime = true;
+      wx.getStorage({
+        key:"showSeqTime",
+        success (res) {
+          showSeqTime = res.data;     
+        },complete(){
+          that.setData({showSeqTime})
+        }
+      })
+
       let showFriendCourse = true;
       wx.getStorage({
         key:"showFriendCourse",

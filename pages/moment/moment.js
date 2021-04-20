@@ -268,11 +268,11 @@ Page({
           <td class="td">账号</td>
           <td class="td">默认密码</td>          
           </tr>
-          </thead>      
-    <tbody>
+          </thead>
+      <tbody>
       <tr class="tr">
         <td class="td">邮箱</td>
-        <td class="td">mail.qdu.life</td> 
+        <td class="td">mail.qdu.edu\n.cn</td> 
         <td class="td">学号@qdu.edu.cn</td> 
         <td class="td">身份证后10位</td>
       </tr>

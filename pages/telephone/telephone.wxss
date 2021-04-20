@@ -1,0 +1,8 @@
+/* pages/telephone/telephone.wxss */
+.van-cell-text{
+  display: inline;
+  
+}
+van-tag{
+  margin-left: 20px!important;
+}

@@ -1,0 +1,128 @@
+<!-- 右下角的设置按钮 -->
+
+    <!-- info -->
+    <view class="bottom-info" bindtap="ontapSettingBtn">
+      <view class="img-button pre-week-btn" catchtap="prevRoomHandler">
+        <image src="../../../images/icon/btn_prev@2x.png" ></image>
+      </view>
+      <view style="display:inline-block">
+        <view>
+          <text>当前房间人数：</text>
+          <text>{{roomList[currentRoomIndex].person_list.length}}</text> 人  
+          <image class="img-button" src="https://cdns.qdu.life/icons/eatwhat/icon_finger.png"/>
+        </view>
+        <view>当前房间名：<text>{{roomList[currentRoomIndex].roomname}}</text></view>       
+
+      </view>
+      <view class="img-button next-week-btn" catchtap="nextRoomHandler">
+          <image src="../../../images/icon/btn_next@2x.png"></image>
+        </view>
+    </view>
+<!-- 课表 -->
+<scroll-view
+  scroll-y="true" 
+  class="tab-scroll"
+  refresher-triggered = '{{loading}}' 
+  bindrefresherrefresh="onRefresh"
+  refresher-enabled="true">
+  <view class="tab-top">
+    <view class="cur-month">星期\n节次</view>
+    <view class="week-list">
+      <view wx:for="{{weekDates}}" wx:key="*this" class="day-text}} {{todayIndex == index ? 'active' : ''}}">
+        <text>{{weekLabels[index]}}</text>
+        <text>{{weekDates[index]}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="tab-container">
+    <!--分节-->
+    <view class="tab-divide"></view>
+    <view class="tab-section">
+      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11]}}" wx:key="*this" class="tab-section-divide tab-section-item">
+          <text>{{sequenceWithTime[item]}}</text>
+    </view>
+  </view>
+
+    <!--线条-->
+    <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11]}}" wx:key="*this">
+      <view style="top:{{item*55}}px;" class="tab-line"></view>
+    </view>
+    <view wx:if="{{courselist.length!=0}}">
+      <view wx:for="{{courselist}}" wx:index="index"  wx:key="index">
+        <view
+          wx:if="{{item.type == 0}}"
+          class="course-item"
+          bindtap="ontapCourseDetail" 
+          data-index="{{index}}"
+          data-type="{{item.type}}"
+          style="opacity:{{item.count/17}};margin-left:{{item.day*100-3}}rpx;margin-top:{{(item.start-1)*55}}px;height:{{item.sections*53}}px;">
+          <view class="course-item-inner " style="height:{{item.sections*55-5}}px; color:{{type0CourseTextColor}};">
+            <text style="font-size:12px;color:white;">{{item.count}}人\n有课</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 
+  这个地方应该有哪些选项呢？
+  1. 所有人的名单？
+  2. 分享按钮
+  3. 进入需要审批？
+ -->
+<van-popup
+  show="{{ showSettingPage }}"
+  position="bottom"
+  round
+  custom-style="height: 60%;"
+  bind:close="onCloseSettingPage"
+>
+  <van-cell-group title="设置" border="{{false}}">
+    <van-cell
+      center
+      title="邀请"
+      label="房间号为1234"
+      open-type="share">
+      <van-button
+        dataset="id1234"        
+        slot="right-icon" 
+        icon="share-o" 
+        size="mini"
+        type="primary" 
+        open-type="share" 
+        color="transparent" 
+        custom-style="background-color:transparent;color:black"	
+      />
+    </van-cell>
+    <van-field
+      bind:change="onChangeRoomName"
+      value="{{ roomList[currentRoomIndex].roomname }}"
+      clearable
+      label="房间名"
+      placeholder="请输入房间名"
+      use-button-slot> 
+      <van-button slot="button" size="small" type="primary">修改</van-button>
+    </van-field>  
+  </van-cell-group>
+
+  <van-cell-group title="人员列表" border="{{false}}">
+    <block wx:for="{{roomList[currentRoomIndex].person_list}}" wx:key="index" wx:for-item="person">
+      <van-cell border="{{false}}" title="{{person.name}}" value="共{{person.count}}节课" >
+        <view slot="right-icon" style="padding-left:5vw;">
+        <!-- 是否可见 -->
+          <van-icon  name="eye-o" class="custom-icon" />
+          <van-icon style="padding-left:3vw" name="cross" class="custom-icon" />
+        </view>
+      </van-cell>
+    </block>
+  </van-cell-group>
+</van-popup>
+<van-popup
+  show="{{ showCourseDetail }}"
+  position="bottom"
+  round
+  custom-style="height: 60%;"
+  bind:close="onCloseCourseDetail"
+/>

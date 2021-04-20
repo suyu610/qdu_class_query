@@ -25,27 +25,20 @@
       <van-stepper wx:if="{{feedbackResult.feedback!=null && feedbackResult.feedback.length != 0}}" theme="{{round}}" custom-class="stepper" input-class="stepper-input"	plus-class="stepper-plus" minus-class="stepper-minus" disable-input	min="{{1}}" max="{{feedbackResult.totalPages}}" value="{{ 1 }}" long-press="{{ false }}" bind:change="onStepperChange" />
     </van-col>
   </van-row>
-  <view class="result">
+  <scroll-view scroll-y="{{true}}" class="result">
       <block wx:if="{{feedbackResult.feedback.length != 0}}" wx:for="{{feedbackResult.feedback}}" wx:for-item="feedback" wx:key="index">
         <van-collapse  accordion value="{{ activeNames }}" bind:change="onTapSearchItem">
-          <van-collapse-item size="large" label="{{feedback.info_str}}" name="{{index}}">
-            <view slot="title" style="  display: inline-block;white-space: nowrap; width: 90vw; overflow: hidden;text-overflow:ellipsis;">
-                <view  style="width: 70vw; display: inline-block;white-space: nowrap; overflow: hidden;text-overflow:ellipsis;">
+          <van-collapse-item size="large" label="{{feedback.type}}"  name="{{index}}">
+            <view slot="title" style=" display: block;white-space: nowrap; width: 90vw; overflow: hidden;text-overflow:ellipsis;">
                   {{feedback.content}}
-                </view>
-
-                <view style="display: inline-block;width: 6vw;text-align:right">
-                  <van-tag plain color="#9b9b9d">{{feedback.type}}</van-tag>                  
-                </view>
             </view>
             <view class="feedback-detail">
               <van-cell title-width="12vw" border="{{false}}" icon="location-o"  title="描述"  >
                 <view class="feedback-content">{{feedback.content}}</view>
               </van-cell>
-              <van-cell border="{{false}}" icon="manager-o"  title="发布者" value="{{feedback.nickname}}" />        
+              <van-cell border="{{false}}" icon="manager-o"  title="提出人" value="{{feedback.nickname}}" />        
               <van-cell border="{{false}}" icon="filter-o"  title="赞同数" value="{{feedback.goodjobCount}}" />
               <van-cell border="{{false}}" icon="award-o"  title="发布时间" value="{{feedback.posttime}}" />
-
               <van-cell border="{{false}}" icon="wap-home-o"  title="状态" value="{{feedback.status}}" />
               <van-divider hairline />
               <van-row>
@@ -57,7 +50,7 @@
           </van-collapse-item>
         </van-collapse>    
       </block>
-  </view>
+  </scroll-view>
   <van-notice-bar
     left-icon="diamond-o"
     color="#000"

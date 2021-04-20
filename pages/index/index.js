@@ -48,15 +48,7 @@ Page({
       iconcode:408,
     },
     
-    markers:[
-      {
-        latitude: app.globalData.latitude, 
-        longitude: app.globalData.longitude,
-        id:0,
-        height:0,
-        width:0
-      }
-    ],
+    markers:"",
     showDetailSeqModal:false,
     modalSearchShow:false,  //是否隐藏搜索对话框
     modalSeqShow:false,     //是否隐藏课序选择对话框
@@ -501,7 +493,6 @@ Page({
   },
   onLoad: function () {
     let that=this; 
-    
     // 引导页
     wx.getStorage({
       key: 'guide_index',
@@ -522,7 +513,7 @@ Page({
       title: '青大空教室',
     })
     this.mapCtx = wx.createMapContext('map')
-
+    
     wx.getStorage({
       key: 'autoSearch',
       success (res) {        
@@ -549,6 +540,7 @@ Page({
     qqmapsdk = new QQMapWX({
       key: app.globalData.key 
     });
+
     // this.getUserLocation()
     this.setData({
       weather:app.globalData.weather      
@@ -557,7 +549,13 @@ Page({
       title: '青大空教室',
     })
     dialogService.getDialog(this.handleDialogSuccess)
-    this.setData({theme:app.globalData.currentTheme})
+    
+    this.setData({
+      theme:app.globalData.currentTheme,
+      // 切换校区    
+      longitude:app.globalData.longitude,
+      latitude:app.globalData.latitude    
+    })
   },
 
 
@@ -732,6 +730,21 @@ Page({
   onShow:function(){
     // 判断校区
     console.log(app.globalData.currentCampus)
+
+    this.mapCtx.includePoints({
+      points:[{        
+        latitude: app.globalData.latitude, 
+        longitude: app.globalData.longitude,
+      }],
+      success:function(res){
+        let campus = app.globalData.currentCampus==13041?"金家岭校区":"中心校区"
+        wx.showToast({
+          icon:'none',
+          title: "当前为"+campus,
+        })
+      }
+    })
+
     if(app.globalData.currentCampus == 1709){
       this.setData({
         columns:columns_fushan,
@@ -743,11 +756,7 @@ Page({
         buildingColumnId:buildingColumnId_jjl,
       })
     }
-    // 切换地图
-    this.setData({
-      longitude:app.globalData.longitude,
-      latitude:app.globalData.latitude
-    })
+
     // 在这个地方设置导航颜色
     initNavigationColor()
     this.setData({

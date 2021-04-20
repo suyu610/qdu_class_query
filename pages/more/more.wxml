@@ -12,7 +12,7 @@
     <van-grid-item 
       use-slot      
       link-type="navigateTo"
-      url="/pages/webview/webview?url=https://www.qdu.life/eat"
+      url="/pages/eatwhat/eatwhat"
     >
       <image
         style="width: 26px; height: 26px;"
@@ -36,15 +36,21 @@
         style="width: 26px; height: 26px;"
         src="https://cdns.qdu.life/icons/icon_report.png"
       />
-    <text style="font-size:12px;margin-top:9px;color:#646566">吐槽大会</text>
+    <text style="font-size:12px;margin-top:9px;color:#646566">bug提交</text>
     </van-grid-item>
 
-   
+    <van-grid-item
+      content-class="useless-item"
+      icon="friends-o"
+      link-type="navigateTo"
+      url="/pages/multi_course/multi_course"
+
+      text="多人课表"
+    />
   </van-grid>
 
   <my-block title="正在开发的，头都秃了，天天熬夜  🤮"></my-block>
   <!-- <van-divider dashed contentPosition="center">正在开发</van-divider> -->
-
   <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
   
     <van-grid-item
