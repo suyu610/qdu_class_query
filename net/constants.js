@@ -16,7 +16,7 @@ export const GetWeatherUrl = 'weather/today';
  
 // 反馈
 export const FeedBackUrl = 'feedback/postnew'
-// 测试
+// 测
 // 查询
 export const GetTodayFreeRoomUrl = 'class/sequence/today/'
 
