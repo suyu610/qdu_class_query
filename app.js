@@ -46,9 +46,9 @@ App({
   },
 
   globalData: {
-    rediretTo:"",
+    rediretTo:"multi_course",
     debug:false,
-    debugRouter:"moment",
+    debugRouter:"multi_course",
     // 当前样式,注意这里配合腾讯地图，所以是从1开始
     currentTheme:1,
     currentCampus:1709,

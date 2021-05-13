@@ -769,7 +769,7 @@ Page({
   onShareAppMessage: function (ops) {
     return {
       title: '青大空教室',
-      path: 'pages/empty/empty?url=index&age=18',  // 路径，传递参数到指定页面。
+      path: 'pages/empty/empty',  // 路径，传递参数到指定页面。
       imageUrl:'../../images/share.png', // 分享的封面图
       success: function (res) {
         // 转发成功

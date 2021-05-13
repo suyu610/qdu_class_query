@@ -1,5 +1,5 @@
-// export const Host = 'http://localhost:4396/api/';
-export const Host = 'https://room.qdu.life/api/';
+// export const Host = 'http://localhost:4396/v1/';
+export const Host = 'https://api.qdu.life/v1/';
 
 export const GetRoomCourseUrl = 'roomshedule/single';
 
@@ -16,7 +16,7 @@ export const GetWeatherUrl = 'weather/today';
  
 // 反馈
 export const FeedBackUrl = 'feedback/postnew'
-// 测
+
 // 查询
 export const GetTodayFreeRoomUrl = 'class/sequence/today/'
 

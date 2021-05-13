@@ -43,6 +43,7 @@ Page({
     app.globalData.flag = data
     // 如果有特定的参数，则直接跳到那个参数    
     if(app.globalData.url != null){
+      console.log(app.globalData.url)
       router.replace({
         name:app.globalData.url
       })
@@ -173,7 +174,8 @@ Page({
     
     if(null != options && null != options.url){
       app.globalData.url = options.url
-      app.globalData.params = options.params      
+      app.globalData.params = options.params
+      router.replace({name:app.globalData.url,data:params});
     }
 
     // 判断校区

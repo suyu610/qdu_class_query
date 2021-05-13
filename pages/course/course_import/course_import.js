@@ -80,7 +80,7 @@ Page({
   getCaptchaImage:function(){    
     let that = this  
     wx.request({
-      url: 'https://blog.qdu.life/academic/getCaptcha.do', //获取图片的URL
+      url: 'https://jw.qdu.life/academic/getCaptcha.do', //获取图片的URL
       method:"get",       
       responseType: 'arraybuffer',          
       success (res) {        
@@ -106,6 +106,9 @@ Page({
       let tmp_cookie = this.data.cookie.split(";")[0];
       tmp_cookie.split("=")[0]      
       let url = NetUrl.Host+"user/logindean/"
+      wx.showLoading({
+        title: '解析课表中..',
+      })
       wx.request({
         url:url,
         method:'POST',
@@ -119,6 +122,9 @@ Page({
           "cookie":this.data.cookie,
         },
         success(res){
+          wx.hideLoading({
+            success: (res) => {},
+          })
           if(res.data.data == '0'){
             wx.showToast({
               icon:'success',
@@ -131,7 +137,7 @@ Page({
                 app.globalData.onImportJwCourseOk = true
                 router.push({name:'course'})
               }
-            })          
+            })
           }
           else if(res.data.data == '-1'){
             wx.showToast({
@@ -147,7 +153,7 @@ Page({
             })
             that.getCaptchaImage()
           }
-          else if(res.data.data == '-3'){
+          else {
             wx.showToast({
               icon:'none',
               title: '系统错误，请联系客服。',
