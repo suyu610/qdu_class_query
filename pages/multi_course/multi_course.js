@@ -179,7 +179,7 @@ Page({
     }
   },
   handleCreateRoomSuccess: function (e) {
-
+    let that = this
     if (e != 0) {
 
       wx.hideLoading({
@@ -187,6 +187,9 @@ Page({
           wx.showToast({
             title: '创建成功',
             duration: 700
+          })
+          that.setData({
+            showCreateRoomPopUp: false
           })
         },
       })

@@ -27,7 +27,7 @@
     </view>
   </van-transition>
 
-  <scroll-view wx:if="{{!searchFocus}}" style="height:90vh;background:white">
+  <scroll-view scroll-y="{{true}}" wx:if="{{!searchFocus}}" style="height:86.4vh;background:white">
     <van-cell-group title="创建的房间">
       <block wx:for="{{myCreateList}}" wx:key="index" wx:for-item="room">
         <van-cell center use-label-slot bindtap="enterToDetail" data-id="{{room.id}}" data-name="{{room.roomName}}">

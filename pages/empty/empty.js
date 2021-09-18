@@ -189,6 +189,10 @@ Page({
    */
   onLoad: function (options) {
     console.log(options)
+
+    this.setData({
+      version: app.globalData.version
+    })
     // 存起来
     this.setData({
       options: options
