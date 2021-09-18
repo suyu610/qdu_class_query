@@ -112,9 +112,9 @@ Page({
   onTapAddToMyCourse:function(e){    
     // 发送给后端，找到这节课，然后加到数据库里
     let params = {
-    'key_course':e.currentTarget.dataset.course,
-    'key_seq':e.currentTarget.dataset.seq,
-    'info_str':e.currentTarget.dataset.info}
+    'keyCourse':e.currentTarget.dataset.course,
+    'keySeq':e.currentTarget.dataset.seq,
+    'infoStr':e.currentTarget.dataset.info}
     publicCourseService.addPublicCourse(params,this.handleAddPublicCourseSuccess)
 
   },

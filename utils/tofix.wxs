@@ -1,18 +1,23 @@
 var filters = {
   toFix: function (value) {
-    return value.toFixed(2)//此处2为保留两位小数
+    return value.toFixed(2) //此处2为保留两位小数
   }
 }
 
 var format = function (text) {
-	if (!text) {
-        return
-    }
-    var reg = getRegExp('\\\\n', 'g')
-    return text.replace(reg,'\n')
+  if (!text) {
+    return
+  }
+  var reg = getRegExp('\\\\n', 'g')
+  return text.replace(reg, '\n')
+}
+
+var arraySplice = function (num, total) {
+  return parseInt(num / total * 5);
 }
 
 module.exports = {
-  format:format,
-  toFix: filters.toFix
+  format: format,
+  toFix: filters.toFix,
+  arraySplice:arraySplice
 }

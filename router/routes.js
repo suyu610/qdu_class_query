@@ -18,6 +18,9 @@ module.exports = {
   multi_course:{
     path:'/pages/multi_course/multi_course'
   },
+  multi_course_detail:{
+    path:'/pages/multi_course/detail/detail'
+  },
   list:{
     path:'/pages/list/list'
   },
@@ -52,5 +55,9 @@ module.exports = {
   },
   eatwhat:{
     path:'/pages/eatwhat/eatwhat'
+  },
+  eatwhat_detail:{
+    path:'/pages/eatwhat/eatwhat_detail/eatwhat_detail'
   }
+
 };

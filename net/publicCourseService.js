@@ -5,9 +5,9 @@ import {
 } from "./constants";
 
 
-function getPublicCourseByName(course_name,seq,week,campuses,index,handleSuccess,handleError) {
+function getPublicCourseByName(courseName,seq,week,campuses,index,handleSuccess,handleError) {
   httpService.get(
-    GetPublicCourseByNameUrl + "/" + course_name + "/" + seq +"/" + week + "/" + campuses + "/" + index,
+    GetPublicCourseByNameUrl + "/" + courseName + "/" + seq +"/" + week + "/" + campuses + "/" + index,
     "",
     res=>{
       handleSuccess(res.data['data'])

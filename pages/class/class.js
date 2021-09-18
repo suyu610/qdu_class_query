@@ -56,24 +56,24 @@ Page({
     for(let index=1;index<=7;index++){
       origin['detail'][index].forEach(function(e,indx){
         // 如果是未知，则要减去别人的值        
-        if(e.course_name == "未知"){          
+        if(e.courseName == "未知"){          
           if(e.seq.slice(0,2) =="11")
-            tasklist.push({id:index,day:e.week-1,start:1,sections:2,course:e.course_name,type:-1})
+            tasklist.push({id:index,day:e.week-1,start:1,sections:2,course:e.courseName,type:-1})
           if(e.seq.slice(2,4) =="11")
-            tasklist.push({id:index,day:e.week-1,start:3,sections:2,course:e.course_name,type:-1})
+            tasklist.push({id:index,day:e.week-1,start:3,sections:2,course:e.courseName,type:-1})
           if(e.seq.slice(5,7) =="11")
-            tasklist.push({id:index,day:e.week-1,start:6,sections:2,course:e.course_name,type:-1})
+            tasklist.push({id:index,day:e.week-1,start:6,sections:2,course:e.courseName,type:-1})
           if(e.seq.slice(7,9) =="11")
-            tasklist.push({id:index,day:e.week-1,start:8,sections:2,course:e.course_name,type:-1})
+            tasklist.push({id:index,day:e.week-1,start:8,sections:2,course:e.courseName,type:-1})
           if(e.seq.slice(10,12) =="11")
-            tasklist.push({id:index,day:e.week-1,start:11,sections:2,course:e.course_name,type:-1})
+            tasklist.push({id:index,day:e.week-1,start:11,sections:2,course:e.courseName,type:-1})
           return
         }
         // TODO: 这里加个学生实名的判断
         if(true){
           let start = (e.seq+"").indexOf('1')+1
           let section = (e.seq+"").lastIndexOf('1')-(e.seq+"").indexOf('1')+1
-          tasklist.push({id:index,day:e.week-1,start:start,sections:section,course:e.course_name})
+          tasklist.push({id:index,day:e.week-1,start:start,sections:section,course:e.courseName})
         }
       })
     }

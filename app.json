@@ -11,7 +11,6 @@
     "pages/course/course_import/course_import",
     "pages/moment/moment",
     "pages/mine/login/login",
-    "pages/reward/reward",
     "pages/mine/mine",
     "pages/more/more",
     "pages/course/course_add_friend/course_add_friend",
@@ -23,13 +22,10 @@
     "pages/course/course_setting/course_setting",
     "pages/course_search/course_search",
     "pages/report/report",
-    "pages/cheat/cheat",
-    "pages/flower/flower",
     "pages/telephone/telephone",
     "pages/eatwhat/eatwhat",
     "pages/multi_course/multi_course",
-    "pages/profile/profile",
-    "pages/team/team"
+    "pages/eatwhat/eatwhat_detail/eatwhat_detail"
   ],
   "themeLocation": "theme.json",
   "window": {

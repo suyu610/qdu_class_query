@@ -49,6 +49,8 @@
   width: 50rpx;
   height: 50rpx;
   margin-top: 25rpx;
+  margin-left: 6px;
+
 }
 image{
   width: 30rpx;

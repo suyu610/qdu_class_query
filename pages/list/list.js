@@ -270,7 +270,7 @@ Page({
     return {
       title: '当前的空教室',
       path: 'pages/index/index?id=123&age=18',  // 路径，传递参数到指定页面。
-      imageUrl:'../../images/share.png', // 分享的封面图
+      imageUrl:'https://cdns.qdu.life/img/share_1.png', // 分享的封面图
       success: function (res) {
         // 转发成功
       },

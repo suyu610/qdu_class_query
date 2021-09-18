@@ -37,11 +37,11 @@
   <scroll-view class="result">
       <block wx:if="{{searchResult.course.length != 0}}" wx:for="{{searchResult.course}}" wx:for-item="Course" wx:key="index">
         <van-collapse  accordion value="{{ activeNames }}" bind:change="onTapSearchItem">
-          <van-collapse-item size="large" center label="{{Course.info_str}}" name="{{index}}">
+          <van-collapse-item size="large" center label="{{Course.infoStr}}" name="{{index}}">
             <view slot="title">
               <van-row>
                 <van-col span="18">
-                  <text>{{Course.course_name}}</text>
+                  <text>{{Course.courseName}}</text>
                 </van-col>
                 <van-col span="4" offset="2" style="text-align:right">
                   <van-tag wx:if="{{Course.campus_id==1709}}" plain color="#9b9b9d">中心</van-tag>
@@ -50,12 +50,12 @@
               </van-row>              
             </view>
             <view class="course-detail">
-              <van-cell border="{{false}}" icon="location-o"  title="教室" value="{{Course.class_name}}" />
+              <van-cell border="{{false}}" icon="location-o"  title="教室" value="{{Course.className}}" />
               <van-cell border="{{false}}" icon="manager-o"  title="老师" value="{{Course.teachers}}" />        
               <van-cell border="{{false}}" icon="filter-o"  title="课程类型" value="{{Course.course_type==0?'必修':Course.course_type==1?'限选':'任选'}}" />
               <van-cell border="{{false}}" icon="award-o"  title="学分" value="{{Course.score}}" />
               <van-cell border="{{false}}" icon="wap-home-o"  title="课容量" value="{{Course.capacity}}" />
-              <van-cell border="{{false}}" icon="friends-o"  title="选课人数" value="{{Course.stu_number}}" />
+              <van-cell border="{{false}}" icon="friends-o"  title="选课人数" value="{{Course.stuNum}}" />
               <van-divider hairline />
               <van-row>
                 <van-col span="14" offset="10" style="text-align:right">
@@ -64,9 +64,9 @@
                     size="small" 
                     type="primary" 
                     
-                    data-info="{{Course.info_str}}"
-                    data-seq="{{Course.key_seq}}" 
-                    data-course="{{Course.key_course}}"
+                    data-info="{{Course.infoStr}}"
+                    data-seq="{{Course.keySeq}}" 
+                    data-course="{{Course.keyCourse}}"
                     bindtap="onTapAddToMyCourse">
                       加入到我的课表
                     </van-button>

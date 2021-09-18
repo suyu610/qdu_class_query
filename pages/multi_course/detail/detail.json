@@ -5,8 +5,12 @@
     "van-cell": "/miniprogram_npm/@vant/weapp/cell/index",
     "van-cell-group": "/miniprogram_npm/@vant/weapp/cell-group/index",
     "van-button": "/miniprogram_npm/@vant/weapp/button/index",
-    "van-field": "/miniprogram_npm/@vant/weapp/field/index"
-
-
-  }
+    "van-field": "/miniprogram_npm/@vant/weapp/field/index",
+    "van-stepper": "@vant/weapp/stepper/index",
+    "van-circle": "/miniprogram_npm/@vant/weapp/circle/index",
+    "van-empty": "/miniprogram_npm/@vant/weapp/empty/index"
+  },
+  "navigationBarBackgroundColor": "#fff",
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": false
 }

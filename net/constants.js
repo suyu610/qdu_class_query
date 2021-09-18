@@ -1,5 +1,7 @@
 // export const Host = 'http://localhost:4396/v1/';
 export const Host = 'https://api.qdu.life/v1/';
+// export const Host = 'http://10.195.129.148:4396/v1/';
+
 
 export const GetRoomCourseUrl = 'roomshedule/single';
 
@@ -10,10 +12,10 @@ export const GetRoomCourseUrl = 'roomshedule/single';
 // 获取天气信息
 export const GetWeatherUrl = 'weather/today';
 
-///////////////
+////////////////
 /// 教室状态 ///
-//////////////
- 
+///////////////
+
 // 反馈
 export const FeedBackUrl = 'feedback/postnew'
 
@@ -44,6 +46,9 @@ export const DismissFriendUrl = 'user/dismissFriend'
 
 // 更新
 export const UpdateUserinfoUrl = 'user/updateInfo/'
+export const LoginByTokenUrl = 'user/loginByToken'
+export const CheckImportFromJwUrl = 'user/checkImportFromJw'
+
 
 //////////////
 /// 小目标 ///
@@ -91,3 +96,32 @@ export const GetDialogUrl = 'dialog/getNewDialog'
 /// 倒计时 ///
 ///////////
 export const GetCountdownAfterTodayUrl = 'countdown/get/after_today'
+
+////////////////////
+/// 今天吃什么相关 ///
+///////////////////
+
+export const GetWholeRandomFoodUrl = 'eat/allfood'
+export const CommentByFoodidUrl = 'eat/comment'
+export const InsertCommentByFoodidUrl = 'eat/insertcomment'
+export const ToggleLikeFoodUrl = 'eat/togglelike'
+
+////////////////////
+/// 多人课表相关  ///
+////////////////////
+
+export const MultiCourse_CreateRoomUrl = 'multicourse/createRoom/'
+export const MultiCourse_UpdateRoomNameUrl = 'multicourse/updateRoomName/'
+export const MultiCourse_UpdateRoomPwdUrl = 'multicourse/updateRoomPwd/'
+
+
+
+
+export const MultiCourse_RemovePeopleFromRoomUrl = 'multicourse/removePeopleFromRoom/'
+export const MultiCourse_DismissRoomUrl = 'multicourse/dismissRoom/'
+
+export const MultiCourse_SearchRoomByIdUrl = 'multicourse/searchRoomById/'
+export const MultiCourse_GetRoomUrl = 'multicourse/getRoom/'
+export const MultiCourse_JoinRoomUrl = 'multicourse/joinRoom/'
+export const MultiCourse_ExitRoomUrl = 'multicourse/exitRoom/'
+export const MultiCourse_GetRoomDetailUrl = 'multicourse/getRoomDetail/'

@@ -1,0 +1,63 @@
+<van-notify id="van-notify" />
+
+<view class="page cu-card case {{!isCard?'no-card':''}}">
+  <view class="cu-item shadow">
+    <view class="image">
+      <!-- <view class="food-title">巴拉巴拉吧</view> -->
+      <image src="{{food.foodImageList[0].imgUrl}}" mode="widthFix"></image>
+      <view class="cu-tag bg-red"><van-icon name="like" /> {{food.likeCount}}</view>
+      <view class="cu-bar bg-shadeBottom">
+        <text class="">{{food.foodName}}</text>
+      </view>
+    </view>
+
+    <view class="text-gray text-sm text-left padding">      
+      {{food.descFull}}
+    </view>
+
+
+
+    <view wx:if="{{commentList.length>0}}" class="cu-list menu-avatar comment solids-top">
+      <block wx:for="{{commentList}}" wx:for-index="idx" wx:for-item="comment" wx:key="idx">        
+      <view class="cu-item">
+        <view wx:if="{{comment.avatarUrl!=null}}" class="cu-avatar round"
+          style="background-image:url({{comment.avatarUrl}});">
+        </view>
+        <view wx:else class="cu-avatar round bg-white"
+          style="background-image:url(https://img01.yzcdn.cn/vant/custom-empty-image.png);">
+        </view>
+    
+        <view class="content">
+          <view class="text-grey">{{comment.nickname}}</view>
+          <view class="text-gray text-content text-df">
+            {{comment.content}}            
+          </view>
+          <view class="margin-top-sm flex justify-between">
+            <view class="text-gray text-sm">{{comment.createTime}}</view>
+            <view>
+              <text class="cuIcon-appreciatefill"> {{comment.likeCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    </view>
+    <view wx:else style="text-align:center;font-size:14px;padding-top:4vh">
+      暂无评论哦~
+    </view>
+  </view>
+  <view class="inputView">
+    <van-cell-group>
+      <van-field     
+        model:value="{{ newInputCommentValue }}"
+        placeholder="请在此输入评论" 
+        left-icon="chat-o" 
+        border="{{ true }}" 
+        use-button-slot>
+        <van-button slot="button" size="small" type="primary" bindtap="insertComment">
+          发送
+        </van-button>
+      </van-field>
+    </van-cell-group>
+  </view>
+</view>

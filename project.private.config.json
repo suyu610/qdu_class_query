@@ -23,6 +23,12 @@
           "pathName": "pages/empty/empty",
           "query": "url=course&params=eyJhbGciOiJIUzUxMiJ9.eyJvcGVuaWQiOiJvckdxMzVNMXZZWXF5MzhQQURWRGJxLVEtaXN3In0.b4wwm0w2P2lMQV12iVbdqawCMlpIXE_GoYbZFlFRV5BXxKBSNebwpPnJLFzyM9daxncx53siGBrnY4qjzucFww",
           "scene": null
+        },
+        {
+          "name": "pages/empty/empty",
+          "pathName": "pages/empty/empty",
+          "query": "",
+          "scene": null
         }
       ]
     }

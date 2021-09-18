@@ -1,6 +1,9 @@
 // pages/more/more.js
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast'
-import {initNavigationColor,themeData} from '../../config/theme'
+import {
+  initNavigationColor,
+  themeData
+} from '../../config/theme'
 const router = require('../../router/index.js');
 
 const app = getApp()
@@ -16,29 +19,30 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {            
-    if(app.globalData.rediretTo != ""){
-      router.push({name:app.globalData.rediretTo})
-      app.globalData.rediretTo = ""
-    }
-  },
+  onLoad: function (options) {},
 
-  onReady:function(){
-    if(app.globalData.rediretTo != ""){
-      router.push({name:app.globalData.rediretTo})
+  onReady: function () {
+    if (app.globalData.rediretTo != "" && app.globalData.rediretTo != null) {
+      router.push({
+        name: app.globalData.rediretTo
+      })
       app.globalData.rediretTo = ""
     }
   },
-  showNoEntry:function(){
+  showNoEntry: function () {
     Toast.fail('开发中');
   },
 
-  jump2Umbrella:function(){
+  jump2Umbrella: function () {
     wx.navigateTo({
       url: '../umbrella/umbrella',
     })
   },
-
+  jump2Quiz: function () {
+    wx.navigateToMiniProgram({
+      appId: 'wx573a4ffa05381ed1',
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -48,8 +52,8 @@ Page({
     })
     initNavigationColor()
     this.setData({
-      themeData:themeData
-    })    
+      themeData: themeData
+    })
   },
 
 })

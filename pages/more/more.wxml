@@ -2,57 +2,32 @@
 <scroll-view class="container">
   <my-block title="功能广场"></my-block>
   <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
-    <van-grid-item     
-      icon="fire-o"       
-      text="小目标"     
-      link-type="navigateTo"
-      url="/pages/flag/flag"
-      custom-class="grid gradient-border"
-    />
-    <van-grid-item 
-      use-slot      
-      link-type="navigateTo"
-      url="/pages/eatwhat/eatwhat"
-    >
-      <image
-        style="width: 26px; height: 26px;"
-        src="/images/eatwhat_logo.png"
-      />
+    <van-grid-item bindtap="jump2Quiz" use-slot>
+      <image style="width: 29px; height: 29px;" src="/images/QY_LOGO.png" />
+      <text style="font-size:12px;margin-top:9px;color:#646566">青云知识库</text>
+    </van-grid-item>
+
+    <van-grid-item icon="fire-o" text="小目标" link-type="navigateTo" url="/pages/flag/flag"
+      custom-class="grid gradient-border" />
+    <van-grid-item use-slot link-type="navigateTo" url="/pages/eatwhat/eatwhat">
+      <image style="width: 26px; height: 26px;" src="/images/eatwhat_logo.png" />
       <text style="font-size:12px;margin-top:9px;color:#646566">今天吃什么</text>
     </van-grid-item>
-    <van-grid-item       
-      icon="search"       
-      text="蹭课查询"
-      link-type="navigateTo"
-      url="/pages/course_search/course_search"
-    />
+    <van-grid-item icon="search" text="蹭课查询" link-type="navigateTo" url="/pages/course_search/course_search" />
 
-    <van-grid-item
-      use-slot
-      link-type="navigateTo"
-      url="/pages/report/report"
-    >   
-    <image
-        style="width: 26px; height: 26px;"
-        src="https://cdns.qdu.life/icons/icon_report.png"
-      />
-    <text style="font-size:12px;margin-top:9px;color:#646566">bug提交</text>
+    <van-grid-item use-slot link-type="navigateTo" url="/pages/report/report">
+      <image style="width: 26px; height: 26px;" src="https://cdns.qdu.life/icons/icon_report.png" />
+      <text style="font-size:12px;margin-top:9px;color:#646566">bug提交</text>
     </van-grid-item>
 
-    <van-grid-item
-      content-class="useless-item"
-      icon="friends-o"
-      link-type="navigateTo"
-      url="/pages/multi_course/multi_course"
-
-      text="多人课表"
-    />
+    <van-grid-item content-class="useless-item" icon="friends-o" link-type="navigateTo"
+      url="/pages/multi_course/multi_course" text="多人课表" />
   </van-grid>
 
-  <my-block title="正在开发的，头都秃了，天天熬夜  🤮"></my-block>
+  <!-- <my-block title="正在开发的，头都秃了，天天熬夜  🤮"></my-block>
   <!-- <van-divider dashed contentPosition="center">正在开发</van-divider> -->
-  <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
-  
+  <!-- <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3"> -->
+  <!--   
     <van-grid-item
       content-class="useless-item"
       icon="friends-o"
@@ -92,10 +67,10 @@
         style="width: 26px; height: 26px;"
         src="https://cdns.qdu.life/icons/icon_cheat.png"
       />
-    <text style="font-size:12px;margin-top:9px;color:#646566">高阶防骗指南</text>
-    </van-grid-item>
+    <text style="font-size:12px;margin-top:9px;color:#646566">高阶防骗指南</text> 
+    </van-grid-item> -->
 
-    <van-grid-item
+  <!-- <van-grid-item
       use-slot
       link-type="navigateTo"
       url="/pages/flower/flower"
@@ -105,14 +80,14 @@
         src="https://cdns.qdu.life/icons/icon_flower_v1.png"
       />
     <text style="font-size:12px;margin-top:9px;color:#646566">识别小花</text>
-    </van-grid-item>
-    <!-- <van-grid-item       
+    </van-grid-item> -->
+  <!-- <van-grid-item       
       icon="gold-coin-o"    
       dot
       text="鼓励并打赏"
       link-type="navigateTo"
       url="/pages/reward/reward"
     />  -->
-  </van-grid>
+  <!-- </van-grid> -->
 </scroll-view>
 <van-toast id="van-toast" />

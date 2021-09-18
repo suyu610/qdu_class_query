@@ -16,18 +16,18 @@
         <view slot="title" style="font-size:12px;color:black;text-align:center;width:96vw" >
           <van-icon name="arrow-up" /></view>
           <block wx:if="{{exams.length != 0}}" wx:for="{{exams}}" wx:for-item="exam" wx:key="index">
-            <van-cell value="剩{{exam.gap_day}}天" center="{{true}}" title-width="60vw" label="报名时间:{{exam.sign_date}}">
+            <van-cell value="剩{{exam.gapDay}}天" center="{{true}}" title-width="60vw" label="报名时间:{{exam.signDate}}">
               <view slot="title">
-                <view class="van-cell-text">{{exam.name}}</view><van-tag plain type="primary" custom-class="countdown-tag">{{exam.start_date}}</van-tag>
+                <view class="van-cell-text">{{exam.name}}</view><van-tag plain type="primary" custom-class="countdown-tag">{{exam.startDate}}</van-tag>
               </view>
             </van-cell>
           </block>
 
           <block wx:if="{{holidays.length != 0}}" wx:for="{{holidays}}" wx:for-item="holidays" wx:key="index">
-            <van-cell  value="剩{{holidays.gap_day}}天" center="{{true}}" title-width="60vw" label="{{holidays.duration == 0? '':'放假 '+holidays.duration+' 天'}}">
+            <van-cell  value="剩{{holidays.gapDay}}天" center="{{true}}" title-width="60vw" label="{{holidays.duration == 0? '':'放假 '+holidays.duration+' 天'}}">
               <view slot="title">                
                 <view class="van-cell-text"><van-icon name="{{holidays.duration == 0? 'gem-o':''}}"></van-icon> {{holidays.name}}</view>
-                <van-tag color="#000" plain custom-class="countdown-tag">{{holidays.start_date}}</van-tag>
+                <van-tag color="#000" plain custom-class="countdown-tag">{{holidays.startDate}}</van-tag>
               </view>
             </van-cell>
           </block>
@@ -219,7 +219,7 @@
     </view>
     <view wx:else>    
     <van-cell
-      wx:if="{{friend_realname!=''}}"
+      wx:if="{{friendRealName!=''}}"
       icon="setting-o"
       title="显示好友的课表" >
       <van-switch
@@ -230,20 +230,20 @@
     </van-cell>
     
     <van-cell 
-      label="{{friend_realname!=''?friend_realname:''}}" 
+      label="{{friendRealName!=''?friendRealName:''}}" 
       icon="star-o"      
       border="{{false}}"      
       >
       <view slot="title">
-        <view class="van-cell-text">{{friend_realname!=''?"当前绑定的好友":"未绑定好友"}}</view>
+        <view class="van-cell-text">{{friendRealName!=''?"当前绑定的好友":"未绑定好友"}}</view>
       </view>
       <view slot="right-icon">
-        <van-button wx:if="{{friend_realname!=''}}" slot="right-icon" round type="mini" size="small" bindtap="dismissFriend">解绑</van-button>
+        <van-button wx:if="{{friendRealName!=''}}" slot="right-icon" round type="mini" size="small" bindtap="dismissFriend">解绑</van-button>
       </view>
     </van-cell>
 
     <van-cell 
-      wx:if="{{friend_realname==''}}"
+      wx:if="{{friendRealName==''}}"
       center 
       title="分享课表"       
       border="{{false}}"
@@ -433,13 +433,13 @@
       <view class="course-info">
         <view class="popup-title">{{tapCourse.course}}</view>
         <view class="popup-class">{{tapCourse.place}}</view>
-        <view class="popup-info">{{tapCourse.info_str}} </view>
+        <view class="popup-info">{{tapCourse.infoStr}} </view>
         <view class="popup-teacher">{{tapCourse.teachers}}</view>     
       </view>
       <!-- 转弯的示意图 -->
       <!-- 向左转向右转 -->
-      <!-- <image class="img-turn" src="{{tapCourse.direction==0?turn_img[0]:turn_img[1]}} " mode="widthFix"></image> -->
-      <image class="img-turn" src="{{turn_img}} " mode="widthFix"></image>
+      <!-- <image class="img-turn" src="{{tapCourse.direction==0?turnImg[0]:turnImg[1]}} " mode="widthFix"></image> -->
+      <image class="img-turn" src="{{turnImg}} " mode="widthFix"></image>
 
       <!-- 查看前后有无课程 -->
       <!-- 分割线 -->
@@ -490,7 +490,7 @@
           </van-col>
           <!-- 导航 -->
           <van-col span="8" >
-            <button class="cu-btn icon line-white round lg bordersize" data-class_name="{{tapCourse.place}}" catchtap="navigateTo">
+            <button class="cu-btn icon line-white round lg bordersize" data-className="{{tapCourse.place}}" catchtap="navigateTo">
               <text class="cuIcon-location"></text>
             </button>
           </van-col> 
@@ -526,7 +526,7 @@
       <view class="course-info" style="height:80%;padding-top:5%">
         <view class="popup-title">{{tapCourse.course}}</view>
         <view class="popup-class">{{tapCourse.place}}</view>
-        <view class="popup-info">{{tapCourse.info_str}}</view>     
+        <view class="popup-info">{{tapCourse.infoStr}}</view>     
         <view class="popup-teacher">{{tapCourse.teachers}}</view>     
       </view>
   </view>
@@ -550,7 +550,7 @@
       <view class="course-info">
         <view class="popup-title">{{tapCourse.myCourse}}</view>
         <view class="popup-class">{{tapCourse.myPlace}}</view>
-        <view class="popup-info">{{tapCourse.myInfo_str}}</view>     
+        <view class="popup-info">{{tapCourse.myinfoStr}}</view>     
         <view class="popup-teacher">{{tapCourse.myTeachers}}</view>     
       </view>
       <!-- 分割线 -->
@@ -558,7 +558,7 @@
       <view class="course-info">
         <view class="popup-title">{{tapCourse.friendCourse}}</view>
         <view class="popup-class">{{tapCourse.friendPlace}}</view>
-        <view class="popup-info">{{tapCourse.friendInfo_str}}</view>     
+        <view class="popup-info">{{tapCourse.friendinfoStr}}</view>     
         <view class="popup-teacher">{{tapCourse.friendTeachers}}</view>     
       </view>
 
@@ -582,7 +582,7 @@
           <van-col span="8" >
             <button 
               class="cu-btn icon line-white round lg bordersize" 
-              data-class_name="{{tapCourse.place!=null?tapCourse.place:tapCourse.myPlace}}" 
+              data-className="{{tapCourse.place!=null?tapCourse.place:tapCourse.myPlace}}" 
               catchtap="navigateTo">
               <text class="cuIcon-location"></text>
             </button>

@@ -46,7 +46,8 @@ App({
   },
 
   globalData: {
-    rediretTo:"multi_course",
+    rediretTo:"",
+    params:"",
     debug:false,
     debugRouter:"multi_course",
     // 当前样式,注意这里配合腾讯地图，所以是从1开始

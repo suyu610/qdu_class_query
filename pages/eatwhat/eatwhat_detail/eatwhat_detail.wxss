@@ -1,0 +1,10 @@
+/* pages/eatwhat/eatwhat_detail/eatwhat_detail.wxss */
+.inputView{
+  position: fixed;
+  bottom: 0px;
+  width:100%;
+}
+
+page{
+  background-color: #fff;
+}

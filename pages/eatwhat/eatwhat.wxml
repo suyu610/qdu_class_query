@@ -1,147 +1,145 @@
 <view wx:if="{{loaded}}" class="main-box">
-  <swiper
-    bindchange="stopSelect"
-    vertical="{{true}}" 
-    current="{{1}}"
-    indicator-dots="{{true}}"
-    >
-      <swiper-item>
-        <view class="page page-menu">菜单</view>
-      </swiper-item>
+  <swiper bindchange="" vertical="{{true}}" current="{{1}}" indicator-dots="{{true}}">
+    <swiper-item>
+      <view class="page page-menu">菜单</view>
+    </swiper-item>
 
-      <swiper-item>
-        <view class="page page-select">
-            <!-- 控制面板 -->
-            <view class="control-pannel">
-              <van-icon name="filter-o" size="60rpx" bindtap="onShowFilterPopup"/>              
-              <image src="https://cdns.qdu.life/icons/eatwhat/icon_list.png"/>
-              <image src="https://cdns.qdu.life/icons/eatwhat/icon_comments.png"/>
-              <image src="https://cdns.qdu.life/icons/eatwhat/icon_profile.png"/>
-            </view>
-            <view class="title">
-                <view class="{{foodImageList[foodImageIndex]}} title-img-random"></view>
-                <view class="title-info">
-                  <text>今天吃</text>
-                  <text>{{eatNameList[currentEatNameIndex]}}</text>
-                </view>
-            </view>
-            <view id="start" bindtap="selectStart" class="{{selectStartStatus?'start-btn-active':''}}">{{currentEatNameIndex==0?"开始":selectStartStatus?"停止":"换一个"}}</view>
+    <swiper-item>
+      <view class="page page-select">
+        <!-- 控制面板 -->
+        <view class="control-pannel">
+          <van-icon name="filter-o" size="60rpx" bindtap="onShowFilterPopup" />
+          <!-- <image src="https://cdns.qdu.life/icons/eatwhat/icon_list.png" /> -->
+          <!-- <image src="https://cdns.qdu.life/icons/eatwhat/icon_comments.png" /> -->
+          <image src="https://cdns.qdu.life/icons/eatwhat/icon_profile.png" />
+        </view>
+        <view class="title">
+          <view class="{{foodImageList[foodImageIndex]}} title-img-random"></view>
+          <view class="title-info">
+            <text>今天吃</text>
+            <text wx:if="{{selectStartStatus}}">{{eatNameList[currentEatNameIndex]}}</text>
+            <text wx:else>{{randomIndex==-1?"什么?":totalFoodArr[randomIndex].foodName}}</text>
           </view>
-      </swiper-item>
+        </view>
+        <view id="start" bindtap="selectStart" class="{{selectStartStatus?'start-btn-active':''}}">
+          {{currentEatNameIndex==0?"开始":selectStartStatus?"停止":"换一个"}}</view>
+      </view>
+    </swiper-item>
 
-      <swiper-item>
-        <view class="page page-detail">
-          <swiper indicator-dots="{{true}}">
-            <block wx:for="{{foodImages}}" wx:for-item="img" wx:for-index="index" wx:key="index">
-              <swiper-item>
-              <image
-                class="foodImage" 
-                src="{{img}}" 
-                mode="aspectFill"
-                bindtap="previewImage"/>
-              </swiper-item>
+    <swiper-item>
+      <view wx:if="{{randomIndex==-1}}" style="text-align:center;padding-top:30vh;font-weight:bold;font-size:40rpx">
+        <view>还未选择吃什么</view>
+        <view>往下滑开始随机</view>
+      </view>
+      <view wx:else class="page page-detail">
+        <swiper indicator-dots="{{true}}">
+          <block wx:for="{{totalFoodArr[randomIndex].foodImageList}}" wx:for-item="img" wx:for-index="index"
+            wx:key="index">
+            <swiper-item>
+              <image class="foodImage" src="{{img.imgUrl}}" mode="aspectFill" bindtap="previewImage" />
+            </swiper-item>
+          </block>
+        </swiper>
+        <view class="foodDesc">
+          <view class="title" bindtap="like_food">
+            <text>{{totalFoodArr[randomIndex].foodName}}</text>
+            <image wx:if="{{selectFood.isLike==1}}" src="https://cdns.qdu.life/icons/eatwhat/icon_love_fill.png"
+              style="width: 45rpx;height: 45rpx;" animation="{{animation}}"/>
+            <image wx:else src="https://cdns.qdu.life/icons/eatwhat/icon_love.png"
+              style="width: 45rpx;height: 45rpx;" />
+          </view>
+
+          <view class="tags">
+            <block wx:for="{{totalFoodArr[randomIndex].foodTagList}}" wx:for-index="idx" wx:for-item="itemName"
+              wx:key="idx">
+              <van-tag type="primary" color="#f2f2f2" size="medium" custom-class="food-tag" text-color="#868686" round>
+                {{itemName}}</van-tag>
             </block>
-          </swiper>
-          <view class="foodDesc">
-            <view class="title" bindtap="like_food">
-              <text>{{eatNameList[currentEatNameIndex]}}</text>
-              <image wx:if="{{like_food}}" src="https://cdns.qdu.life/icons/eatwhat/icon_love_fill.png" style="width: 45rpx;height: 45rpx;"/>
-              <image wx:else src="https://cdns.qdu.life/icons/eatwhat/icon_love.png" style="width: 45rpx;height: 45rpx;"/>
-            </view>
-            
-            <view class="tags">
-              <van-tag type="primary" color="#f2f2f2" size="medium" custom-class="food-tag" text-color="#868686" round>早餐</van-tag>
-              <van-tag type="primary" color="#f2f2f2" size="medium" custom-class="food-tag" text-color="#868686" round>还行</van-tag>
-              <van-tag type="primary" color="#f2f2f2" size="medium" custom-class="food-tag" text-color="#868686" round>分量足</van-tag>                
-            </view>
 
-            <van-row>
-              <van-col span="16">
-                <van-rate custom-class="rate" value="{{ 3 }}" bind:change="onChange" />
-              </van-col>
-              <van-col span="2">
-                <van-icon name="like-o" />
-              </van-col>
-              <van-col span="2">12</van-col>
-              <van-col span="2">
-                <van-icon name="more-o" />
-              </van-col>
-              <van-col span="2">12</van-col>
-            </van-row>
-            <van-divider borderColor="transparent"/>
+          </view>
 
-            <text class="descript">牛肉汤料也很足，大把的牛肉片以及一大团豆腐丝和粉条，是我最爱的没错了。两块钱的饼配上一碗八块钱牛肉汤，超级划算！</text>
-            <text style="text-decoration:underline">详情</text>
+          <van-row>
+            <van-col span="16">
+              <van-rate custom-class="rate" value="{{ 3 }}" bind:change="onChange" />
+            </van-col>
 
-            <van-divider />
-            
-            <view class="detail">
-              <view class="detail-line">
-                <view class="detail-item">
-                  <image src="https://cdns.qdu.life/icons/eatwhat/icon_list.png" />
-                  <p>较为充足</p>
-                </view>
-                <view class="detail-item">
-                  <image src="https://cdns.qdu.life/icons/eatwhat/icon_taste.png"/>
-                  <p>微辣 / 非常辣</p>
-                </view>
-                <view class="detail-item">
-                  <image src="https://cdns.qdu.life/icons/eatwhat/icon_time.png"/>
-                  <p>5分钟</p>
-                </view>
-              </view>
-              
-              <view class="detail-item" style="width:100%">
-                <image src="https://cdns.qdu.life/icons/eatwhat/icon_price.png"/>
-                <p>10元 12元 14元</p>
-              </view>
-              
+            <van-col span="4">
+              <van-icon style="display:inline" name="like-o" /> <view style="display:inline"> {{selectFood.likeCount}}</view>
+            </van-col>
+            <van-col span="4" bindtap="jump2Detail">
+              <van-icon style="display:inline" name="more-o" /> <view style="display:inline"> {{totalFoodArr[randomIndex].commentCount}}</view>
+            </van-col>
+          </van-row>
+          <van-divider borderColor="transparent" />
+
+          <text class="descript">{{totalFoodArr[randomIndex].descShort}}</text>
+          <text style="text-decoration:underline">详情</text>
+
+          <van-divider />
+
+          <view class="detail">
+            <view class="detail-line">
               <view class="detail-item">
-                <image src="https://cdns.qdu.life/icons/eatwhat/icon_location.png"/>
-                <p class="">汇园餐厅二楼101窗口</p>
-                <image src="https://cdns.qdu.life/icons/eatwhat/icon_finger.png"/>
+                <image src="https://cdns.qdu.life/icons/eatwhat/icon_list.png" />
+                <p>{{totalFoodArr[randomIndex].weight}}</p>
+              </view>
+              <view class="detail-item">
+                <image src="https://cdns.qdu.life/icons/eatwhat/icon_taste.png" />
+                <block wx:for="{{totalFoodArr[randomIndex].foodTasteList}}" wx:for-index="idx" wx:for-item="itemName"
+                  wx:key="idx">
+                  <p>{{itemName}} {{idx==totalFoodArr[randomIndex].foodTasteList.length-1?"":"|"}} </p>
+                </block>
+              </view>
+              <view class="detail-item">
+                <image src="https://cdns.qdu.life/icons/eatwhat/icon_time.png" />
+                <p>{{totalFoodArr[randomIndex].waitTime}}分钟</p>
               </view>
             </view>
-          </view>  
-        </view>        
-      </swiper-item>
+
+            <view class="detail-item" style="width:100%">
+              <image src="https://cdns.qdu.life/icons/eatwhat/icon_price.png" />
+              <block wx:for="{{totalFoodArr[randomIndex].foodPriceList}}" wx:for-index="idx" wx:for-item="itemName"
+                wx:key="idx">
+                <p>{{itemName}} 元 </p>
+              </block>
+            </view>
+
+            <view class="detail-item" style="width:100%">
+              <p style="display:inline;font-weight:bold">食材：</p>              
+              <block wx:for="{{totalFoodArr[randomIndex].foodComponentList}}" wx:for-index="idx" wx:for-item="itemName"
+                wx:key="idx">
+                <p>{{itemName}} {{idx==totalFoodArr[randomIndex].foodComponentList.length-1?"":"、"}} </p>
+              </block>
+            </view>
+
+            <view class="detail-item">
+              <image src="https://cdns.qdu.life/icons/eatwhat/icon_location.png" />
+              <p class="">
+                {{totalFoodArr[randomIndex].canteenName}}{{totalFoodArr[randomIndex].floor}}楼{{totalFoodArr[randomIndex].windowName}}
+              </p>
+              <image src="https://cdns.qdu.life/icons/eatwhat/icon_finger.png" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </swiper-item>
   </swiper>
-  <van-popup 
-    show="{{ showFilterPopup }}" 
-    closeable  
-    custom-style="background-color:transparent;"
+  <van-popup show="{{ showFilterPopup }}" closeable custom-style="background-color:transparent;"
     bind:close="onCloseFilterPopup">
     <view class="filterContent">
-      <van-divider 
-        contentPosition="center" 
-        fontSize="18" 
-        border-color="transparent" 
-        text-color="black"
-        customStyle="font-weight:bold"
-        >筛选条件
+      <van-divider contentPosition="center" fontSize="18" border-color="transparent" text-color="black"
+        customStyle="font-weight:bold">筛选条件
       </van-divider>
-      <van-cell
-        icon="aim"
-        custom-class="filter-cell"
-        border="{{false}}"
-        title="{{isFushanCampus?'浮山校区':'金家岭校区'}}" >
-        <van-switch
-          size="20px"
-          active-color="#fde06b"
-          inactive-color="#00a7f0"
-          checked="{{ isFushanCampus }}" 
+      <van-cell icon="aim" custom-class="filter-cell" border="{{false}}" title="{{isFushanCampus?'浮山校区':'金家岭校区'}}">
+        <van-switch size="20px" active-color="#fde06b" inactive-color="#00a7f0" checked="{{ isFushanCampus }}"
           bind:change="toggleCampus" />
       </van-cell>
-      <van-cell
-        icon="aim"
-        custom-class="filter-cell"
-        border="{{false}}"
-        title="排序" >
+      <van-cell icon="aim" custom-class="filter-cell" border="{{false}}" title="排序">
         <van-dropdown-menu>
           <van-dropdown-item value="{{ sortValue }}" options="{{ sortOptions }}" />
         </van-dropdown-menu>
       </van-cell>
-      
+
 
     </view>
   </van-popup>
