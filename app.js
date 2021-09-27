@@ -50,10 +50,12 @@ App({
     rediretTo: "",
     params: "",
     debug: false,
-    debugRouter: "multi_course",
+    debugRouter: "lucky_draw",
     // 当前样式,注意这里配合腾讯地图，所以是从1开始
     currentTheme: 1,
     currentCampus: 1709,
+    myJwCourseKey:"my-jw-course-v4",
+    tokenKey:'token_1',
     currentCourse: "",
     openid: "",
     token: "",

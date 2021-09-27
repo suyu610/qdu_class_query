@@ -881,7 +881,7 @@ Page({
     console.log(e)
     // 将它存到本地
     wx.setStorage({
-      key: "my-jw-course-v3",
+      key: app.globalData.myJwCourseKey,
       data: e
     })
     this.setData({
@@ -918,7 +918,7 @@ Page({
     let that = this
     //首先判断本地有没有教务课表，
     wx.getStorage({
-      key: 'my-jw-course-v3',
+      key: app.globalData.myJwCourseKey,
       success(res) {
         if (res.data.length == 0) {
           userCourseService.getMyJwCourse(that.handleGetMyJwCourse)

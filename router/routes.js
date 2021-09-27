@@ -8,6 +8,10 @@ module.exports = {
     type: 'tab',
     path: '/pages/mine/mine',
   },
+  lucky_draw: {
+    path: '/pages/lucky_draw/lucky_draw',
+  },
+
   course: {
     type: 'tab',
     path: '/pages/course/course',

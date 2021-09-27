@@ -1,7 +1,7 @@
 <view id="container" style="font-size:14px;background-color:#fff">
   <van-row>    
     <van-col span="22" offset="1" style=";">    
-      <view style="text-align:center;padding-top:6vh;padding-bottom:4vh;">
+      <view style="text-align:center;padding-top:4vh;padding-bottom:2vh;">
         <text style="font-size:20px">不晦涩难懂的用户须知</text>
       </view>
     </van-col>
@@ -10,10 +10,9 @@
   <van-row>
     <van-col span="22" offset="1" style="text-align:left;color:grey">    
       <view>
-        <text style="color:black;font-size:16px">1. 我们会获取的信息\n</text>
+        <text style="color:black;font-size:16px">1. 我们会获取的数据\n</text>
         <view style="padding-top:1vh"></view>
-        <text>会获取不超过课表、姓名*、学号*、专业名*数据，并将它们加密并存储在数据库中，带*为可去除项。\n</text>
-        <text>获取实名信息，是为接下来的二手交易、约活动等实名功能做准备。\n</text>
+        <text>会获取课表、姓名、学号数据，并将它们加密存储在数据库中。\n</text>
         <view style="padding-top:1vh"></view>
         <text style="color:black;font-size:16px">2. 导入的流程\n</text>        
         <view style="padding-top:1vh"></view>
@@ -41,9 +40,8 @@
         <text>1. 充分了解风险，并不要轻易在（ 包括我们在内的 ）第三方平台，输入你的重要密码。无论他长得有多像，比如下面这个</text>
           <view bindtap="navToFakeJw" class="underline">点击进入演示用的钓鱼网站</view>
           <view style="padding-top:1vh"></view>   
-
         <text style="font-weight:bold">2. 建议在导入课表后，及时修改你的教务密码。\n</text>
-        <text>3. 如果你有更好的建议，欢迎告诉我，感激。\n\n</text>
+        <text>3. 如果你有更好的建议，欢迎告诉我，感谢。\n\n</text>
         <view style="text-align:right"><text>青空开发团队\n2021/3/7</text></view>        
       </view>
     </van-col>
@@ -67,7 +65,7 @@
   <van-row>
     <van-col span="12" offset="2">
       <view style="text-align:center">
-        <button class="contact cu-btn" bindtap="tapReturnBtn">不同意，返回手动导入</button>
+        <button class="contact cu-btn" bindtap="tapReturnBtn">不同意，返回</button>
       </view>
     </van-col>
     <van-col span="4" offset="2">

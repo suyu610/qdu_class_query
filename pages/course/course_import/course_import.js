@@ -165,7 +165,7 @@ Page({
             })
             // 清空本地的值
             wx.removeStorage({
-              key: 'my-jw-course-v2',
+              key: app.globalData.myJwCourseKey,
               success(res) {
                 app.globalData.onImportJwCourseOk = true
                 wx.navigateBack({

@@ -313,10 +313,10 @@ page {
   background-color: transparent;
 }
 .course-item-inner-green_1 {
-  background-color: #c03a2b2f;
+  background-color: RGB(255, 238, 230);
 }
 .course-item-inner-green_2 {
-  background-color: RGB(255, 238, 230);
+  background-color: #c03a2b2f;
 }
 .course-item-inner-green_3 {
   background-color: RGB(255, 202, 179);

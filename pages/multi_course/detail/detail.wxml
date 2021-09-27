@@ -1,8 +1,15 @@
 <!-- 右下角的设置按钮 -->
 <wxs module="m1">
   var arraySplice = function (num, total) {
-    var index = Math.round(num / total * 5)
-    return index > 5 ? 5 : index
+
+    var index = num / total
+    if (index >= 1) return 5
+    if (index > 0.8) return 4
+    if (index > 0.6) return 3
+    if (index > 0.4) return 2
+    if (index > 0) return 1
+    return 0
+    // return index > 5 ? 5 : index
     // return Math.round(num / (total * 4)) + 1;
   }
 

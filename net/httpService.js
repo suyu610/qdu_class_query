@@ -8,7 +8,7 @@ function myrequest(url, method, param, successCallback, failCallback) {
     var that = this;
     let token = app.globalData.token
 
-    if (token == "") token = wx.getStorageSync('token_1')
+    if (token == "") token = wx.getStorageSync(app.globalData.tokenKey)
 
     wx.request({
         url: url,
@@ -34,7 +34,7 @@ function myrequest(url, method, param, successCallback, failCallback) {
                             method: "POST",
                             success(res) {
                                 if (res.data['status']['code'] == 200) {
-                                    wx.setStorageSync('token_1', res.data['data'])
+                                    wx.setStorageSync(app.globalData.tokenKey, res.data['data'])
                                     app.globalData.token = res.data['data']
                                     // 然后再发送重复的请求
                                     myrequest(url, method, param, successCallback, failCallback)
@@ -71,7 +71,7 @@ function myrequest(url, method, param, successCallback, failCallback) {
                         method: "POST",
                         success(res) {
                             if (res.data['status']['code'] == 200) {
-                                wx.setStorageSync('token_1', res.data['data'])
+                                wx.setStorageSync(app.globalData.tokenKey, res.data['data'])
                                 app.globalData.token = res.data['data']
                                 that.myrequest()
                             } else {

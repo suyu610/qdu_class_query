@@ -27,7 +27,7 @@ Page({
     }
     let options = this.data.options;
     if (null != options && null != options.url) {
-      console.log(options.url)
+      console.log(options.params)
       app.globalData.url = options.url
       app.globalData.params = options.params
 
@@ -87,9 +87,9 @@ Page({
   handleLoginByTokenSuccess: function (res) {
     if (res.data.token.token != null) {
       console.log(res.data.token)
-      wx.setStorageSync('token_1', res.data.token.token)
+      wx.setStorageSync('', res.data.token.token)
     } else {
-      wx.setStorageSync('token_1', res.data.token)
+      wx.setStorageSync(app.globalData.tokenKey, res.data.token)
     }
     wx.setStorageSync('nickname', res.data['nickname'])
     wx.setStorageSync('avatar', res.data['avatar'])
@@ -119,7 +119,7 @@ Page({
           method: "post",
           success(res) {
             if (res.data['status']['code'] == 200) {
-              wx.setStorageSync('token_1', res.data['data']['token'])
+              wx.setStorageSync(app.globalData.tokenKey, res.data['data']['token'])
               wx.setStorageSync('nickname', res.data['data']['nickname'])
               wx.setStorageSync('avatar', res.data['data']['avatar'])
               app.globalData.token = res.data['data']['token']
@@ -224,7 +224,7 @@ Page({
 
     // 判断本地是否有token
     wx.getStorage({
-      key: 'token_1',
+      key: app.globalData.tokenKey,
       success(res) {
         console.log("存在token")
         if (res.data.token != null) {

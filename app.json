@@ -25,7 +25,8 @@
     "pages/telephone/telephone",
     "pages/eatwhat/eatwhat",
     "pages/multi_course/multi_course",
-    "pages/eatwhat/eatwhat_detail/eatwhat_detail"
+    "pages/eatwhat/eatwhat_detail/eatwhat_detail",
+    "pages/lucky_draw/lucky_draw"
   ],
   "themeLocation": "theme.json",
   "window": {

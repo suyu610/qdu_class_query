@@ -2,11 +2,14 @@
 <scroll-view class="container">
   <my-block title="功能广场"></my-block>
   <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
+
+    <!-- <van-grid-item icon="point-gift" icon-color="red" text="抽奖"
+      url="/pages/lucky_draw/lucky_draw" dot /> -->
+
     <van-grid-item bindtap="jump2Quiz" use-slot>
       <image style="width: 29px; height: 29px;" src="/images/QY_LOGO.png" />
       <text style="font-size:12px;margin-top:9px;color:#646566">青云知识库</text>
     </van-grid-item>
-
     <van-grid-item icon="fire-o" text="小目标" link-type="navigateTo" url="/pages/flag/flag"
       custom-class="grid gradient-border" />
     <van-grid-item use-slot link-type="navigateTo" url="/pages/eatwhat/eatwhat">

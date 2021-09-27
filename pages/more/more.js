@@ -43,6 +43,13 @@ Page({
       appId: 'wx573a4ffa05381ed1',
     })
   },
+
+  jump2LuckyDraw: function () {
+    wx.navigateTo({
+      url: '../lucky_draw/lucky_draw',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面显示
    */
