@@ -1,0 +1,202 @@
+<!-- 右下角的设置按钮 -->
+<wxs module="m1">
+  var arraySplice = function (num, total) {
+
+    var index = num / total
+    if (index >= 1) return 5
+    if (index > 0.8) return 4
+    if (index > 0.6) return 3
+    if (index > 0.4) return 2
+    if (index > 0) return 1
+    return 0
+    // return index > 5 ? 5 : index
+    // return Math.round(num / (total * 4)) + 1;
+  }
+
+  var textColor = function (num, total) {
+    var index = arraySplice(num, total);
+    if (index == 1 || index == 2 || index == 3) {
+      return 'black'
+    }
+    if (index == 0) {
+      return "transparent"
+    }
+    return 'white';
+  }
+
+  //  将周转为汉字
+  var num2Chinese = function (num) {
+    var arr = ["一", "二", "三", "四", "五", "六", "日"]
+    return arr[num]
+  }
+  // 将seq[11000 00000 000] 转化为中文
+  var seq2Chinese = function (num) {
+    var headIndex = num.indexOf("1");
+    var tailIndex = num.lastIndexOf("1");
+    // 11111 11111 111
+    var sequence = ["1", 2, 3, 4, 'T1', 5, 6, 7, 8, 'T2', 9, 10, 11]
+    // return num
+    return '第' + sequence[headIndex] + '节 - 第' + sequence[tailIndex] + '节'
+  }
+
+  module.exports.seq2Chinese = seq2Chinese;
+  module.exports.num2Chinese = num2Chinese;
+  module.exports.arraySplice = arraySplice;
+  module.exports.textColor = textColor;
+</wxs>
+
+<!-- info -->
+<view class="bottom-info" bindtap="ontapSettingBtn">
+  <van-icon name="setting-o" size="17px" custom-style="top: -1px;padding-right: 10px;" />
+  <text>更多信息 共{{rawData.stuCount}}人 </text>
+</view>
+<!-- 课表 -->
+<scroll-view scroll-y="true" class="tab-scroll">
+  <view class="tab-top">
+    <view class="cur-month">星期\n节次</view>
+    <view class="week-list">
+      <view wx:for="{{weekDates}}" wx:key="*this" class="day-text}} {{todayIndex == index ? 'active' : ''}}">
+        <text>{{weekLabels[index]}}</text>
+        <text>{{weekDates[index]}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="tab-container">
+    <!--分节-->
+    <view class="tab-divide"></view>
+    <view class="tab-section">
+      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11]}}" wx:key="*this" class="tab-section-divide tab-section-item">
+        <text>{{sequence[item]}}</text>
+      </view>
+    </view>
+
+    <!--线条-->
+    <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11]}}" wx:key="*this">
+      <view style="top:{{item*55}}px;" class="tab-line"></view>
+    </view>
+    <view wx:if="{{courselist.length!=0}}">
+      <view wx:for="{{courselist}}" wx:index="index" wx:key="index">
+        <view class="course-item" bindtap="ontapCourseDetail" data-id="{{item.id}}" data-day="{{item.day}}"
+          data-start="{{item.start}}"
+          style="margin-left:{{item.day*100-3}}rpx;margin-top:{{(item.start-1)*55}}px;height:{{item.sections*53}}px;">
+          <view
+            class="course-item-inner course-item-inner-green_{{item.start!=5 && item.start != 10? m1.arraySplice(item.count,rawData.stuCount):0 }}"
+            style="height:{{item.sections*55-5}}px;">
+            <text wx:if="{{item.start!=5 && item.start != 10}}"
+              style="font-size:12px;color:{{m1.textColor(item.count,rawData.stuCount)}};opacity:1">{{item.courses.length}}\n节课</text>
+            <text wx:else style="font-size:12px;color:black;opacity:0.6;color:lightgrey;">未统计</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+<!-- 
+  这个地方应该有哪些选项呢？
+  1. 所有人的名单？
+  2. 分享按钮
+  3. 进入需要审批？
+ -->
+<van-popup show="{{ showSettingPage }}" position="bottom" round custom-style="height: 60%;"
+  bind:close="onCloseSettingPage">
+  <van-cell-group title="设置" border="{{false}}">
+    <van-cell center title="邀请" label="房间号为{{rawData.roomId}}" bindtap="onShareBtnTap">
+      <van-button dataset="{{rawData.roomId}}" icon="share-o" round size="small" type="primary" />
+    </van-cell>
+    <van-field round model:value="{{ roomName }}" clearable label="房间名" placeholder="请输入房间名" use-button-slot>
+      <van-button wx:if="{{rawData.isOwner}}" slot="button" size="small" round type="primary" color="black"
+        bindtap="onChangeRoomName" custom-style="background-color:transparent;color:black">修改</van-button>
+    </van-field>
+
+    <van-field wx:if="{{rawData.isOwner}}" round model:value="{{ password }}" clearable label="密码" placeholder="为空即无密码"
+      use-button-slot>
+      <van-button slot="button" size="small" round type="primary" color="black" bindtap="onChangeRoomPwd"
+        custom-style="background-color:transparent;color:black">修改</van-button>
+    </van-field>
+
+    <!-- <van-cell center title="查看无课">
+      <van-switch checked="{{ showFree }}" bind:change="onChangeShowFree" active-color="#FEE161" size="24px" />
+    </van-cell> -->
+
+    <van-cell center title="更改周次">
+      <van-stepper bind:plus="onPlusWeek" bind:minus="onMinusWeek" disable-input="{{true}}" min="2" max="16"
+        value="{{ curWeek }}" />
+    </van-cell>
+  </van-cell-group>
+
+  <van-cell-group title="人员列表 ({{rawData.stuCount}})" border="{{false}}">
+    <block wx:for="{{peopleList}}" wx:key="index" wx:for-item="person">
+      <van-cell border="{{false}}" data-number="{{person.ssNumber}}" title="{{person.id}}" value="共{{person.count}}节课">
+        <view slot="right-icon" style="padding-left:5vw;">
+          <!-- 是否可见 -->
+          <van-icon wx:if="{{person.openEye}}" name="eye-o" class="custom-icon" data-number="{{person.ssNumber}}"
+            bindtap="toggleEye" />
+          <van-icon wx:else name="closed-eye" class="custom-icon" data-number="{{person.ssNumber}}"
+            bindtap="toggleEye" />
+          <van-icon wx:if="{{rawData.isOwner}}" data-name="{{person.id}}" data-number="{{person.ssNumber}}"
+            style="padding-left:5vw" name="cross" bindtap="removePeople" class="custom-icon" />
+        </view>
+      </van-cell>
+    </block>
+  </van-cell-group>
+</van-popup>
+
+<van-popup show="{{ showCourseDetail }}" position="bottom" round custom-style="height: 60%;"
+  bind:close="onCloseCourseDetail">
+  <van-cell-group
+    title="周{{m1.num2Chinese(curTapDay)}}{{curTapStart==6?curTapStart-1:curTapStart==11?curTapStart-2:curTapStart}} - {{curTapStart==6?curTapStart:curTapStart==11?curTapStart-1:curTapStart+1}}节的课程列表 ({{curTapCourseList.length}}人有课)"
+    border="{{false}}">
+    <van-divider contentPosition="center" bindtap="toggleShow" dashed data-type="free">无课成员列表
+      <van-icon custom-style="padding-left:10rpx" name="{{showFree?'eye-o':'closed-eye'}}" />
+    </van-divider>
+    <!-- 无课 -->
+    <block wx:if="{{showFree}}" wx:for="{{curTapCourseListFree}}" wx:key="index" wx:for-item="stu">
+      <van-cell border="{{false}}" title="{{stu.id}}">
+      </van-cell>
+    </block>
+
+    <van-divider contentPosition="center" bindtap="toggleShow" data-type="fushan" dashed>中心校区上课列表
+      <van-icon custom-style="padding-left:10rpx" name="{{showFushan?'eye-o':'closed-eye'}}" />
+    </van-divider>
+
+    <block wx:if="{{showFushan}}" wx:for="{{curTapCourseList}}" wx:key="index" wx:for-item="course">
+      <van-cell border="{{false}}" title-width="75%" title="{{course.courseName}}"
+        label="{{m1.seq2Chinese(course.seq)}}" wx:if="{{course.campusName == '浮山校区'}}" value="{{course.stuName}}">
+      </van-cell>
+    </block>
+
+    <van-divider contentPosition="center" bindtap="toggleShow" dashed data-type="jinjialing">东校上课列表
+      <van-icon custom-style="padding-left:10rpx" name="{{showJinjialing?'eye-o':'closed-eye'}}" />
+    </van-divider>
+
+    <block wx:if="{{showJinjialing}}" wx:for="{{curTapCourseList}}" wx:key="index" wx:for-item="course">
+      <van-cell border="{{false}}" title-width="75%" title="{{course.courseName}}"
+        label="{{m1.seq2Chinese(course.seq)}}" wx:if="{{course.campusName == '金家岭校区'}}" value="{{course.stuName}}">
+      </van-cell>
+    </block>
+
+    <van-divider contentPosition="center" bindtap="toggleShow" dashed data-type="unknow">未知地点上课列表
+      <van-icon custom-style="padding-left:10rpx" name="{{showUnknow?'eye-o':'closed-eye'}}" />
+    </van-divider>
+
+    <block wx:if="{{showUnknow}}" wx:for="{{curTapCourseList}}" wx:key="index" wx:for-item="course">
+      <van-cell border="{{false}}" title-width="75%" title="{{course.courseName}}" wx:if="{{course.campusName == null}}"
+        label="未安排上课地点" value="{{course.stuName}}">
+      </van-cell>
+    </block>
+
+  </van-cell-group>
+
+
+</van-popup>
+
+<van-action-sheet show="{{ showCampusSheet }}" actions="{{ campusOptions }}" bind:close="onSwitchCampusClose"
+  bind:select="onSwitchCampusSelect" description="如果无上课地点，会显示为未知" />
+
+<share-box roomId="{{rawData.roomId}}" roomPwd="{{rawData.roomPwd}}" isCanDraw="{{isCanDraw}}"
+  bind:initData="onShareBtnTap" />
+
+<van-share-sheet show="{{ showShare }}" title="立即分享给好友" options="{{ shareOptions }}" bind:select="onSelectShareType"
+  bind:close="onCloseShareSheet" />

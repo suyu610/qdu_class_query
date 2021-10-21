@@ -14,6 +14,21 @@ App({
   },
 
   onShow: function () {
+    this.globalData.capsuleBtnInfo = wx.getMenuButtonBoundingClientRect()
+    this.globalData.systemInfo = wx.getSystemInfoSync()
+    let that = this
+    wx.getNetworkType({
+      success: function (res) {
+        // networkType字段的有效值：
+        // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
+        if (res.networkType == 'wifi') {
+          that.globalData.isWifi = true
+        } else {
+          that.globalData.isWifi = false
+        }
+      }
+    })
+
     wx.cloud.init({
       env: 'qdu-class-query-0gjy63ub39e21b96',
       traceUser: true
@@ -47,15 +62,16 @@ App({
   },
 
   globalData: {
+    capsuleBtnInfo: {},
     rediretTo: "",
     params: "",
     debug: false,
-    debugRouter: "lucky_draw",
+    debugRouter: "multi_course",
     // 当前样式,注意这里配合腾讯地图，所以是从1开始
     currentTheme: 1,
     currentCampus: 1709,
-    myJwCourseKey:"my-jw-course-v4",
-    tokenKey:'token_1',
+    myJwCourseKey: "my-jw-course-v4",
+    tokenKey: 'token_2',
     currentCourse: "",
     openid: "",
     token: "",
@@ -63,10 +79,9 @@ App({
     // 初始中心点
     longitude: 120.423621,
     latitude: 36.070106,
-
     // longitude:120.479515,
     // latitude:36.115372,
-    version: '2.0.2',
+    version: '2.5.4',
     // 腾讯地图的key
     key: "5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO",
     // list界面的id,如果为0，则显示默认值

@@ -25,7 +25,7 @@
           "scene": null
         },
         {
-          "name": "pages/empty/empty",
+          "name": "empty",
           "pathName": "pages/empty/empty",
           "query": "",
           "scene": null
@@ -34,6 +34,12 @@
           "name": "lucky_draw",
           "pathName": "pages/empty/empty",
           "query": "url=lucky_draw&params=2019205913",
+          "scene": null
+        },
+        {
+          "name": "index",
+          "pathName": "pages/index/index",
+          "query": "",
           "scene": null
         }
       ]

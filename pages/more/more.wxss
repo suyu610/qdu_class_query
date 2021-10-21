@@ -1,12 +1,17 @@
 /* pages/more/more.wxss */
-.container{
+page {
+  background-color: #fff;
+}
+.container {
   background-color: #f7f8fa;
   width: 100vw;
 }
-.title{
+.title {
   padding: 5vw;
-  margin:5vw;
+  margin: 5vw;
   height: 5vh;
-} 
+}
 
-
+.wrapper{
+  background-color:transparent;
+}

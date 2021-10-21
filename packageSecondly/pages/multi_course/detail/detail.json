@@ -1,0 +1,21 @@
+{
+  "usingComponents": {
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-popup": "/miniprogram_npm/@vant/weapp/popup/index",
+    "van-cell": "/miniprogram_npm/@vant/weapp/cell/index",
+    "van-cell-group": "/miniprogram_npm/@vant/weapp/cell-group/index",
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index",
+    "van-field": "/miniprogram_npm/@vant/weapp/field/index",
+    "van-stepper": "@vant/weapp/stepper/index",
+    "van-circle": "/miniprogram_npm/@vant/weapp/circle/index",
+    "van-empty": "/miniprogram_npm/@vant/weapp/empty/index",
+    "van-switch": "/miniprogram_npm/@vant/weapp/switch/index",
+    "van-divider": "/miniprogram_npm/@vant/weapp/divider/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "share-box": "/components/shareBox/index",
+    "van-share-sheet": "@vant/weapp/share-sheet/index"
+  },
+  "navigationBarBackgroundColor": "#fff",
+  "backgroundTextStyle": "dark",
+  "enablePullDownRefresh": false
+}

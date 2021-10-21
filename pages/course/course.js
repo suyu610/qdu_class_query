@@ -20,7 +20,12 @@ var countdownService = require('../../net/countdownService.js')
 var dateFormatUtil = require('../../utils/util.js')
 
 // 今天的日期
-const today = new Date()
+var a = new Date();
+var y = a.getFullYear();
+var m = a.getMonth() + 1;
+var d = a.getDate();
+const today = new Date(y + "/" + m + "/" + d)
+
 let app = getApp()
 const db = wx.cloud.database()
 const _ = db.command
@@ -72,6 +77,7 @@ Page({
     folderMenu: false,
     showFriendsCourse: false,
     clockDate: [22, '00'],
+    defaultClockDate: '22:00',
     loading: false,
     showClock: false,
     showSunday: true,
@@ -93,7 +99,7 @@ Page({
     selfAddCourse: [], // 自己的自定义课表
     friendJwCourse: [], // 好友的教务课表
     sequence: ["1", 2, 3, 4, 'T1', 5, 6, 7, 8, 'T2', 9, 10, 11],
-    sequenceWithTime: ["1\n8:00 8:50", "2\n9:00 9:50", "3\n10:10 11:00", "4\n11:10 12:00", "T1", "5\n14:00 14:50", "6\n15:00 15:50", "7\n16:00 16:50", "8\n17:00 17:50", "T2 18:00", "9\n 19:00 19:50", "10\n20:00 20:50", "11\n21:00 21:50"],
+    sequenceWithTime: ["1\n8:00 8:50", "2\n9:00 9:50", "3\n10:10 11:00", "4\n11:10 12:00", "T1", "5\n13:30 14:20", "6\n14:30 15:20", "7\n15:30 16:20", "8\n16:30 17:20", "T2", "9\n 18:30 19:20", "10\n19:30 20:20", "11\n20:30 21:20"],
     showSharePopup: false,
     showSettingPopup: false,
     showImportPopup: false,
@@ -140,6 +146,15 @@ Page({
       "https://cdns.qdu.life/img/chat_bg_7.jpg",
     ],
     localBgImg: ""
+  },
+
+  onConfirmClockTime(e) {
+    console.log(e.detail)
+    this.setData({
+      defaultClockDate: e.detail,
+      showClock: false,
+      showSettingPopup: true,
+    })
   },
 
   getUserProfile() {
@@ -337,7 +352,10 @@ Page({
       wx.showLoading({
         title: '正在检查权限',
       })
-      courseAlarmService.checksubscribe(this.data.clockDate[0], this.data.clockDate[1], this.handleCheckAlarmSuccess)
+      let params = {
+        "clockTime": this.data.defaultClockDate
+      }
+      courseAlarmService.checksubscribe(this.handleCheckAlarmSuccess, params)
     } else {
       // 如果是关闭
       // 给后台发送关闭闹钟
@@ -954,9 +972,7 @@ Page({
   initFriendCourse: function () {
     let that = this
     //首先判断本地有没有好友的姓名，
-
     let friendRealName = app.globalData.friendRealName
-
     if (friendRealName == "") {
       // 说明未绑定，则生成一个绑定好友的token
       userCourseService.checkBindFriend(this.handleCheckBindFriend)
@@ -1120,6 +1136,10 @@ Page({
       title: '个人课表',
     })
 
+    this.setData({
+      safeTop: app.globalData.systemInfo.statusBarHeight
+    })
+    // console.log()
     // 首先检查params,如果不为空，则去服务器绑定    
     if (app.globalData.url == "course" && app.globalData.params != null) {
       userCourseService.checkTokenAndBind(

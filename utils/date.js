@@ -8,13 +8,12 @@
 
 export var getSchoolWeek = function () {
   let today = new Date() // 当前日期
-
   const schoolBeginDate = new Date("2021/9/6")
 
-  let day = Math.round((today.valueOf() - schoolBeginDate.valueOf()) / 86400000) // 当前日期是今年第多少天
+  let day = Math.ceil((today.valueOf() - schoolBeginDate.valueOf()) / 86400000) // 相距多少天
 
   // 用day加当前年的第一天的周差距的和在除以7就是本年第几周
-  return Math.ceil((day + ((schoolBeginDate.getDay()) - 1)) / 7)
+  return Math.ceil((day + ((schoolBeginDate.getDay()))) / 7)
 }
 
 
@@ -23,11 +22,11 @@ export var getSchoolWeek = function () {
  */
 export var getWhichWeekByDate = function (date) {
   let today = new Date(date) // 当前日期
+
   const schoolBeginDate = new Date("2021/9/6")
 
-  let day = Math.round((today.valueOf() - schoolBeginDate.valueOf()) / 86400000) // 当前日期是今年第多少天
-  console.log("已经过去：%d", day)
-  // 用day加当前学期的第一天的周差距的和在除以7就是本年第几周
+  let day = Math.ceil((today.valueOf() - schoolBeginDate.valueOf()) / 86400000) // 当前日期是今年第多少天
+  // 用day加当前学期的第一天的周差距的和在除以7就是本学期第几周
   return Math.ceil((day + ((schoolBeginDate.getDay()))) / 7)
 }
 

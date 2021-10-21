@@ -10,10 +10,10 @@
     "van-checkbox-group": "/miniprogram_npm/@vant/weapp/checkbox-group/index",
     "van-transition": "/miniprogram_npm/@vant/weapp/transition/index",
     "van-overlay": "/miniprogram_npm/@vant/weapp/overlay/index",
-    "van-image": "/miniprogram_npm/@vant/weapp/image/index"
+    "van-image": "/miniprogram_npm/@vant/weapp/image/index",
+    "van-divider": "/miniprogram_npm/@vant/weapp/divider/index"
 
 
+  }
 
-  }  
-  
 }

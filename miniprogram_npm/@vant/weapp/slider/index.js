@@ -1,117 +1,191 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-var component_1 = require('../common/component');
-var touch_1 = require('../mixins/touch');
-var version_1 = require('../common/version');
-component_1.VantComponent({
-  mixins: [touch_1.touch],
-  props: {
-    disabled: Boolean,
-    useButtonSlot: Boolean,
-    activeColor: String,
-    inactiveColor: String,
-    max: {
-      type: Number,
-      value: 100,
+import { VantComponent } from '../common/component';
+import { touch } from '../mixins/touch';
+import { canIUseModel } from '../common/version';
+import { getRect, addUnit } from '../common/utils';
+VantComponent({
+    mixins: [touch],
+    props: {
+        range: Boolean,
+        disabled: Boolean,
+        useButtonSlot: Boolean,
+        activeColor: String,
+        inactiveColor: String,
+        max: {
+            type: Number,
+            value: 100,
+        },
+        min: {
+            type: Number,
+            value: 0,
+        },
+        step: {
+            type: Number,
+            value: 1,
+        },
+        value: {
+            type: null,
+            value: 0,
+            observer(val) {
+                if (val !== this.value) {
+                    this.updateValue(val);
+                }
+            },
+        },
+        vertical: Boolean,
+        barHeight: null,
     },
-    min: {
-      type: Number,
-      value: 0,
+    created() {
+        this.updateValue(this.data.value);
     },
-    step: {
-      type: Number,
-      value: 1,
+    methods: {
+        onTouchStart(event) {
+            if (this.data.disabled)
+                return;
+            const { index } = event.currentTarget.dataset;
+            if (typeof index === 'number') {
+                this.buttonIndex = index;
+            }
+            this.touchStart(event);
+            this.startValue = this.format(this.value);
+            this.newValue = this.value;
+            if (this.isRange(this.newValue)) {
+                this.startValue = this.newValue.map((val) => this.format(val));
+            }
+            else {
+                this.startValue = this.format(this.newValue);
+            }
+            this.dragStatus = 'start';
+        },
+        onTouchMove(event) {
+            if (this.data.disabled)
+                return;
+            if (this.dragStatus === 'start') {
+                this.$emit('drag-start');
+            }
+            this.touchMove(event);
+            this.dragStatus = 'draging';
+            getRect(this, '.van-slider').then((rect) => {
+                const { vertical } = this.data;
+                const delta = vertical ? this.deltaY : this.deltaX;
+                const total = vertical ? rect.height : rect.width;
+                const diff = (delta / total) * this.getRange();
+                if (this.isRange(this.startValue)) {
+                    this.newValue[this.buttonIndex] =
+                        this.startValue[this.buttonIndex] + diff;
+                }
+                else {
+                    this.newValue = this.startValue + diff;
+                }
+                this.updateValue(this.newValue, false, true);
+            });
+        },
+        onTouchEnd() {
+            if (this.data.disabled)
+                return;
+            if (this.dragStatus === 'draging') {
+                this.updateValue(this.newValue, true);
+                this.$emit('drag-end');
+            }
+        },
+        onClick(event) {
+            if (this.data.disabled)
+                return;
+            const { min } = this.data;
+            getRect(this, '.van-slider').then((rect) => {
+                const { vertical } = this.data;
+                const touch = event.touches[0];
+                const delta = vertical
+                    ? touch.clientY - rect.top
+                    : touch.clientX - rect.left;
+                const total = vertical ? rect.height : rect.width;
+                const value = Number(min) + (delta / total) * this.getRange();
+                if (this.isRange(this.value)) {
+                    const [left, right] = this.value;
+                    const middle = (left + right) / 2;
+                    if (value <= middle) {
+                        this.updateValue([value, right], true);
+                    }
+                    else {
+                        this.updateValue([left, value], true);
+                    }
+                }
+                else {
+                    this.updateValue(value, true);
+                }
+            });
+        },
+        isRange(val) {
+            const { range } = this.data;
+            return range && Array.isArray(val);
+        },
+        handleOverlap(value) {
+            if (value[0] > value[1]) {
+                return value.slice(0).reverse();
+            }
+            return value;
+        },
+        updateValue(value, end, drag) {
+            if (this.isRange(value)) {
+                value = this.handleOverlap(value).map((val) => this.format(val));
+            }
+            else {
+                value = this.format(value);
+            }
+            this.value = value;
+            const { vertical } = this.data;
+            const mainAxis = vertical ? 'height' : 'width';
+            this.setData({
+                wrapperStyle: `
+          background: ${this.data.inactiveColor || ''};
+          ${vertical ? 'width' : 'height'}: ${addUnit(this.data.barHeight) || ''};
+        `,
+                barStyle: `
+          ${mainAxis}: ${this.calcMainAxis()};
+          left: ${vertical ? 0 : this.calcOffset()};
+          top: ${vertical ? this.calcOffset() : 0};
+          ${drag ? 'transition: none;' : ''}
+        `,
+            });
+            if (drag) {
+                this.$emit('drag', { value });
+            }
+            if (end) {
+                this.$emit('change', value);
+            }
+            if ((drag || end) && canIUseModel()) {
+                this.setData({ value });
+            }
+        },
+        getScope() {
+            return Number(this.data.max) - Number(this.data.min);
+        },
+        getRange() {
+            const { max, min } = this.data;
+            return max - min;
+        },
+        // 计算选中条的长度百分比
+        calcMainAxis() {
+            const { value } = this;
+            const { min } = this.data;
+            const scope = this.getScope();
+            if (this.isRange(value)) {
+                return `${((value[1] - value[0]) * 100) / scope}%`;
+            }
+            return `${((value - Number(min)) * 100) / scope}%`;
+        },
+        // 计算选中条的开始位置的偏移量
+        calcOffset() {
+            const { value } = this;
+            const { min } = this.data;
+            const scope = this.getScope();
+            if (this.isRange(value)) {
+                return `${((value[0] - Number(min)) * 100) / scope}%`;
+            }
+            return '0%';
+        },
+        format(value) {
+            const { max, min, step } = this.data;
+            return Math.round(Math.max(min, Math.min(value, max)) / step) * step;
+        },
     },
-    value: {
-      type: Number,
-      value: 0,
-      observer: function (val) {
-        if (val !== this.value) {
-          this.updateValue(val);
-        }
-      },
-    },
-    barHeight: {
-      type: null,
-      value: 2,
-    },
-  },
-  created: function () {
-    this.updateValue(this.data.value);
-  },
-  methods: {
-    onTouchStart: function (event) {
-      if (this.data.disabled) return;
-      this.touchStart(event);
-      this.startValue = this.format(this.value);
-      this.dragStatus = 'start';
-    },
-    onTouchMove: function (event) {
-      var _this = this;
-      if (this.data.disabled) return;
-      if (this.dragStatus === 'start') {
-        this.$emit('drag-start');
-      }
-      this.touchMove(event);
-      this.dragStatus = 'draging';
-      this.getRect('.van-slider').then(function (rect) {
-        var diff = (_this.deltaX / rect.width) * 100;
-        _this.newValue = _this.startValue + diff;
-        _this.updateValue(_this.newValue, false, true);
-      });
-    },
-    onTouchEnd: function () {
-      if (this.data.disabled) return;
-      if (this.dragStatus === 'draging') {
-        this.updateValue(this.newValue, true);
-        this.$emit('drag-end');
-      }
-    },
-    onClick: function (event) {
-      var _this = this;
-      if (this.data.disabled) return;
-      var min = this.data.min;
-      this.getRect('.van-slider').then(function (rect) {
-        var value =
-          ((event.detail.x - rect.left) / rect.width) * _this.getRange() + min;
-        _this.updateValue(value, true);
-      });
-    },
-    updateValue: function (value, end, drag) {
-      value = this.format(value);
-      var min = this.data.min;
-      var width = ((value - min) * 100) / this.getRange() + '%';
-      this.value = value;
-      this.setData({
-        barStyle:
-          '\n          width: ' +
-          width +
-          ';\n          ' +
-          (drag ? 'transition: none;' : '') +
-          '\n        ',
-      });
-      if (drag) {
-        this.$emit('drag', { value: value });
-      }
-      if (end) {
-        this.$emit('change', value);
-      }
-      if ((drag || end) && version_1.canIUseModel()) {
-        this.setData({ value: value });
-      }
-    },
-    getRange: function () {
-      var _a = this.data,
-        max = _a.max,
-        min = _a.min;
-      return max - min;
-    },
-    format: function (value) {
-      var _a = this.data,
-        max = _a.max,
-        min = _a.min,
-        step = _a.step;
-      return Math.round(Math.max(min, Math.min(value, max)) / step) * step;
-    },
-  },
 });

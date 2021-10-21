@@ -1,0 +1,18 @@
+<!--pages/umbrella/umbrella.wxml-->
+<view class="container">
+  <view style="text-align:center;font-size:20px;padding-bottom:1vh">爱心雨伞功能说明 【 计划 】 </view>
+  <view>一个在青大校园内使用，传递温暖的载体。</view>
+  <view>预计到时候会购买N把雨伞，下面悬一个二维码。</view>
+  <view>当你在路上看到有同学淋雨或者被太阳暴晒，你便可以直接把雨伞给他。</view>
+  <view>在此之前，你也可以扫码，留言。</view>
+  <view>时效为 [ 单次失效 ]，或 [ 永久留存 ]，其他扫码的人就能看到这些温暖的故事啦。</view>
+  <view>雨伞的来源：初期由青空出资，后续可能会接入其他商家，或是同学认领雨伞。</view>
+  <view>该功能大概会在3.0版本上线，如果你有什么好建议，欢迎联系我们。</view>
+  <view>愿所有青大人下雨有伞，一起来创造一个温暖的青大吧。</view>
+  <view class='form-list' style="text-align:center">
+    <input type='text' value='{{scanCodeMsg}}'></input>
+    <image class='scan' bindtap='scanCode' src='https://cdns.qdu.life/icons/logo3@0,5x.png' style="height:5vh;width:5vh"
+      mode='widthFix'></image>
+    <view><text>点击扫码测试</text></view>
+  </view>
+</view>

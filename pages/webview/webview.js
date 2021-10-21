@@ -5,14 +5,18 @@ Page({
    * 页面的初始数据
    */
   data: {
-    url:"https://www.qdu.life"
+    url: "https://www.qdu.life"
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({url:options.url})
+    
+    this.setData({
+      url: options.url
+    })
+   
   },
 
   /**

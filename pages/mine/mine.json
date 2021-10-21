@@ -15,5 +15,7 @@
     "van-col": "/miniprogram_npm/@vant/weapp/col/index",
     "van-icon": "/miniprogram_npm/@vant/weapp/icon/index"
 
-  }
+  },
+  "navigationStyle":"custom"
+
 }

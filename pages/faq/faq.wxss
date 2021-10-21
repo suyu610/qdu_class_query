@@ -1,0 +1,17 @@
+/* pages/faq/faq.wxss */
+
+.container {
+}
+
+.btns {
+  bottom: 0px;
+  padding: 30rpx;
+  justify-content: space-between;
+  display: flex;
+  width: 100vw;
+  position: absolute;
+}
+
+.column{
+  padding-top: 25px;
+}

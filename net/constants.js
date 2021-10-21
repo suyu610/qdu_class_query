@@ -1,4 +1,4 @@
-// export const Host = 'http://localhost:4396/v1/';
+// export const Host =  'http://localhost:4396/v1/';
 export const Host = 'https://api.qdu.life/v1/';
 // export const Host = 'http://10.195.129.148:4396/v1/';
 
@@ -27,6 +27,9 @@ export const getTomorrowDetailRoomStatusUrl = 'classroomstatus/tomorrow'
 
 // 详细查询今天的
 export const getTodayDetailRoomStatusUrl = 'classroomstatus/today'
+
+// 详细查询未来的
+export const getDetailRoomStatusUrl = 'classroomstatus/future'
 
 ///////////////
 /// 个人课表 ///
@@ -77,6 +80,11 @@ export const TogglePublicLikeFlagUrl = 'flag/public/togglelike'
 ///////////
 export const GetPublicCourseByNameUrl = 'course/getCourseByName'
 export const AddPublicCourseUrl = 'course/addPublicCourse'
+export const GetAllMajorUrl = 'course/getAllMajor'
+export const GetMajorDetailUrl = 'course/getMajorDetail/'
+export const GetMajorClassCourseUrl = 'course/getMajorClassCourse/'
+export const GetMajorClassUrl = 'course/getMajorClass/'
+
 
 ///////////////
 /// 课程闹钟 ///
@@ -114,9 +122,6 @@ export const MultiCourse_CreateRoomUrl = 'multicourse/createRoom/'
 export const MultiCourse_UpdateRoomNameUrl = 'multicourse/updateRoomName/'
 export const MultiCourse_UpdateRoomPwdUrl = 'multicourse/updateRoomPwd/'
 
-
-
-
 export const MultiCourse_RemovePeopleFromRoomUrl = 'multicourse/removePeopleFromRoom/'
 export const MultiCourse_DismissRoomUrl = 'multicourse/dismissRoom/'
 
@@ -125,3 +130,11 @@ export const MultiCourse_GetRoomUrl = 'multicourse/getRoom/'
 export const MultiCourse_JoinRoomUrl = 'multicourse/joinRoom/'
 export const MultiCourse_ExitRoomUrl = 'multicourse/exitRoom/'
 export const MultiCourse_GetRoomDetailUrl = 'multicourse/getRoomDetail/'
+
+
+
+/////////////////
+///  faq相关  ///
+////////////////
+export const Faq_GetFaqInitDataUrl = 'faq/getFaqInitData/'
+export const Faq_GetFaqListUrl = 'faq/getFaqList/'

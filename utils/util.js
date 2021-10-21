@@ -1,15 +1,15 @@
-function formatTime2(date) {  
+function formatTime2(date) {
   var month = date.getMonth() + 1
   var day = date.getDate()
-  return month+"月"+day+"日"
+  return month + "月" + day + "日"
 }
 /** 两个日期之间相差几天 **/
-function gapDay(startTime,endTime) {
+function gapDay(startTime, endTime) {
   //转成毫秒数，两个日期相减
   var ms = startTime.getTime() - endTime.getTime();
   //转换成天数
   var day = parseInt(ms / (1000 * 60 * 60 * 24));
-  
+
   return day
 }
 
@@ -42,7 +42,7 @@ function formatTime(number, format) {
   returnArr.push(formatNumber(date.getSeconds()));
 
   for (var i in returnArr) {
-      format = format.replace(formateArr[i], returnArr[i]);
+    format = format.replace(formateArr[i], returnArr[i]);
   }
   return format;
 }
@@ -83,27 +83,27 @@ function formatNumber(n) {
 }
 
 //函数防抖
-function debounce(fn,delay,immediate){
-  let timeout,result
-  return function(){
+function debounce(fn, delay, immediate) {
+  let timeout, result
+  return function () {
     let context = this
     let args = arguments
 
-    if(timeout){
+    if (timeout) {
       clearTimeout(timeout)
     }
-    if(immediate){
+    if (immediate) {
       let callNow = !timeout
-      timeout = setTimeout(function(){
+      timeout = setTimeout(function () {
         timeout = null
-      },delay)
-      if(callNow){
-        result = fn.apply(context,args)
+      }, delay)
+      if (callNow) {
+        result = fn.apply(context, args)
       }
-    }else{
-      timeout = setTimeout(function(){
-        fn.apply(context,args)
-      },delay)
+    } else {
+      timeout = setTimeout(function () {
+        fn.apply(context, args)
+      }, delay)
     }
     return result
   }
@@ -120,15 +120,15 @@ function getTouchData(endX, endY, startX, startY) {
   }
   return turn;
 }
-  //星期几转换
-function num2Week(num){
-  let weeks = ['日','一','二','三','四','五','六']
+//星期几转换
+function num2Week(num) {
+  let weeks = ['日', '一', '二', '三', '四', '五', '六']
   return weeks[num]
 }
 
 //格式化课表地址
-function formatAddress(address){
-  address = address.replace('-', '_')//把-换成_
+function formatAddress(address) {
+  address = address.replace('-', '_') //把-换成_
   var temp = address.split('_');
   if (temp.length > 1) {
     address = temp[0] + temp[1];
@@ -139,8 +139,8 @@ function formatAddress(address){
 }
 
 //判断是否是默认昵称
-function isDefaultNickname(nickname){
-  if(nickname === null || typeof nickname === undefined){
+function isDefaultNickname(nickname) {
+  if (nickname === null || typeof nickname === undefined) {
     return false
   }
   return nickname.indexOf('yxz_') === -1 ? false : true
@@ -148,21 +148,21 @@ function isDefaultNickname(nickname){
 
 //获取配置，支持使用“.”
 //key为空，返回全部
-function getConfig(key){
+function getConfig(key) {
   let configs = wx.getStorageSync('configs')
-  if(key){
+  if (key) {
     let keyArr = key.split('.')
     let result = ""
-    if(configs.hasOwnProperty(keyArr[0])){
+    if (configs.hasOwnProperty(keyArr[0])) {
       result = configs[keyArr[0]]
     }
-    if(keyArr.length == 1){
+    if (keyArr.length == 1) {
       return result
     }
-    for(let i=1;i<keyArr.length;i++){
-      if(result.hasOwnProperty(keyArr[i])){
+    for (let i = 1; i < keyArr.length; i++) {
+      if (result.hasOwnProperty(keyArr[i])) {
         result = result[keyArr[i]]
-      }else{
+      } else {
         return false
       }
     }
@@ -172,39 +172,54 @@ function getConfig(key){
 }
 
 //数组的深拷贝
-function deepCopyArray(obj){
-  if(!obj instanceof Array){
+function deepCopyArray(obj) {
+  if (!obj instanceof Array) {
     return obj
   }
   var newObj = []
-  for(let i=0,len=obj.length;i<len;i++){
+  for (let i = 0, len = obj.length; i < len; i++) {
     newObj[i] = typeof obj[i] == 'object' ? deepCopyArray(obj[i]) : obj[i]
   }
   return newObj
 }
 // 计算每月有多少天
-function getThisMonthDays(year,month) {
-    return new Date(year,month,0).getDate();
+function getThisMonthDays(year, month) {
+  return new Date(year, month, 0).getDate();
 }
 // 计算每月第一天是星期几
-function getFirstDayOfWeek(year,month) {
-    return new Date(Date.UTC(year,month-1, 1)).getDay();
+function getFirstDayOfWeek(year, month) {
+  return new Date(Date.UTC(year, month - 1, 1)).getDay();
+}
+
+const getStorage = (key) => {
+  try {
+    var v = wx.getStorageSync(key);
+    return v;
+  } catch (e) {
+    return [];
+  }
+}
+const setStorage = (key, cont) => {
+  wx.setStorage({
+    key: key,
+    data: cont
+  })
 }
 module.exports = {
-  gapDay:gapDay,
+  gapDay: gapDay,
   formatTime: formatTime,
   formatTime2: formatTime2,
   formatTime3: formatTime3,
   encodeInp: encodeInp,
   debounce: debounce,
   getTouchData: getTouchData,
-  num2Week:num2Week,
-  formatAddress:formatAddress,
-  isDefaultNickname:isDefaultNickname,
-  getConfig:getConfig,
+  num2Week: num2Week,
+  formatAddress: formatAddress,
+  isDefaultNickname: isDefaultNickname,
+  getConfig: getConfig,
   deepCopyArray: deepCopyArray,
   getThisMonthDays: getThisMonthDays,
-  getFirstDayOfWeek: getFirstDayOfWeek, 
+  getFirstDayOfWeek: getFirstDayOfWeek,
+  getStorage,
+  setStorage
 }
-
-

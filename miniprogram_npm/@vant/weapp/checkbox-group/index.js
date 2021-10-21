@@ -1,42 +1,36 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-var component_1 = require('../common/component');
-component_1.VantComponent({
-  field: true,
-  relation: {
-    name: 'checkbox',
-    type: 'descendant',
-    current: 'checkbox-group',
-    linked: function (target) {
-      this.updateChild(target);
+import { useChildren } from '../common/relation';
+import { VantComponent } from '../common/component';
+VantComponent({
+    field: true,
+    relation: useChildren('checkbox', function (target) {
+        this.updateChild(target);
+    }),
+    props: {
+        max: Number,
+        value: {
+            type: Array,
+            observer: 'updateChildren',
+        },
+        disabled: {
+            type: Boolean,
+            observer: 'updateChildren',
+        },
+        direction: {
+            type: String,
+            value: 'vertical',
+        },
     },
-  },
-  props: {
-    max: Number,
-    value: {
-      type: Array,
-      observer: 'updateChildren',
+    methods: {
+        updateChildren() {
+            this.children.forEach((child) => this.updateChild(child));
+        },
+        updateChild(child) {
+            const { value, disabled, direction } = this.data;
+            child.setData({
+                value: value.indexOf(child.data.name) !== -1,
+                parentDisabled: disabled,
+                direction,
+            });
+        },
     },
-    disabled: {
-      type: Boolean,
-      observer: 'updateChildren',
-    },
-  },
-  methods: {
-    updateChildren: function () {
-      var _this = this;
-      (this.children || []).forEach(function (child) {
-        return _this.updateChild(child);
-      });
-    },
-    updateChild: function (child) {
-      var _a = this.data,
-        value = _a.value,
-        disabled = _a.disabled;
-      child.setData({
-        value: value.indexOf(child.data.name) !== -1,
-        parentDisabled: disabled,
-      });
-    },
-  },
 });

@@ -2,195 +2,142 @@
 
 <view class="list-wrapper" style="{{themeData.myStyle}}">
   <!-- 顶部的教学楼切换栏 -->
-  <view class="nav">    
-    <scroll-view      
-      scroll-with-animation="{{true}}" 
-      scroll-into-view="a{{index}}"  
-      enable-flex="true" 
-      scroll-x="true" 
-      scroll-y="false" 
-      class="sub-nav">
-      <view
-        id="a{{index}}"
-        wx:for="{{buildings}}"
-        wx:key="index"
-        class="nav-item {{buildings[choosedBuilding] == item ? 'choosed' : ''}}"
-        data-building="{{item}}"
-        bindtap="tapBuilding"
-      >
+  <view class="nav">
+    <scroll-view scroll-with-animation="{{true}}" scroll-into-view="a{{index}}" enable-flex="true" scroll-x="true"
+      scroll-y="false" class="sub-nav">
+      <view id="a{{index}}" wx:for="{{buildings}}" wx:key="index"
+        class="nav-item {{buildings[choosedBuilding] == item ? 'choosed' : ''}}" data-building="{{item}}"
+        bindtap="tapBuilding">
         {{item}} [ {{data[index]['matchedCount']}} ]
       </view>
     </scroll-view>
   </view>
 
-   <view class="status-info">
+  <view class="status-info">
     <view class="tr comment">
       <view class="comment-cell">
-        <view class="status free"></view><view class="comment-item c1">空闲</view>
-        <view class="status inuse"></view><view class="comment-item c2">有课</view> 
-        <view class="status busy"></view><view class="comment-item c3">被占</view> 
+        <view class="status free"></view>
+        <view class="comment-item c1">空闲</view>
+        <view class="status inuse"></view>
+        <view class="comment-item c2">有课</view>
+        <view class="status busy"></view>
+        <view class="comment-item c3">被占</view>
       </view>
       <view class="comment-cell">
-        <view class="comment-item c4">| 上午</view> 
-        <view class="comment-item c5"> t1</view> 
-        <view class="comment-item c6">| 下午</view> 
-        <view class="comment-item c7"> t2</view> 
-        <view class="comment-item c8">| 晚上</view> 
+        <view class="comment-item c4">| 上午</view>
+        <view class="comment-item c5"> t1</view>
+        <view class="comment-item c6">| 下午</view>
+        <view class="comment-item c7"> t2</view>
+        <view class="comment-item c8">| 晚上</view>
       </view>
-      </view>
+    </view>
   </view>
 
-  <swiper 
-    circular
-    duration="300"
-    current="{{choosedBuilding}}"
-    bindanimationfinish="changeTabs"
-    nav-class="tabs"     
-  >
-    <swiper-item
-        wx:for="{{buildings}}"
-        wx:key="index"
-        data-campus="{{item}}"      
-      >
-      <scroll-view
-        refresher-triggered = '{{loading}}' 
-        bindrefresherrefresh="onRefresh"
-        refresher-enabled="true"
-        class="item-scroll-view"        
-        scroll-y="true" 
-        name="{{item}}">
-    <view wx:if="{{data}}">
-      <view
-        bindlongpress="handleShowFeedBack" 
-        wx:for="{{data[index]['classList']}}"
-        wx:for-index="roomName"
-        wx:for-item="statusList"
-        wx:key="roomName"
-        id="{{statusList['rname']}}"
-        class="tr {{data[index]['classList'][roomName]['rfloor'] == data[index]['classList'][roomName+1]['rfloor'] ? '':'endFloor'}}"                
-      > 
-        <view class="td room-name-tuple" data-cname="{{statusList['rname']}}" bindtap="tapCourse">
-          <view class="room-name">{{statusList['rname']}}</view>
-          <view class="room-metadata">
-            <view>座位数 {{ statusList['rspace']}}</view>
-            <view wx:if="{{statusList['typeDesc']}}">/ {{statusList['typeDesc']}}</view>
+  <swiper circular duration="300" current="{{choosedBuilding}}" bindanimationfinish="changeTabs" nav-class="tabs">
+    <swiper-item wx:for="{{buildings}}" wx:key="index" data-campus="{{item}}">
+      <scroll-view refresher-triggered='{{loading}}' bindrefresherrefresh="onRefresh" refresher-enabled="true"
+        class="item-scroll-view" scroll-y="true" name="{{item}}">
+        <view wx:if="{{data}}">
+          <view class="border" bindtap="tapCourse" bindlongpress="handleShowFeedBack" data-build="{{item}}"
+            wx:for="{{data[index]['classList']}}" wx:for-index="roomName" wx:for-item="statusList" wx:key="roomName"
+            data-cname="{{statusList['rname']}}" id="{{statusList['rname']}}"
+            class="tr {{data[index]['classList'][roomName]['rfloor'] == data[index]['classList'][roomName+1]['rfloor'] ? '':'endFloor'}}">
+            <view class="td room-name-tuple">
+              <view class="room-name">{{statusList['rname']}}</view>
+              <view class="room-metadata">
+                <view>座位数 {{ statusList['rspace']}}</view>
+                <view wx:if="{{statusList['typeDesc']}}">/ {{statusList['typeDesc']}}</view>
+              </view>
+            </view>
+            <view class="td status-list">
+              <view wx:for="{{[1,2,3,4,5]}}" wx:for-item="n" wx:key="n"
+                class="status {{statusList['status'][n-1] == 1 ? 'inuse' : ''}}{{statusList['status'][n-1] == 0? 'free':''}}{{statusList['status'][n-1] == -1? 'busy':''}} {{nowInterval == n ? 'now' : ''}}">
+              </view>
+              <view class="delimiter"></view>
+              <view wx:for="{{[6,7,8,9,10]}}" wx:for-item="n" wx:key="n"
+                class="status {{statusList['status'][n-1] == 1 ? 'inuse' : ''}}{{statusList['status'][n-1] == 0? 'free':''}}{{statusList['status'][n-1] == -1? 'busy':''}} {{nowInterval == n  ? 'now' : ''}}">
+              </view>
+              <view class="delimiter"></view>
+              <view wx:for="{{[11,12,13]}}" wx:for-item="n" wx:key="n"
+                class="status {{statusList['status'][n-1] == 1 ? 'inuse' : ''}}{{statusList['status'][n-1] == 0? 'free':''}}{{statusList['status'][n-1] == -1? 'busy':''}} {{nowInterval == n  ? 'now' : ''}}">
+              </view>
+            </view>
           </view>
         </view>
-        <view class="td status-list">
-          <view
-            wx:for="{{[1,2,3,4,5]}}"
-            wx:for-item="n"
-            wx:key="n"            
-            class=
-            "status {{statusList['status'][n-1] == 1 ? 'inuse' : ''}}{{statusList['status'][n-1] == 0? 'free':''}}{{statusList['status'][n-1] == -1? 'busy':''}} {{nowInterval == n ? 'now' : ''}}"
-          ></view>
-          <view class="delimiter"></view>
-          <view
-            wx:for="{{[6,7,8,9,10]}}"
-            wx:for-item="n"
-            wx:key="n"
-            class="status {{statusList['status'][n-1] == 1 ? 'inuse' : ''}}{{statusList['status'][n-1] == 0? 'free':''}}{{statusList['status'][n-1] == -1? 'busy':''}} {{nowInterval == n  ? 'now' : ''}}"
-          ></view>
-          <view class="delimiter"></view>
-          <view            
-            wx:for="{{[11,12,13]}}"
-            wx:for-item="n"
-            wx:key="n"
-            class="status {{statusList['status'][n-1] == 1 ? 'inuse' : ''}}{{statusList['status'][n-1] == 0? 'free':''}}{{statusList['status'][n-1] == -1? 'busy':''}} {{nowInterval == n  ? 'now' : ''}}"
-          ></view>
+        <view wx:else>
+          <view wx:for="{{[0]}}" wx:key="index" class="border tr">
+            <view class="td room-name">{{ index == 0 ? "数据加载中..." : "" }}</view>
+            <view class="td status-list" bindtap="tapCourse">
+              <view wx:for="{{[1, 2, 3, 4, 5]}}" wx:key="item" class="status loading"></view>
+              <view class="delimiter"></view>
+              <view wx:for="{{[6, 7, 8, 9, 10]}}" wx:key="item" class="status loading"></view>
+              <view class="delimiter"></view>
+              <view wx:for="{{[11, 12, 13, 14]}}" wx:key="item" class="status loading"></view>
+            </view>
+          </view>
         </view>
-      </view>
-    </view>
-    <view wx:else>
-      <view 
-        wx:for="{{[0]}}"
-        wx:key="index"
-        class="tr"
-      >
-        <view class="td room-name" >{{ index == 0 ? "数据加载中..." : "" }}</view>
-        <view class="td status-list" bindtap="tapCourse">
-          <view          
-            wx:for="{{[1, 2, 3, 4, 5]}}"
-            wx:key="item"
-            class="status loading"
-          ></view>
-          <view class="delimiter"></view>
-          <view
-            wx:for="{{[6, 7, 8, 9, 10]}}"
-            wx:key="item"
-            class="status loading"
-          ></view>
-          <view class="delimiter"></view>
-          <view
-            wx:for="{{[11, 12, 13, 14]}}"
-            wx:key="item"
-            class="status loading"
-          ></view>
-        </view>
-      </view>
-    </view>  
-  </scroll-view>        
-</swiper-item>
- </swiper>
-
- <van-popup 
-  show="{{ showBuildingPics }}"
-  position="top"
-  z-index="999"
-  closeable
-  custom-style="height: 80%;z-index:999;background-color:#000000d0"
-  bind:close="onCloseBuildingPics"
-  close-icon-position="bottom-right"
->
-  <view style="text-align:center;width:100vw;padding-top:20px">
-    <text style="text-align:center;width:100vw;color:white">{{buildings[choosedBuilding]}}平面图 - F{{buildingFloorIndex+1}}</text>
-  </view>
-
-  <swiper
-    bindchange="changeBuildingImgSwiper" 
-    indicator-dots="{{true}}" 
-    autoplay="{{false}}" 
-    circular="{{true}}"
-    class="buildingImgSwiper" >
-    <block wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-index = "index" >
-      <swiper-item>        
-        <view class="swiper-item {{item}}" style="color:white;min-height:70vh">
-          <!-- bindtap="preview"  -->
-          <van-image width="90vw" height="65vh" style="padding-left:5vw" fit="contain" src="{{buildingImgSrc[index]}}"/>
-        </view>
-      </swiper-item>
-    </block>
+      </scroll-view>
+    </swiper-item>
   </swiper>
 
-</van-popup>
+  <van-popup show="{{ showBuildingPics }}" position="top" z-index="999" closeable
+    custom-style="height: 80%;z-index:999;background-color:#000000d0" bind:close="onCloseBuildingPics"
+    close-icon-position="bottom-right">
+    <view style="text-align:center;width:100vw;padding-top:20px">
+      <text style="text-align:center;width:100vw;color:white">{{buildings[choosedBuilding]}}平面图 -
+        F{{buildingFloorIndex+1}}</text>
+    </view>
 
-<!-- 长按反馈 -->
-<van-popup
-  round
-  close-on-click-overlay
-  show="{{ showFeedBack }}"
-  position="bottom"
-  closeable
-  custom-style="height: 40%;z-index:999"
-  overlay-style="z-index:999"
-  bind:close="onFeedBackClose"
->
-  <van-panel title="{{feedbackClassName}}" desc="信息有误?" use-footer-slot footer-class="feedBackFooter">
-    <van-checkbox-group value="{{ feedBackCheckbox }}" bind:change="feedBackCheckboxChange" >   
-        <van-checkbox class="checkbox time-checkbox" wx:key="index" wx:for="{{['教室类型错误','教室状态错误','压根没这个教室','其他'] }}" wx:for-item="i" shape="square" checked-color="#fed457" name="{{index}}">
-          <text class="checkboxText">{{i}}</text>          
+    <swiper bindchange="changeBuildingImgSwiper" indicator-dots="{{true}}" autoplay="{{false}}" circular="{{true}}"
+      class="buildingImgSwiper">
+      <block wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-index="index">
+        <swiper-item>
+          <view class="swiper-item {{item}}" style="color:white;min-height:70vh">
+            <!-- bindtap="preview"  -->
+            <van-image width="90vw" height="65vh" style="padding-left:5vw" fit="contain"
+              src="{{buildingImgSrc[index]}}" />
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </van-popup>
+
+  <van-popup round close-on-click-overlay show="{{ tipsShow }}" position="bottom" custom-style="height: 35%;z-index:999"
+    overlay-style="z-index:999" bind:close="onTipsClose">
+    <view style="padding:30rpx;text-align:center;padding-top:0">
+      <van-divider hairline contentPosition="center" customStyle="margin-bottom: 0;">小提示</van-divider>
+      <image src="/images/screenshot.png" style="width:100%;margin-bottom:20px" mode="widthFix" data-cname="博远楼101"
+        bindtap="tapCourse" bindlongpress="handleShowFeedBack" />
+      <view style="text-align:left;color:grey"> 1. <text style="color:black;font-weight:bold">点击上图</text> => 查看教室课表
+      </view>
+      <view style="text-align:left;color:grey"> 2. <text style="color:black;font-weight:bold">长按上图</text> => 错误反馈
+      </view>
+      <view style="text-align:left;padding-bottom:30px;color:grey"> 3. <text
+          style="color:black;font-weight:bold">下拉列表</text> => 显示教学楼平面图
+      </view>
+      <van-button type="info" bindtap="onTipsClose" round>知道啦</van-button>
+    </view>
+  </van-popup>
+  <!-- 长按反馈 -->
+  <van-popup round close-on-click-overlay show="{{ showFeedBack }}" position="bottom" closeable
+    custom-style="height: 40%;z-index:999" overlay-style="z-index:999" bind:close="onFeedBackClose">
+    <van-panel title="{{feedbackClassName}}" desc="信息有误?" use-footer-slot footer-class="feedBackFooter">
+      <van-checkbox-group value="{{ feedBackCheckbox }}" bind:change="feedBackCheckboxChange">
+        <van-checkbox class="checkbox time-checkbox" wx:key="index" wx:for="{{['教室类型错误','教室状态错误','压根没这个教室','其他'] }}"
+          wx:for-item="i" shape="square" checked-color="#fed457" name="{{index}}">
+          <text class="checkboxText">{{i}}</text>
         </van-checkbox>
       </van-checkbox-group>
-    <van-field
-    value="{{ feedBackValue }}"
-    placeholder="反馈意见或联系方式(可为空)"
-    border="{{ false }}"
-    bind:change="onfeedBackTextChange"
-  />
-    <view slot="footer" >
-      <van-button size="small" bindtap="onFeedBackClose">取消</van-button>
-      <van-button size="small" bindtap="onFeedBackDone" color="#fde06b" custom-style="color:#000;margin-left:30rpx">反馈</van-button>
-    </view>
-  </van-panel>
-</van-popup>
+      <van-field value="{{ feedBackValue }}" placeholder="反馈意见或联系方式(可为空)" border="{{ false }}"
+        bind:change="onfeedBackTextChange" />
+      <view slot="footer">
+        <van-button size="small" bindtap="onFeedBackClose">取消</van-button>
+        <van-button size="small" bindtap="onFeedBackDone" color="#fde06b" custom-style="color:#000;margin-left:30rpx">反馈
+        </van-button>
+      </view>
+    </van-panel>
+  </van-popup>
+
+
+
 </view>

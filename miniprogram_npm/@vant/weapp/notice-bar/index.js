@@ -1,137 +1,120 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-var component_1 = require('../common/component');
-var utils_1 = require('../common/utils');
-component_1.VantComponent({
-  props: {
-    text: {
-      type: String,
-      value: '',
-      observer: function () {
-        var _this = this;
-        wx.nextTick(function () {
-          _this.init();
-        });
-      },
+import { VantComponent } from '../common/component';
+import { getRect, requestAnimationFrame } from '../common/utils';
+VantComponent({
+    props: {
+        text: {
+            type: String,
+            value: '',
+            observer: 'init',
+        },
+        mode: {
+            type: String,
+            value: '',
+        },
+        url: {
+            type: String,
+            value: '',
+        },
+        openType: {
+            type: String,
+            value: 'navigate',
+        },
+        delay: {
+            type: Number,
+            value: 1,
+        },
+        speed: {
+            type: Number,
+            value: 60,
+            observer: 'init',
+        },
+        scrollable: null,
+        leftIcon: {
+            type: String,
+            value: '',
+        },
+        color: String,
+        backgroundColor: String,
+        background: String,
+        wrapable: Boolean,
     },
-    mode: {
-      type: String,
-      value: '',
+    data: {
+        show: true,
     },
-    url: {
-      type: String,
-      value: '',
-    },
-    openType: {
-      type: String,
-      value: 'navigate',
-    },
-    delay: {
-      type: Number,
-      value: 1,
-    },
-    speed: {
-      type: Number,
-      value: 50,
-      observer: function () {
-        var _this = this;
-        wx.nextTick(function () {
-          _this.init();
-        });
-      },
-    },
-    scrollable: {
-      type: Boolean,
-      value: true,
-    },
-    leftIcon: {
-      type: String,
-      value: '',
-    },
-    color: String,
-    backgroundColor: String,
-    background: String,
-    wrapable: Boolean,
-  },
-  data: {
-    show: true,
-  },
-  created: function () {
-    this.resetAnimation = wx.createAnimation({
-      duration: 0,
-      timingFunction: 'linear',
-    });
-  },
-  destroyed: function () {
-    this.timer && clearTimeout(this.timer);
-  },
-  methods: {
-    init: function () {
-      var _this = this;
-      Promise.all([
-        utils_1.getRect.call(this, '.van-notice-bar__content'),
-        utils_1.getRect.call(this, '.van-notice-bar__wrap'),
-      ]).then(function (rects) {
-        var contentRect = rects[0],
-          wrapRect = rects[1];
-        if (
-          contentRect == null ||
-          wrapRect == null ||
-          !contentRect.width ||
-          !wrapRect.width
-        ) {
-          return;
-        }
-        var _a = _this.data,
-          speed = _a.speed,
-          scrollable = _a.scrollable,
-          delay = _a.delay;
-        if (scrollable || wrapRect.width < contentRect.width) {
-          var duration = (contentRect.width / speed) * 1000;
-          _this.wrapWidth = wrapRect.width;
-          _this.contentWidth = contentRect.width;
-          _this.duration = duration;
-          _this.animation = wx.createAnimation({
-            duration: duration,
+    created() {
+        this.resetAnimation = wx.createAnimation({
+            duration: 0,
             timingFunction: 'linear',
-            delay: delay,
-          });
-          _this.scroll();
-        }
-      });
-    },
-    scroll: function () {
-      var _this = this;
-      this.timer && clearTimeout(this.timer);
-      this.timer = null;
-      this.setData({
-        animationData: this.resetAnimation
-          .translateX(this.wrapWidth)
-          .step()
-          .export(),
-      });
-      utils_1.requestAnimationFrame(function () {
-        _this.setData({
-          animationData: _this.animation
-            .translateX(-_this.contentWidth)
-            .step()
-            .export(),
         });
-      });
-      this.timer = setTimeout(function () {
-        _this.scroll();
-      }, this.duration);
     },
-    onClickIcon: function (event) {
-      if (this.data.mode === 'closeable') {
+    destroyed() {
         this.timer && clearTimeout(this.timer);
-        this.timer = null;
-        this.setData({ show: false });
-        this.$emit('close', event.detail);
-      }
     },
-    onClick: function (event) {
-      this.$emit('click', event);
+    mounted() {
+        this.init();
     },
-  },
+    methods: {
+        init() {
+            requestAnimationFrame(() => {
+                Promise.all([
+                    getRect(this, '.van-notice-bar__content'),
+                    getRect(this, '.van-notice-bar__wrap'),
+                ]).then((rects) => {
+                    const [contentRect, wrapRect] = rects;
+                    const { speed, scrollable, delay } = this.data;
+                    if (contentRect == null ||
+                        wrapRect == null ||
+                        !contentRect.width ||
+                        !wrapRect.width ||
+                        scrollable === false) {
+                        return;
+                    }
+                    if (scrollable || wrapRect.width < contentRect.width) {
+                        const duration = ((wrapRect.width + contentRect.width) / speed) * 1000;
+                        this.wrapWidth = wrapRect.width;
+                        this.contentWidth = contentRect.width;
+                        this.duration = duration;
+                        this.animation = wx.createAnimation({
+                            duration,
+                            timingFunction: 'linear',
+                            delay,
+                        });
+                        this.scroll();
+                    }
+                });
+            });
+        },
+        scroll() {
+            this.timer && clearTimeout(this.timer);
+            this.timer = null;
+            this.setData({
+                animationData: this.resetAnimation
+                    .translateX(this.wrapWidth)
+                    .step()
+                    .export(),
+            });
+            requestAnimationFrame(() => {
+                this.setData({
+                    animationData: this.animation
+                        .translateX(-this.contentWidth)
+                        .step()
+                        .export(),
+                });
+            });
+            this.timer = setTimeout(() => {
+                this.scroll();
+            }, this.duration);
+        },
+        onClickIcon(event) {
+            if (this.data.mode === 'closeable') {
+                this.timer && clearTimeout(this.timer);
+                this.timer = null;
+                this.setData({ show: false });
+                this.$emit('close', event.detail);
+            }
+        },
+        onClick(event) {
+            this.$emit('click', event);
+        },
+    },
 });

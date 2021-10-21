@@ -1,0 +1,13 @@
+<!--pages/faq/faq_list/faq_list.wxml-->
+<view style="padding-top:30rpx;background-color:{{faqItemList.length == 0?'white':'#F1F1F1'}};height:100vh;width:100vw">
+  <block wx:for="{{faqItemList}}" wx:key="index">
+    <van-cell-group inset>
+      <van-cell title="● {{item.title}}" is-link data-id="{{item.id}}" data-url="{{item.url}}"
+        bindtap="jump2FaqItemUrl" />
+    </van-cell-group>
+  </block>
+
+  <van-empty wx:if="{{faqItemList.length == 0}}" description="此分类下暂未添加常见问题">
+
+  </van-empty>
+</view>

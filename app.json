@@ -2,35 +2,49 @@
   "pages": [
     "pages/empty/empty",
     "pages/course/course",
-    "pages/flag/flag",
-    "pages/umbrella/umbrella",
-    "pages/splash/splash",
     "pages/index/index",
     "pages/list/list",
     "pages/class/class",
-    "pages/course/course_import/course_import",
-    "pages/moment/moment",
-    "pages/mine/login/login",
     "pages/mine/mine",
     "pages/more/more",
     "pages/course/course_add_friend/course_add_friend",
-    "pages/guide/guide",
-    "pages/moment/edit/edit",
     "pages/mine/privacy_license/privacy_license",
-    "pages/about/about",
     "pages/webview/webview",
     "pages/course/course_setting/course_setting",
-    "pages/course_search/course_search",
-    "pages/report/report",
-    "pages/telephone/telephone",
-    "pages/eatwhat/eatwhat",
-    "pages/multi_course/multi_course",
-    "pages/eatwhat/eatwhat_detail/eatwhat_detail",
-    "pages/lucky_draw/lucky_draw"
+    "pages/faq/faq",
+    "pages/faq/faq_list/faq_list"
+  ],
+  "subpackages": [
+    {
+      "root": "packageSecondly",
+      "pages": [
+        "pages/moment/moment",
+        "pages/course_search/course_search",
+        "pages/moment/edit/edit",
+        "pages/telephone/telephone",
+        "pages/report/report",
+        "pages/flag/flag",
+        "pages/multi_course/multi_course",
+        "pages/multi_course/detail/detail",
+        "pages/eatwhat/eatwhat",
+        "pages/eatwhat/eatwhat_detail/eatwhat_detail",
+        "pages/umbrella/umbrella",
+        "pages/major_detail/major_detail",
+        "pages/major_list/major_list",
+        "pages/major_class_list/major_class_list",
+        "pages/photo_maker/photo_maker"
+      ]
+    },
+    {
+      "root": "packageImportCourse",
+      "pages": [
+        "pages/course_import/course_import"
+      ]
+    }
   ],
   "themeLocation": "theme.json",
   "window": {
-    "navigationBarTitleText": "青大空教室查询",
+    "navigationBarTitleText": "青空教室 - 青大权小益出品",
     "navigationBarBackgroundColor": "@navigationBarBackgroundColor",
     "navigationBarTextStyle": "@navigationBarTextStyle",
     "backgroundColor": "@backgroundColor",
@@ -52,12 +66,6 @@
         "text": "课表",
         "iconPath": "/images/icon/icon_class.png",
         "selectedIconPath": "/images/icon/icon_class_HL.png"
-      },
-      {
-        "pagePath": "pages/moment/moment",
-        "text": "信息流",
-        "iconPath": "/images/icon/icon_moments.png",
-        "selectedIconPath": "/images/icon/icon_moments_HL.png"
       },
       {
         "pagePath": "pages/more/more",
@@ -82,7 +90,9 @@
   "usingComponents": {
     "my-block": "./components/my-block/index",
     "color-picker-theme": "./components/color-picker-theme/color-picker-theme",
-    "add-tips": "./components/add-tips/index"
+    "add-tips": "./components/add-tips/index",
+    "iconfont": "/iconfont/iconfont"
+ 
   },
   "useExtendedLib": {
     "weui": true

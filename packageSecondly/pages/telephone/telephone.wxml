@@ -1,0 +1,94 @@
+<van-notice-bar mode="closeable" text="（点击拨打） 外地别忘加青岛区号0532" color="#000" scrollable="{{false}}" />
+<!-- <van-sticky>
+  <van-search value="{{ value }}" placeholder="模糊搜索" show-action bind:search="onSearch" bind:cancel="onCancel" />
+</van-sticky> -->
+<van-index-bar sticky-offset-top="{{53}}" index-list="{{ indexList }}">
+  <view>
+    <van-index-anchor index="紧急" />
+    <van-cell title="中心保卫处110值班电话 ( 24h )" title-width="60%" value="85951110" is-link data-tel="85951110"
+      bindtap="tel" />
+    <van-cell title="金家岭西院保卫室 ( 24h )" title-width="60%" value="85959110" is-link data-tel="85959110" bindtap="tel" />
+    <van-cell title="金家岭东院保卫室 ( 24h )" title-width="60%" value="88907355" is-link data-tel="88907355" bindtap="tel" />
+    <van-cell value="85955120" is-link data-tel="85955120" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">校医院</view>
+        <van-tag plain type="primary">浮山校区</van-tag>
+      </view>
+    </van-cell>
+
+    <van-cell value="85958230" is-link data-tel="85958230" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">校医院</view>
+        <van-tag plain type="success">金家岭校区</van-tag>
+      </view>
+    </van-cell>
+  </view>
+
+  <view>
+    <van-index-anchor index="心理咨询" />
+    <van-cell value="85953102" is-link data-tel="85953102" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">笃行楼203咨询室</view>
+        <van-tag plain type="primary">浮山校区</van-tag>
+
+      </view>
+    </van-cell>
+    <van-cell value="85959705" is-link data-tel="85959705" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">大学生活动中心209咨询室</view>
+        <van-tag plain type="success">金家岭校区</van-tag>
+      </view>
+    </van-cell>
+  </view>
+  <view>
+    <van-index-anchor index="后勤" />
+    <van-cell value="85986061" is-link data-tel="85986061" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">餐饮投诉</view>
+      </view>
+    </van-cell>
+
+    <van-cell value="85951498" is-link data-tel="85951498" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">物业维修</view>
+        <van-tag plain type="primary">浮山校区</van-tag>
+      </view>
+    </van-cell>
+    <van-cell value="85959018" is-link data-tel="85959018" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">物业维修</view>
+        <van-tag plain type="success">金家岭校区</van-tag>
+      </view>
+    </van-cell>
+    <van-cell value="85955992" is-link data-tel="85955992" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">后勤管理处信息中心</view>
+      </view>
+    </van-cell>
+
+    <van-cell value="85951366" is-link data-tel="85951366" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">教室场馆</view>
+        <van-tag plain type="primary">预约服务</van-tag>
+      </view>
+    </van-cell>
+    <van-cell value="85959013" is-link data-tel="85959013" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">教室场馆</view>
+        <van-tag plain type="success">金家岭校区</van-tag>
+      </view>
+    </van-cell>
+    <van-cell value="85950803" is-link data-tel="85950803" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">教室场馆</view>
+        <van-tag plain type="primary">浮山校区西院</van-tag>
+      </view>
+    </van-cell>
+    <van-cell value="85955108" is-link data-tel="85955108" title-width="60%" bindtap="tel">
+      <view slot="title">
+        <view class="van-cell-text">教室场馆</view>
+        <van-tag plain type="primary">浮山校区东院、师范学院</van-tag>
+      </view>
+    </van-cell>
+  </view>
+</van-index-bar>

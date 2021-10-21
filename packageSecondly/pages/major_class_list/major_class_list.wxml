@@ -1,0 +1,28 @@
+<!--packageSecondly/pages/major_class_list/major_class_list.wxml-->
+<van-cell-group title="2018级">
+  <van-cell title="18行管01" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="18行管02" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="18行管03" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="18行管04" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+</van-cell-group>
+
+<van-cell-group title="2019级">
+  <van-cell title="19行管01" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="19行管02" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="19行管03" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="19行管04" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+</van-cell-group>
+
+<van-cell-group title="2020级">
+  <van-cell title="20行管01" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="20行管02" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="20行管03" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="20行管04" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+</van-cell-group>
+
+<van-cell-group title="2021级">
+  <van-cell title="21行管01" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="21行管02" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="21行管03" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+  <van-cell title="21行管04" data-id="24733" bindtap="jump2Detail" is-link></van-cell>
+</van-cell-group>

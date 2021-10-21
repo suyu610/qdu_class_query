@@ -1,11 +1,11 @@
 /* pages/mine/mine.wxss */
-.container{
+.container {
   width: 100vw;
   height: 100vh;
   background-color: #fff;
 }
 
-van-cell-group{
+van-cell-group {
   width: 100vw;
 }
 
@@ -22,26 +22,41 @@ van-cell-group{
   margin: 20rpx;
   border-radius: 50%;
 }
-.contact{
+.contact {
   height: 65rpx;
   line-height: 65rpx;
   background-color: #fff;
   text-align: center;
   padding: 0;
   margin: 0;
+  margin-bottom: 2vh;
   width: 40%;
   display: inline-block;
   margin-left: 5vw;
   margin-right: 5vw;
-  margin-top: 2vh;
+  margin-top: 5vh;
   border-radius: 18rpx;
   font-size: 14px;
   text-align: center;
 }
-.aboutPop{
-  height: 40vh;  
+.cell-group {
+  margin-bottom: 30px !important;
+}
+
+.bottom {
+  width: 100vw;
+  position: fixed;
+  bottom: 5px;
+}
+.reset-btn {
+  margin-top: 0vh;
+
+  width: 90%;
+}
+.aboutPop {
+  height: 40vh;
   text-align: center;
-  white-space:pre-wrap;
+  white-space: pre-wrap;
   justify-content: center;
   text-align: center;
   vertical-align: middle;
@@ -50,18 +65,18 @@ van-cell-group{
   flex-direction: column;
 }
 
-#isBindText{  
+#isBindText {
   padding-top: 1vh;
   font-size: 14px;
   text-align: center;
   color: lightgrey;
 }
-#avatarImg{  
-  display: flex; 
+#avatarImg {
+  display: flex;
   justify-content: center; /** flex 属性， 水平居中**/
 }
-.isBindView{
-  display:flex;
-align-items:center;
-justify-content:center;
+.isBindView {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

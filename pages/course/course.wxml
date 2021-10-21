@@ -1,649 +1,545 @@
 <!--pages/schedule/schedule.wxml-->
 
-<view class="bg" style="{{ themeData.myStyle }}"> 
+<view class="bg" style="{{ themeData.myStyle }};top:{{safeTop}}px">
   <image src="{{backgroundUrl}}"></image>
   <view class="cu-progress lg striped {{'active'}}" style="background-color:transparent">
-    <view class="bg-orange holiday" style="width:{{100-countdown.day+'%'}};">距离{{holiday.name}}还有{{countdown.day}}天{{countdown.hour}}小时{{countdown.min}}分{{countdown.sec}}秒</view>
+    <view class="holiday" style="width:{{100-countdown.day+'%'}};color:grey">
+      距离{{holiday.name}}还有{{countdown.day}}天{{countdown.hour}}小时{{countdown.min}}分{{countdown.sec}}秒</view>
   </view>
-    <van-collapse
-      value= "{{activeNames}}" 
-      clickable
-      bind:change="onCountDownChange" 
-      border="{{false}}"
-      wx:if="{{activeNames.length>0}}"    
-    >
-      <van-collapse-item name="1">
-        <view slot="title" style="font-size:12px;color:black;text-align:center;width:96vw" >
-          <van-icon name="arrow-up" /></view>
-          <block wx:if="{{exams.length != 0}}" wx:for="{{exams}}" wx:for-item="exam" wx:key="index">
-            <van-cell value="剩{{exam.gapDay}}天" center="{{true}}" title-width="60vw" label="报名时间:{{exam.signDate}}">
-              <view slot="title">
-                <view class="van-cell-text">{{exam.name}}</view><van-tag plain type="primary" custom-class="countdown-tag">{{exam.startDate}}</van-tag>
-              </view>
-            </van-cell>
-          </block>
-
-          <block wx:if="{{holidays.length != 0}}" wx:for="{{holidays}}" wx:for-item="holidays" wx:key="index">
-            <van-cell  value="剩{{holidays.gapDay}}天" center="{{true}}" title-width="60vw" label="{{holidays.duration == 0? '':'放假 '+holidays.duration+' 天'}}">
-              <view slot="title">                
-                <view class="van-cell-text"><van-icon name="{{holidays.duration == 0? 'gem-o':''}}"></van-icon> {{holidays.name}}</view>
-                <van-tag color="#000" plain custom-class="countdown-tag">{{holidays.startDate}}</van-tag>
-              </view>
-            </van-cell>
-          </block>
-      </van-collapse-item>
-    </van-collapse>
-  <view class=" {{activeNames.length > 0?'opacity':''}}" >
-  <view wx:if="{{!folderMenu}}" class="nav-head"> 
-  <!-- 设置 -->
-  <view class="img-button share-btn" bindtap="settingBtnHandler">
-    <van-icon name="setting-o" size="15px" color="black"/>
-    <view><text>设置</text></view>
-  </view>
-  <view class="img-button share-btn" bindtap="importBtnHandler">
-      <van-icon name="plus" size="15px" color="black"/>
-      <view><text>添加</text></view>
-  </view>
-  <!-- 上下周的选择 -->
-  <view class="week-selector">
-    <view class="img-button pre-week-btn" bindtap="prevWeekHandler">
-      <image src="../../images/icon/btn_prev@2x.png" ></image>
-    </view>
-    <view class="cur-week">
-      <view class="week">第{{curWeek}}周</view>    
-      <view class="title" bindtap="onTapWeather"> 
-        <image src="https://cdns.qdu.life/icons/weatherIcon/{{weather.iconcode}}.png"></image>
-        <text>{{weather.nightt}}-{{weather.dayt}}℃</text>
+  <van-collapse value="{{activeNames}}" clickable bind:change="onCountDownChange" border="{{false}}"
+    wx:if="{{activeNames.length>0}}">
+    <van-collapse-item name="1">
+      <view slot="title" style="font-size:12px;color:black;text-align:center;width:96vw">
+        <van-icon name="arrow-up" />
       </view>
-    </view>
-    <view class="img-button next-week-btn" bindtap="nextWeekHandler">
-      <image src="../../images/icon/btn_next@2x.png"></image>
-    </view>
-  </view>
-  
-    <!-- 右侧的按钮 -->
-    <view class="img-button share-btn" bindtap="shareBtnHandler">
-        <van-icon name="friends-o" size="15px" color="black"/>
-        <view><text>双人</text></view>
-    </view>
-    <view class="img-button share-btn" bindtap="onTapFolderMenu">
-        <van-icon name="arrow-up" size="15px" color="black"/>
-        <view><text>折叠</text></view>
-    </view>
-  </view>
-
-  <view wx:else bindtap="onTapFolderMenu" style="text-align:center;line-height:20px;height:20px;padding-top:2.5px">
-    <van-icon name="arrow-down" />
-  </view>
-
-  <view class="tab-top">
-    <view class="cur-month">星期\n节次</view>
-    <view class="week-list">
-      <view wx:for="{{showSunday?weekDates:weekDatesWithoutSunday}}" wx:key="*this" class="day-text {{showSunday?'':'day-text-without'}} {{todayIndex == index ? 'active' : ''}}">
-        <text>{{weekLabels[index]}}</text>
-        <text>{{weekDates[index]}}</text>
-      </view>
-    </view>
-  </view>
-
-  <scroll-view 
-    scroll-y="true" 
-    class="tab-scroll {{folderMenu?'tab-scroll-folder':''}}"
-    refresher-triggered = '{{loading}}' 
-    bindrefresherrefresh="onRefresh"
-    refresher-enabled="true">
-    <view class="tab-container">
-      <!--分节-->
-      <view class="tab-divide"></view>
-      <view class="tab-section">
-        <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11,12]}}" wx:key="*this" class="tab-section-divide tab-section-item">
-            <text>{{showSeqTime?sequenceWithTime[item]:sequence[item]}}</text>
-      </view>
-    </view>
-
-      <!--线条-->
-      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11,12]}}" wx:key="*this">
-        <view style="top:{{item*55}}px;" class="tab-line"></view>
-      </view>
-
-      <!--type0自己的课程-->
-      <view wx:if="{{courselist.length!=0}}">
-        <view wx:for="{{courselist}}" wx:index="index"  wx:key="index">
-          <view
-            wx:if="{{item.type == 0}}"
-            class="{{showSunday?'course-item':'course-item-without'}}" 
-            bindtap="showCardView" 
-            data-index="{{index}}"
-            data-type="{{item.type}}"
-            style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;"
-          >
-            <!-- 设置课程框的背景颜色 -->
-            <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} bg-black " style="height:{{item.sections*55-5}}px; color:{{type0CourseTextColor}};background-color:{{type0CourseColor}}">
-              <text >{{item.course}}</text>
-              <text style="font-weight:bold" class="place">@{{item.place}}
-                <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
-              </text>
-            </view>
+      <block wx:if="{{exams.length != 0}}" wx:for="{{exams}}" wx:for-item="exam" wx:key="index">
+        <van-cell value="剩{{exam.gapDay}}天" center="{{true}}" title-width="60vw" label="报名时间:{{exam.signDate}}">
+          <view slot="title">
+            <view class="van-cell-text">{{exam.name}}</view>
+            <van-tag plain type="primary" custom-class="countdown-tag">{{exam.startDate}}</van-tag>
           </view>
-      
-      <!-- type1好友的课程 -->
-        <view
-          wx:if="{{showFriendCourse && item.type == 1}}"
-          class="{{showSunday?'course-item':'course-item-without'}}" 
-          bindtap="showCardView"
-          data-index="{{index}}"
-          data-type="{{item.type}}"
-          style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;"
-        >
-          <van-icon wx:if="{{item.type==1}}" name="manager" style=" position: absolute;bottom: -.2em;right: -.2em;" custom-class="badge" size="32rpx"  color="#ffffff88"/>
-          <!-- 设置课程框的背景颜色 -->
-          <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}}  bg-red" style="height:{{item.sections*55-5}}px; color:{{type1CourseTextColor}};background-color:{{type1CourseColor}}">
-            <text >{{item.course}}</text>
-            <text style="font-weight:bold" class="place">@{{item.place}}
-              <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
-            </text>
+        </van-cell>
+      </block>
+
+      <block wx:if="{{holidays.length != 0}}" wx:for="{{holidays}}" wx:for-item="holidays" wx:key="index">
+        <van-cell value="剩{{holidays.gapDay}}天" center="{{true}}" title-width="60vw"
+          label="{{holidays.duration == 0? '':'放假 '+holidays.duration+' 天'}}">
+          <view slot="title">
+            <view class="van-cell-text">
+              <van-icon name="{{holidays.duration == 0? 'gem-o':''}}"></van-icon> {{holidays.name}}
+            </view>
+            <van-tag color="#000" plain custom-class="countdown-tag">{{holidays.startDate}}</van-tag>
+          </view>
+        </van-cell>
+      </block>
+    </van-collapse-item>
+  </van-collapse>
+  <view class=" {{activeNames.length > 0?'opacity':''}}">
+    <view wx:if="{{!folderMenu}}" class="nav-head">
+      <!-- 设置 -->
+      <view class="img-button share-btn" bindtap="settingBtnHandler">
+        <!-- <van-icon name="setting-o" size="20px" color="black" /> -->
+        <iconfont size="20" name="shezhi" />
+        <!-- <view><text>设置</text></view> -->
+      </view>
+      <view class="img-button share-btn" bindtap="importBtnHandler">
+        <!-- <van-icon name="plus" size="20px" color="black" /> -->
+
+        <iconfont  size="20" name="tianjia" />
+
+        <!-- <view><text>导入</text></view> -->
+      </view>
+      <!-- 上下周的选择 -->
+      <view class="week-selector">
+        <view class="img-button pre-week-btn" bindtap="prevWeekHandler">
+          <image src="../../images/icon/btn_prev@2x.png"></image>
+        </view>
+        <view class="cur-week">
+          <view class="week">第{{curWeek}}周</view>
+          <view class="title" bindtap="onTapWeather">
+            <image src="https://cdns.qdu.life/icons/weatherIcon/{{weather.iconcode}}.png"></image>
+            <!-- <text>{{weather.nightt}}-{{weather.dayt}}℃</text> -->
           </view>
         </view>
-
-      <!-- type2共同的课程 -->
-          <view
-            wx:if="{{showFriendCourse &&  item.type == 2}}"
-            class="{{showSunday?'course-item':'course-item-without'}}" 
-            bindtap="showCardView"
-            data-index="{{index}}"
-            data-type="{{item.type}}"
-            style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;"
-          >
-            <van-icon name="friends" style=" position: absolute;bottom: -.2em;right: -.2em;" custom-class="badge" size="32rpx"  color="#ffffff88"/>
-            <!-- 设置课程框的背景颜色 -->
-            <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} bg-purple" style="height:{{item.sections*55-5}}px; color:{{type2CourseTextColor}};background-color:{{type2CourseColor}}">
-              <text >{{item.myCourse}}</text>
-              <text style="font-weight:bold" class="place">@{{item.myPlace}}
-                <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
-              </text>
-            </view>
-          </view>
-       
-       <!--type3教务添加的课-->       
-          <view
-            wx:if="{{item.type == 3}}"
-            class="{{showSunday?'course-item':'course-item-without'}}" 
-            bindtap="showCardView" 
-            data-index="{{index}}"
-            data-type="{{item.type}}"
-            style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;"
-          >
-          <van-icon  name="search" style=" position: absolute;bottom: 0em;right: -.1em;" custom-class="badge" size="28rpx"  color="#00000088"/>
-            <!-- 设置课程框的背景颜色 -->
-            <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} next-course bg-black " style="height:{{item.sections*55-5}}px; color:{{type3CourseTextColor}};background-color:{{type3CourseColor}}">
-              <text >{{item.course}}</text>
-              <text style="font-weight:bold" class="place">@{{item.place}}
-                <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
-              </text>
-            </view>
-          </view>
+        <view class="img-button next-week-btn" bindtap="nextWeekHandler">
+          <image src="../../images/icon/btn_next@2x.png"></image>
         </view>
       </view>
+
+      <!-- 右侧的按钮 -->
+      <view class="img-button share-btn" bindtap="shareBtnHandler">
+        <!-- <van-icon name="friends-o" size="20px" color="black" /> -->
+        <iconfont size="20" name="pintuan"/>
+        <!-- <view><text>双人</text></view> -->
+      </view>
+      <view class="img-button share-btn" bindtap="onTapFolderMenu">
+        <!-- <van-icon name="arrow-up" size="20px" color="black" /> -->
+        <iconfont size="20" name="suoxiao"/>
+
         
-      <view wx:else style="width:100%;height:100%;text-align:center">
-        <view style="margin-top:30vh;width:40vw;margin-left:25vw">        
-          <button  bindtap="tapImportCourseBtn" class="cu-btn" style="width:100%;background-color:#fde06b;border:1px solid black">添加课表</button>
+        <!-- <view><text>折叠</text></view> -->
+      </view>
+    </view>
+
+    <view wx:else bindtap="onTapFolderMenu" style="text-align:center;line-height:20px;height:20px;padding-top:2.5px">
+      <van-icon name="arrow-down" />
+    </view>
+
+    <view class="tab-top">
+      <view class="cur-month">星期\n节次</view>
+      <view class="week-list">
+        <view wx:for="{{showSunday?weekDates:weekDatesWithoutSunday}}" wx:key="*this"
+          class="day-text {{showSunday?'':'day-text-without'}} {{todayIndex == index ? 'active' : ''}}">
+          <text>{{weekLabels[index]}}</text>
+          <text>{{weekDates[index]}}</text>
         </view>
       </view>
     </view>
-  </scroll-view>
-  </view>  
+
+    <scroll-view scroll-y="true" class="tab-scroll {{folderMenu?'tab-scroll-folder':''}}"
+      refresher-triggered='{{loading}}' bindrefresherrefresh="onRefresh" refresher-enabled="true">
+      <view class="tab-container">
+        <!--分节-->
+        <view class="tab-divide"></view>
+        <view class="tab-section">
+          <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11,12]}}" wx:key="*this" class="tab-section-divide tab-section-item">
+            <text>{{showSeqTime?sequenceWithTime[item]:sequence[item]}}</text>
+          </view>
+        </view>
+
+        <!--线条-->
+        <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11,12]}}" wx:key="*this">
+          <view style="top:{{item*55}}px;" class="tab-line"></view>
+        </view>
+
+        <!--type0自己的课程-->
+        <view wx:if="{{courselist.length!=0}}">
+          <view wx:for="{{courselist}}" wx:index="index" wx:key="index">
+            <view wx:if="{{item.type == 0}}" class="{{showSunday?'course-item':'course-item-without'}}"
+              bindtap="showCardView" data-index="{{index}}" data-type="{{item.type}}"
+              style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;">
+              <!-- 设置课程框的背景颜色 -->
+              <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} bg-black "
+                style="height:{{item.sections*55-5}}px; color:{{type0CourseTextColor}};background-color:{{type0CourseColor}}">
+                <text>{{item.course}}</text>
+                <text style="font-weight:bold" class="place">@{{item.place}}
+                  <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
+                </text>
+              </view>
+            </view>
+
+            <!-- type1好友的课程 -->
+            <view wx:if="{{showFriendCourse && item.type == 1}}"
+              class="{{showSunday?'course-item':'course-item-without'}}" bindtap="showCardView" data-index="{{index}}"
+              data-type="{{item.type}}"
+              style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;">
+              <van-icon wx:if="{{item.type==1}}" name="manager" style=" position: absolute;bottom: -.2em;right: -.2em;"
+                custom-class="badge" size="32rpx" color="#ffffff88" />
+              <!-- 设置课程框的背景颜色 -->
+              <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}}  bg-red"
+                style="height:{{item.sections*55-5}}px; color:{{type1CourseTextColor}};background-color:{{type1CourseColor}}">
+                <text>{{item.course}}</text>
+                <text style="font-weight:bold" class="place">@{{item.place}}
+                  <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
+                </text>
+              </view>
+            </view>
+
+            <!-- type2共同的课程 -->
+            <view wx:if="{{showFriendCourse &&  item.type == 2}}"
+              class="{{showSunday?'course-item':'course-item-without'}}" bindtap="showCardView" data-index="{{index}}"
+              data-type="{{item.type}}"
+              style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;">
+              <van-icon name="friends" style=" position: absolute;bottom: -.2em;right: -.2em;" custom-class="badge"
+                size="32rpx" color="#ffffff88" />
+              <!-- 设置课程框的背景颜色 -->
+              <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} bg-purple"
+                style="height:{{item.sections*55-5}}px; color:{{type2CourseTextColor}};background-color:{{type2CourseColor}}">
+                <text>{{item.myCourse}}</text>
+                <text style="font-weight:bold" class="place">@{{item.myPlace}}
+                  <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
+                </text>
+              </view>
+            </view>
+
+            <!--type3教务添加的课-->
+            <view wx:if="{{item.type == 3}}" class="{{showSunday?'course-item':'course-item-without'}}"
+              bindtap="showCardView" data-index="{{index}}" data-type="{{item.type}}"
+              style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;">
+              <van-icon name="search" style=" position: absolute;bottom: 0em;right: -.1em;" custom-class="badge"
+                size="28rpx" color="#00000088" />
+              <!-- 设置课程框的背景颜色 -->
+              <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} next-course bg-black "
+                style="height:{{item.sections*55-5}}px; color:{{type3CourseTextColor}};background-color:{{type3CourseColor}}">
+                <text>{{item.course}}</text>
+                <text style="font-weight:bold" class="place">@{{item.place}}
+                  <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
+                </text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view wx:else style="width:100%;height:100%;text-align:center">
+          <view style="margin-top:30vh;width:40vw;margin-left:25vw">
+            <button bindtap="tapImportCourseBtn" class="cu-btn"
+              style="width:100%;background-color:#fde06b;border:1px solid black">添加课表</button>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
 </view>
 
 <!-- 节假日倒计时的关闭按钮 -->
-<view class="closeCountDownBtn bg-orange cu-btn"  bindtap="closeCountDown" wx:if="{{activeNames.length>0}}"> 
-  <van-icon name="cross" /> 
+<view class="closeCountDownBtn bg-orange cu-btn" bindtap="closeCountDown" wx:if="{{activeNames.length>0}}">
+  <van-icon name="cross" />
 </view>
 
 
 <!--------- popup --------->
 
 <!-- 多人课表 -->
-<van-popup 
-  position="bottom"
-  round
-  custom-style="height: 30%;"
-  show="{{ showSharePopup }}" 
+<van-popup position="bottom" round custom-style="height: 30%;" show="{{ showSharePopup }}"
   bind:close="onSharePopupClose">
   <view class="share-popup">
     <my-block style="text-align:center">双人课表</my-block>
     <view wx:if="{{nickname==null}}">
-      <van-button  bindtap="getUserProfile">
+      <van-button bindtap="getUserProfile">
         请先登录
-      </van-button>      
+      </van-button>
     </view>
-    <view wx:else>    
-    <van-cell
-      wx:if="{{friendRealName!=''}}"
-      icon="setting-o"
-      title="显示好友的课表" >
-      <van-switch
-        size="20px"
-        active-color="#fde06b"
-        inactive-color="#ffffff"
-        checked="{{ showFriendCourse }}" bind:change="toggleShowFriendCourse" />
-    </van-cell>
-    
-    <van-cell 
-      label="{{friendRealName!=''?friendRealName:''}}" 
-      icon="star-o"      
-      border="{{false}}"      
-      >
-      <view slot="title">
-        <view class="van-cell-text">{{friendRealName!=''?"当前绑定的好友":"未绑定好友"}}</view>
-      </view>
-      <view slot="right-icon">
-        <van-button wx:if="{{friendRealName!=''}}" slot="right-icon" round type="mini" size="small" bindtap="dismissFriend">解绑</van-button>
-      </view>
-    </van-cell>
+    <view wx:else>
+      <van-cell wx:if="{{friendRealName!=''}}" icon="setting-o" title="显示好友的课表">
+        <van-switch size="20px" active-color="#fde06b" inactive-color="#ffffff" checked="{{ showFriendCourse }}"
+          bind:change="toggleShowFriendCourse" />
+      </van-cell>
 
-    <van-cell 
-      wx:if="{{friendRealName==''}}"
-      center 
-      title="分享课表"       
-      border="{{false}}"
-      label="每次分享，别人只能点击一次，有效期为10个小时。"
-      open-type="share"
-    >
-      <van-button
-        dataset="id1234"        
-        slot="right-icon" 
-        icon="share-o" 
-        type="primary" 
-        open-type="share" 
-        color="transparent" 
-        custom-style="background-color:transparent;color:black"	
-      />
+      <van-cell label="{{friendRealName!=''?friendRealName:''}}" icon="star-o" border="{{false}}">
+        <view slot="title">
+          <view class="van-cell-text">{{friendRealName!=''?"当前绑定的好友":"未绑定好友"}}</view>
+        </view>
+        <view slot="right-icon">
+          <van-button wx:if="{{friendRealName!=''}}" slot="right-icon" round type="mini" size="small"
+            bindtap="dismissFriend">解绑</van-button>
+        </view>
+      </van-cell>
 
-    </van-cell>
+      <van-cell wx:if="{{friendRealName==''}}" center title="分享课表" border="{{false}}" label="每次分享，别人只能点击一次，有效期为10个小时。"
+        open-type="share">
+        <van-button dataset="id1234" slot="right-icon" icon="share-o" type="primary" open-type="share"
+          color="transparent" custom-style="background-color:transparent;color:black" />
+
+      </van-cell>
     </view>
   </view>
 </van-popup>
 
-   <!-- 导入课表遮罩 -->
-   <van-popup 
-    position="bottom"
-    round
-    closeable
-    custom-style="height: 30%;"
-    show="{{ showImportPopup }}"
-    bind:close="onImportPopupClose">
-    <view style="padding-top:2vh">
+<!-- 导入课表遮罩 -->
+<van-popup position="bottom" round closeable custom-style="height: 30%;" show="{{ showImportPopup }}"
+  bind:close="onImportPopupClose">
+  <view style="padding-top:2vh">
     <my-block style="text-align:center">添加课表</my-block>
-
     <view class="importCoursePop" style="padding-top:15%">
-      <van-row >
-        <van-col span="8"  bindtap="importByHand" style="text-align:center;">    
-          <button class="cu-btn bg-blue" bindtap="importByHand">添加待办</button>
+      <van-row>
+        <van-col span="8" bindtap="importByHand" style="text-align:center;">
+          <button class="cu-btn bg-blue">添加待办</button>
         </van-col>
-        <van-col span="8"  bindtap="importByHand" style="text-align:center;">    
-          <button class="cu-btn bg-blue" bindtap="importByHand">添加课程</button>
+        <van-col span="8" bindtap="importByHand" style="text-align:center;">
+          <button class="cu-btn bg-blue">添加课程</button>
         </van-col>
-        <van-col span="8" offset="0" bindtap="importByDean" style="text-align:center;">    
-          <button class="cu-btn bg-gradual-orange" bindtap="importByDean">教务导入</button>
+        <van-col span="8" offset="0" bindtap="importByDean" style="text-align:center;">
+          <button class="cu-btn bg-gradual-orange">教务导入</button>
         </van-col>
       </van-row>
     </view>
   </view>
-  </van-popup>
+</van-popup>
 
 <!-- 设置功能的popup -->
-<van-popup 
-  show="{{ showSettingPopup }}" 
-  bind:close="onSettingPopupClose"
-  position="bottom"
-  round
-  custom-style="height: 60%;"
->
-  <van-cell-group title="课表设置" border="{{false}}">    
-    <van-cell         
-      icon="clock-o"
-      title="课程提醒"      
-      label="暂时每天22:00提醒，以后会增加自定义时间"
- 
-      border="{{ true }}">
-      <van-switch 
-        size="20px"
-        active-color="#fde06b"
-        inactive-color="#ffffff"
-        checked="{{ openAlarmValue }}" bind:change="openClockChange" />
+<van-popup show="{{ showSettingPopup }}" bind:close="onSettingPopupClose" position="bottom" round
+  custom-style="height: 60%;">
+  <van-cell-group title="课程提醒" border="{{false}}">
+    <van-cell icon="clock-o" title="课程提醒" border="{{ true }}">
+      <van-switch size="20px" active-color="#fde06b" inactive-color="#ffffff" checked="{{ openAlarmValue }}"
+        bind:change="openClockChange" />
     </van-cell>
 
-    <!-- <van-cell       
-      icon="underway-o"
-      title="提醒时间"
-      label="暂时只能单时刻提醒，以后会更人性化"
-      bindtap="onClickClock" 
-      is-link 
-      value="{{clockDate[0]}}:{{clockDate[1]}}"  
-      border="{{ true }}"/> -->
-    <van-cell
-      icon="smile-o"
-      title="显示周末" >
-      <van-switch 
-        size="20px"
-        active-color="#fde06b"
-        inactive-color="#ffffff"
-        checked="{{ showSunday }}" bind:change="changeShowSunday" />
+    <van-cell icon="underway-o" title="提醒时间(暂不支持修改)" bindtap="onClickClock" is-link value="{{defaultClockDate}}"
+      border="{{ true }}" />
+
+    <!-- <van-cell icon="smile-o" title="显示周末">
+      <van-switch size="20px" active-color="#fde06b" inactive-color="#ffffff" checked="{{ showSunday }}"
+        bind:change="changeShowSunday" />
+    </van-cell> -->
+
+    <!-- <van-cell icon="smile-o" title="显示上课时间">
+      <van-switch size="20px" active-color="#fde06b" inactive-color="#ffffff" checked="{{ showSeqTime }}"
+        bind:change="changeShowSeqTime" />
+    </van-cell> -->
+
+  </van-cell-group>
+
+  <van-cell-group title="课表样式" border="{{false}}">
+    <van-cell center>
+      <van-grid square column-num="6" border="{{ false }}">
+        <van-grid-item use-slot bindtap="clickColorPattern" data-index="0">
+          <van-icon name="star" class="grid-item-icon" size="20px" color="#ee4866" />
+          <text style="font-size:10px">淡蕊香红</text>
+        </van-grid-item>
+        <van-grid-item use-slot bindtap="clickColorPattern" data-index="1">
+          <van-icon name="star" class="grid-item-icon" size="20px" color="#FFCA28" />
+          <text style="font-size:10px">编不出了</text>
+        </van-grid-item>
+      </van-grid>
     </van-cell>
-    
-    <van-cell
-      icon="smile-o"
-      title="显示上课时间" >
-      <van-switch 
-        size="20px"
-        active-color="#fde06b"
-        inactive-color="#ffffff"
-        checked="{{ showSeqTime }}" bind:change="changeShowSeqTime" />
+    <van-cell center icon="flower-o" bind:click="onShowSwitchCourseColor_type0" title="只有自己有课的颜色">
+      <van-icon slot="right-icon" name="stop" class="custom-icon" size="30px" color="{{type0CourseColor}}" />
+    </van-cell>
+    <van-cell center icon="flower-o" bind:click="onShowSwitchCourseColor_type1" title="只有他有课">
+      <van-icon slot="right-icon" name="stop" class="custom-icon" size="30px" color="{{type1CourseColor}}" />
     </van-cell>
 
-    </van-cell-group>
-
-    <van-cell-group title="背景色" border="{{false}}">
-    <van-cell
-      center      
-    >
-    <van-grid square column-num="6" border="{{ false }}">
-      <van-grid-item use-slot bindtap="clickColorPattern" data-index="0">
-        <van-icon name="star" class="grid-item-icon" size="20px" color="#ee4866" />
-        <text style="font-size:10px">淡蕊香红</text>
-      </van-grid-item>
-      <van-grid-item use-slot bindtap="clickColorPattern" data-index="1">
-        <van-icon name="star" class="grid-item-icon" size="20px" color="#FFCA28" />
-        <text style="font-size:10px">编不出了</text>
-      </van-grid-item>    
-    </van-grid>
-    </van-cell>
-    <van-cell
-      center
-      icon="flower-o"
-      bind:click="onShowSwitchCourseColor_type0" 
-      title="该时段只有自己有课"
-    >
-        <van-icon slot="right-icon" name="stop" class="custom-icon" size="30px" color="{{type0CourseColor}}" />
-    </van-cell>
-    <van-cell
-      center
-      icon="flower-o"
-      bind:click="onShowSwitchCourseColor_type1" 
-      title="只有他有课"
-    >
-      <van-icon slot="right-icon" name="stop" class="custom-icon" size="30px" color="{{type1CourseColor}}" />    
-    </van-cell>
-
-    <van-cell
-      center
-      icon="flower-o"
-      bind:click="onShowSwitchCourseColor_type2" 
-      title="两人都有课"
-    >
-      <van-icon
-        slot="right-icon"
-        name="stop"
-        class="custom-icon" 
-        size="30px"
-        color="{{type2CourseColor}}" 
-      />    
+    <van-cell center icon="flower-o" bind:click="onShowSwitchCourseColor_type2" title="两人都有课">
+      <van-icon slot="right-icon" name="stop" class="custom-icon" size="30px" color="{{type2CourseColor}}" />
     </van-cell>
 
   </van-cell-group>
 
   <van-cell-group title="背景图" border="{{false}}">
-    <van-grid square column-num="4" border="{{ false }}" >
-      <van-grid-item use-slot wx:for="{{ bgFileList.length }}" wx:for-item="index" data-index="{{index}}" bindtap="selectBg" wx:key="*this" >        
-        <van-icon wx:if="{{index==selectBgIndex}}" style="position: absolute;bottom: 1em;right: 1em;z-index:999" name="/images/icon/check.png" color="#00000099" size="40rpx"/>
-          <image
-            style="width: 100%;"
-            mode="aspectFill"          
-            src="{{bgFileList[index]}}"
-          />
-      </van-grid-item>    
-      <van-grid-item use-slot  bindtap="selectBg" data-index="{{bgFileList.length}}">
-        <van-uploader file-list="{{ fileList }}"   
-          max-size="{{1024*1024}}"
-          max-count="1"
-          image-fit="aspectFill"
-          preview-full-image="{{false}}"
-          deletable="{{true}}"
-          capture="{{['album', 'camera']}}"
-          bind:delete="deleteBgImg"
-          bind:after-read="uploadToCloud" >
+    <van-grid square column-num="4" border="{{ false }}">
+      <van-grid-item use-slot wx:for="{{ bgFileList.length }}" wx:for-item="index" data-index="{{index}}"
+        bindtap="selectBg" wx:key="*this">
+        <van-icon wx:if="{{index==selectBgIndex}}" style="position: absolute;bottom: 1em;right: 1em;z-index:999"
+          name="/images/icon/check.png" color="#00000099" size="40rpx" />
+        <image style="width: 100%;" mode="aspectFill" src="{{bgFileList[index]}}" />
+      </van-grid-item>
+      <van-grid-item use-slot bindtap="selectBg" data-index="{{bgFileList.length}}">
+        <van-uploader file-list="{{ fileList }}" max-size="{{1024*1024}}" max-count="1" image-fit="aspectFill"
+          preview-full-image="{{false}}" deletable="{{true}}" capture="{{['album', 'camera']}}"
+          bind:delete="deleteBgImg" bind:after-read="uploadToCloud">
         </van-uploader>
-        <van-icon wx:if="{{bgFileList.length==selectBgIndex}}" style="position: absolute;bottom: 1em;right: 1em;z-index:999" name="/images/icon/check.png" color="#00000099" size="40rpx"/>
-        
+        <van-icon wx:if="{{bgFileList.length==selectBgIndex}}"
+          style="position: absolute;bottom: 1em;right: 1em;z-index:999" name="/images/icon/check.png" color="#00000099"
+          size="40rpx" />
+
       </van-grid-item>
     </van-grid>
   </van-cell-group>
 </van-popup>
-  
 
-  <!-- 自己的教务课程详情的popup -->
-  <van-popup 
-    show="{{ showCourseDetailPopup_type0 }}" 
-    bind:close="onCourseDetailPopupClose"
-    position="center"
-    round
-    custom-style="width:70%;background-color:transparent">   
-    <view class="course-detail-popup bg-green"  animation="{{animationMain}}" bindtap='rotateFn' data-id="1">
-      <view class="course-info">
-        <view class="popup-title">{{tapCourse.course}}</view>
-        <view class="popup-class">{{tapCourse.place}}</view>
-        <view class="popup-info">{{tapCourse.infoStr}} </view>
-        <view class="popup-teacher">{{tapCourse.teachers}}</view>     
-      </view>
-      <!-- 转弯的示意图 -->
-      <!-- 向左转向右转 -->
-      <!-- <image class="img-turn" src="{{tapCourse.direction==0?turnImg[0]:turnImg[1]}} " mode="widthFix"></image> -->
-      <image class="img-turn" src="{{turnImg}} " mode="widthFix"></image>
 
-      <!-- 查看前后有无课程 -->
-      <!-- 分割线 -->
-      <van-divider  wx:if="{{tapCourse.start != 11}}" contentPosition="center" dashed customStyle="font-size: 10px;border-color:#ffffff88;color:#ffffff88">该教室(测试数据)</van-divider>
-      <view class="course-free-info">
-        <view class="course-free-prev"  wx:if="{{tapCourse.start != 1 && tapCourse.start != 6 && tapCourse.start != 11}}"> 
-          <van-row>
-            <van-col span="6">          
-              <view class="course-free-seq">{{tapCourse.start-2}}-{{tapCourse.start+tapCourse.sections-1-2}}节 有课</view>
-            </van-col>
-            <van-col span="3">          
-              <view class="course-free-text"> 推荐: </view>
-            </van-col>
-            <van-col span="15">          
-              <view class="course-free-classname">203｜204｜211｜211</view>
-            </van-col>
-          </van-row>
-        </view>
+<!-- 自己的教务课程详情的popup -->
+<van-popup show="{{ showCourseDetailPopup_type0 }}" bind:close="onCourseDetailPopupClose" position="center" round
+  custom-style="width:70%;background-color:transparent">
+  <view class="course-detail-popup bg-green" animation="{{animationMain}}" bindtap='rotateFn' data-id="1">
+    <view class="course-info">
+      <view class="popup-title">{{tapCourse.course}}</view>
+      <view class="popup-class">{{tapCourse.place}}</view>
+      <view class="popup-info">{{tapCourse.infoStr}} </view>
+      <view class="popup-teacher">{{tapCourse.teachers}}</view>
+    </view>
+    <!-- 转弯的示意图 -->
+    <!-- 向左转向右转 -->
+    <!-- <image class="img-turn" src="{{tapCourse.direction==0?turnImg[0]:turnImg[1]}} " mode="widthFix"></image> -->
+    <image class="img-turn" src="{{turnImg}} " mode="widthFix"></image>
 
-        <view class="course-free-after" wx:if="{{tapCourse.start != 3 && tapCourse.start != 8 && tapCourse.start !=11}}">
-          <van-row>
-            <van-col span="6">          
-              <view class="course-free-seq">{{tapCourse.start+2}}-{{tapCourse.start+tapCourse.sections-1+2}}节 有课</view>
-            </van-col>
-            <van-col span="3">          
-              <view class="course-free-text" wx:if="{{true}}"> 推荐 </view>
-            </van-col>
-            <van-col span="15">          
-              <view class="course-free-classname"  wx:if="{{true}}">203｜204｜211</view>
-            </van-col>
-          </van-row>
-        </view>
-      </view>
-      <view class="function">        
-        <!-- gutter的单位为px，增加间距 -->
-        <van-row gutter="20">
-          <!-- 删除 -->
-          <van-col span="8" >
-            <button class="cu-btn icon line-white shadow round lg" catchtap="deleteItem">
-              <text class="cuIcon-delete"></text>
-            </button>
+    <!-- 查看前后有无课程 -->
+    <!-- 分割线 -->
+    <van-divider wx:if="{{tapCourse.start != 11}}" contentPosition="center" dashed
+      customStyle="font-size: 10px;border-color:#ffffff88;color:#ffffff88">该教室(测试数据)</van-divider>
+    <view class="course-free-info">
+      <view class="course-free-prev" wx:if="{{tapCourse.start != 1 && tapCourse.start != 6 && tapCourse.start != 11}}">
+        <van-row>
+          <van-col span="6">
+            <view class="course-free-seq">{{tapCourse.start-2}}-{{tapCourse.start+tapCourse.sections-1-2}}节 有课</view>
           </van-col>
-          <!-- 修改 -->
-          <van-col  span="8" >
-            <button class="cu-btn icon line-white round lg bordersize" catchtap="modifyItem">
-              <text class="cuIcon-edit"></text>
-            </button>
+          <van-col span="3">
+            <view class="course-free-text"> 推荐: </view>
           </van-col>
-          <!-- 导航 -->
-          <van-col span="8" >
-            <button class="cu-btn icon line-white round lg bordersize" data-className="{{tapCourse.place}}" catchtap="navigateTo">
-              <text class="cuIcon-location"></text>
-            </button>
-          </van-col> 
+          <van-col span="15">
+            <view class="course-free-classname">203｜204｜211｜211</view>
+          </van-col>
         </van-row>
       </view>
-  </view>
-    <!--背面的框  -->
-    <view class="box b2" animation="{{animationBack}}" style="padding:3vh;text-align:center" bindtap='rotateFn' data-id="2">
-     <text>这里以后会加入备忘录功能</text>
-   </view>
-  </van-popup>
 
-  <!-- 只有他有的课程详情的popup -->
-  <van-popup 
-    show="{{ showCourseDetailPopup_type1 }}" 
-    bind:close="onCourseDetailPopupClose"
-    position="center"
-    round
-    custom-style="width:70%;height:45vh;background-color:transparent">   
-    <view class="course-detail-popup bg-red"  animation="{{animationMain}}" bindtap='rotateFn' data-id="1">
-      
-      <van-divider  
-        contentPosition="center" 
-        dashed 
-        customStyle="font-size: 10px;border-color:#ffffff66;color:#fff">        
-        <van-icon name="like"/> 
-        <van-icon name="like" color="red"/>
-        他的课程 
-        <van-icon name="like" color="red"/>
-        <van-icon name="like"/>
-      </van-divider>
-
-      <view class="course-info" style="height:80%;padding-top:5%">
-        <view class="popup-title">{{tapCourse.course}}</view>
-        <view class="popup-class">{{tapCourse.place}}</view>
-        <view class="popup-info">{{tapCourse.infoStr}}</view>     
-        <view class="popup-teacher">{{tapCourse.teachers}}</view>     
-      </view>
-  </view>
-    <!--背面的框  -->
-    <view class="box b2" 
-      animation="{{animationBack}}"  
-      bindtap='rotateFn' 
-      data-id="2">
-     <text>这里以后会加入备忘录功能</text>
-   </view>
-  </van-popup>
-
-  <!-- type2 两个人都有的 课程详情的popup -->
-  <van-popup 
-    show="{{ showCourseDetailPopup_type2 }}" 
-    bind:close="onCourseDetailPopupClose"
-    position="center"
-    round
-    custom-style="width:70%;background-color:transparent">   
-    <view class="course-detail-popup bg-purple"  animation="{{animationMain}}" bindtap='rotateFn' data-id="1">
-      <view class="course-info">
-        <view class="popup-title">{{tapCourse.myCourse}}</view>
-        <view class="popup-class">{{tapCourse.myPlace}}</view>
-        <view class="popup-info">{{tapCourse.myinfoStr}}</view>     
-        <view class="popup-teacher">{{tapCourse.myTeachers}}</view>     
-      </view>
-      <!-- 分割线 -->
-      <van-divider  contentPosition="center" dashed customStyle="font-size: 10px;border-color:#ffffff88;color:#ffffff88"><van-icon name="like" /> 他的课程 <van-icon name="like" /></van-divider>
-      <view class="course-info">
-        <view class="popup-title">{{tapCourse.friendCourse}}</view>
-        <view class="popup-class">{{tapCourse.friendPlace}}</view>
-        <view class="popup-info">{{tapCourse.friendinfoStr}}</view>     
-        <view class="popup-teacher">{{tapCourse.friendTeachers}}</view>     
-      </view>
-
-      <!-- 底部的功能区 -->
-      <view class="function">        
-        <!-- gutter的单位为px，增加间距 -->
-        <van-row gutter="20">
-          <!-- 删除 -->
-          <van-col span="8" >
-            <button class="cu-btn icon line-white shadow round lg" catchtap="deleteItem">
-              <text class="cuIcon-delete"></text>
-            </button>
+      <view class="course-free-after" wx:if="{{tapCourse.start != 3 && tapCourse.start != 8 && tapCourse.start !=11}}">
+        <van-row>
+          <van-col span="6">
+            <view class="course-free-seq">{{tapCourse.start+2}}-{{tapCourse.start+tapCourse.sections-1+2}}节 有课</view>
           </van-col>
-          <!-- 修改 -->
-          <van-col  span="8" >
-            <button class="cu-btn icon line-white round lg bordersize" catchtap="modifyItem">
-              <text class="cuIcon-edit"></text>
-            </button>
+          <van-col span="3">
+            <view class="course-free-text" wx:if="{{true}}"> 推荐 </view>
           </van-col>
-          <!-- 导航 -->
-          <van-col span="8" >
-            <button 
-              class="cu-btn icon line-white round lg bordersize" 
-              data-className="{{tapCourse.place!=null?tapCourse.place:tapCourse.myPlace}}" 
-              catchtap="navigateTo">
-              <text class="cuIcon-location"></text>
-            </button>
-          </van-col> 
+          <van-col span="15">
+            <view class="course-free-classname" wx:if="{{true}}">203｜204｜211</view>
+          </van-col>
         </van-row>
       </view>
+    </view>
+    <view class="function">
+      <!-- gutter的单位为px，增加间距 -->
+      <van-row gutter="20">
+        <!-- 删除 -->
+        <van-col span="8">
+          <button class="cu-btn icon line-white shadow round lg" catchtap="deleteItem">
+            <text class="cuIcon-delete"></text>
+          </button>
+        </van-col>
+        <!-- 修改 -->
+        <van-col span="8">
+          <button class="cu-btn icon line-white round lg bordersize" catchtap="modifyItem">
+            <text class="cuIcon-edit"></text>
+          </button>
+        </van-col>
+        <!-- 导航 -->
+        <van-col span="8">
+          <button class="cu-btn icon line-white round lg bordersize" data-className="{{tapCourse.place}}"
+            catchtap="navigateTo">
+            <text class="cuIcon-location"></text>
+          </button>
+        </van-col>
+      </van-row>
+    </view>
   </view>
-    <!--背面的框  -->
-    <view class="box b2" animation="{{animationBack}}"  bindtap='rotateFn' data-id="2">
-     <text>这里以后会加入备忘录功能</text>
-   </view>
-  </van-popup>
-  <!-- 设置提醒时间 -->
-  <van-popup 
-    position="bottom"
-    round
-    closeable
-    custom-style="height: 50%;"
-    show="{{ showClock }}" 
-    bind:close="clockClose">
-    <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{clockDate}}" bindchange="changeClock">
-      <picker-view-column>
-        <view wx:for="{{hours}}" wx:key="hours" style="line-height: 50px; text-align: center;">{{item}}</view>
-      </picker-view-column>
-      <picker-view-column>
-        <view wx:for="{{minutes}}" wx:key="minutes" style="line-height: 50px; text-align: center;">{{item}}</view>
-      </picker-view-column>
-    </picker-view>    
-  </van-popup>
+  <!--背面的框  -->
+  <view class="box b2" animation="{{animationBack}}" style="padding:3vh;text-align:center" bindtap='rotateFn'
+    data-id="2">
+    <text>这里以后会加入备忘录功能</text>
+  </view>
+</van-popup>
+
+<!-- 只有他有的课程详情的popup -->
+<van-popup show="{{ showCourseDetailPopup_type1 }}" bind:close="onCourseDetailPopupClose" position="center" round
+  custom-style="width:70%;height:45vh;background-color:transparent">
+  <view class="course-detail-popup bg-red" animation="{{animationMain}}" bindtap='rotateFn' data-id="1">
+
+    <van-divider contentPosition="center" dashed customStyle="font-size: 10px;border-color:#ffffff66;color:#fff">
+      <van-icon name="like" />
+      <van-icon name="like" color="red" />
+      他的课程
+      <van-icon name="like" color="red" />
+      <van-icon name="like" />
+    </van-divider>
+
+    <view class="course-info" style="height:80%;padding-top:5%">
+      <view class="popup-title">{{tapCourse.course}}</view>
+      <view class="popup-class">{{tapCourse.place}}</view>
+      <view class="popup-info">{{tapCourse.infoStr}}</view>
+      <view class="popup-teacher">{{tapCourse.teachers}}</view>
+    </view>
+  </view>
+  <!--背面的框  -->
+  <view class="box b2" animation="{{animationBack}}" bindtap='rotateFn' data-id="2">
+    <text>这里以后会加入备忘录功能</text>
+  </view>
+</van-popup>
+
+<!-- type2 两个人都有的 课程详情的popup -->
+<van-popup show="{{ showCourseDetailPopup_type2 }}" bind:close="onCourseDetailPopupClose" position="center" round
+  custom-style="width:70%;background-color:transparent">
+  <view class="course-detail-popup bg-purple" animation="{{animationMain}}" bindtap='rotateFn' data-id="1">
+    <view class="course-info">
+      <view class="popup-title">{{tapCourse.myCourse}}</view>
+      <view class="popup-class">{{tapCourse.myPlace}}</view>
+      <view class="popup-info">{{tapCourse.myinfoStr}}</view>
+      <view class="popup-teacher">{{tapCourse.myTeachers}}</view>
+    </view>
+    <!-- 分割线 -->
+    <van-divider contentPosition="center" dashed customStyle="font-size: 10px;border-color:#ffffff88;color:#ffffff88">
+      <van-icon name="like" /> 他的课程
+      <van-icon name="like" />
+    </van-divider>
+    <view class="course-info">
+      <view class="popup-title">{{tapCourse.friendCourse}}</view>
+      <view class="popup-class">{{tapCourse.friendPlace}}</view>
+      <view class="popup-info">{{tapCourse.friendinfoStr}}</view>
+      <view class="popup-teacher">{{tapCourse.friendTeachers}}</view>
+    </view>
+
+    <!-- 底部的功能区 -->
+    <view class="function">
+      <!-- gutter的单位为px，增加间距 -->
+      <van-row gutter="20">
+        <!-- 删除 -->
+        <van-col span="8">
+          <button class="cu-btn icon line-white shadow round lg" catchtap="deleteItem">
+            <text class="cuIcon-delete"></text>
+          </button>
+        </van-col>
+        <!-- 修改 -->
+        <van-col span="8">
+          <button class="cu-btn icon line-white round lg bordersize" catchtap="modifyItem">
+            <text class="cuIcon-edit"></text>
+          </button>
+        </van-col>
+        <!-- 导航 -->
+        <van-col span="8">
+          <button class="cu-btn icon line-white round lg bordersize"
+            data-className="{{tapCourse.place!=null?tapCourse.place:tapCourse.myPlace}}" catchtap="navigateTo">
+            <text class="cuIcon-location"></text>
+          </button>
+        </van-col>
+      </van-row>
+    </view>
+  </view>
+  <!--背面的框  -->
+  <view class="box b2" animation="{{animationBack}}" bindtap='rotateFn' data-id="2">
+    <text>这里以后会加入备忘录功能</text>
+  </view>
+</van-popup>
+<!-- 设置提醒时间 -->
+<van-popup position="bottom" round custom-style="height: 50%;" show="{{ showClock }}" bind:close="clockClose">
+  <!-- <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{clockDate}}"
+    bindchange="changeClock">
+    <picker-view-column>
+      <view wx:for="{{hours}}" wx:key="hours" style="line-height: 50px; text-align: center;">{{item}}</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{minutes}}" wx:key="minutes" style="line-height: 50px; text-align: center;">{{item}}</view>
+    </picker-view-column>
+  </picker-view> -->
+
+
+  <van-datetime-picker type="time" value="{{ defaultClockDate }}" bind:input="onChangeClockTime"
+    bind:confirm="onConfirmClockTime" />
+
+</van-popup>
 
 <!-- 天气详细 -->
-<van-overlay show="{{ modalWeatherShow }}" bind:click="modalWeatherClose" >
+<van-overlay show="{{ modalWeatherShow }}" bind:click="modalWeatherClose">
   <view class="wrapper" style="{{ themeData.myStyle }}">
-    <view class="block weatherDetail" catch:tap="noop" >
+    <view class="block weatherDetail" catch:tap="noop">
       <view class="weather-header">
         <view class="location"></view>
-        <view class="time">{{weather.createtime}}</view>      
+        <view class="time">{{weather.createtime}}</view>
       </view>
       <view class="weather-content">
         <view class="info">
-        <image src="https://cdns.qdu.life/icons/weatherIcon/{{weather.iconcode}}.png"></image>
-      </view>
+          <image src="https://cdns.qdu.life/icons/weatherIcon/{{weather.iconcode}}.png"></image>
+        </view>
         <text class="weather-info">{{weather.shorttext}}</text>
-        <view class="temperature">{{weather.dayt}} ℃ <view class="temp-intro">昼</view></view>
-        <view class="temperature">{{weather.nightt}} ℃ <view class="temp-intro">夜</view></view>
-        <view class="rain">降雨概率 {{weather.rain}}%</view>     
-        <view style="padding-top:1vh">           
-          <van-icon name="star" custom-style="bottom:-.1em;padding-right:4px"/> 适合学习 <van-icon name="star" custom-style="bottom:-.1em;padding-left:4px"/> 
-        </view>     
-      </view>      
+        <view class="temperature">{{weather.dayt}} ℃ <view class="temp-intro">昼</view>
+        </view>
+        <view class="temperature">{{weather.nightt}} ℃ <view class="temp-intro">夜</view>
+        </view>
+        <view class="rain">降雨概率 {{weather.rain}}%</view>
+        <view style="padding-top:1vh">
+          <van-icon name="star" custom-style="bottom:-.1em;padding-right:4px" /> 适合学习
+          <van-icon name="star" custom-style="bottom:-.1em;padding-left:4px" />
+        </view>
+      </view>
     </view>
 
   </view>
 </van-overlay>
 
 <!-- 打开课程提醒失败的原因 -->
-<van-overlay show="{{ modalAlarmFailureShow }}" bind:click="modalAlarmFailureClose" >
+<van-overlay show="{{ modalAlarmFailureShow }}" bind:click="modalAlarmFailureClose">
   <view class="wrapper" style="{{ themeData.myStyle }}">
-    <van-panel title="不体面的课程提醒弹窗" use-footer-slot custom-class="alarm-detail" header-class="alarm-detail-header">
+    <van-panel title="开启失败" use-footer-slot custom-class="alarm-detail" header-class="alarm-detail-header">
       <view class="alarm-failure-content">
-        <view>简单地说，由于<text style="font-weight:bold">微信限制</text>，若要使用课程提醒，须关注一个公众号。</view>    
+        <view>由于<text style="font-weight:bold">技术限制</text>，须关注一个公众号 （老用户需要取消关注重新关注一次）</view>
       </view>
       <view slot="footer" class="alarm-failure-footer">
         <van-button size="small">关闭</van-button>
@@ -653,23 +549,12 @@
   </view>
 </van-overlay>
 
-<color-picker-theme 
-  bindclose="pickColorClose" 
-  bindchangeColor="pickColor" 
-  data-type="0" 
-  initColor="{{rgb}}" 
-  show="{{showPickCourseColor_type0}}" 
-/>
+<color-picker-theme bindclose="pickColorClose" bindchangeColor="pickColor" data-type="0" initColor="{{rgb}}"
+  show="{{showPickCourseColor_type0}}" />
 
-<color-picker-theme
-  bindclose="pickColorClose" 
-  bindchangeColor="pickColor"
-  data-type="1"
-  initColor="{{rgb}}" 
-  show="{{showPickCourseColor_type1}}" 
-  />
+<color-picker-theme bindclose="pickColorClose" bindchangeColor="pickColor" data-type="1" initColor="{{rgb}}"
+  show="{{showPickCourseColor_type1}}" />
 
-<color-picker-theme 
-  bindclose="pickColorClose" 
-  bindchangeColor="pickColor" data-type="2" initColor="{{rgb}}" show="{{showPickCourseColor_type2}}" />
+<color-picker-theme bindclose="pickColorClose" bindchangeColor="pickColor" data-type="2" initColor="{{rgb}}"
+  show="{{showPickCourseColor_type2}}" />
 <van-dialog id="van-dialog" />

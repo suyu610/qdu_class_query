@@ -1,28 +1,29 @@
 import httpService from "./httpService";
 
-import {  
-  CheckSubscribeUrl,CloseAlarmUrl
+import {
+  CheckSubscribeUrl,
+  CloseAlarmUrl
 } from "./constants";
 
-function checksubscribe(hour,mins,handleSuccess){
-  httpService.get(
-    CheckSubscribeUrl+"/"+hour+"/"+mins,
-    "",
-    res=>{
+function checksubscribe(handleSuccess, params) {
+  httpService.post(
+    CheckSubscribeUrl,
+    params,
+    res => {
       handleSuccess(res.data['data'])
-    })    
+    })
 }
 
-function closeAlarm(handleSuccess){
+function closeAlarm(handleSuccess) {
   httpService.get(
     CloseAlarmUrl,
     "",
-    res=>{
+    res => {
       handleSuccess(res.data['data'])
     })
 }
 
 module.exports = {
-  checksubscribe:checksubscribe,
-  closeAlarm:closeAlarm
+  checksubscribe,
+  closeAlarm
 }

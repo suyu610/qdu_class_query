@@ -1,0 +1,80 @@
+<!--pages/course_search/course_search.wxml-->
+<view class="container stripes">
+  <van-sticky>
+    <van-search value="{{ value }}" placeholder="输入课程名" use-action-slot background="#fde06b"
+      value="{{ searchCourseValue }}" input-align="center" shape="round" bind:change="onSearchChange"
+      bind:search="onTapSearch">
+      <view slot="action" bind:tap="onTapSearch" class="search-btn">
+        <van-loading size="24px" color="#000" wx:if="{{loading}}" />
+        <text wx:else>搜索</text>
+      </view>
+    </van-search>
+  </van-sticky>
+  <!-- 筛选条件 -->
+  <van-dropdown-menu class="dropdown-menu" overlay="{{false}}">
+    <van-dropdown-item title-class="dropdown-title" value="{{ seq }}" options="{{ seqs }}" bind:change="seqChange" />
+    <van-dropdown-item title-class="dropdown-title" value="{{ week }}" options="{{ weeks }}" bind:change="weekChange" />
+    <van-dropdown-item title-class="dropdown-title" value="{{ campus }}" options="{{ campuses }}"
+      bind:change="campusChange" />
+  </van-dropdown-menu>
+  <van-row custom-class="search-info">
+    <van-col span="15" offset="1">
+      <view class="result-info" wx:if="{{searchResult.course!=null && searchResult.course.length != 0}}">找到
+        {{searchResult.totalCourses}} 节{{searchCourseValue}}课，共有 {{searchResult.totalPages}} 页</view>
+    </van-col>
+    <!-- 步进器 -->
+    <van-col span="8">
+      <van-stepper wx:if="{{searchResult.course!=null && searchResult.course.length != 0}}" theme="{{round}}"
+        custom-class="stepper" input-class="stepper-input" plus-class="stepper-plus" minus-class="stepper-minus"
+        disable-input min="{{1}}" max="{{searchResult.totalPages}}" value="{{ currentIndex }}" long-press="{{ false }}"
+        bind:change="onStepperChange" />
+    </van-col>
+  </van-row>
+
+  <scroll-view class="result">
+    <block wx:if="{{searchResult.course.length != 0}}" wx:for="{{searchResult.course}}" wx:for-item="Course"
+      wx:key="index">
+      <van-collapse accordion value="{{ activeNames }}" bind:change="onTapSearchItem">
+        <van-collapse-item size="large" center label="{{Course.infoStr}}" name="{{index}}">
+          <view slot="title">
+            <van-row>
+              <van-col span="18">
+                <text>{{Course.courseName}}</text>
+              </van-col>
+              <van-col span="4" offset="2" style="text-align:right">
+                <van-tag wx:if="{{Course.campusId==1709}}" plain color="#9b9b9d">浮山</van-tag>
+                <van-tag wx:else plain color="#9b9b9d">金家岭</van-tag>
+              </van-col>
+            </van-row>
+          </view>
+          <view class="course-detail">
+            <van-cell border="{{false}}" icon="location-o" title="教室" value="{{Course.className}}" />
+            <van-cell border="{{false}}" icon="manager-o" title="老师" value="{{Course.teachers}}" />
+            <van-cell border="{{false}}" icon="filter-o" title="课程类型"
+              value="{{Course.course_type==0?'必修':Course.course_type==1?'限选':'任选'}}" />
+            <van-cell border="{{false}}" icon="award-o" title="学分" value="{{Course.score}}" />
+            <van-cell border="{{false}}" icon="wap-home-o" title="课容量" value="{{Course.capacity}}" />
+            <van-cell border="{{false}}" icon="friends-o" title="选课人数" value="{{Course.stuNum}}" />
+            <van-divider hairline />
+            <van-row>
+              <van-col span="14" offset="10" style="text-align:right">
+                <van-button icon="plus" size="small" type="primary" data-info="{{Course.infoStr}}"
+                  data-seq="{{Course.keySeq}}" data-course="{{Course.keyCourse}}" bindtap="onTapAddToMyCourse">
+                  加入到我的课表
+                </van-button>
+              </van-col>
+            </van-row>
+          </view>
+        </van-collapse-item>
+      </van-collapse>
+    </block>
+    <view class="intro" wx:if="{{searchResult.course==null||searchResult.course.length == 0}}">
+      <van-row>
+        <van-col span="14" offset="5">
+          <view>搜索结果为空</view>
+          <view>点击上方进行搜索吧</view>
+        </van-col>
+      </van-row>
+    </view>
+  </scroll-view>
+</view>

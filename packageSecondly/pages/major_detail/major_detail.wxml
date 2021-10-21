@@ -1,0 +1,83 @@
+<view class="container stripes" style="background: white;">
+  <van-sticky>
+    <view class="tr bg-w" style="font-size: 20rpx;">
+      <view class="th" style="max-width:30px"></view>
+      <view class="th">周一</view>
+      <view class="th">周二</view>
+      <view class="th">周三</view>
+      <view class="th">周四</view>
+      <view class="th">周五</view>
+      <view class="th">周六</view>
+      <view class="th">周日</view>
+    </view>
+  </van-sticky>
+  <van-row gutter="20">
+    <!-- 加入 -->
+    <van-col span="24">
+      <van-dropdown-menu class="dropdown-menu">
+        <van-dropdown-item value="{{ classSeq }}" options="{{ classSeqs }}" bind:change="onClassSeqChange"
+          title-class="dropdown-title" />
+      </van-dropdown-menu>
+    </van-col>
+    <!-- 搜索 -->
+    <van-col span="0">
+      <view></view>
+    </van-col>
+  </van-row>
+
+  <scroll-view scroll-y="{{true}}" class="table">
+
+    <block wx:for="{{courseList}}" wx:for-item="item" wx:key="index">
+      <view class="tr {{index%2==0?'bg-y':'bg-b'}}">
+        <view class="td" style="line-height: 3rem;max-width:30px">{{(index+1)*2-1}}\n|\n{{(index+1)*2}}</view>
+        <block wx:for="{{item}}" wx:for-item="course" wx:key="index">
+          <view class="td" bindtap="tapCourse" data-courseName="{{course.courseName}}"
+            data-rawinfo="{{course.rawInfo}}">{{course.rawInfo}}</view>
+        </block>
+      </view>
+    </block>
+  </scroll-view>
+
+
+  <van-popup show="{{ showCourseDetailPopup }}" bind:close="onCourseDetailPopupClose" position="center" round
+    custom-style="width:70%;background-color:transparent">
+    <view class="course-detail-popup bg-purple" animation="{{animationMain}}" bindtap='rotateFn' data-id="1">
+      <!-- <view class="course-info">
+        <view class="popup-title">{{tapCourse.myCourse}}</view>
+        <view class="popup-class">{{tapCourse.myPlace}}</view>
+        <view class="popup-info">{{tapCourse.myinfoStr}}</view>
+        <view class="popup-teacher">{{tapCourse.myTeachers}}</view>
+      </view> -->
+      <!-- 分割线 -->
+      <van-divider contentPosition="center" dashed customStyle="font-size: 10px;border-color:#6d83d6;color:#6d83d6">
+        <text style="color:#6d83d6">课程详情</text>
+      </van-divider>
+      <view class="course-info">
+        <view class="popup-title">{{tapCourse.courseName}}</view>
+        <view class="popup-class" style="  white-space: pre-line;">{{tapCourse.rawInfo}}</view>
+        <!-- <view class="popup-info">{{tapCourse.friendinfoStr}}</view>
+        <view class="popup-teacher">{{tapCourse.friendTeachers}}</view> -->
+      </view>
+
+      <!-- 底部的功能区 -->
+      <view class="function">
+        <!-- gutter的单位为px，增加间距 -->
+        <van-row gutter="20">
+          <!-- 加入 -->
+          <van-col span="12">
+            <button class="cu-btn icon line-white shadow round lg" catchtap="addItem">
+              <text class="cuIcon-add"></text>
+            </button>
+          </van-col>
+          <!-- 搜索 -->
+          <van-col span="12">
+            <button class=" cu-btn icon line-white round lg bordersize" catchtap="searchItem">
+              <text class="cuIcon-search"></text>
+            </button>
+          </van-col>
+        </van-row>
+      </view>
+    </view>
+
+  </van-popup>
+</view>

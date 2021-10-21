@@ -1,96 +1,117 @@
 <!--pages/more/more.wxml-->
-<scroll-view class="container">
+
+<scroll-view class="container" style="padding-top:{{safeAreaTop-10}}px">
   <my-block title="功能广场"></my-block>
   <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
+    <van-grid-item content-class="useless-item" link-type="navigateTo"
+      url="/packageSecondly/pages/multi_course/multi_course" use-slot>
+      <!-- <van-icon color="black" size="28px" name="friends-o" dot></van-icon> -->
+      <iconfont name="pintuan" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">社团课表</text>
+      <text style="font-size:9px;color:#64656696">查看多人共同时间</text>
+    </van-grid-item>
 
-    <!-- <van-grid-item icon="point-gift" icon-color="red" text="抽奖"
-      url="/pages/lucky_draw/lucky_draw" dot /> -->
-
+    <van-grid-item link-type="navigateTo" url="/packageSecondly/pages/major_list/major_list" use-slot>
+      <!-- <van-icon dot color="black" size="29px" name="/images/major.png"></van-icon> -->
+      <iconfont name="xueye" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">专业课表</text>
+      <text style="font-size:9px;color:#64656696">查看不同专业的课表</text>
+    </van-grid-item>
+    <van-grid-item link-type="navigateTo" url="/packageSecondly/pages/course_search/course_search" use-slot>
+      <!-- <van-icon color="black" size="28px" name="search"></van-icon> -->
+      <iconfont name="sousuo" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">蹭课查询</text>
+      <text style="font-size:9px;color:#64656696">可以按课程名搜索</text>
+    </van-grid-item>
     <van-grid-item bindtap="jump2Quiz" use-slot>
-      <image style="width: 29px; height: 29px;" src="/images/QY_LOGO.png" />
-      <text style="font-size:12px;margin-top:9px;color:#646566">青云知识库</text>
-    </van-grid-item>
-    <van-grid-item icon="fire-o" text="小目标" link-type="navigateTo" url="/pages/flag/flag"
-      custom-class="grid gradient-border" />
-    <van-grid-item use-slot link-type="navigateTo" url="/pages/eatwhat/eatwhat">
-      <image style="width: 26px; height: 26px;" src="/images/eatwhat_logo.png" />
-      <text style="font-size:12px;margin-top:9px;color:#646566">今天吃什么</text>
-    </van-grid-item>
-    <van-grid-item icon="search" text="蹭课查询" link-type="navigateTo" url="/pages/course_search/course_search" />
-
-    <van-grid-item use-slot link-type="navigateTo" url="/pages/report/report">
-      <image style="width: 26px; height: 26px;" src="https://cdns.qdu.life/icons/icon_report.png" />
-      <text style="font-size:12px;margin-top:9px;color:#646566">bug提交</text>
+      <iconfont name="shuji" />
+      <!-- <image style="width: 29px; height: 29px;" src="/images/QY_LOGO.png" /> -->
+      <text style="font-size:12px;margin-top:9px;color:#141415;">青云知识库</text>
+      <text style="font-size:9px;color:#64656696">期末复习资料库</text>
     </van-grid-item>
 
-    <van-grid-item content-class="useless-item" icon="friends-o" link-type="navigateTo"
-      url="/pages/multi_course/multi_course" text="多人课表" />
+
+    <van-grid-item url="/packageSecondly/pages/moment/moment" use-slot>
+      <iconfont name="shoucang" />
+      <!-- <image style="width: 24px; height: 24px;opacity:0.9" src="/images/icon/icon_moments_HL.png" /> -->
+      <text style="font-size:12px;margin-top:9px;color:#141415">青大百科</text>
+      <text style="font-size:9px;color:#64656696">内容还没完善</text>
+    </van-grid-item>
+
+    <van-grid-item use-slot link-type="navigateTo" url="/packageSecondly/pages/eatwhat/eatwhat">
+      <iconfont name="shenghuo" />
+      <!-- <image style="width: 26px; height: 26px;" src="https://cdns.qdu.life/icons/eatwhat_logo.png" /> -->
+      <text style="font-size:12px;margin-top:9px;color:#141415;">今天吃什么</text>
+      <text style="font-size:9px;color:#64656696">选择困难症终结者</text>
+    </van-grid-item>
+
+    <van-grid-item link-type="navigateTo" url="/packageSecondly/pages/flag/flag" custom-class="grid gradient-border"
+      use-slot>
+      <iconfont name="dengji" />
+      <!-- <van-icon color="black" size="24px" name="fire-o"></van-icon> -->
+      <text style="font-size:12px;margin-top:9px;color:#141415;">小目标</text>
+      <text style="font-size:9px;color:#64656696">来立自己的小目标吧</text>
+    </van-grid-item>
+
+    <van-grid-item url="/packageSecondly/pages/telephone/telephone" use-slot>
+      <iconfont name="tonghua" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">常用电话</text>
+      <text style="font-size:9px;color:#64656696">学校的常用电话</text>
+    </van-grid-item>
+
+    <van-grid-item bindtap="onShowAdBtnTapped" use-slot>
+      <iconfont name="hezuo" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">支持一下</text>
+      <text style="font-size:9px;color:#64656696">点击出来视频广告</text>
+    </van-grid-item>
   </van-grid>
+  <view style="position:fixed;bottom:0;width:100vw">
+    <view style="width: 100vw; font-size: 12px;text-align: center; color: lightgrey;margin-bottom: 4px;">
+      实在平衡不了服务器费用，接了个广告，别骂了别骂了</view>
+    <view bindtap="closeAdPeriodly"
+      style="width: 100vw; font-size: 12px;text-align: center; color: lightgrey;margin-bottom: 4px;text-decoration:underline">
+      {{bottomAd?'点击关闭3天':'打开广告'}}
+    </view>
+    <ad wx:if="{{bottomAd}}" unit-id="adunit-a6611c8d2054b029"></ad>
+  </view>
+  
+  <!-- <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
+    <van-grid-item use-slot link-type="navigateTo" url="/packageSecondly/pages/report/report">
+      <iconfont name="bianji"></iconfont>
+      <text style="font-size:12px;margin-top:9px;color:#141415;">bug提交</text>
+    </van-grid-item>
 
-  <!-- <my-block title="正在开发的，头都秃了，天天熬夜  🤮"></my-block>
-  <!-- <van-divider dashed contentPosition="center">正在开发</van-divider> -->
-  <!-- <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3"> -->
-  <!--   
-    <van-grid-item
-      content-class="useless-item"
-      icon="friends-o"
-      bindtap="showNoEntry"
-      text="约活动"
-    />
-    <van-grid-item
-    content-class="useless-item"
-      icon="notes-o"
-      bindtap="showNoEntry"
-      text="学习资料"
-    />
-    <van-grid-item
-    content-class="useless-item"
-      icon="refund-o"    
-      bindtap="showNoEntry"
-      text="二手交易"
-    />
-    <van-grid-item
-    content-class="useless-item"
-      icon="records"   
-      bindtap="showNoEntry"         
-      text="占教室登记"
-    />
-    <van-grid-item
-    content-class="useless-item"      
-      icon="like-o"
-      bindtap="jump2Umbrella"
-      text="爱心雨伞"
-    />  
-    <van-grid-item
-      use-slot
-      link-type="navigateTo"
-      url="/pages/cheat/cheat"
-    >
-    <image
-        style="width: 26px; height: 26px;"
-        src="https://cdns.qdu.life/icons/icon_cheat.png"
-      />
-    <text style="font-size:12px;margin-top:9px;color:#646566">高阶防骗指南</text> 
-    </van-grid-item> -->
+    <van-grid-item url="/packageSecondly/pages/umbrella/umbrella" use-slot>
+      <iconfont name="xihuan" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">爱心雨伞</text>
+    </van-grid-item>
 
-  <!-- <van-grid-item
-      use-slot
-      link-type="navigateTo"
-      url="/pages/flower/flower"
-    >
-    <image
-        style="width: 26px; height: 26px;"
-        src="https://cdns.qdu.life/icons/icon_flower_v1.png"
-      />
-    <text style="font-size:12px;margin-top:9px;color:#646566">识别小花</text>
-    </van-grid-item> -->
-  <!-- <van-grid-item       
-      icon="gold-coin-o"    
-      dot
-      text="鼓励并打赏"
-      link-type="navigateTo"
-      url="/pages/reward/reward"
-    />  -->
-  <!-- </van-grid> -->
+    <van-grid-item bindtap="showNoEntry" use-slot>
+      <iconfont name="hongbao" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">抽奖</text>
+    </van-grid-item>
+
+    <van-grid-item use-slot bindtap="showNoEntry">
+      <image style="width: 20px; height: 20px;" src="/images/icon/icon_cheat.png" />
+      <text style="font-size:12px;padding-top:9px;color:#141415;">高阶防骗指南</text>
+    </van-grid-item>
+
+    <van-grid-item use-slot link-type="navigateTo" bindtap="showNoEntry">
+      <iconfont name="pingjia" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">学校的花草</text>
+    </van-grid-item>
+
+    <van-grid-item url="/packageSecondly/pages/photo_maker/photo_maker" use-slot>
+      <iconfont name="tupian" />
+      <text style="font-size:12px;margin-top:9px;color:#141415;">证件照</text>
+    </van-grid-item>
+  </van-grid> -->
 </scroll-view>
 <van-toast id="van-toast" />
+
+
+<van-overlay show="{{ showAd }}" bind:click="onCloseAd">
+  <view class="wrapper">
+    <ad unit-id="adunit-d00b7ebf071441ae" ad-type="video" ad-theme="white"></ad>
+  </view>
+</van-overlay>

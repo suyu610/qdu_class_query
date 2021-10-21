@@ -1,35 +1,29 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-var component_1 = require('../common/component');
-component_1.VantComponent({
-  classes: ['active-class', 'disabled-class'],
-  relation: {
-    type: 'ancestor',
-    name: 'sidebar',
-    current: 'sidebar-item',
-  },
-  props: {
-    dot: Boolean,
-    badge: null,
-    info: null,
-    title: String,
-    disabled: Boolean,
-  },
-  methods: {
-    onClick: function () {
-      var _this = this;
-      var parent = this.parent;
-      if (!parent || this.data.disabled) {
-        return;
-      }
-      var index = parent.children.indexOf(this);
-      parent.setActive(index).then(function () {
-        _this.$emit('click', index);
-        parent.$emit('change', index);
-      });
+import { VantComponent } from '../common/component';
+import { useParent } from '../common/relation';
+VantComponent({
+    classes: ['active-class', 'disabled-class'],
+    relation: useParent('sidebar'),
+    props: {
+        dot: Boolean,
+        badge: null,
+        info: null,
+        title: String,
+        disabled: Boolean,
     },
-    setActive: function (selected) {
-      return this.setData({ selected: selected });
+    methods: {
+        onClick() {
+            const { parent } = this;
+            if (!parent || this.data.disabled) {
+                return;
+            }
+            const index = parent.children.indexOf(this);
+            parent.setActive(index).then(() => {
+                this.$emit('click', index);
+                parent.$emit('change', index);
+            });
+        },
+        setActive(selected) {
+            return this.setData({ selected });
+        },
     },
-  },
 });

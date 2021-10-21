@@ -1,35 +1,19 @@
-<scroll-view class="container">
-  <view style="padding-top:5vh"></view>
-  <van-row>    
+<scroll-view class="container" scroll-y="{{true}}">
+  <view style="padding-top:12vh"></view>
+  <van-row>
     <!-- loginByWx -->
-    <van-col span="8" offset="8" bindtap="onTapAvatar">    
-      <van-image  
-        wx:if="{{avatar!=null}}"     
-        id="avatarImg"
-        use-loading-slot 
-        use-error-slot
-        width="60px"
-        height="60px"
-        round
-        src="{{avatar}}">
-          <van-loading slot="loading" type="spinner" size="20" vertical />
-          <text slot="error">加载失败</text>
+    <van-col span="8" offset="8" bindtap="onTapAvatar">
+      <van-image wx:if="{{avatar!=null}}" id="avatarImg" use-loading-slot use-error-slot width="60px" height="60px"
+        round src="{{avatar}}">
+        <van-loading slot="loading" type="spinner" size="20" vertical />
+        <text slot="error">加载失败</text>
       </van-image>
 
-      <van-image
-        wx:else     
-        id="avatarImg"
-        use-loading-slot 
-        use-error-slot
-        width="60px"
-        height="60px"
-        round
-        src="https://cdns.qdu.life/icons/logo_mini.png">   
-          <van-loading slot="loading" type="spinner" size="20" vertical />
-          <text slot="error">加载失败</text>
+      <van-image wx:else id="avatarImg" use-loading-slot use-error-slot width="60px" height="60px" round
+        src="https://cdns.qdu.life/icons/logo_mini.png">
+        <van-loading slot="loading" type="spinner" size="20" vertical />
+        <text slot="error">加载失败</text>
       </van-image>
-
-
     </van-col>
   </van-row>
   <van-row>
@@ -39,111 +23,79 @@
       </view>
     </van-col>
   </van-row>
-  <van-cell  center icon="chat-o dot" value="0" is-link link-type="switchTab" url="/pages/flag/flag">
+  <!-- <van-cell center icon="chat-o dot" value="0" is-link link-type="switchTab" url="/pages/flag/flag">
     <view slot="title">
-      <view class="van-cell-text">消息 
-        <van-tag round color="#fde06b" text-color="#000">no</van-tag>
+      <view class="van-cell-text">消息
+        <van-tag round color="#fde06b" text-color="#000">0</van-tag>
       </view>
     </view>
-  </van-cell>
+  </van-cell> -->
 
   <van-cell-group title="设置">
-    <!-- 风格设置 -->
-    <van-cell 
-      center
-      icon="flower-o"
-      bind:click="onShowSwitchThemes" 
-      title="主题色" 
-      >
-        <van-icon slot="right-icon" name="stop" class="custom-icon" size="30px" color="{{currentTheme}}" />
-    
-      </van-cell>
-      <van-cell 
-        center
-        icon="setting-o"
-        title="自动搜索当前空教室" 
-      >
-        <van-switch 
-          size="24px"
-          active-color="#fde06b"
-          inactive-color="#ffffff"
-          checked="{{ openAutoSearchSwitch }}" bind:change="onAutoSearchSwitchChange" />
-      </van-cell>
-      <van-cell
-        center
-        icon="setting-o"
-        title="显示小目标页" 
-      >
-        <van-switch 
-          size="24px"
-          active-color="#fde06b"
-          inactive-color="#ffffff"
-          checked="{{ openSplashSwitch }}" bind:change="onSplashSwitchChange" />
-      </van-cell>        
-    
     <!-- 校区选择 -->
-    <van-action-sheet    
-      show="{{ showCampusSheet }}"
-      actions="{{ campusOptions }}"
-      bind:close="onSwitchCampusClose"
-      bind:select="onSwitchCampusSelect"
-      />
-    <van-cell is-link  center icon="location-o" bind:click="onShowSwitchCampus" title="校区" value="{{currentCampusName}}" />    
+    <van-action-sheet show="{{ showCampusSheet }}" actions="{{ campusOptions }}" bind:close="onSwitchCampusClose"
+      bind:select="onSwitchCampusSelect" />
+    <van-cell is-link center bind:click="onShowSwitchCampus" title="切换校区" value="{{currentCampusName}}">
+      <iconfont slot="icon" name="dingwei1" size="18" style="padding-right:4px"></iconfont>
+    </van-cell>
+
+    <!-- 风格设置 -->
+    <!-- <van-cell center icon="flower-o" bind:click="onShowSwitchThemes" title="主题色">
+      <van-icon slot="right-icon" name="stop" class="custom-icon" size="30px" color="{{currentTheme}}" />
+    </van-cell> -->
     <!-- 启动页 -->
-    <van-action-sheet    
-      show="{{ showFirstLauchSheet }}"
-      actions="{{ firstLauchPageOptions }}"
-      bind:close="onSwitchFirstLauchPageClose"
-      bind:select="onSwitchFirstLauchPageSelect"
-      safe-area-inset-bottom="{{true}}"
-    />
-    <van-cell 
-      is-link 
-      center
-      icon="apps-o"
-      title="默认打开" 
-      bind:click="onShowFirstLauchPage" 
-      value="{{firstLauchPage}}" 
-    />
+    <van-action-sheet cancel-text="取消" show="{{ showFirstLauchSheet }}" actions="{{ firstLauchPageOptions }}"
+      bind:close="onSwitchFirstLauchPageClose" bind:select="onSwitchFirstLauchPageSelect"
+      safe-area-inset-bottom="{{true}}" />
+
+    <van-cell center title="打开时自动搜索空教室">
+      <van-switch size="24px" active-color="#fde06b" inactive-color="#ffffff" checked="{{ openAutoSearchSwitch }}"
+        bind:change="onAutoSearchSwitchChange" />
+      <iconfont slot="icon" name="shezhi" size="18" style="padding-right:4px"></iconfont>
+    </van-cell>
+
+
+    <van-cell is-link center title="启动页" bind:click="onShowFirstLauchPage" value="{{firstLauchPage}}">
+
+      <iconfont slot="icon" name="huodong" size="18" style="padding-right:4px"></iconfont>
+
+    </van-cell>
+
   </van-cell-group>
 
-  <van-popup
-    show="{{ showAboutPop }}"
-    closeable
-    close-icon-position="top-right"
-    close-icon="close"
-    position="bottom"
-    round
-    custom-style="height: 40%"
-    bind:close="onAboutPopClose"
-  >
-    <view 
-      bindtap='copyText' 
-      data-text="744080689"
-      class="aboutPop">
-    <van-image
-      round
-      width="3.7rem"
-      height="3.7rem"
-      src="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/logo.png"
-      style="margin: 15rpx;"
-    />
-    <text style="margin: 10rpx;color:lightgray">由 青岛大学 电子信息学院</text>
-    <text style="margin: 5rpx;font-size:20px">微纳四班 & 素语工作室</text>
-    <text style="margin: 10rpx;color:lightgray">联合开发</text>
-    <text style="font-size:10px;margin: 10rpx;color:lightgray">qq群: 744080689(点击复制)</text>
+  <van-popup show="{{ showAboutPop }}" closeable close-icon-position="top-right" close-icon="close" position="bottom"
+    round custom-style="height: 40%" bind:close="onAboutPopClose">
+    <view bindtap='copyText' data-text="744080689" class="aboutPop">
+      <van-image round width="3.7rem" height="3.7rem"
+        src="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/logo.png" style="margin: 15rpx;" />
+      <text style="margin: 10rpx;color:gray">青岛大学团委</text>
+      <text style="margin: 5rpx;font-size:18px">权小益 & 素语团队</text>
+      <text style="margin: 10rpx;color:lightgray">联合开发</text>
     </view>
   </van-popup>
-
+  <view class="cell-group"></view>
   <van-cell-group title="关于">
-    <!-- <van-cell  center icon="gem-o" title="官网" bind:click="jumpToAboutPage" is-link />    -->
-    <van-cell  center icon="like-o" title="关于我们" bind:click="onAboutShow" is-link />       
-    <!-- <van-cell  center icon="like-o" title="开发进度" bind:click="onAboutShow" is-link />        -->
+    <van-cell center title=" 使用帮助" bind:click="jump2Faq" is-link>
+      <iconfont slot="icon" name="yiwen" size="18" style="padding-right:4px"></iconfont>
+    </van-cell>
 
+    <van-cell center title="关于我们" bind:click="onAboutShow" is-link>
+      <iconfont slot="icon" name="banquan" size="18" style="padding-right:4px"></iconfont>
+    </van-cell>
+    <van-cell center data-text="744080689" bind:click="copyText" value="744080689" is-link>
+      <iconfont slot="icon" name="zidingyi" size="18" style="padding-right:4px"></iconfont>
+      <view slot="title">用户交流群 <text style="font-size:12px;color:lightgrey">( 点击复制 )</text></view>
+    </van-cell>
+    <!-- <van-cell center icon="wap-home-o" title="素语官网" bind:click="jump2HomeWeb" is-link /> -->
   </van-cell-group>
-    <button class="contact cu-btn" open-type='contact'>客服</button>    
-    <button class="contact cu-btn bg-gradual-green" open-type='share'>分享给好友</button>
-    
-  </scroll-view>
+  <view class="bottom">
 
-  <color-picker-theme bindchangeColor="pickColor" initColor="{{rgb}}" show="{{showPickTheme}}" />
+    <button class="contact cu-btn" open-type='contact'>客服</button>
+    <button class="contact cu-btn" style="background-color:#FDE06B" open-type='share'>分享给好友</button>
+    <button class="contact reset-btn cu-btn block" bindtap="onReset" block>重置本地数据</button>
+    <!-- <van-cell is-link center icon="flag-o" title="" bind:click="onReset" /> -->
+  </view>
+
+</scroll-view>
+
+<color-picker-theme bindchangeColor="pickColor" initColor="{{rgb}}" show="{{showPickTheme}}" />

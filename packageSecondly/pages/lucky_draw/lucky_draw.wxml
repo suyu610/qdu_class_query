@@ -1,0 +1,107 @@
+<!--index.wxml-->
+<scroll-view scroll-y class="container">
+
+  <view class="remain_count">
+    <view class="title">可用次数： {{remainCount}}</view>
+    <view class="body" bindtap="getMoreCount">获取更多次数 ></view>
+  </view>
+  <view class="recorder">
+    <view class="title" bindtap="openLuckyRecorder">中奖记录 > </view>
+    <!-- <view wx:if="{{luckyList.length==0}}" class="body">暂无中奖记录</view> -->
+    <!-- <view wx:else class="body">暂无中奖记录</view> -->
+  </view>
+
+  <view wx:if="{{debug}}">当前位置：{{curPosition}} 停止位置: <input value='{{luckPosition}}'
+      style="width:100%;text-align:center" bindinput='input' type='number'></input>
+  </view>
+  <view class='frame_view'>
+    <view class='frame_row'>
+      <image class='frame_item' style='opacity:{{color[0]}}' src='{{images[0]}}'></image>
+      <image class='frame_item' style='opacity:{{color[1]}}' src='{{images[1]}}'></image>
+      <image class='frame_item' style='opacity:{{color[2]}}' src='{{images[2]}}'></image>
+    </view>
+
+    <view class='frame_row'>
+      <image class='frame_item' style='opacity:{{color[7]}}' src='{{images[7]}}'></image>
+      <image class='frame_item' src='{{btnconfirm}}' bindtap='{{clickLuck}}'></image>
+      <image class='frame_item' style='opacity:{{color[3]}}' src='{{images[3]}}'></image>
+    </view>
+
+    <view class='frame_row'>
+      <image class='frame_item' style='opacity:{{color[6]}}' src='{{images[6]}}'></image>
+      <image class='frame_item' style='opacity:{{color[5]}}' src='{{images[5]}}'></image>
+      <image class='frame_item' style='opacity:{{color[4]}}' src='{{images[4]}}'></image>
+    </view>
+  </view>
+
+  <view class="invite" inset>
+    <view class="title">邀请者学号，非必填</view>
+    <van-field type="number" input-class="input_class" placeholder-style="color:#a37cc1"
+      custom-style="border-radius:30rpx;border:0;background-color:#964dce;" model:value="{{ inviteCode }}"
+      placeholder="确认后不可修改" border="{{ false }}" bind:change="onChange" use-button-slot>
+      <van-button color="#792db3" custom-style="color: #d9a7ff" round slot="button" size="small" type="primary">
+        确定
+      </van-button>
+    </van-field>
+  </view>
+
+  <view class="rule">
+    <view class="title">游戏规则</view>
+    <view class="body">
+      <view class="body_title">0. 说明</view>
+      <view class="body_subtitle">
+        1. 本活动限青大学生参与，为验证身份，需要你导入教务课表，请自行评估风险。</view>
+      <view class="body_subtitle">
+        2. 现金红包直接发放到微信，实物奖品请复制兑奖码与我们客服联系，<text style="color:#d9a7ff">无需任何费用，谨防受骗</text>。</view>
+
+      <view class="body_subtitle">2. 活动时间为9.24-9.31</view>
+
+      <view class="body_title">1. 抽奖次数</view>
+      <view class="body_subtitle"> 1. 导入教务课表，次数+1，如多次导入，则以第一个微信账号为准</view>
+      <view class="body_subtitle">2. 邀请新用户，他也成功导入教务课表后，次数+1</view>
+
+      <view class="body_title">2. 奖品</view>
+      <view class="body_subtitle">> 小米10000毫安充电宝 概率 0.5%</view>
+      <view class="body_subtitle">> 288.88 现金红包 概率 0.5%</view>
+      <view class="body_subtitle">> 88.88 现金红包 概率 1.3%</view>
+      <view class="body_subtitle">> 18.88 现金红包 概率 2.0%</view>
+      <view class="body_subtitle">> 5.88 现金红包 概率 5.0%</view>
+      <view class="body_subtitle">> 1.68 现金红包 概率 60.0%</view>
+
+      <view class="body_title">3. 关于我们</view>
+      <view class="body_subtitle">我们是来自电子信息学院、自动化学院、电气学院、法学院的素语团队。</view>
+    </view>
+  </view>
+
+</scroll-view>
+<van-share-sheet show="{{ showGetMoreCount }}" options="{{ options }}" bind:select="onSelectGetMoreCount"
+  bind:close="onCloseGetMoreCount" title="该功能暂未上线" />
+
+<van-popup show="{{ showLuckyRecorder }}" bind:close="onCloseLuckyRecorder" position="bottom" round
+  custom-style="height: 75%;">
+
+  <van-cell-group title="我的中奖记录">
+    <van-cell title="学号：2019***413" value="￥ 1.88" label="2021年9月21日01:14:08" />
+  </van-cell-group>
+  <van-cell-group title="大伙的中奖记录（234次）">
+
+    <van-tabs wx:if="{{showLuckyRecorder}}" active="{{ active }}" bind:change="onChangeTabbar">
+
+      <van-tab title="详细数据">
+        <van-cell title="学号：2018***234" value="移动电源" label="2021年9月21日01:14:08" />
+        <van-cell title="学号：2019***913" value="￥ 88.88" label="2021年9月21日01:14:08" />
+        <van-cell title="学号：2019***812" value="￥ 288.88" label="2021年9月21日01:14:08" />
+      </van-tab>
+      <van-tab title="总览">
+        <view style="width:100vw;height:35vh">
+          <canvas wx:if="{{active==1}}" canvas-id="lineCanvas" disable-scroll="true" class="canvas"
+            bindtouchstart="touchcanvas"></canvas>
+        </view>
+      </van-tab>
+    </van-tabs>
+  </van-cell-group>
+
+
+
+
+</van-popup>

@@ -23,10 +23,8 @@
     "van-overlay": "/miniprogram_npm/@vant/weapp/overlay/index",
     "van-panel": "/miniprogram_npm/@vant/weapp/panel/index",
     "van-dialog": "/miniprogram_npm/@vant/weapp/dialog/index"
-
-
-
   },
-  
-  "disableScroll": false
+
+  "disableScroll": false,
+  "navigationStyle":"custom"
 }

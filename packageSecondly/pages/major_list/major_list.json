@@ -1,0 +1,19 @@
+{
+  "usingComponents": {
+    "van-search": "/miniprogram_npm/@vant/weapp/search/index",
+    "van-sticky": "/miniprogram_npm/@vant/weapp/sticky/index",
+    "van-button": "/miniprogram_npm/@vant/weapp/button/index",
+    "van-grid": "/miniprogram_npm/@vant/weapp/grid/index",
+    "van-grid-item": "/miniprogram_npm/@vant/weapp/grid-item/index",
+    "van-icon": "/miniprogram_npm/@vant/weapp/icon/index",
+    "van-progress": "/miniprogram_npm/@vant/weapp/progress/index",
+    "van-popup": "/miniprogram_npm/@vant/weapp/popup/index",
+    "van-radio": "/miniprogram_npm/@vant/weapp/radio/index",
+    "van-radio-group": "/miniprogram_npm/@vant/weapp/radio-group/index",
+    "van-cell": "/miniprogram_npm/@vant/weapp/cell/index",
+    "van-cell-group": "/miniprogram_npm/@vant/weapp/cell-group/index",
+    "van-divider": "/miniprogram_npm/@vant/weapp/divider/index",
+    "van-dialog": "/miniprogram_npm/@vant/weapp/dialog/index"
+
+  }
+}

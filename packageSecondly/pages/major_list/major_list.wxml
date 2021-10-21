@@ -1,0 +1,82 @@
+<wxs module="m1">
+  var sub = function (val, start, end) {
+    if (val == undefined || val == '' || val == null) {
+      return;
+    }
+    if (val.length > end) {
+      return val.substring(start, end);
+    } else {
+      return val;
+    }
+  }
+
+  var getCollgeName = function (value) {
+    return value.split("::")[0].trim()
+  }
+
+  var getCollgeId = function (value) {
+    return value.split("::")[1].trim()
+  }
+  module.exports.getCollgeId = getCollgeId;
+  module.exports.getCollgeName = getCollgeName;
+  module.exports.sub = sub;
+</wxs>
+<van-dialog id="van-dialog" />
+
+<view class="tab-item help" id="helpView">
+  <van-search bind:change="bindinput" value="{{ value }}" shape="round" background="#fff" placeholder="输入专业名，会自动补全" />
+  <view wx:if="{{value !='' && value!=null && bindSource.length==0}}"
+    style="text-align:center;padding-top: 4px;font-weight: bold;">没搜索到该专业
+  </view>
+
+  <scroll-view scroll-y="true" class="scrollview" hidden="{{hideScroll}}"
+    style="{{arrayHeight>600?'height:600rpx':''}};background:white;margin-bottom:20rpx">
+    <view style="padding-top: 4px;padding-left:15px;font-weight: bold;">搜索到{{bindSource.length}}门专业</view>
+    <view wx:for="{{bindSource}}" wx:key="index">
+      <van-cell is-link id="{{item}}" title=" {{item.majorName}}" border="{{ false }}" bindtap="jump2ClassList"
+        data-name="{{item.majorName}}" data-id="{{item.id}}" class="itemview" />
+    </view>
+  </scroll-view>
+
+  <view class="VerticalBox">
+    <!-- 左侧目录 -->
+    <scroll-view class="VerticalNav nav" scroll-y scroll-with-animation scroll-top="{{VerticalNavTop}}"
+      style="height: calc(100vh - 54px)">
+      <block wx:for="{{majors}}" wx:key="index" wx:for-item="item" wx:for-index='key'>
+        <view wx:if="{{item.length!=0}}"
+          class="cu-item {{m1.getCollgeId(key)==TabCur?'text-blue text-bold bg-blue cur':''}}" bindtap='tabSelect'
+          data-index="{{index}}" data-id="{{m1.getCollgeId(key)}}">{{m1.getCollgeName(key)}}</view>
+      </block>
+    </scroll-view>
+
+    <!-- 右侧详情 -->
+    <scroll-view class="VerticalMain" scroll-y scroll-with-animation style="height: calc(100vh - 54px);"
+      scroll-into-view="main-{{MainCur}}" bindscroll="VerticalMain">
+      <block wx:for="{{majors}}" wx:key="index" wx:for-item="item">
+        <view wx:if="{{item.length!=0}}" class="padding-top padding-lr" id="main-{{m1.getCollgeId(index)}}">
+          <view class='cu-bar solid-bottom bg-white'>
+            <view class='action'>
+              <text class='cuIcon-title text-blue'></text> <text
+                style="font-size: 20rpx;font-weight:bold">{{m1.getCollgeName(index)}}</text>
+            </view>
+          </view>
+          <view class="cu-list menu-avatar">
+            <block wx:for="{{item}}" wx:for-item="major" wx:key="key">
+              <view class="cu-item" bindtap="jump2ClassList" data-id="{{major.id}}" data-name="{{major.majorName}}">
+                <view class="bg cu-avatar round sm text-black text-bold"
+                  style="font-size:24rpx;background-color:#efe3af!important">
+                  {{m1.sub(major.majorName,0,1)}}
+                </view>
+                <view class="content">
+                  <view class="text-black">
+                    <text class="text-cut">{{major.majorName}}</text>
+                  </view>
+                </view>
+              </view>
+            </block>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>

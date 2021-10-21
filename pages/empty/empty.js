@@ -14,9 +14,9 @@ var userService = require('../../net/userService.js')
 var utils = require('../../utils/util.js')
 
 Page({
-
   // 当不为guide,不为splash时，判断该跳转哪个页面
   jumpWhere: function () {
+    app.globalData.fromEmpty = true
     // 这里是debug用的
     if (app.globalData.debug) {
       console.log("empty.js: debug模式")
@@ -27,10 +27,14 @@ Page({
     }
     let options = this.data.options;
     if (null != options && null != options.url) {
-      console.log(options.params)
       app.globalData.url = options.url
       app.globalData.params = options.params
-
+      if (options.url == "course" || options.url == "index") {
+        router.relaunch({
+          name: options.url,
+          data: options.params
+        })
+      }
       router.replace({
         name: options.url,
         data: options.params
@@ -70,7 +74,6 @@ Page({
       },
       fail() {
         // 当没有设置启动页的时候，跳转空教室页
-        // router.push({name:'splash'})
         router.push({
           name: 'index'
         })
@@ -86,7 +89,6 @@ Page({
   },
   handleLoginByTokenSuccess: function (res) {
     if (res.data.token.token != null) {
-      console.log(res.data.token)
       wx.setStorageSync('', res.data.token.token)
     } else {
       wx.setStorageSync(app.globalData.tokenKey, res.data.token)
@@ -134,8 +136,8 @@ Page({
               wx.showToast({
                 title: res.data['status']['msg'],
               })
-              router.replace({
-                name: "splash"
+              router.relaunch({
+                name: "index"
               })
             }
           },
@@ -188,8 +190,6 @@ Page({
    * 他会执行login，当有返回值后，执行获取flag，然后再执行业务逻辑
    */
   onLoad: function (options) {
-    console.log(options)
-
     this.setData({
       version: app.globalData.version
     })
@@ -198,7 +198,6 @@ Page({
       options: options
     })
     let that = this;
-
 
     // 判断校区
     // 如果没获取到值，则为浮山校区
@@ -238,8 +237,5 @@ Page({
         that.loginByWxCode()
       }
     })
-
-    // 首先登陆
-    this.initData()
   }
 })

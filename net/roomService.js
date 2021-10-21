@@ -1,47 +1,65 @@
 import httpService from "./httpService";
 
-import {  
-  GetTodayFreeRoomUrl,getTodayDetailRoomStatusUrl,getTomorrowDetailRoomStatusUrl
+import {
+  GetTodayFreeRoomUrl,
+  getTodayDetailRoomStatusUrl,
+  getTomorrowDetailRoomStatusUrl,
+  getDetailRoomStatusUrl
 } from "./constants";
 
 
 
-function getTodayFreeRoom(param,handleSuccess) {
+function getTodayFreeRoom(param, handleSuccess) {
   httpService.post(
-    GetTodayFreeRoomUrl+param,
+    GetTodayFreeRoomUrl + param,
     "",
-    res=>{
+    res => {
       handleSuccess(res.data['data'])
     },
-    er=>{
+    er => {
 
     });
 }
 
-function getTodayDetailRoomStatus(params,handleSuccess) {
+function getTodayDetailRoomStatus(params, handleSuccess) {
   httpService.post(
     getTodayDetailRoomStatusUrl,
     params,
-    res=>{
+    res => {
       handleSuccess(res.data['data'])
     },
-    er=>{
+    er => {
 
     });
 }
-function getTomorrowDetailRoomStatus(params,handleSuccess) {
+
+function getTomorrowDetailRoomStatus(params, handleSuccess) {
   httpService.post(
     getTomorrowDetailRoomStatusUrl,
     params,
-    res=>{
+    res => {
       handleSuccess(res.data['data'])
     },
-    er=>{
+    er => {
 
     });
 }
+
+function getDetailRoomStatus(params, handleSuccess) {
+  httpService.post(
+    getDetailRoomStatusUrl,
+    params,
+    res => {
+      handleSuccess(res.data['data'])
+    },
+    er => {
+
+    });
+}
+
 module.exports = {
-  getTodayFreeRoom: getTodayFreeRoom,
-  getTomorrowDetailRoomStatus:getTomorrowDetailRoomStatus,
-  getTodayDetailRoomStatus:getTodayDetailRoomStatus
+  getTodayFreeRoom,
+  getTomorrowDetailRoomStatus,
+  getTodayDetailRoomStatus,
+  getDetailRoomStatus
 }

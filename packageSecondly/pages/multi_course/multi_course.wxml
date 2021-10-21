@@ -1,0 +1,107 @@
+<van-dialog id="van-dialog" />
+<view class="container" style="height:100vh">
+  <van-search shape="round" focus="{{searchFocus}}" background="#fee161" model:value="{{ searchValue }}"
+    placeholder="搜索房间ID" use-action-slot bind:search="onSearch" bind:cancel="onSearchCancel" bind:focus="onSearchFocus">
+    <view slot="action" bind:tap="onSearchCancel">{{searchFocus?"取消":""}}</view>
+  </van-search>
+  <!-- 当搜索框获得焦点时，显示 -->
+
+  <van-transition name="slide-up" show="{{ searchFocus }}">
+    <view class="searchResultContainer">
+      <view wx:if="{{searchList.length==0}}" class="searchResultTitle">搜索房间id</view>
+      <van-cell-group wx:else title="搜索结果">
+        <block wx:for="{{searchList}}" wx:key="index" wx:for-item="room">
+          <van-cell center title="{{room.roomName}}" value="{{room.stuCount}}人" data-id="{{room.id}}"
+            data-haspassword="{{room.hasPassword}}" data-joinstatus="{{room.joinStatus}}" catchtap="onTapJoinRoomBtn">
+            <view wx:if="{{room.hasPassword}}" slot="icon" style="top:4px;padding-right:5vw">
+              <van-icon name="https://cdns.qdu.life/icons/icon_lock.png" />
+            </view>
+            <view slot="right-icon" style="padding-left:5vw;">
+              <!-- 加入 -->
+              <van-icon wx:if="{{room.joinStatus}}" name="success" class="custom-icon" />
+              <van-icon wx:else name="plus" class="custom-icon" />
+            </view>
+          </van-cell>
+        </block>
+      </van-cell-group>
+    </view>
+  </van-transition>
+
+  <scroll-view scroll-y="{{true}}" wx:if="{{!searchFocus}}" style="height:86.4vh;background:white">
+    <van-cell-group title="创建的房间">
+      <block wx:for="{{myCreateList}}" wx:key="index" wx:for-item="room">
+        <van-cell center use-label-slot bindtap="enterToDetail" data-id="{{room.id}}" data-name="{{room.roomName}}">
+          <view slot="title">
+            <van-tag color="#98999b" text-color="#98999b" type="success" plain>ID:{{room.id}}</van-tag>
+            <view class="van-cell-text" style="padding-left:3vw;font-weight:bold">{{room.roomName}}</view>
+          </view>
+          <van-button color="#ffe36e" custom-style="color:black" round slot="right-icon" catchtap="onTapDismissBtn"
+            data-id="{{room.id}}" size="small" type="danger">
+            解散
+          </van-button>
+          <view slot="label">
+            <view>房间人数： {{room.stuCount}}人</view>
+          </view>
+        </van-cell>
+      </block>
+      <van-cell title-style="color:lightgrey" wx:if="{{myCreateList.length==0}}" title="未创建房间" center>
+      </van-cell>
+    </van-cell-group>
+
+    <van-cell-group title="加入的房间">
+      <block wx:for="{{myJoinList}}" wx:key="index" wx:for-item="room">
+        <van-cell center label="房间人数：{{room.stuCount}}人" data-id="{{room.id}}" data-name="{{room.roomName}}"
+          bindtap="enterToDetail">
+          <view slot="title">
+            <van-tag color="#98999b" text-color="#98999b" type="success" plain>ID:{{room.id}}</van-tag>
+            <view class="van-cell-text" style="padding-left:3vw;font-weight:bold">{{room.roomName}}</view>
+          </view>
+          <van-button color="#ffe36e" custom-style="color:black" catchtap="onTapExitBtn" data-id="{{room.id}}" round
+            slot="right-icon" size="small" type="danger">
+            退出
+          </van-button>
+        </van-cell>
+      </block>
+      <van-cell title-style="color:lightgrey" wx:if="{{myJoinList.length==0}}" title="未加入房间" center>
+      </van-cell>
+    </van-cell-group>
+  </scroll-view>
+
+  <van-button bindtap="showCreateRoom" color="#fee161"
+    custom-style="color:black;font-weight:bold;position:absolute;bottom:0;height:7vh!important;width:70vw;left:0" block>
+    创建房间
+  </van-button>
+
+  <van-button bindtap="onSearchFocus" color="#e17055"
+    custom-style="color:white;font-weight:bold;position:absolute;bottom:0;height:7vh!important;width:30.5vw;right:0"
+    block>
+    加入房间
+  </van-button>
+</view>
+<van-popup show="{{ showEnterPassword }}" position="bottom" round custom-style="height: 20%;"
+  bind:close="onCloseEnterPassword">
+  <view style="padding-top:4vh">
+    <van-field model:value="{{ roompassword }}" center clearable label="请输入密码" placeholder="请输入密码" use-button-slot>
+      <van-button round slot="button" size="small" type="primary" bindtap="onTapJoinRoomByPasswordBtn">
+        确认
+      </van-button>
+    </van-field>
+  </view>
+</van-popup>
+
+<van-popup show="{{ showCreateRoomPopUp }}" position="bottom" round custom-style="height: 26%;"
+  bind:close="onCloseCreateRoomPopUp">
+  <view style="padding-top:5%;text-align:center">
+    <van-field value="{{ createRoomName }}" bind:change="onChangeCreateRoomName" center label="房间名" clearable
+      placeholder="请输入房间名" use-button-slot>
+    </van-field>
+    <van-field label="密码" value="{{ createRoomPwd }}" bind:change="onChangeCreateRoomPwd" center clearable
+      placeholder="留空为不设置密码" use-button-slot>
+    </van-field>
+    <view style="width:40vw;padding-top:30rpx;margin:0 auto">
+      <van-button round block slot="button" size="small" type="primary" bindtap="createRoom">
+        创建
+      </van-button>
+    </view>
+  </view>
+</van-popup>

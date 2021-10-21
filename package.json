@@ -11,5 +11,8 @@
   "dependencies": {
     "@vant/weapp": "^1.6.2",
     "crypto-js": "^4.0.0"
+  },
+  "devDependencies": {
+    "mini-program-iconfont-cli": "^0.6.1"
   }
 }

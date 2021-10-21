@@ -1,0 +1,29 @@
+<!--pages/faq/faq.wxml-->
+<view class="container">
+  <view class="faq">
+    <van-cell-group title="常见问题" inset>
+      <block wx:for="{{hotFaqList}}" wx:key="index">
+        <van-cell title="{{item.title}}" is-link data-id="{{item.id}}" data-url="{{item.url}}" bindtap="jump2FaqItemUrl"/>
+      </block>
+    </van-cell-group>
+  </view>
+
+  <view class="column">
+    <van-cell-group title="问题分类" inset>
+      <van-grid>
+        <block wx:for="{{faqColumnList}}" wx:key="index">
+          <van-grid-item icon="{{item.icon}}" text="{{item.title}}" data-listname="{{item.title}}" data-id="{{item.id}}"
+            bindtap="jump2FaqList" />
+        </block>
+      </van-grid>
+    </van-cell-group>
+  </view>
+</view>
+
+<view class="btns">
+  <van-button custom-style="background:#E1F1FE;width:30vw" type="default" block round icon="edit" bindtap="jump2Report">
+    问题建议</van-button>
+  <van-button custom-style="float:right!important;width:55vw" type="info" open-type="contact" block round
+    icon="service-o">人工客服
+  </van-button>
+</view>
