@@ -73,7 +73,7 @@
             refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="black"
             refresher-background="transparent" refresher-triggered="{{triggered}}" bindrefresherpulling="onPulling"
             bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort">
-            <block wx:for="{{storeList[currentStoreListIndex]}}" wx:key="index">
+            <block wx:for="{{storeList[index]}}" wx:key="index">
               <view class='store-item' bindtap="jump2StoreDetail">
                 <view class="bg-img">
                   <image mode="aspectFill" class="round" src="{{item.image}}"></image>

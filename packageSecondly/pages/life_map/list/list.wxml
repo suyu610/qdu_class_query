@@ -16,7 +16,7 @@
       autoplay="{{false}}" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#000"
       style="height:{{globalDetailMode?'1300rpx!important':'680rpx!important'}}">
       <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':'not_cur'}}">
-        <view class="swiper-item" bindtap='onTapSwipeItem' data-id="{{item.id}}">
+        <view class="swiper-item" data-id="{{item.id}}">
           <view class="distance" catchtap="toMapApp" wx:if="{{!item.isAd}}">1.4km
           </view>
           <view class="ad" wx:else>
@@ -27,7 +27,8 @@
             <iconfont name="xihuan" wx:if="{{!item.isLike}}" />
             <iconfont name="xihuan" wx:else />
           </view>
-          <view class="img {{item.detailMode?'img-detail-mode':''}}" style="height:{{globalDetailMode?'35%':'67%'}}">
+          <view class="img {{item.detailMode?'img-detail-mode':''}}" data-src="{{item.url}}" catchtap="previewImages"
+            style="height:{{globalDetailMode?'35%':'67%'}}">
             <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
           </view>
           <view class="good-list" wx:if="{{item.detailMode}}">
@@ -42,20 +43,19 @@
               </view>
             </view>
             <view class="good-list-detail">
-              <van-grid column-num="3">
-                <van-grid-item icon="photo-o">
-                  <view slot="text" class="grid-item-text"><text> 配钥匙\n¥5.0</text></view>
-                </van-grid-item>
-                <van-grid-item icon="photo-o">
-                  <view slot="text" class="grid-item-text"><text>打耳洞\n¥8.0</text></view>
-                </van-grid-item>
-                <van-grid-item icon="photo-o">
-                  <view slot="text" class="grid-item-text"><text>电脑清灰\n¥12.0</text></view>
-                </van-grid-item>
-                <van-grid-item icon="photo-o">
-                  <view slot="text" class="grid-item-text"><text>贴膜\n¥33.0 </text></view>
-                </van-grid-item>
-              </van-grid>
+              <van-tabs active="{{ active }}" tab-class="tab-class" tab-active-class="tab-active text-black"
+                color="#FFE9A7" line-height="4" title-inactive-color="#aaa" swipeable animated>
+                <van-tab title="美容">
+                  <van-cell-group>
+                    <van-cell icon="smile-o" title-class="cell-title" title-width="70%" title="超声波除毛" value="￥199" />
+                    <van-cell icon="smile-o" title-class="cell-title" title-width="70%"
+                      title="王者之心（全模式）-进口激光美白除皱收缩毛孔M22光子嫩肤" value="￥999" />
+                  </van-cell-group>
+                </van-tab>
+                <van-tab title="标签 2">内容 2</van-tab>
+                <van-tab title="标签 3">内容 3</van-tab>
+                <van-tab title="标签 4">内容 4</van-tab>
+              </van-tabs>
             </view>
           </view>
 
@@ -78,10 +78,16 @@
               </view>
             </view>
 
-            <view class="rate">
-              <van-rate icon="like" void-icon="like-o" size="{{ 16 }}" value="3" color="#FDE06B" readonly />
+            <view class="rate" catchtap="onToggleRatePop" style="width: 50%;">
+              <van-rate size="{{ 16 }}" value="3" color="#FDE06B" readonly />
             </view>
-            <view class="comments" catchtap="onShowCommentPop" style="bottom:{{item.detailMode?'20px':'10px'}}">
+
+            <view class="detail-switch" catchtap="onTapSwipeItem" data-id="{{item.id}}" data-source="button"
+              style="bottom:10px">
+              <iconfont name="{{item.detailMode?'suoxiao':'fangda'}}" size="28" />
+            </view>
+
+            <view class="comments" catchtap="onShowCommentPop" style="bottom:10px">
               <iconfont name="pinglun" size="28" />
             </view>
           </view>
@@ -91,8 +97,35 @@
   </view>
 </view>
 
-<van-popup show="{{ showCommentPopValue }}" position="right" bind:close="onCloseCommentPop"
-  custom-style="width:100%;height: 70%;" round>
+<!-- 评分框 -->
+<van-popup show="{{ showRatePopValue }}" round position="bottom" closeable bind:close="onToggleRatePop"
+  custom-style="width:100%;height: 40%;">
+  <view class="cu-bar bg-white">
+    <view class="action sub-title">
+      <text class="text-lg text-bold text-black">{{swiperList[cardCur].storeName}}</text>
+      <text class="bg-yellow"></text>
+    </view>
+  </view>
+
+  <view style="text-align:center;color:grey;font-size:28rpx">平均评分<text
+      style="font-size:80rpx;font-weight: bold;color:black;padding-left:10px;padding-right:10px">3.8</text> ( 44人 )
+  </view>
+
+  <view style="margin: 30rpx auto;text-align:center">
+    <view class="rate">
+      <van-rate size="{{ 38 }}" value="{{yourRate}}" bind:change="onChangeRateValue" color="#FDE06B" />
+    </view>
+  </view>
+  <view style="margin: 40rpx auto;width:50vw">
+    <van-button custom-style="border:2px solid {{yourRate==0?'#C8C9D3':'#000'}};height:60rpx" block color="{{yourRate==0?'#C8C9D3':'#000'}}" plain round bindtap="submitRate">
+      提交
+    </van-button>
+  </view>
+</van-popup>
+
+<!-- 评论框 -->
+<van-popup show="{{ showCommentPopValue }}" round position="top" bind:close="onCloseCommentPop"
+  custom-style="width:100%;height: 70%;">
   <view class="cu-bar bg-white">
     <view class="action sub-title">
       <text class="text-lg text-bold text-black">{{swiperList[cardCur].storeName}}的评论</text>
@@ -121,7 +154,7 @@
       <view class="grid flex-sub padding-lr col-3 grid-square">
         <view class="bg-img"
           style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);" wx:for="{{2}}"
-          wx:key="{{index}}">
+          wx:key="index">
         </view>
       </view>
       <view class="text-gray text-sm text-right padding"
@@ -202,7 +235,7 @@
       <view class="grid flex-sub padding-lr col-3 grid-square">
         <view class="bg-img"
           style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);" wx:for="{{8}}"
-          wx:key="{{index}}">
+          wx:key="index">
         </view>
       </view>
       <view class="text-gray text-sm text-right padding"
@@ -283,7 +316,7 @@
       <view class="grid flex-sub padding-lr col-3 grid-square">
         <view class="bg-img"
           style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);" wx:for="{{1}}"
-          wx:key="{{index}}">
+          wx:key="index">
         </view>
       </view>
       <view class="text-gray text-sm text-right padding"
@@ -344,5 +377,4 @@
       </view>
     </view>
   </view>
-
 </van-popup>

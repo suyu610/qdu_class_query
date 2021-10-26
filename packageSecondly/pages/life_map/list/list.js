@@ -36,6 +36,7 @@ Page({
       },
     }],
     showCommentPopValue: false,
+    yourRate: 0,
     isAd: false,
     cardCur: 0,
     swiperList: [{
@@ -98,8 +99,48 @@ Page({
       detailMode: false,
       url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20170407%2F0bb5bfc848e949ceb334d6b346eb1e5d_th.jpeg&refer=http%3A%2F%2Fimg.mp.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=096e5f33acecb87eb403192243dfcc26'
     }],
+    imgList: [
+      "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=508387608,2848974022&fm=26&gp=0.jpg",
+      "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3139953554,3011511497&fm=26&gp=0.jpg",
+      "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1022109268,3759531978&fm=26&gp=0.jpg"
+    ]
+  },
+  onChangeRateValue(e) {
+    this.setData({
+      yourRate: e.detail,
+    });
   },
 
+
+  submitRate() {
+    let that = this;
+    wx.showModal({
+      title: "你的评分是",
+      content: that.data.yourRate + "分",
+      success(res) {
+        // 点击确定
+        if (res.confirm) {
+          wx.showToast({
+            title: '评分成功',
+          })
+          that.setData({
+            showRatePopValue: !that.data.showRatePopValue
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+
+  },
+  noop() {
+
+  },
+  onToggleRatePop(e) {
+    this.setData({
+      showRatePopValue: !this.data.showRatePopValue
+    })
+  },
   onToggleShowComment(e) {
     this.setData({
       showCommentValue: !this.data.showCommentValue
@@ -115,8 +156,17 @@ Page({
       showCommentPopValue: true
     })
   },
-  onTapSwipeItem(e) {
+  // 图片预览
+  previewImages(e) {
+    console.log(e.currentTarget.dataset.src)
+    let currentUrl = e.currentTarget.dataset.src
+    wx.previewImage({
+      current: currentUrl, // 当前显示图片的http链接
+      urls: this.data.imgList // 需要预览的图片http链接列表
+    })
 
+  },
+  onTapSwipeItem(e) {
     wx.vibrateShort({
       success: function () {
         console.log("vibrate success");
@@ -163,7 +213,6 @@ Page({
     wx.showModal({
       title: "要拨打商家电话吗？",
       content: phoneNumber,
-      cancelColor: 'cancelColor',
       success(res) {
         // 点击确定
         if (res.confirm) {
