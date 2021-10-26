@@ -5,11 +5,13 @@ import Dialog from '../../../miniprogram_npm/@vant/weapp/dialog/dialog';
 const router = require('../../../router/index.js');
 
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
+    themeVars: {
+      // searchBackgroundColor: '#000',
+    },
     createRoomName: "",
     createRoomPwd: "",
     roompassword: "",

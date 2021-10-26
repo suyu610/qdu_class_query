@@ -66,7 +66,7 @@ App({
     rediretTo: "",
     params: "",
     debug: false,
-    debugRouter: "multi_course",
+    debugRouter: "life_map_list",
     // 当前样式,注意这里配合腾讯地图，所以是从1开始
     currentTheme: 1,
     currentCampus: 1709,

@@ -355,7 +355,16 @@ Page({
       showCampusSheet: false
     });
   },
-
+  onThankUShow() {
+    this.setData({
+      showThankUPop: true
+    })
+  },
+  onshowThankUClose() {
+    this.setData({
+      showThankUPop: false
+    })
+  },
 
 
   onShowSwitchThemes: function () {

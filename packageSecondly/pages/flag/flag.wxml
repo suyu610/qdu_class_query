@@ -32,10 +32,10 @@
   <view wx:else>
     <view class="listShowView" wx:for="{{flagList}}" wx:for-index="index" wx:for-item="itemName" wx:key="index">
       <view class="weui-slidecells flagListCell" icon >
-        <mp-slideview id="{{itemName.flag_id}}" buttons="{{slideButtons}}" icon="{{true}}" bindbuttontap="slideButtonTap">
+        <mp-slideview id="{{itemName.flagId}}" buttons="{{slideButtons}}" icon="{{true}}" bindbuttontap="slideButtonTap">
             <van-cell-group border="{{ false }}" custom-class="cell-group">
               <van-cell 
-                id="{{itemName.flag_id}}"  
+                id="{{itemName.flagId}}"  
                 value-class="flagListCell" 
                 title-class="flagListCell" 
                 title-width="64vw" 
@@ -44,21 +44,21 @@
                 border="{{ false }}"
                 title="{{itemName.content}}" 
                 use-label-slot>
-                <view slot="icon" id="{{itemName.flag_id}}" bindtap="togglePrivate" class="private">
-                  <van-icon  name="{{ itemName.is_public==0 ? 'https://cdns.qdu.life/icons/icon_lock.png' : 'https://cdns.qdu.life/icons/icon_unlock.png'}}" class="custom-icon" size="20px"  />
+                <view slot="icon" id="{{itemName.flagId}}" bindtap="togglePrivate" class="private">
+                  <van-icon  name="{{ itemName.isPublic==0 ? 'https://cdns.qdu.life/icons/icon_lock.png' : 'https://cdns.qdu.life/icons/icon_unlock.png'}}" class="custom-icon" size="20px"  />
                 </view>
                 <view slot="right-icon"  style="text-align:right;font-size:12px">
-                  <van-icon wx:if="{{itemName.is_verify==1 || itemName.is_public==0}}"  name="success" />
-                  <text wx:elif="{{itemName.is_verify==0}}" style="color:grey">审核中</text>
+                  <van-icon wx:if="{{itemName.isVerify==1 || itemName.isPublic==0}}"  name="success" />
+                  <text wx:elif="{{itemName.isVerify==0}}" style="color:grey">审核中</text>
                   <text wx:else style="color:red">未通过</text>
                   <view>
-                    <text style="color:lightgrey;font-weight:normal">{{itemName.create_date}}</text>
+                    <text style="color:lightgrey;font-weight:normal">{{itemName.createDate}}</text>
                   </view>
                 </view>
                 <view slot="label">
                   <view class="van-cell-text"> 
-                    <van-icon slot="right-icon" name="https://cdns.qdu.life/icons/icon_eye.png" class="custom-icon" size="12px"/> {{itemName.show_count}}  
-                    <van-icon slot="right-icon" name="https://cdns.qdu.life/icons/icon_unlike.png" class="custom-icon" size="12px"  /> {{itemName.like_count}}
+                    <van-icon slot="right-icon" name="https://cdns.qdu.life/icons/icon_eye.png" class="custom-icon" size="12px"/> {{itemName.showCount}}  
+                    <van-icon slot="right-icon" name="https://cdns.qdu.life/icons/icon_unlike.png" class="custom-icon" size="12px"  /> {{itemName.likeCount}}
                   </view>
                 </view>
               </van-cell>

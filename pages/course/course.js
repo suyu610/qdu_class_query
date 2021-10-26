@@ -1462,10 +1462,19 @@ Page({
       success(res) {
         if (res.confirm) {
           let index = e.currentTarget.dataset.index
-          let color = that.data.colorPattern[index]
-          that.setColor('0', color['color0'])
-          that.setColor('1', color['color1'])
-          that.setColor('2', color['color2'])
+          if (index != 0) {
+            let color = that.data.colorPattern[index - 1]
+            that.setColor('0', color['color0'])
+            that.setColor('1', color['color1'])
+            that.setColor('2', color['color2'])
+            that.setData({
+              shuicaiMode: false
+            })
+          } else {
+            that.setData({
+              shuicaiMode: true
+            })
+          }
         }
       }
     })

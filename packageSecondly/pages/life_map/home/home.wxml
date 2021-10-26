@@ -1,0 +1,132 @@
+<view class="container">
+  <view class="header">
+    <view class="name">欢迎来到，</view>
+    <view class="msg">
+      <iconfont size="18" name="xiaoxi1" />
+    </view>
+  </view>
+  <view class="top">
+    <view class="slogan">
+      生活地图
+      <iconfont name="ditu" class="iconfont"
+        style="position: relative;padding-left: 10px;top: 0px;right: 13px;z-index: 999;"></iconfont>
+      <!-- <view>广告会被显式标注</view> -->
+    </view>
+    <view class="sub_slogan">
+      <!-- <iconfont name="paihangbang" class="iconfont" size="12"></iconfont> -->
+      * 店铺按同学们的评分排序
+    </view>
+  </view>
+
+  <view class="category">
+    <view class="title">
+      <view class="title_name">
+        <iconfont name="fenlei1" class="iconfont" size="12"></iconfont>
+        店铺分类<text style="color:#a5a5a5;font-size:20rpx"> X {{tlist.length}}</text>
+      </view>
+      <view class="see_all" bindtap="showStoreListPop">
+        <!-- <iconfont size="12" name="liebiao"></iconfont> -->
+        <van-icon name="arrow" />
+
+      </view>
+    </view>
+    <scroll-view scroll-x="true" class="scroll-view-x" scroll-with-animation="true"
+      scroll-into-view="{{currentStoreListName}}" style="padding-top:10rpx; padding-left: 24px;" scroll-left='0'
+      bindscroll="getleft">
+      <view>
+        <view class="navigator_second {{index == currentStoreListIndex ? 'navigator_second_selected' : ''}}"
+          wx:for="{{tlist}}" wx:key="index" bindtap='titleClick' bindtap="titleClick" data-id="{{index}}"
+          data-name="{{item.id}}" id="{{item.id}}">
+          <image class="navigator_icon" src="{{item.icon!=null?item.icon:'/images/none.png'}}"></image>
+          <view class="navigator_text">{{item.name}}</view>
+        </view>
+      </view>
+    </scroll-view>
+
+
+    <!--滚动条部分-->
+    <view wx:if="{{slideShow}}" class="slide">
+      <view class='slide-bar'>
+        <view class="slide-show" style="width:{{slideWidth}}rpx; margin-left:{{slideLeft<=1 ? 0 : slideLeft+'rpx'}};">
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="recommend">
+    <view class="title">
+      <view class="title_name">
+        <iconfont name="dianpu" class="iconfont" size="12"></iconfont>{{tlist[currentStoreListIndex].name}} <view
+          style="color:#a5a5a5;font-size:20rpx;display:inline-block">
+          X {{storeList[currentStoreListIndex].length==null?'0':storeList[currentStoreListIndex].length}}</view>
+      </view>
+      <view class="see_all" bindtap="showAllStorePop">
+        <!-- <iconfont size="12" name="liebiao"></iconfont> -->
+        <van-icon name="arrow" />
+      </view>
+
+    </view>
+    <swiper class='swiper' bindchange='pagechange' current='{{currentStoreListIndex}}'>
+      <block wx:for="{{storeList}}" wx:for-item="storeListItem" wx:key="index">
+        <swiper-item class='swiper-item'>
+          <scroll-view refresher-enabled class="store-list" scroll-y="true" refresher-enabled="{{true}}"
+            refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="black"
+            refresher-background="transparent" refresher-triggered="{{triggered}}" bindrefresherpulling="onPulling"
+            bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort">
+            <block wx:for="{{storeList[currentStoreListIndex]}}" wx:key="index">
+              <view class='store-item' bindtap="jump2StoreDetail">
+                <view class="bg-img">
+                  <image mode="aspectFill" class="round" src="{{item.image}}"></image>
+                </view>
+                <view class="store-name">{{item.name}}</view>
+                <view class="bottom-info">
+                  <view class="business-hour">
+                    <iconfont name="shijian" size="12" class="iconfont" /><text>{{item.businessHour}}</text>
+                  </view>
+                  <view class="rate">
+                    <van-rate size="{{ 16 }}" value="{{ item.remark }}" color="#FDE06B" readonly />
+                  </view>
+                </view>
+              </view>
+            </block>
+          </scroll-view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</view>
+
+<!-- 商店列表 -->
+<van-popup closeable show="{{ showAllStorePopValue }}" bind:close="hideAllStorePop" round position="bottom"
+  custom-style="height: 60%;">
+  <van-cell-group>
+    <view class="cu-bar bg-white">
+      <view class="action sub-title">
+        <text class="text-lg text-bold text-black">{{tlist[currentStoreListIndex].name}}<text
+            style="color:#a5a5a5;font-size:24rpx"> X {{storeList[currentStoreListIndex].length}}</text></text>
+        <text class="bg-yellow"></text>
+      </view>
+    </view>
+    <block wx:for="{{storeList[currentStoreListIndex]}}" wx:key="index" wx:key="index">
+      <van-cell title="{{item.name}}" bindtap="jump2StoreDetail" data-id="{{index}}" data-name="{{item.id}}"
+        id="{{item.id}}" value="评分：{{item.remark}}" is-link label="距离{{item.distance}}" />
+    </block>
+  </van-cell-group>
+</van-popup>
+
+
+<van-popup closeable show="{{ showStoreListPopValue }}" bind:close="hideStoreListPop" round position="bottom"
+  custom-style="height: 60%;">
+  <van-cell-group>
+    <view class="cu-bar bg-white">
+      <view class="action sub-title">
+        <text class="text-lg text-bold text-black">店铺分类</text>
+        <text class="bg-yellow"></text>
+      </view>
+    </view>
+    <block wx:for="{{tlist}}" wx:key="index" wx:key="index">
+      <van-cell title="{{item.name}}" bindtap="titleClick" data-id="{{index}}" data-name="{{item.id}}" id="{{item.id}}"
+        value="{{storeList[index].length}}家" is-link />
+    </block>
+  </van-cell-group>
+</van-popup>

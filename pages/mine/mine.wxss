@@ -42,7 +42,10 @@ van-cell-group {
 .cell-group {
   margin-bottom: 30px !important;
 }
-
+.thankUPop {
+  height: 100%;
+  padding: 30px;
+}
 .bottom {
   width: 100vw;
   position: fixed;
@@ -54,7 +57,8 @@ van-cell-group {
   width: 90%;
 }
 .aboutPop {
-  height: 40vh;
+  height: 100%;
+  padding: 20px;
   text-align: center;
   white-space: pre-wrap;
   justify-content: center;
@@ -63,6 +67,9 @@ van-cell-group {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+.gray {
+  color: gray;
 }
 
 #isBindText {

@@ -1,20 +1,23 @@
 /* pages/multi_course/multi_course.wxss */
-.searchResultContainer{
+.searchResultContainer {
   height: 100vh;
   background-color: #f1f1f1;
 }
 
-.searchResultTitle{
+.searchResultTitle {
   padding-top: 3vh;
   text-align: center;
 }
-.van-cell-text{
+.van-cell-text {
   display: inline-block;
   padding-right: 1vw;
 }
-.img-button{
+.img-button {
   text-align: center;
   width: 30rpx;
-  height: 30rpx;  
+  height: 30rpx;
   opacity: 0.6;
+}
+.van-search__content {
+background-color: red;
 }

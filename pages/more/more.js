@@ -10,7 +10,7 @@ const app = getApp()
 Page({
 
   data: {
-    bottomAd: true
+    bottomAd: false
   },
 
   /**
@@ -19,7 +19,7 @@ Page({
   onLoad: function (options) {
 
     this.setData({
-      safeAreaTop: app.globalData.capsuleBtnInfo.top
+      safeAreaTop: app.globalData.capsuleBtnInfo.bottom
     })
   },
 
@@ -36,7 +36,7 @@ Page({
   },
   onShowAdBtnTapped: function () {
     let that = this
-    if (app.globalData.isWifi) {
+    if (!app.globalData.isWifi) {
       wx.showModal({
         title: '非wifi下',
         content: '不许看视频广告',

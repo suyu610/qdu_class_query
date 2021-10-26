@@ -3,7 +3,7 @@ page {
   background-color: #fff;
 }
 .container {
-  background-color: #f7f8fa;
+  background-color: #ececec;
   width: 100vw;
 }
 .title {
@@ -12,6 +12,10 @@ page {
   height: 5vh;
 }
 
-.wrapper{
-  background-color:transparent;
+.wrapper {
+  background-color: transparent;
+}
+
+.grid-item {
+  background-color: transparent !important;
 }

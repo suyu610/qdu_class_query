@@ -54,25 +54,50 @@
       <iconfont slot="icon" name="shezhi" size="18" style="padding-right:4px"></iconfont>
     </van-cell>
 
-
     <van-cell is-link center title="启动页" bind:click="onShowFirstLauchPage" value="{{firstLauchPage}}">
-
       <iconfont slot="icon" name="huodong" size="18" style="padding-right:4px"></iconfont>
-
     </van-cell>
 
   </van-cell-group>
 
   <van-popup show="{{ showAboutPop }}" closeable close-icon-position="top-right" close-icon="close" position="bottom"
     round custom-style="height: 40%" bind:close="onAboutPopClose">
-    <view bindtap='copyText' data-text="744080689" class="aboutPop">
+    <view class="aboutPop">
       <van-image round width="3.7rem" height="3.7rem"
         src="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/logo.png" style="margin: 15rpx;" />
       <text style="margin: 10rpx;color:gray">青岛大学团委</text>
-      <text style="margin: 5rpx;font-size:18px">权小益 & 素语团队</text>
-      <text style="margin: 10rpx;color:lightgray">联合开发</text>
+      <text style="margin: 5rpx;font-size:17px;font-weight:bold">青岛大学权小益大学生权益维护中心宣传部</text>
+      <text style="margin-top: 5px;color:gray">出品</text>
+      <van-cell custom-style=" margin-top: 10px;color:gray" title-class="gray" title="开发人员名单"></van-cell>
     </view>
   </van-popup>
+
+  <van-popup show="{{ showThankUPop }}" closeable close-icon-position="top-right" close-icon="close" position="bottom"
+    round custom-style="height: 75%" bind:close="onshowThankUClose">
+    <view data-text="744080689" class="aboutPop">
+      <!-- <iconfont name="xihuan" size="46"></iconfont> -->
+      <van-image round width="2.7rem" height="2.7rem"
+        src="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/logo.png"
+        style="margin: 15rpx;text-align:left" />
+      <text
+        style="margin: 10rpx;color:#969799;margin: 10rpx;text-align:left;width:100%">青空已试运营8个月\n用户数达5K，日活跃用户近1K\n此间遇到很多支持和帮助我们的朋友\n在这里记录，表示我们的感谢。</text>
+      <van-divider borderColor="#000">感谢（时间序）</van-divider>
+      <text style="margin: 10rpx;text-align:left;width:100%"><text class="text-bold">皇甫素素 </text>同学忍受每次约会时当我的小黄鸭</text>
+
+      <text style="margin: 10rpx;text-align:left;width:100%"><text class="text-bold">刘晓洁 </text>和<text
+          class="text-bold"> 王翠平 </text>老师带我启蒙</text>
+      <text style="margin: 10rpx;text-align:left;width:100%"><text class="text-bold">室友们 </text>忍受我半夜敲代码时的噼里啪啦</text>
+      <text style="margin: 10rpx;text-align:left;width:100%">还有很多提出宝贵意见的朋友们：</text>
+      <text style="margin: 10rpx;text-align:left;width:100%"
+        class="text-bold">段晓雨、杜抒沛、傅乙师、高堃、金禾、孟捷、孔令甲、李龙、李家民、裴嘉诚、徐浏平、徐丽雅、张洪涌、张杰宁、深藏功与名的苏学长...</text>
+      <text style="margin: 10rpx;text-align:center;width:100%" class="text-bold">谢谢你们 !</text>
+      <text style="margin: 10rpx;text-align:center;width:100%" class="text-bold">如有遗漏烦请与我联系</text>
+
+
+    </view>
+  </van-popup>
+
+
   <view class="cell-group"></view>
   <van-cell-group title="关于">
     <van-cell center title=" 使用帮助" bind:click="jump2Faq" is-link>
@@ -82,6 +107,11 @@
     <van-cell center title="关于我们" bind:click="onAboutShow" is-link>
       <iconfont slot="icon" name="banquan" size="18" style="padding-right:4px"></iconfont>
     </van-cell>
+
+    <van-cell center title="帮助过我们的人" bind:click="onThankUShow" is-link>
+      <iconfont slot="icon" name="xihuan" size="18" style="padding-right:4px"></iconfont>
+    </van-cell>
+
     <van-cell center data-text="744080689" bind:click="copyText" value="744080689" is-link>
       <iconfont slot="icon" name="zidingyi" size="18" style="padding-right:4px"></iconfont>
       <view slot="title">用户交流群 <text style="font-size:12px;color:lightgrey">( 点击复制 )</text></view>
@@ -89,7 +119,6 @@
     <!-- <van-cell center icon="wap-home-o" title="素语官网" bind:click="jump2HomeWeb" is-link /> -->
   </van-cell-group>
   <view class="bottom">
-
     <button class="contact cu-btn" open-type='contact'>客服</button>
     <button class="contact cu-btn" style="background-color:#FDE06B" open-type='share'>分享给好友</button>
     <button class="contact reset-btn cu-btn block" bindtap="onReset" block>重置本地数据</button>

@@ -1,5 +1,5 @@
 /* pages/schedule/schedule.wxss */
-page{
+page {
   background-color: #fff;
 }
 @import "../../iconfont/iconfont.wxss";
@@ -16,7 +16,7 @@ page{
   justify-content: space-between;
   /* height: 40px; */
   padding: 10px;
-  padding-top:25px;
+  padding-top: 25px;
   border-bottom: 1rpx solid #cacbcc55;
   background-color: #ffffff11;
 }
@@ -256,7 +256,6 @@ page{
   justify-content: center;
   align-items: center;
 }
-
 
 .course-item-without {
   width: 160rpx;

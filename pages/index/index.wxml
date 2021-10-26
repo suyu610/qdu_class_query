@@ -108,6 +108,7 @@
   </view>
 
   <view class="position" bindtap="showLifeMap">
+    <!-- <iconfont name="ditu" size="14" style="display: inline-block;padding-right: 2px;position: relative;top: 1px;"></iconfont> -->
     <text>生活地图</text>
     <!-- <image class="iconImage" src='/images/icon/location.png'></image> -->
     <!-- <van-icon class="iconImage" name="flower-o" size="34rpx" /> -->

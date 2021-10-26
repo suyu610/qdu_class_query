@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "van-rate": "@vant/weapp/rate/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-grid": "@vant/weapp/grid/index",
+    "van-grid-item": "@vant/weapp/grid-item/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-icon": "@vant/weapp/icon/index"
+  },
+  "navigationBarBackgroundColor": "#fff"
+}

@@ -360,7 +360,8 @@ van-checkbox-group {
   line-height: 80rpx;
   text-align: center;
   border-radius: 8px;
-  background-color: #fee1619d;
+  background-color: #fee161;
+  font-weight: bold;
   border: 2px solid #000;
   right: 10rpx;
 }

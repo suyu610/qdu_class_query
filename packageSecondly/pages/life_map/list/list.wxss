@@ -1,0 +1,176 @@
+/* packageSecondly/pages/life_map/list/list.wxss */
+
+.container {
+  height: 100vh;
+  width: 100vw;
+}
+
+map {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+}
+.search {
+  position: fixed;
+  top: 100px;
+  width: 100%;
+}
+.bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.swiper-item {
+  backface-visibility: hidden;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  opacity: 0.5;
+  position: relative;
+  box-shadow: 15px 2px 17px 10px #00000017;
+}
+.card-swiper {
+  transition: all 0.3s ease-out 0s;
+}
+
+.detail-mode swiper-item .swiper-item {
+  /* transform: scale(0); */
+  opacity: 0;
+  transition: all 0.2s ease-out 0.1s;
+}
+
+.swiper-item .img {
+  top: 22rpx;
+  height: 67%;
+  position: absolute;
+  width: 93%;
+  box-shadow: 0px 7px 20px 0px #00000031;
+  border-radius: 14px;
+}
+.swiper-item .img-detail-mode {
+  top: 0;
+  width: 104%;
+  box-shadow: 0px 7px 20px 0px #00000000;
+  border-radius: 0;
+  left: -10px;
+}
+
+.swiper-item .img image {
+  border-radius: 14px;
+}
+
+.swiper-item .img-detail-mode image {
+  border-radius: 0;
+}
+
+.swiper-item .info {
+  padding-top: 10px;
+  position: absolute;
+  bottom: 10rpx;
+  width: 93%;
+}
+.swiper-item .info .telephone,
+.swiper-item .info .location{
+  font-size: 24rpx;
+  color:grey;
+}
+.grid-item-text{
+  text-align: center;
+}
+.iconfont {
+  display: inline-block;
+  padding-right: 2px;
+  position: relative;
+  top: 1px;
+}
+.swiper-item .good-list {
+  position: absolute;
+  top: 40%;
+  width: 93%;
+}
+
+.swiper-item .good-list .title {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+.swiper-item .info .comments {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+}
+.swiper-item .distance {
+  position: absolute;
+  top: 39rpx;
+  text-align: center;
+  left: 38rpx;
+  z-index: 999;
+  background: #ffffffd1;
+  width: 112rpx;
+  font-weight: bold;
+  height: 70rpx;
+  color: black;
+  line-height: 70rpx;
+  border-radius: 20rpx;
+  transition: all 0.2s ease-in 0s;
+}
+
+.swiper-item .ad {
+  position: absolute;
+  top: 39rpx;
+  text-align: center;
+  left: 38rpx;
+  z-index: 999;
+  background: #ffffffd1;
+  border-radius: 2px;
+  color: black;
+  transition: all 0.2s ease-in 0s;
+}
+
+.swiper-item .love-btn {
+  transition: all 0.2s ease-in 0s;
+  position: relative;
+  top: 20rpx;
+  text-align: center;
+  right: -483rpx;
+  z-index: 999;
+  /* background: rgb(255 255 255 / 52%); */
+  display: inline-block;
+  padding: 10rpx;
+  color: white;
+  border-radius: 20rpx;
+}
+
+.info .store-name {
+  font-weight: bold;
+  font-size: 32rpx;
+}
+
+/* 翻转卡片 */
+
+.main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  background-color: #fff;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  perspective: 1500;
+  -webkit-perspective: 1500;
+  /* 子元素获得透视效果  */
+  -moz-perspective: 1500;
+}
+
+.back {
+  transform: rotateY(-180deg);
+  position: relative;
+  width: 100%;
+  top: -282px;
+  height: 100%;
+  background-color: #fff;
+  backface-visibility: hidden;
+}

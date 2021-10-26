@@ -5,7 +5,6 @@ import {
   setThemeKey,
   getThemeKey
 } from '../../config/theme'
-const flagService = require('../../net/flagService.js')
 const NetUrl = require('../../net/constants.js')
 const router = require('../../router/index.js');
 var weatherService = require('../../net/weatherService.js')
@@ -20,7 +19,7 @@ Page({
     // 这里是debug用的
     if (app.globalData.debug) {
       console.log("empty.js: debug模式")
-      router.replace({
+      router.relaunch({
         name: app.globalData.debugRouter
       });
       return;
@@ -29,7 +28,7 @@ Page({
     if (null != options && null != options.url) {
       app.globalData.url = options.url
       app.globalData.params = options.params
-      if (options.url == "course" || options.url == "index") {
+      if (options.url == "course" || options.url == "index" || options.url == 'more') {
         router.relaunch({
           name: options.url,
           data: options.params
@@ -81,9 +80,6 @@ Page({
     })
   },
 
-  handleGetPublicRandomFlag: function (data) {
-    app.globalData.flag = data
-  },
   handleLoginByTokenFail: function (fail) {
     this.loginByWxCode()
   },
@@ -99,7 +95,6 @@ Page({
     app.globalData.friendRealName = res.data['friendRealName']
     app.globalData.nickname = res.data['nickname']
     app.globalData.avatar = res.data['avatar']
-    flagService.getPublicRandomFlag(this.handleGetPublicRandomFlag)
     // 天气
     weatherService.getWeatherRequest(this.handleGetWeatherSuccess);
   },
@@ -128,7 +123,6 @@ Page({
               app.globalData.friendRealName = res.data['data']['friendRealName']
               app.globalData.nickname = res.data['data']['nickname']
               app.globalData.avatar = res.data['data']['avatar']
-              flagService.getPublicRandomFlag(that.handleGetPublicRandomFlag)
               // 天气
               weatherService.getWeatherRequest(that.handleGetWeatherSuccess);
             } else {

@@ -8,7 +8,6 @@
     "pages/mine/mine",
     "pages/more/more",
     "pages/course/course_add_friend/course_add_friend",
-    "pages/mine/privacy_license/privacy_license",
     "pages/webview/webview",
     "pages/course/course_setting/course_setting",
     "pages/faq/faq",
@@ -32,7 +31,11 @@
         "pages/major_detail/major_detail",
         "pages/major_list/major_list",
         "pages/major_class_list/major_class_list",
-        "pages/photo_maker/photo_maker"
+        "pages/photo_maker/photo_maker",
+        "pages/life_map/home/home",
+        "pages/life_map/detail/detail",
+        "pages/life_map/good_list/good_list",
+        "pages/life_map/list/list"
       ]
     },
     {
@@ -92,7 +95,6 @@
     "color-picker-theme": "./components/color-picker-theme/color-picker-theme",
     "add-tips": "./components/add-tips/index",
     "iconfont": "/iconfont/iconfont"
- 
   },
   "useExtendedLib": {
     "weui": true

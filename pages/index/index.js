@@ -881,6 +881,9 @@ Page({
   },
 
   showLifeMap: function () {
+    router.push({
+      'name': 'life_map_home'
+    })
     wx.showToast({
       icon: 'none',
       title: '即将上线',

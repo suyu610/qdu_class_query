@@ -78,7 +78,7 @@ Page({
     // 然后刷新列表
     let tempflagList = this.data.flagList;
     this.data.flagList.forEach((item, i)=>{
-        if (item['flag_id'] == id) {
+        if (item['flagId'] == id) {
           tempflagList.splice(i, 1); // 从下标 i 开始, 删除 1 个元素
         }
     })
@@ -118,18 +118,18 @@ Page({
     if(id){
       // 有值
    // 先得到当前的值
-   var is_public;
+   var isPublic;
    var index;
    this.data.flagList.forEach((item, i) => {
-     if (item['flag_id'] == id) {
-    is_public = !item.is_public;
+     if (item['flagId'] == id) {
+    isPublic = !item.isPublic;
        index = i;
      }
    })
-   var str_title = "flagList[" + index + "].is_public";
-   console.log(is_public)
+   var str_title = "flagList[" + index + "].isPublic";
+   console.log(isPublic)
    this.setData({
-     [str_title]:is_public,     
+     [str_title]:isPublic,     
    })
    Notify({ message: '修改成功',color: '#fff',background: '#000',  duration: 700,});}
   },
@@ -173,10 +173,10 @@ Page({
     var tmpFlag = {
       id:e.data,
       content:this.data.insertFlagMessge,
-      like_count:0,
-      show_count:0,
-      is_verify:0,
-      is_public:this.data.checked,
+      likeCount:0,
+      showCount:0,
+      isVerify:0,
+      isPublic:this.data.checked,
     }
     obj.push(tmpFlag);
     this.setData({
@@ -202,7 +202,7 @@ Page({
     }
 
     console.log(this.data.checked)
-    var params = {"is_public":this.data.checked?"1":"0","is_verify":0,"content":this.data.insertFlagMessge};
+    var params = {"isPublic":this.data.checked?"1":"0","isVerify":0,"content":this.data.insertFlagMessge};
     
     // 2. 向后端发送新增消息请求
     flagService.insertPrivateFlag(params,this.handleInsertSuccess)
@@ -248,7 +248,7 @@ Page({
     // 这里要将时间戳转成时间格式
     let flagList = data;
     flagList.forEach(function(item, index){
-        item.create_date = timeUtils.formatTime(item.create_date,"M/D h:m");         
+        item.createDate = timeUtils.formatTime(item.createDate,"M/D");         
     })
     this.setData({flagList,getFlagListLoading:false})    
   },

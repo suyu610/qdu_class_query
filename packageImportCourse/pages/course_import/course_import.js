@@ -68,11 +68,7 @@ Page({
     })
   },
 
-  onTapLicense: function () {
-    wx.navigateTo({
-      url: '../privacy_license/privacy_license',
-    })
-  },
+
 
   // 生成指定位数的随机数
   randomNum: function (digit) {

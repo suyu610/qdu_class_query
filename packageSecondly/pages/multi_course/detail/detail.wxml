@@ -47,7 +47,8 @@
 
 <!-- info -->
 <view class="bottom-info" bindtap="ontapSettingBtn">
-  <van-icon name="setting-o" size="17px" custom-style="top: -1px;padding-right: 10px;" />
+  <iconfont name="shezhi" size="17" style="padding-top: 3px;padding-right: 5px;"></iconfont>
+  <!-- <van-icon name="setting-o" size="17px" custom-style="top: -1px;padding-right: 10px;" /> -->
   <text>更多信息 共{{rawData.stuCount}}人 </text>
 </view>
 <!-- 课表 -->
@@ -103,7 +104,7 @@
   bind:close="onCloseSettingPage">
   <van-cell-group title="设置" border="{{false}}">
     <van-cell center title="邀请" label="房间号为{{rawData.roomId}}" bindtap="onShareBtnTap">
-      <van-button dataset="{{rawData.roomId}}" icon="share-o" round size="small" type="primary" />
+      <van-button dataset="{{rawData.roomId}}" color="#FDE06B" custom-style="color:black" icon="share-o" round size="small" type="primary" />
     </van-cell>
     <van-field round model:value="{{ roomName }}" clearable label="房间名" placeholder="请输入房间名" use-button-slot>
       <van-button wx:if="{{rawData.isOwner}}" slot="button" size="small" round type="primary" color="black"
@@ -133,14 +134,55 @@
           <!-- 是否可见 -->
           <van-icon wx:if="{{person.openEye}}" name="eye-o" class="custom-icon" data-number="{{person.ssNumber}}"
             bindtap="toggleEye" />
+          <!-- <iconfont style="padding-left:5vw;display:inline-block" wx:if="{{person.openEye}}" name="xianshi" data-number="{{person.ssNumber}}" bindtap="toggleEye" /> -->
+          <!-- <iconfont  style="padding-left:5vw;display:inline-block" wx:else name="yincang" data-number="{{person.ssNumber}}" bindtap="toggleEye" /> -->
+
           <van-icon wx:else name="closed-eye" class="custom-icon" data-number="{{person.ssNumber}}"
             bindtap="toggleEye" />
           <van-icon wx:if="{{rawData.isOwner}}" data-name="{{person.id}}" data-number="{{person.ssNumber}}"
             style="padding-left:5vw" name="cross" bindtap="removePeople" class="custom-icon" />
+          <!-- <iconfont wx:if="{{rawData.isOwner}}" data-name="{{person.id}}" data-number="{{person.ssNumber}}"
+            style="padding-left:5vw;display:inline-block" name="shanchu" bindtap="removePeople" class="custom-icon" /> -->
+
+          <van-icon data-name="{{person.id}}" data-number="{{person.ssNumber}}" name="arrow" style="padding-left:5vw"
+            bindtap="viewPersonCourseDetail"></van-icon>
         </view>
       </van-cell>
     </block>
   </van-cell-group>
+</van-popup>
+
+<!-- 个人的课程 -->
+<van-popup show="{{ showSinglePersonCourseDetail }}" close-icon-position="bottom-right" closeable position="top" round
+  custom-style="height: 90%;" bind:close="onCloseSinglePersonCourseDetail">
+  <view class="cu-bar bg-white">
+    <view class="action sub-title">
+      <text class="text-lg text-bold text-black">{{curStuName}} 第 {{curWeek}} 周课表</text>
+      <text class="bg-yellow"></text>
+    </view>
+  </view>
+  <view class="tab-container">
+    <!--分节-->
+    <view class="tab-divide"></view>
+    <view class="tab-section">
+      <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11]}}" wx:key="*this" class="tab-section-divide tab-section-item">
+        <text>{{sequence[item]}}</text>
+      </view>
+    </view>
+
+    <!--线条-->
+    <view wx:for="{{[0,1,2,3,4,5,6,7,8,9,10,11]}}" wx:key="*this">
+      <view style="top:{{item*55}}px;" class="tab-line"></view>
+    </view>
+    <view wx:for="{{personCourselist}}" wx:index="index" wx:key="index">
+      <view class="course-item" data-id="{{item.id}}" data-day="{{item.day}}" data-start="{{item.start}}"
+        style="margin-left:{{item.day*100-3}}rpx;margin-top:{{(item.start-1)*55}}px;height:{{item.sections*53}}px;">
+        <view class="course-item-inner course-item-inner-green_1" style="height:{{item.sections*55-5}}px;">
+          <text style="font-size:12px;color:black;opacity:1">{{item.course}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
 </van-popup>
 
 <van-popup show="{{ showCourseDetail }}" position="bottom" round custom-style="height: 60%;"

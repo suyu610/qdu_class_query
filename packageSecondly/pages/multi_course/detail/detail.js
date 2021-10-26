@@ -46,6 +46,8 @@ Page({
     },
     showSettingPage: false,
     showCourseDetail: false,
+    showSinglePersonCourseDetail: false,
+    personCourselist: [],
     curFirstWeekDate: "",
     weekLabels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
     sequence: ["1", "2", "3", "4", "T1", "5", "6", "7", "8", "T2", "9", "10", "\n"],
@@ -417,6 +419,82 @@ Page({
     wx.hideLoading()
   },
 
+  onCloseSinglePersonCourseDetail: function (e) {
+    this.setData({
+      showSettingPage: true,
+      showSinglePersonCourseDetail: false
+    })
+  },
+
+  viewPersonCourseDetail: function (e) {
+    let number = e.currentTarget.dataset.number
+    let curStuName = e.currentTarget.dataset.name
+    let peopleList = this.data.peopleList;
+    let that = this
+    this.setData({
+      showSettingPage: false,
+      curStuName,
+      showSinglePersonCourseDetail: true
+    })
+
+
+
+    peopleList.forEach(people => {
+      if (people.ssNumber == number) {
+        // 获取周一的日期    
+        this.setData({
+          curFirstWeekDate: dateUtil.getFirstDayDate(today)
+        })
+
+        let weekDates = []
+
+        for (var i = 0; i < 7; i++) {
+          if (i == 0) {
+            weekDates.push(dateUtil.formatWeekDate(this.data.curFirstWeekDate))
+          } else {
+            weekDates.push(dateUtil.formatWeekDate(dateUtil.getDiffDate(this.data.curFirstWeekDate, i)))
+          }
+        }
+
+        // 第几周
+        // 根据日期，算得现在是第几周
+        let curWeek = this.data.curWeek
+        let courselist = [];
+
+        // 最终三种列表，要放到courselist里面，用来展现给前端
+        // 首先来弄弄自己的教务课表
+        let rawSelfJwCourse = this.data.rawData.userCourseList
+        // 1.遍历自己的
+        rawSelfJwCourse.forEach((e, index) => {
+          // 如果该周上此节课
+          if (e['whichWeek'][curWeek - 1] == 1 && e['stuNum'] == number) {
+            let start = (e.seq).indexOf('1') + 1
+            let section = (e.seq).lastIndexOf('1') - (e.seq).indexOf('1') + 1
+            courselist.push({
+              id: index,
+              type: 0,
+              day: e.week - 1,
+              start: start,
+              sections: section,
+              course: e.courseName,
+              teachers: e.teacher,
+              place: e.className,
+              week: e.week,
+              infoStr: e.infoStr,
+              rFloor: e.rfloor,
+              direction: e.direction,
+              teachers: e.teachers
+            })
+          }
+        });
+        that.setData({
+          personCourselist: courselist,
+        })
+        return
+      }
+    });
+  },
+
   toggleEye: function (e) {
     let number = e.currentTarget.dataset.number
     let peopleList = this.data.peopleList;
@@ -427,7 +505,6 @@ Page({
         that.setData({
           peopleList
         })
-
         this.generateEmptyCourse();
         that.updateWeeks(today);
         return

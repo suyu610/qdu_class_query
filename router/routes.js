@@ -16,7 +16,7 @@ module.exports = {
   faq_list: {
     path: '/pages/faq/faq_list/faq_list',
   },
-  
+
   lucky_draw: {
     path: '/packageSecondly/pages/lucky_draw/lucky_draw',
   },
@@ -49,6 +49,18 @@ module.exports = {
   },
   moment: {
     path: '/packageSecondly/pages/moment/moment',
+  },
+  life_map_home: {
+    path: '/packageSecondly/pages/life_map/home/home',
+  },
+  life_map_list: {
+    path: '/packageSecondly/pages/life_map/list/list',
+  },
+  life_map_good_list: {
+    path: '/packageSecondly/pages/life_map/good_list/good_list',
+  },
+  life_map_detail: {
+    path: '/packageSecondly/pages/life_map/detail/detail',
   },
   more: {
     type: 'tab',

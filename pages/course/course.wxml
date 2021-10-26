@@ -45,7 +45,7 @@
       <view class="img-button share-btn" bindtap="importBtnHandler">
         <!-- <van-icon name="plus" size="20px" color="black" /> -->
 
-        <iconfont  size="20" name="tianjia" />
+        <iconfont size="20" name="tianjia" />
 
         <!-- <view><text>导入</text></view> -->
       </view>
@@ -69,14 +69,12 @@
       <!-- 右侧的按钮 -->
       <view class="img-button share-btn" bindtap="shareBtnHandler">
         <!-- <van-icon name="friends-o" size="20px" color="black" /> -->
-        <iconfont size="20" name="pintuan"/>
+        <iconfont size="20" name="pintuan" />
         <!-- <view><text>双人</text></view> -->
       </view>
       <view class="img-button share-btn" bindtap="onTapFolderMenu">
         <!-- <van-icon name="arrow-up" size="20px" color="black" /> -->
-        <iconfont size="20" name="suoxiao"/>
-
-        
+        <iconfont size="20" name="suoxiao" />
         <!-- <view><text>折叠</text></view> -->
       </view>
     </view>
@@ -119,15 +117,23 @@
               bindtap="showCardView" data-index="{{index}}" data-type="{{item.type}}"
               style="margin-left:{{showSunday?item.day*101:item.day*133}}rpx;margin-top:{{(item.start-1)*55+1}}px;height:{{item.sections*55-4}}px;">
               <!-- 设置课程框的背景颜色 -->
-              <view class="{{showSunday?'course-item-inner':'course-item-inner-without'}} bg-black "
-                style="height:{{item.sections*55-5}}px; color:{{type0CourseTextColor}};background-color:{{type0CourseColor}}">
+              <view wx:if="{{shuicaiMode}}"
+                class=" {{showSunday?'course-item-inner':'course-item-inner-without'}} bg-black"
+                style="height:{{item.sections*55-5}}px; color:black;background: no-repeat top center url(https://cdns.qdu.life/images/course_item_bg_y__{{item.sections}}.png); background-color:transparent;'">
+                <text>{{item.course}}</text>
+                <text style=" font-weight:bold" class="place">@{{item.place}}
+                  <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
+                </text>
+              </view>
+
+              <view wx:else class="{{showSunday?'course-item-inner':'course-item-inner-without'}} bg-black"
+                style="height:{{item.sections*55-5}}px; background-color:{{type0CourseColor}};color:{{type0CourseTextColor}}">
                 <text>{{item.course}}</text>
                 <text style="font-weight:bold" class="place">@{{item.place}}
                   <text style="opacity:0.3" wx:if="{{item.direction!=0}}">{{item.direction==1?'←':'→'}}</text>
                 </text>
               </view>
             </view>
-
             <!-- type1好友的课程 -->
             <view wx:if="{{showFriendCourse && item.type == 1}}"
               class="{{showSunday?'course-item':'course-item-without'}}" bindtap="showCardView" data-index="{{index}}"
@@ -243,10 +249,10 @@
     <view class="importCoursePop" style="padding-top:15%">
       <van-row>
         <van-col span="8" bindtap="importByHand" style="text-align:center;">
-          <button class="cu-btn bg-blue">添加待办</button>
+          <button class="cu-btn bg-blue">自定义添加</button>
         </van-col>
         <van-col span="8" bindtap="importByHand" style="text-align:center;">
-          <button class="cu-btn bg-blue">添加课程</button>
+          <button class="cu-btn bg-blue">开课列表</button>
         </van-col>
         <van-col span="8" offset="0" bindtap="importByDean" style="text-align:center;">
           <button class="cu-btn bg-gradual-orange">教务导入</button>
@@ -284,10 +290,14 @@
     <van-cell center>
       <van-grid square column-num="6" border="{{ false }}">
         <van-grid-item use-slot bindtap="clickColorPattern" data-index="0">
+          <van-icon name="star" class="grid-item-icon" size="20px" color="#FEF3C4" />
+          <text style="font-size:10px">水彩风</text>
+        </van-grid-item>
+        <van-grid-item use-slot bindtap="clickColorPattern" data-index="1">
           <van-icon name="star" class="grid-item-icon" size="20px" color="#ee4866" />
           <text style="font-size:10px">淡蕊香红</text>
         </van-grid-item>
-        <van-grid-item use-slot bindtap="clickColorPattern" data-index="1">
+        <van-grid-item use-slot bindtap="clickColorPattern" data-index="2">
           <van-icon name="star" class="grid-item-icon" size="20px" color="#FFCA28" />
           <text style="font-size:10px">编不出了</text>
         </van-grid-item>
@@ -417,7 +427,7 @@
     <van-divider contentPosition="center" dashed customStyle="font-size: 10px;border-color:#ffffff66;color:#fff">
       <van-icon name="like" />
       <van-icon name="like" color="red" />
-      他的课程
+      <text>他的课程</text>
       <van-icon name="like" color="red" />
       <van-icon name="like" />
     </van-divider>

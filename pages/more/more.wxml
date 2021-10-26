@@ -1,80 +1,93 @@
 <!--pages/more/more.wxml-->
 
-<scroll-view class="container" style="padding-top:{{safeAreaTop-10}}px">
-  <my-block title="功能广场"></my-block>
-  <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
-    <van-grid-item content-class="useless-item" link-type="navigateTo"
-      url="/packageSecondly/pages/multi_course/multi_course" use-slot>
-      <!-- <van-icon color="black" size="28px" name="friends-o" dot></van-icon> -->
-      <iconfont name="pintuan" />
-      <text style="font-size:12px;margin-top:9px;color:#141415;">社团课表</text>
-      <text style="font-size:9px;color:#64656696">查看多人共同时间</text>
-    </van-grid-item>
+<scroll-view class="container" scroll-y="{{true}}" style="padding-top:{{safeAreaTop}}px;height: 100vh;">
+  <view style="background: #fff;margin: 10px;padding:10px;border-radius: 10px;">
+    <my-block title="须校内实名使用" padding="{{false}}" />
+    <van-grid border="{{false}}" gutter="{{2}}" clickable column-num="3">
+      <van-grid-item content-class="grid-item" link-type="navigateTo"
+        url="/packageSecondly/pages/multi_course/multi_course" use-slot>
+        <iconfont name="pintuan" />
+        <text style="font-size:12px;margin-top:9px;color:#141415;">社团课表</text>
+        <text style="font-size:9px;color:#64656696">查看多人共同时间</text>
+      </van-grid-item>
 
-    <van-grid-item link-type="navigateTo" url="/packageSecondly/pages/major_list/major_list" use-slot>
-      <!-- <van-icon dot color="black" size="29px" name="/images/major.png"></van-icon> -->
-      <iconfont name="xueye" />
-      <text style="font-size:12px;margin-top:9px;color:#141415;">专业课表</text>
-      <text style="font-size:9px;color:#64656696">查看不同专业的课表</text>
-    </van-grid-item>
-    <van-grid-item link-type="navigateTo" url="/packageSecondly/pages/course_search/course_search" use-slot>
-      <!-- <van-icon color="black" size="28px" name="search"></van-icon> -->
-      <iconfont name="sousuo" />
-      <text style="font-size:12px;margin-top:9px;color:#141415;">蹭课查询</text>
-      <text style="font-size:9px;color:#64656696">可以按课程名搜索</text>
-    </van-grid-item>
-    <van-grid-item bindtap="jump2Quiz" use-slot>
-      <iconfont name="shuji" />
-      <!-- <image style="width: 29px; height: 29px;" src="/images/QY_LOGO.png" /> -->
-      <text style="font-size:12px;margin-top:9px;color:#141415;">青云知识库</text>
-      <text style="font-size:9px;color:#64656696">期末复习资料库</text>
-    </van-grid-item>
+      <van-grid-item content-class="grid-item" link-type="navigateTo" url="/packageSecondly/pages/major_list/major_list"
+        use-slot>
+        <iconfont name="xueye" />
+        <text style="font-size:12px;margin-top:9px;color:#141415;">专业课表</text>
+        <text style="font-size:9px;color:#64656696">看其他专业的课表</text>
+      </van-grid-item>
+
+      <van-grid-item content-class="grid-item" bindtap="jump2Quiz" use-slot>
+        <iconfont name="shuji" />
+        <!-- <image style="width: 29px; height: 29px;" src="/images/QY_LOGO.png" /> -->
+        <text style="font-size:12px;margin-top:9px;color:#141415;">青云知识库</text>
+        <text style="font-size:9px;color:#64656696">期末复习资料库</text>
+      </van-grid-item>
+    </van-grid>
+  </view>
+
+  <view style="background:white;padding:10px;margin: 10px;border-radius: 10px;">
+    <my-block title="界面很丑的功能" padding="{{false}}" />
+    <van-grid border="{{false}}" gutter="{{0}}" clickable column-num="3">
+      <van-grid-item content-class="grid-item" link-type="navigateTo"
+        url="/packageSecondly/pages/course_search/course_search" use-slot>
+        <!-- <van-icon color="black" size="28px" name="search"></van-icon> -->
+        <iconfont name="sousuo" />
+        <text style="font-size:12px;margin-top:9px;color:#141415;">蹭课查询</text>
+        <!-- <text style="font-size:9px;color:#64656696">可以按课程名搜索</text> -->
+      </van-grid-item>
+      <van-grid-item content-class="grid-item" url="/packageSecondly/pages/telephone/telephone" use-slot>
+        <iconfont name="tonghua" />
+        <text style="font-size:12px;margin-top:9px;color:#141415;">常用电话</text>
+        <!-- <text style="font-size:9px;color:#64656696">学校的常用电话</text> -->
+      </van-grid-item>
+
+      <van-grid-item content-class="grid-item" url="/packageSecondly/pages/flag/flag" use-slot>
+        <iconfont name="dengji" />
+        <text style="font-size:12px;margin-top:9px;color:#141415;">小目标</text>
+      </van-grid-item>
+    </van-grid>
+  </view>
+
+  <view style="background:white;padding:10px;margin: 10px;border-radius: 10px;">
+    <my-block title="内容尚未完善" padding="{{false}}" />
+    <van-grid border="{{false}}" gutter="{{0}}" clickable column-num="3">
+      <van-grid-item content-class="grid-item" url="/packageSecondly/pages/moment/moment" use-slot>
+        <iconfont name="shoucang" />
+        <!-- <image style="width: 24px; height: 24px;opacity:0.9" src="/images/icon/icon_moments_HL.png" /> -->
+        <text style="font-size:12px;margin-top:9px;color:#141415">青大百科</text>
+        <!-- <text style="font-size:9px;color:#64656696">内容还没完善</text> -->
+      </van-grid-item>
+
+      <van-grid-item content-class="grid-item" use-slot link-type="navigateTo"
+        url="/packageSecondly/pages/eatwhat/eatwhat">
+        <iconfont name="shenghuo" />
+        <!-- <image style="width: 26px; height: 26px;" src="https://cdns.qdu.life/icons/eatwhat_logo.png" /> -->
+        <text style="font-size:12px;margin-top:9px;color:#141415;">今天吃什么</text>
+        <!-- <text style="font-size:9px;color:#64656696">选择困难症终结者</text> -->
+      </van-grid-item>
 
 
-    <van-grid-item url="/packageSecondly/pages/moment/moment" use-slot>
-      <iconfont name="shoucang" />
-      <!-- <image style="width: 24px; height: 24px;opacity:0.9" src="/images/icon/icon_moments_HL.png" /> -->
-      <text style="font-size:12px;margin-top:9px;color:#141415">青大百科</text>
-      <text style="font-size:9px;color:#64656696">内容还没完善</text>
-    </van-grid-item>
 
-    <van-grid-item use-slot link-type="navigateTo" url="/packageSecondly/pages/eatwhat/eatwhat">
-      <iconfont name="shenghuo" />
-      <!-- <image style="width: 26px; height: 26px;" src="https://cdns.qdu.life/icons/eatwhat_logo.png" /> -->
-      <text style="font-size:12px;margin-top:9px;color:#141415;">今天吃什么</text>
-      <text style="font-size:9px;color:#64656696">选择困难症终结者</text>
-    </van-grid-item>
+      <van-grid-item badge="1" content-class="grid-item" bindtap="onShowAdBtnTapped" use-slot>
+        <iconfont name="hezuo" />
+        <text style="font-size:12px;margin-top:9px;color:#141415;">支持一下</text>
+        <!-- <text style="font-size:9px;color:#64656696">点击出来视频广告</text> -->
+      </van-grid-item>
+    </van-grid>
+  </view>
 
-    <van-grid-item link-type="navigateTo" url="/packageSecondly/pages/flag/flag" custom-class="grid gradient-border"
-      use-slot>
-      <iconfont name="dengji" />
-      <!-- <van-icon color="black" size="24px" name="fire-o"></van-icon> -->
-      <text style="font-size:12px;margin-top:9px;color:#141415;">小目标</text>
-      <text style="font-size:9px;color:#64656696">来立自己的小目标吧</text>
-    </van-grid-item>
 
-    <van-grid-item url="/packageSecondly/pages/telephone/telephone" use-slot>
-      <iconfont name="tonghua" />
-      <text style="font-size:12px;margin-top:9px;color:#141415;">常用电话</text>
-      <text style="font-size:9px;color:#64656696">学校的常用电话</text>
-    </van-grid-item>
-
-    <van-grid-item bindtap="onShowAdBtnTapped" use-slot>
-      <iconfont name="hezuo" />
-      <text style="font-size:12px;margin-top:9px;color:#141415;">支持一下</text>
-      <text style="font-size:9px;color:#64656696">点击出来视频广告</text>
-    </van-grid-item>
-  </van-grid>
   <view style="position:fixed;bottom:0;width:100vw">
     <view style="width: 100vw; font-size: 12px;text-align: center; color: lightgrey;margin-bottom: 4px;">
-      实在平衡不了服务器费用，接了个广告，别骂了别骂了</view>
-    <view bindtap="closeAdPeriodly"
-      style="width: 100vw; font-size: 12px;text-align: center; color: lightgrey;margin-bottom: 4px;text-decoration:underline">
-      {{bottomAd?'点击关闭3天':'打开广告'}}
+      实在平衡不了服务器费用，别骂了别骂了。<text bindtap="closeAdPeriodly"
+        style="width: 100vw; font-size: 12px;text-align: center; color: lightgrey;margin-bottom: 4px;text-decoration:underline">{{bottomAd?'点击关闭3天':'打开广告'}}
+      </text>
     </view>
     <ad wx:if="{{bottomAd}}" unit-id="adunit-a6611c8d2054b029"></ad>
   </view>
-  
+
   <!-- <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
     <van-grid-item use-slot link-type="navigateTo" url="/packageSecondly/pages/report/report">
       <iconfont name="bianji"></iconfont>
