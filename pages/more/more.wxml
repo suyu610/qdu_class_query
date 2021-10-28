@@ -68,25 +68,37 @@
         <!-- <text style="font-size:9px;color:#64656696">选择困难症终结者</text> -->
       </van-grid-item>
 
+      <van-grid-item content-class="grid-item" use-slot bindtap="jump2Cheat">
+        <image style="width: 21px; height: 21px;" src="/images/icon/icon_cheat.png" />
+        <text style="font-size:12px;padding-top:26rpx;color:#141415;">高阶防骗指南</text>
+      </van-grid-item>
 
+      <van-grid-item badge="1" content-class="grid-item" link-type="navigateTo"
+        url="/packageSecondly/pages/camera_scan/camera_scan" use-slot>
+        <iconfont name="saomiao" />
+        <text style="font-size:12px;margin-top:9px;color:#141415;">测试扫码功能</text>
+      </van-grid-item>
 
       <van-grid-item badge="1" content-class="grid-item" bindtap="onShowAdBtnTapped" use-slot>
         <iconfont name="hezuo" />
         <text style="font-size:12px;margin-top:9px;color:#141415;">支持一下</text>
         <!-- <text style="font-size:9px;color:#64656696">点击出来视频广告</text> -->
       </van-grid-item>
+
+
+
     </van-grid>
   </view>
 
 
-  <view style="position:fixed;bottom:0;width:100vw">
+  <!-- <view style="position:fixed;bottom:0;width:100vw">
     <view style="width: 100vw; font-size: 12px;text-align: center; color: lightgrey;margin-bottom: 4px;">
       实在平衡不了服务器费用，别骂了别骂了。<text bindtap="closeAdPeriodly"
         style="width: 100vw; font-size: 12px;text-align: center; color: lightgrey;margin-bottom: 4px;text-decoration:underline">{{bottomAd?'点击关闭3天':'打开广告'}}
       </text>
     </view>
     <ad wx:if="{{bottomAd}}" unit-id="adunit-a6611c8d2054b029"></ad>
-  </view>
+  </view> -->
 
   <!-- <van-grid square border="{{false}}" gutter="{{2}}" clickable column-num="3">
     <van-grid-item use-slot link-type="navigateTo" url="/packageSecondly/pages/report/report">
@@ -104,10 +116,7 @@
       <text style="font-size:12px;margin-top:9px;color:#141415;">抽奖</text>
     </van-grid-item>
 
-    <van-grid-item use-slot bindtap="showNoEntry">
-      <image style="width: 20px; height: 20px;" src="/images/icon/icon_cheat.png" />
-      <text style="font-size:12px;padding-top:9px;color:#141415;">高阶防骗指南</text>
-    </van-grid-item>
+
 
     <van-grid-item use-slot link-type="navigateTo" bindtap="showNoEntry">
       <iconfont name="pingjia" />

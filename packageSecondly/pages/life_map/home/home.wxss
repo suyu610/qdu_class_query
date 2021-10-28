@@ -163,7 +163,7 @@
   height: 356rpx;
   margin-top: 10px;
   border-radius: 10px;
-  box-shadow: 1px 2px 20px 0px #00000012;
+  box-shadow: 0px 0px 20px 3px #00000012;
 }
 
 .store-item .bg-img {

@@ -53,6 +53,9 @@ module.exports = {
   life_map_home: {
     path: '/packageSecondly/pages/life_map/home/home',
   },
+  camera_scan: {
+    path: '/packageSecondly/pages/camera_scan/camera_scan',
+  },
   life_map_list: {
     path: '/packageSecondly/pages/life_map/list/list',
   },
@@ -83,6 +86,9 @@ module.exports = {
   },
   eatwhat: {
     path: '/packageSecondly/pages/eatwhat/eatwhat'
+  },
+  cheat: {
+    path: '/packageSecondly/pages/cheat/cheat'
   },
   eatwhat_detail: {
     path: '/packageSecondly/pages/eatwhat/eatwhat_detail/eatwhat_detail'

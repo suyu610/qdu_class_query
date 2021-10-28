@@ -1,28 +1,30 @@
 <scroll-view class="container" scroll-y="{{true}}">
-  <view style="padding-top:12vh"></view>
-  <van-row>
-    <!-- loginByWx -->
-    <van-col span="8" offset="8" bindtap="onTapAvatar">
-      <van-image wx:if="{{avatar!=null}}" id="avatarImg" use-loading-slot use-error-slot width="60px" height="60px"
-        round src="{{avatar}}">
-        <van-loading slot="loading" type="spinner" size="20" vertical />
-        <text slot="error">加载失败</text>
-      </van-image>
 
-      <van-image wx:else id="avatarImg" use-loading-slot use-error-slot width="60px" height="60px" round
-        src="https://cdns.qdu.life/icons/logo_mini.png">
-        <van-loading slot="loading" type="spinner" size="20" vertical />
-        <text slot="error">加载失败</text>
-      </van-image>
-    </van-col>
-  </van-row>
-  <van-row>
-    <van-col span="8" offset="8" bindtap="onTapAvatar">
-      <view class="isBindView">
-        <text id="isBindText">{{nickname!=null?nickname:'未登录'}}</text>
-      </view>
-    </van-col>
-  </van-row>
+  <view style="padding-top:12vh">
+    <van-row>
+      <van-col span="8" offset="8" bindtap="onTapAvatar">
+        <van-image wx:if="{{avatar!=null}}" id="avatarImg" use-loading-slot use-error-slot width="60px" height="60px"
+          round src="{{avatar}}">
+          <van-loading slot="loading" type="spinner" size="20" vertical />
+          <text slot="error">加载失败</text>
+        </van-image>
+        <van-image wx:else id="avatarImg" use-loading-slot use-error-slot width="60px" height="60px" round
+          src="https://cdns.qdu.life/icons/logo_mini.png">
+          <van-loading slot="loading" type="spinner" size="20" vertical />
+          <text slot="error">加载失败</text>
+        </van-image>
+      </van-col>
+    </van-row>
+    <van-row>
+      <van-col span="8" offset="8" bindtap="onTapAvatar">
+        <view class="isBindView">
+          <text id="isBindText">{{nickname!=null?nickname:'未登录'}}</text>
+        </view>
+      </van-col>
+    </van-row>
+  </view>
+
+
   <!-- <van-cell center icon="chat-o dot" value="0" is-link link-type="switchTab" url="/pages/flag/flag">
     <view slot="title">
       <view class="van-cell-text">消息

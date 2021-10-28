@@ -106,7 +106,7 @@
     overlay-style="z-index:999" bind:close="onTipsClose">
     <view style="padding:30rpx;text-align:center;padding-top:0">
       <van-divider hairline contentPosition="center" customStyle="margin-bottom: 0;">小提示</van-divider>
-      <image src="/images/screenshot.png" style="width:100%;margin-bottom:20px" mode="widthFix" data-cname="博远楼101"
+      <image src="https://cdns.qdu.life/images/screenshot.png" style="width:100%;margin-bottom:20px" mode="widthFix" data-cname="博远楼101"
         bindtap="tapCourse" bindlongpress="handleShowFeedBack" />
       <view style="text-align:left;color:grey"> 1. <text style="color:black;font-weight:bold">点击上图</text> => 查看教室课表
       </view>

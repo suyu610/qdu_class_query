@@ -176,7 +176,30 @@ Page({
       }, ]
     ],
   },
-
+  showAboutDialog() {
+    console.log("123")
+    // - `size` 弹窗大小（normal：正常，large:大，small：小）
+    // - `type` 弹窗样式类型
+    // - `title` 弹窗标题
+    // - `content` 弹窗内容
+    // - `contentposition` 弹窗内容位置（居左或居中）
+    // - `status` 是否显示蒙版
+    // - `marsktap` 蒙版是否支持点击事件
+    // - `foot` 是否有点击按钮
+    let option = {
+      status: true,
+      closeicon: true,
+      content: `生活地图是一个巴拉巴拉巴拉巴拉`,
+      marsktap: true,
+      title: '关于生活地图',
+      foot: [{
+        text: '我知道了',
+        cb: () => {}
+      }]
+    }
+    app.globalData.emitter.emit("bottomdialogstatus", option)
+    return
+  },
   jump2StoreDetail(e) {
     router.push({
       name: "life_map_list"

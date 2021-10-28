@@ -1,15 +1,53 @@
 /* packageSecondly/pages/life_map/list/list.wxss */
 
-.container {
+/* .container {
   height: 100vh;
   width: 100vw;
-}
+} */
 
 map {
   position: fixed;
   top: 0;
   height: 100vh;
   width: 100vw;
+}
+
+.center-position {
+  position: absolute;
+  top: 0rpx;
+  bottom: 0rpx;
+  left: 0rpx;
+  right: 0rpx;
+  margin: 0 auto;
+  width: 45rpx;
+  height: 63rpx;
+  z-index: 0;
+}
+.user-position {
+  position: absolute;
+  bottom: 680rpx;
+  right: 30rpx;
+  padding: 14rpx;
+  margin: 0px auto;
+  z-index: 0;
+  background-color: #ffffffd1;
+  border-radius: 20rpx;
+  transition: .4s;
+
+}
+.router {
+  transition: .4s;
+  position: absolute;
+  right: 30rpx;
+  padding: 14rpx;
+  margin: 0px auto;
+  z-index: 1;
+  border-radius: 20rpx;
+}
+
+.center-position .map-center-image {
+  width: 40rpx;
+  height: 58rpx;
 }
 .search {
   position: fixed;
@@ -20,6 +58,8 @@ map {
   position: fixed;
   bottom: 0;
   width: 100%;
+  transition: .3s;
+  z-index: 3;
 }
 
 .swiper-item {
@@ -67,10 +107,13 @@ map {
 
 .swiper-item .info {
   padding-top: 10px;
+  background-color: #fff;
   position: absolute;
   bottom: 10rpx;
-  width: 93%;
+  width: 92%;
+  padding-left: 14rpx;
 }
+
 .swiper-item .info .telephone,
 .swiper-item .info .location {
   font-size: 24rpx;
@@ -115,12 +158,12 @@ map {
 }
 
 .swiper-item .info .comments {
-  position: absolute; 
+  position: absolute;
   bottom: 20rpx;
-  right: 120rpx;
+  right: 14rpx;
 }
 
-.swiper-item .info .detail-switch{
+.swiper-item .info .detail-switch {
   position: absolute;
   bottom: 20rpx;
   right: 24rpx;
@@ -171,30 +214,9 @@ map {
 .info .store-name {
   font-weight: bold;
   font-size: 32rpx;
+  transition: 0.2s;
 }
-
-/* 翻转卡片 */
-
-.main {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 300px;
-  background-color: #fff;
-  height: 300px;
-  transform: translate(-50%, -50%);
-  perspective: 1500;
-  -webkit-perspective: 1500;
-  /* 子元素获得透视效果  */
-  -moz-perspective: 1500;
-}
-
-.back {
-  transform: rotateY(-180deg);
-  position: relative;
-  width: 100%;
-  top: -282px;
-  height: 100%;
-  background-color: #fff;
-  backface-visibility: hidden;
+.cu-card {
+  padding-top: 8rpx;
+  border-bottom: 1px solid #0000000a;
 }

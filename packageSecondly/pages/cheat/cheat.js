@@ -1,4 +1,4 @@
-// packageSecondly/pages/photo_maker/photo_maker.js
+// packageSecondly/pages/cheat/cheat.js
 Page({
 
   /**
@@ -7,7 +7,20 @@ Page({
   data: {
 
   },
-
+  copyText: function (e) {
+    wx.setClipboardData({
+      data: e.currentTarget.dataset.qq,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '复制成功'
+            })
+          }
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

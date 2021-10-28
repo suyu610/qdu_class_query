@@ -34,6 +34,11 @@ Page({
   showNoEntry: function () {
     Toast.fail('开发中');
   },
+  jump2Cheat: function () {
+    router.push({
+      name: "cheat"
+    })
+  },
   onShowAdBtnTapped: function () {
     let that = this
     if (!app.globalData.isWifi) {

@@ -46,6 +46,7 @@ van-cell-group {
   height: 100%;
   padding: 30px;
 }
+
 .bottom {
   width: 100vw;
   position: fixed;

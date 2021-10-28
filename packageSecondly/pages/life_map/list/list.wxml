@@ -1,23 +1,37 @@
 <!--packageSecondly/pages/life_map/list/list.wxml-->
 <view class="container" style="{{ themeData.myStyle }}">
-  <map bindregionchange="regionchange" style="z-index:-1" id="map" longitude="{{longitude}}" latitude="{{latitude}}"
-    min-scale="19" max-scale="19" enable-rotate enable-zoom subkey="5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO"
-    layer-style="{{theme}}">
+  <map polyline="{{showRouter?polyline:''}}" bindregionchange="regionchange" style="z-index:-1" id="map" min-scale="5"
+    max-scale="19" enable-rotate enable-zoom subkey="5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO" layer-style="{{theme}}"
+    scale="{{scale}}" longitude="{{longitude}}" latitude="{{latitude}}" include-points="{{includePoints}}"
+    markers="{{markers}}">
+    <view class="center-position">
+      <iconfont name="huodong1" class="map-center-image"></iconfont>
+      <!-- <image class="map-center-image" src=""></image> -->
+    </view>
   </map>
+  <view class="user-position" style="opacity:{{showRouter?'1': '0.7'}};bottom:{{showRouter?'240rpx':'790rpx'}}">
+    <iconfont name="dingwei" size="30"></iconfont>
+  </view>
+
+  <view bindtap="formSubmit" class="router"
+    style="opacity:{{showRouter?'1': '0.7'}};bottom:{{showRouter?'130rpx': '680rpx'}};background-color:{{showRouter?'#fde06b':'#ffffffd1'}}">
+    <iconfont name="licai" size="30"></iconfont>
+  </view>
   <!-- 搜索框 -->
-  <!-- include-points="{{markers}}" markers="{{markers}}" -->
+
   <!-- <view class="search">
     <van-search value="{{ value }}" placeholder="请输入搜索关键词" use-action-slot background="transparent">
        <view slot="action" bind:tap="onClick">搜索</view> 
     </van-search>
   </view> -->
-  <view class="bottom">
+  <view class="bottom" style="bottom:{{showRouter?'-298px':'0'}}">
     <swiper class="card-swiper round-dot {{globalDetailMode?'detail-mode':''}}" indicator-dots="true" circular="true"
       autoplay="{{false}}" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#000"
       style="height:{{globalDetailMode?'1300rpx!important':'680rpx!important'}}">
-      <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':'not_cur'}}">
+      <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':'not_cur'}}"
+        bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" data-id="{{item.id}}">
         <view class="swiper-item" data-id="{{item.id}}">
-          <view class="distance" catchtap="toMapApp" wx:if="{{!item.isAd}}">1.4km
+          <view class="distance" catchtap="showdialog2" wx:if="{{!item.isAd}}">1.4km
           </view>
           <view class="ad" wx:else>
             <iconfont name="guanggao" />
@@ -44,7 +58,7 @@
             </view>
             <view class="good-list-detail">
               <van-tabs active="{{ active }}" tab-class="tab-class" tab-active-class="tab-active text-black"
-                color="#FFE9A7" line-height="4" title-inactive-color="#aaa" swipeable animated>
+                color="#FFE9A7" line-height="4" title-inactive-color="#aaa" animated>
                 <van-tab title="美容">
                   <van-cell-group>
                     <van-cell icon="smile-o" title-class="cell-title" title-width="70%" title="超声波除毛" value="￥199" />
@@ -60,7 +74,7 @@
           </view>
 
           <view class="info">
-            <view class="store-name">{{item.storeName}}</view>
+            <view class="store-name" style="font-size:{{item.detailMode? '45':'32'}}rpx">{{item.storeName}}</view>
             <view class="telephone" wx:if="{{item.detailMode}}" catchtap="tel" data-number="17685837371">
               <view class="title">
                 <view class="title_name">
@@ -72,7 +86,7 @@
             <view class="location" catchtap="toMapApp">
               <view class="title">
                 <view class="title_name">
-                  <iconfont name="dingwei1" class="iconfont" size="12"></iconfont>
+                  <iconfont name="daohang" class="iconfont" size="12"></iconfont>
                   浮山校区电动门旁边
                 </view>
               </view>
@@ -82,13 +96,8 @@
               <van-rate size="{{ 16 }}" value="3" color="#FDE06B" readonly />
             </view>
 
-            <view class="detail-switch" catchtap="onTapSwipeItem" data-id="{{item.id}}" data-source="button"
-              style="bottom:10px">
-              <iconfont name="{{item.detailMode?'suoxiao':'fangda'}}" size="28" />
-            </view>
-
             <view class="comments" catchtap="onShowCommentPop" style="bottom:10px">
-              <iconfont name="pinglun" size="28" />
+              <iconfont name="pinglun" size="30" />
             </view>
           </view>
         </view>
@@ -117,259 +126,263 @@
     </view>
   </view>
   <view style="margin: 40rpx auto;width:50vw">
-    <van-button custom-style="border:2px solid {{yourRate==0?'#C8C9D3':'#000'}};height:60rpx" block color="{{yourRate==0?'#C8C9D3':'#000'}}" plain round bindtap="submitRate">
+    <van-button custom-style="transition:.2s;border:2px solid {{yourRate==0?'#C8C9D3':'#000'}};height:60rpx" block
+      color="{{yourRate==0?'#C8C9D3':'#000'}}" plain round bindtap="submitRate">
       提交
     </van-button>
   </view>
 </van-popup>
 
 <!-- 评论框 -->
-<van-popup show="{{ showCommentPopValue }}" round position="top" bind:close="onCloseCommentPop"
+<van-popup show="{{ showCommentPopValue }}" round position="bottom" bind:close="onCloseCommentPop"
   custom-style="width:100%;height: 70%;">
-  <view class="cu-bar bg-white">
-    <view class="action sub-title">
-      <text class="text-lg text-bold text-black">{{swiperList[cardCur].storeName}}的评论</text>
-      <text class="bg-yellow"></text>
+  <view>
+    <view class="cu-bar bg-white">
+      <view class="action sub-title">
+        <text class="text-lg text-bold text-black">{{swiperList[cardCur].storeName}}的评论</text>
+        <text class="bg-yellow"></text>
+      </view>
+      <iconfont name="bianji" style="padding-right: 18px;"></iconfont>
     </view>
-    <iconfont name="bianji" style="padding-right: 18px;"></iconfont>
-  </view>
-
-  <view class="cu-card dynamic no-card">
-    <view class="cu-item shadow">
-      <view class="cu-list menu-avatar">
-        <view class="cu-item">
-          <view class="cu-avatar round lg padding-right-sm"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-          <view class="content flex-sub">
-            <view>凯尔</view>
-            <view class="text-gray text-sm flex justify-between">
-              2019年12月3日
-            </view>
-          </view>
-        </view>
-      </view>
-      <view class="text-content">
-        折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！
-      </view>
-      <view class="grid flex-sub padding-lr col-3 grid-square">
-        <view class="bg-img"
-          style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);" wx:for="{{2}}"
-          wx:key="index">
-        </view>
-      </view>
-      <view class="text-gray text-sm text-right padding"
-        style="display: flex;width: 40vw;padding-left: 60vw;right: 0;box-sizing: content-box;position: relative;justify-content: end;">
-        <view class="padding-md"><text class="cuIcon-attentionfill margin-lr-xs"></text> 10</view>
-        <view class="padding-md"><text class="cuIcon-appreciatefill margin-lr-xs"></text> 20</view>
-        <view class="padding-md" bindtap="onToggleShowComment">
-          <text class="cuIcon-messagefill margin-lr-xs"></text> 30
-        </view>
-      </view>
-      <view wx:if="{{showCommentValue}}" class="cu-list menu-avatar comment solids-top" style="trnasition:.2s">
-        <view class="cu-item">
-          <view class="cu-avatar round"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
-          <view class="content">
-            <view class="text-grey">莫甘娜</view>
-            <view class="text-gray text-content text-df">
-              凯尔，你被自己的光芒变的盲目。
-            </view>
-            <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
-              <view class="flex">
-                <view>凯尔：</view>
-                <view class="flex-sub">妹妹，你在帮他们给黑暗找借口吗?</view>
-              </view>
-            </view>
-            <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-df">2018年12月4日</view>
-              <view>
-                <text class="cuIcon-appreciatefill text-red"></text>
-                <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+    <view class="content">
+      <view class="cu-card dynamic no-card">
+        <view class="cu-item shadow">
+          <view class="cu-list menu-avatar">
+            <view class="cu-item">
+              <view class="cu-avatar round lg padding-right-sm"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+              <view class="content flex-sub">
+                <view>凯尔</view>
+                <view class="text-gray text-sm flex justify-between">
+                  2019年12月3日
+                </view>
               </view>
             </view>
           </view>
-        </view>
-        <view class="cu-item">
-          <view class="cu-avatar round"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-          <view class="content">
-            <view class="text-grey">凯尔</view>
-            <view class="text-gray text-content text-df">
-              妹妹，如果不是为了飞翔，我们要这翅膀有什么用?
-            </view>
-            <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
-              <view class="flex">
-                <view>莫甘娜：</view>
-                <view class="flex-sub">如果不能立足于大地，要这双脚又有何用?</view>
-              </view>
-            </view>
-            <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-df">2018年12月4日</view>
-              <view>
-                <text class="cuIcon-appreciate text-gray"></text>
-                <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
-              </view>
+          <view class="text-content">
+            折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！
+          </view>
+          <view class="grid flex-sub padding-lr col-3 grid-square">
+            <view class="bg-img"
+              style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
+              wx:for="{{2}}" wx:key="index">
             </view>
           </view>
-        </view>
-      </view>
-    </view>
-  </view>
-  <view class="cu-card dynamic no-card">
-    <view class="cu-item shadow">
-      <view class="cu-list menu-avatar">
-        <view class="cu-item">
-          <view class="cu-avatar round lg padding-right-sm"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-          <view class="content flex-sub">
-            <view>凯尔</view>
-            <view class="text-gray text-sm flex justify-between">
-              2019年12月3日
+          <view class="text-gray text-sm text-right padding"
+            style="display: flex;width: 40vw;padding-left: 60vw;right: 0;box-sizing: content-box;position: relative;justify-content: end;">
+            <view class="padding-md"><text class="cuIcon-attentionfill margin-lr-xs"></text> 10</view>
+            <view class="padding-md"><text class="cuIcon-appreciatefill margin-lr-xs"></text> 20</view>
+            <view class="padding-md" bindtap="onToggleShowComment">
+              <text class="cuIcon-messagefill margin-lr-xs"></text> 30
             </view>
           </view>
-        </view>
-      </view>
-      <view class="text-content">
-        折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！
-      </view>
-      <view class="grid flex-sub padding-lr col-3 grid-square">
-        <view class="bg-img"
-          style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);" wx:for="{{8}}"
-          wx:key="index">
-        </view>
-      </view>
-      <view class="text-gray text-sm text-right padding"
-        style="display: flex;width: 40vw;padding-left: 60vw;right: 0;box-sizing: content-box;position: relative;justify-content: end;">
-        <view class="padding-md"><text class="cuIcon-attentionfill margin-lr-xs"></text> 10</view>
-        <view class="padding-md"><text class="cuIcon-appreciatefill margin-lr-xs"></text> 20</view>
-        <view class="padding-md" bindtap="onToggleShowComment">
-          <text class="cuIcon-messagefill margin-lr-xs"></text> 30
-        </view>
-      </view>
-      <view wx:if="{{showCommentValue}}" class="cu-list menu-avatar comment solids-top" style="trnasition:.2s">
-        <view class="cu-item">
-          <view class="cu-avatar round"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
-          <view class="content">
-            <view class="text-grey">莫甘娜</view>
-            <view class="text-gray text-content text-df">
-              凯尔，你被自己的光芒变的盲目。
-            </view>
-            <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
-              <view class="flex">
-                <view>凯尔：</view>
-                <view class="flex-sub">妹妹，你在帮他们给黑暗找借口吗?</view>
+          <view wx:if="{{showCommentValue}}" class="cu-list menu-avatar comment solids-top" style="trnasition:.2s">
+            <view class="cu-item">
+              <view class="cu-avatar round"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
+              <view class="content">
+                <view class="text-grey">莫甘娜</view>
+                <view class="text-gray text-content text-df">
+                  凯尔，你被自己的光芒变的盲目。
+                </view>
+                <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
+                  <view class="flex">
+                    <view>凯尔：</view>
+                    <view class="flex-sub">妹妹，你在帮他们给黑暗找借口吗?</view>
+                  </view>
+                </view>
+                <view class="margin-top-sm flex justify-between">
+                  <view class="text-gray text-df">2018年12月4日</view>
+                  <view>
+                    <text class="cuIcon-appreciatefill text-red"></text>
+                    <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+                  </view>
+                </view>
               </view>
             </view>
-            <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-df">2018年12月4日</view>
-              <view>
-                <text class="cuIcon-appreciatefill text-red"></text>
-                <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
-              </view>
-            </view>
-          </view>
-        </view>
-        <view class="cu-item">
-          <view class="cu-avatar round"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-          <view class="content">
-            <view class="text-grey">凯尔</view>
-            <view class="text-gray text-content text-df">
-              妹妹，如果不是为了飞翔，我们要这翅膀有什么用?
-            </view>
-            <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
-              <view class="flex">
-                <view>莫甘娜：</view>
-                <view class="flex-sub">如果不能立足于大地，要这双脚又有何用?</view>
-              </view>
-            </view>
-            <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-df">2018年12月4日</view>
-              <view>
-                <text class="cuIcon-appreciate text-gray"></text>
-                <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+            <view class="cu-item">
+              <view class="cu-avatar round"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+              <view class="content">
+                <view class="text-grey">凯尔</view>
+                <view class="text-gray text-content text-df">
+                  妹妹，如果不是为了飞翔，我们要这翅膀有什么用?
+                </view>
+                <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
+                  <view class="flex">
+                    <view>莫甘娜：</view>
+                    <view class="flex-sub">如果不能立足于大地，要这双脚又有何用?</view>
+                  </view>
+                </view>
+                <view class="margin-top-sm flex justify-between">
+                  <view class="text-gray text-df">2018年12月4日</view>
+                  <view>
+                    <text class="cuIcon-appreciate text-gray"></text>
+                    <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
         </view>
       </view>
-    </view>
-  </view>
-  <view class="cu-card dynamic no-card">
-    <view class="cu-item shadow">
-      <view class="cu-list menu-avatar">
-        <view class="cu-item">
-          <view class="cu-avatar round lg padding-right-sm"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-          <view class="content flex-sub">
-            <view>凯尔</view>
-            <view class="text-gray text-sm flex justify-between">
-              2019年12月3日
+      <view class="cu-card dynamic no-card">
+        <view class="cu-item shadow">
+          <view class="cu-list menu-avatar">
+            <view class="cu-item">
+              <view class="cu-avatar round lg padding-right-sm"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+              <view class="content flex-sub">
+                <view>凯尔</view>
+                <view class="text-gray text-sm flex justify-between">
+                  2019年12月3日
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="text-content">
+            折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！
+          </view>
+          <view class="grid flex-sub padding-lr col-3 grid-square">
+            <view class="bg-img"
+              style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
+              wx:for="{{8}}" wx:key="index">
+            </view>
+          </view>
+          <view class="text-gray text-sm text-right padding"
+            style="display: flex;width: 40vw;padding-left: 60vw;right: 0;box-sizing: content-box;position: relative;justify-content: end;">
+            <view class="padding-md"><text class="cuIcon-attentionfill margin-lr-xs"></text> 10</view>
+            <view class="padding-md"><text class="cuIcon-appreciatefill margin-lr-xs"></text> 20</view>
+            <view class="padding-md" bindtap="onToggleShowComment">
+              <text class="cuIcon-messagefill margin-lr-xs"></text> 30
+            </view>
+          </view>
+          <view wx:if="{{showCommentValue}}" class="cu-list menu-avatar comment solids-top" style="trnasition:.2s">
+            <view class="cu-item">
+              <view class="cu-avatar round"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
+              <view class="content">
+                <view class="text-grey">莫甘娜</view>
+                <view class="text-gray text-content text-df">
+                  凯尔，你被自己的光芒变的盲目。
+                </view>
+                <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
+                  <view class="flex">
+                    <view>凯尔：</view>
+                    <view class="flex-sub">妹妹，你在帮他们给黑暗找借口吗?</view>
+                  </view>
+                </view>
+                <view class="margin-top-sm flex justify-between">
+                  <view class="text-gray text-df">2018年12月4日</view>
+                  <view>
+                    <text class="cuIcon-appreciatefill text-red"></text>
+                    <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="cu-item">
+              <view class="cu-avatar round"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+              <view class="content">
+                <view class="text-grey">凯尔</view>
+                <view class="text-gray text-content text-df">
+                  妹妹，如果不是为了飞翔，我们要这翅膀有什么用?
+                </view>
+                <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
+                  <view class="flex">
+                    <view>莫甘娜：</view>
+                    <view class="flex-sub">如果不能立足于大地，要这双脚又有何用?</view>
+                  </view>
+                </view>
+                <view class="margin-top-sm flex justify-between">
+                  <view class="text-gray text-df">2018年12月4日</view>
+                  <view>
+                    <text class="cuIcon-appreciate text-gray"></text>
+                    <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+                  </view>
+                </view>
+              </view>
             </view>
           </view>
         </view>
       </view>
-      <view class="text-content">
-        折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！
-      </view>
-      <view class="grid flex-sub padding-lr col-3 grid-square">
-        <view class="bg-img"
-          style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);" wx:for="{{1}}"
-          wx:key="index">
-        </view>
-      </view>
-      <view class="text-gray text-sm text-right padding"
-        style="display: flex;width: 40vw;padding-left: 60vw;right: 0;box-sizing: content-box;position: relative;justify-content: end;">
-        <view class="padding-md"><text class="cuIcon-attentionfill margin-lr-xs"></text> 10</view>
-        <view class="padding-md"><text class="cuIcon-appreciatefill margin-lr-xs"></text> 20</view>
-        <view class="padding-md" bindtap="onToggleShowComment">
-          <text class="cuIcon-messagefill margin-lr-xs"></text> 30
-        </view>
-      </view>
-      <view wx:if="{{showCommentValue}}" class="cu-list menu-avatar comment solids-top" style="trnasition:.2s">
-        <view class="cu-item">
-          <view class="cu-avatar round"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
-          <view class="content">
-            <view class="text-grey">莫甘娜</view>
-            <view class="text-gray text-content text-df">
-              凯尔，你被自己的光芒变的盲目。
-            </view>
-            <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
-              <view class="flex">
-                <view>凯尔：</view>
-                <view class="flex-sub">妹妹，你在帮他们给黑暗找借口吗?</view>
-              </view>
-            </view>
-            <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-df">2018年12月4日</view>
-              <view>
-                <text class="cuIcon-appreciatefill text-red"></text>
-                <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+      <view class="cu-card dynamic no-card">
+        <view class="cu-item shadow">
+          <view class="cu-list menu-avatar">
+            <view class="cu-item">
+              <view class="cu-avatar round lg padding-right-sm"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+              <view class="content flex-sub">
+                <view>凯尔</view>
+                <view class="text-gray text-sm flex justify-between">
+                  2019年12月3日
+                </view>
               </view>
             </view>
           </view>
-        </view>
-        <view class="cu-item">
-          <view class="cu-avatar round"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
-          <view class="content">
-            <view class="text-grey">凯尔</view>
-            <view class="text-gray text-content text-df">
-              妹妹，如果不是为了飞翔，我们要这翅膀有什么用?
+          <view class="text-content">
+            折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！
+          </view>
+          <view class="grid flex-sub padding-lr col-3 grid-square">
+            <view class="bg-img"
+              style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
+              wx:for="{{1}}" wx:key="index">
             </view>
-            <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
-              <view class="flex">
-                <view>莫甘娜：</view>
-                <view class="flex-sub">如果不能立足于大地，要这双脚又有何用?</view>
+          </view>
+          <view class="text-gray text-sm text-right padding"
+            style="display: flex;width: 40vw;padding-left: 60vw;right: 0;box-sizing: content-box;position: relative;justify-content: end;">
+            <view class="padding-md"><text class="cuIcon-attentionfill margin-lr-xs"></text> 10</view>
+            <view class="padding-md"><text class="cuIcon-appreciatefill margin-lr-xs"></text> 20</view>
+            <view class="padding-md" bindtap="onToggleShowComment">
+              <text class="cuIcon-messagefill margin-lr-xs"></text> 30
+            </view>
+          </view>
+          <view wx:if="{{showCommentValue}}" class="cu-list menu-avatar comment solids-top" style="trnasition:.2s">
+            <view class="cu-item">
+              <view class="cu-avatar round"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png);"></view>
+              <view class="content">
+                <view class="text-grey">莫甘娜</view>
+                <view class="text-gray text-content text-df">
+                  凯尔，你被自己的光芒变的盲目。
+                </view>
+                <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
+                  <view class="flex">
+                    <view>凯尔：</view>
+                    <view class="flex-sub">妹妹，你在帮他们给黑暗找借口吗?</view>
+                  </view>
+                </view>
+                <view class="margin-top-sm flex justify-between">
+                  <view class="text-gray text-df">2018年12月4日</view>
+                  <view>
+                    <text class="cuIcon-appreciatefill text-red"></text>
+                    <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+                  </view>
+                </view>
               </view>
             </view>
-            <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-df">2018年12月4日</view>
-              <view>
-                <text class="cuIcon-appreciate text-gray"></text>
-                <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+            <view class="cu-item">
+              <view class="cu-avatar round"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+              <view class="content">
+                <view class="text-grey">凯尔</view>
+                <view class="text-gray text-content text-df">
+                  妹妹，如果不是为了飞翔，我们要这翅膀有什么用?
+                </view>
+                <view class="bg-grey padding-sm radius margin-top-sm  text-sm">
+                  <view class="flex">
+                    <view>莫甘娜：</view>
+                    <view class="flex-sub">如果不能立足于大地，要这双脚又有何用?</view>
+                  </view>
+                </view>
+                <view class="margin-top-sm flex justify-between">
+                  <view class="text-gray text-df">2018年12月4日</view>
+                  <view>
+                    <text class="cuIcon-appreciate text-gray"></text>
+                    <text class="cuIcon-messagefill text-gray margin-left-sm"></text>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
@@ -378,3 +391,6 @@
     </view>
   </view>
 </van-popup>
+
+<dialog></dialog>
+<bottomdialog></bottomdialog>

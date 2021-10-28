@@ -4,11 +4,10 @@
 </van-sticky> -->
 <van-index-bar sticky-offset-top="{{53}}" index-list="{{ indexList }}">
   <view>
-    <van-index-anchor index="紧急" />
-    <van-cell title="中心保卫处110值班电话 ( 24h )" title-width="60%" value="85951110" is-link data-tel="85951110"
+    <van-cell title="中心保卫处110值班电话 ( 24h )" title-width="70%" value="85951110" is-link data-tel="85951110"
       bindtap="tel" />
-    <van-cell title="金家岭西院保卫室 ( 24h )" title-width="60%" value="85959110" is-link data-tel="85959110" bindtap="tel" />
-    <van-cell title="金家岭东院保卫室 ( 24h )" title-width="60%" value="88907355" is-link data-tel="88907355" bindtap="tel" />
+    <van-cell title="金家岭西院保卫室 ( 24h )" title-width="70%" value="85959110" is-link data-tel="85959110" bindtap="tel" />
+    <van-cell title="金家岭东院保卫室 ( 24h )" title-width="70%" value="88907355" is-link data-tel="88907355" bindtap="tel" />
     <van-cell value="85955120" is-link data-tel="85955120" bindtap="tel">
       <view slot="title">
         <view class="van-cell-text">校医院</view>
@@ -16,7 +15,7 @@
       </view>
     </van-cell>
 
-    <van-cell value="85958230" is-link data-tel="85958230" bindtap="tel">
+    <van-cell value="85958230" title-width="70%"  is-link data-tel="85958230" bindtap="tel">
       <view slot="title">
         <view class="van-cell-text">校医院</view>
         <van-tag plain type="success">金家岭校区</van-tag>
@@ -26,17 +25,17 @@
 
   <view>
     <van-index-anchor index="心理咨询" />
-    <van-cell value="85953102" is-link data-tel="85953102" bindtap="tel">
+    <van-cell value="85953102" title-width="70%"  is-link data-tel="85953102" bindtap="tel">
       <view slot="title">
         <view class="van-cell-text">笃行楼203咨询室</view>
         <van-tag plain type="primary">浮山校区</van-tag>
 
       </view>
     </van-cell>
-    <van-cell value="85959705" is-link data-tel="85959705" bindtap="tel">
+    <van-cell value="85959705" title-width="70%" is-link data-tel="85959705" bindtap="tel">
       <view slot="title">
-        <view class="van-cell-text">大学生活动中心209咨询室</view>
-        <van-tag plain type="success">金家岭校区</van-tag>
+        <view class="van-cell-text">大活209心理咨询室</view>
+        <van-tag plain type="success">金家岭</van-tag>
       </view>
     </van-cell>
   </view>
@@ -84,10 +83,10 @@
         <van-tag plain type="primary">浮山校区西院</van-tag>
       </view>
     </van-cell>
-    <van-cell value="85955108" is-link data-tel="85955108" title-width="60%" bindtap="tel">
+    <van-cell value="85955108" title-width="70%"  is-link data-tel="85955108" title-width="70%" bindtap="tel">
       <view slot="title">
         <view class="van-cell-text">教室场馆</view>
-        <van-tag plain type="primary">浮山校区东院、师范学院</van-tag>
+        <van-tag plain type="primary">浮山东院、师范学院</van-tag>
       </view>
     </van-cell>
   </view>

@@ -1,0 +1,4 @@
+/* packageSecondly/pages/cheat/cheat.wxss */
+page{
+  background-color: #fff;
+}

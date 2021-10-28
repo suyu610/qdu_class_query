@@ -1,0 +1,15 @@
+<!--packageSecondly/pages/cheat/cheat.wxml-->
+<view style="padding:20px;padding-top:40px;line-height:22px">
+  <view>
+    现在防诈骗的宣传力度很大，但我感觉效果不是很好。</view>
+  <view style="font-weight: bold;">
+    1. 不够身临其境，上帝视角会让我们缺乏代入感。</view>
+  <view style="font-weight: bold;">
+    2. 乏味。</view>
+  <view style="padding-top:20px">
+    这个板块我想能不能做成吃瓜的模式，大家来投稿，我们润色？</view>
+  <view>或者引入一些游戏元素（交互性强的）？</view>
+  <view style="padding-top:20px;font-weight: bold;"> 如果你有什么好建议，欢迎与我联系。</view>
+  <view style="padding-top:20px" bindtap="copyText" data-qq="372799030">QQ: 372799030 (点击复制)</view>
+  <view style="text-align:right"> 黄鹏宇</view>
+</view>

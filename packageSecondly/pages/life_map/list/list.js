@@ -9,29 +9,33 @@ Page({
    * 页面的初始数据
    */
   data: {
+    touchS: [0, 0],
+    touchE: [0, 0],
+    scale: 16,
+    dy: 340,
     showCommentValue: false,
     globalDetailMode: false,
     islike: false,
     theme: 3,
-    longitude: app.globalData.longitude,
-    latitude: app.globalData.latitude,
+    longitude: 120.42712,
+    latitude: 36.071283,
     markers: [{
       title: "理发店",
       id: 1,
-      latitude: 36.071993,
-      longitude: 120.422793,
-      width: 50,
-      height: 50,
+      latitude: 36.071283,
+      longitude: 120.42712,
+      width: 1,
+      height: 1,
       iconPath: "../../../../images/icon/icon_flag.png",
       callout: {
         id: 1,
         borderRadius: 5,
         padding: 7,
-        bgColor: '#000000',
+        bgColor: '#000000aa',
         anchorX: 10,
         anchorY: 20,
         color: '#ffffff',
-        content: "123",
+        content: "小兔崽干洗店",
         display: 'ALWAYS',
       },
     }],
@@ -39,6 +43,8 @@ Page({
     yourRate: 0,
     isAd: false,
     cardCur: 0,
+    showRouter: false,
+    isTouchMoved: false,
     swiperList: [{
       id: 0,
       storeName: 'UNIQLO',
@@ -134,6 +140,7 @@ Page({
 
   },
   noop() {
+    console.log("noop")
 
   },
   onToggleRatePop(e) {
@@ -156,17 +163,82 @@ Page({
       showCommentPopValue: true
     })
   },
+  touchStart: function (e) {
+    let sx = e.touches[0].pageX
+    let sy = e.touches[0].pageY
+    this.data.touchS = [sx, sy]
+  },
+
+  touchMove: function (e) {
+    if (!this.data.isTouchMoved) {
+      this.setData({
+        isTouchMoved: true
+      })
+    }
+    let sx = e.touches[0].pageX;
+    let sy = e.touches[0].pageY;
+    this.data.touchE = [sx, sy]
+  },
+
+  touchEnd: function (e) {
+    if (!this.data.isTouchMoved) {
+      return
+    }
+    this.setData({
+      isTouchMoved: false
+    })
+    let start = this.data.touchS
+    let end = this.data.touchE
+    if (end[0] == 0 && end[1] == 0) {
+      console.log('静止')
+      return;
+    }
+    // 向下移动
+    if (start[1] < end[1] - 50 && this.data.globalDetailMode) {
+      this.onCloseSwipeItem(e);
+      return;
+    }
+    // 向上移动
+    if (start[1] > end[1] + 50 && !this.data.globalDetailMode) {
+      this.onOpenSwipeItem(e);
+      return;
+    }
+  },
   // 图片预览
   previewImages(e) {
-    console.log(e.currentTarget.dataset.src)
+    this.data.isPreviewImgMode = true
+    let sx = e.touches[0].pageX
+    let sy = e.touches[0].pageY
+    this.data.touchS = [sx, sy]
     let currentUrl = e.currentTarget.dataset.src
     wx.previewImage({
       current: currentUrl, // 当前显示图片的http链接
       urls: this.data.imgList // 需要预览的图片http链接列表
     })
-
   },
-  onTapSwipeItem(e) {
+
+  onCloseSwipeItem(e) {
+    console.log(this.data.isPreviewImgMode)
+    if (this.data.isPreviewImgMode) return;
+    wx.vibrateShort()
+    let id = e.currentTarget.dataset.id
+    let swiperList = this.data.swiperList
+    swiperList.forEach(element => {
+      if (element.id == id) {
+        element.detailMode = false;
+        return;
+      } else {
+        element.detailMode = false
+      }
+    });
+
+    this.setData({
+      swiperList,
+      globalDetailMode: false
+    })
+  },
+  onOpenSwipeItem(e) {
+    if (this.data.isPreviewImgMode) return;
     wx.vibrateShort({
       success: function () {
         console.log("vibrate success");
@@ -180,7 +252,7 @@ Page({
     let swiperList = this.data.swiperList
     swiperList.forEach(element => {
       if (element.id == id) {
-        element.detailMode = !element.detailMode;
+        element.detailMode = true;
         return;
       } else {
         element.detailMode = false
@@ -189,7 +261,7 @@ Page({
 
     this.setData({
       swiperList,
-      globalDetailMode: !this.data.globalDetailMode
+      globalDetailMode: true
     })
   },
   onTaploveStoreBtn(e) {
@@ -205,8 +277,8 @@ Page({
         return;
       }
     });
-
   },
+
   tel(e) {
     let phoneNumber = e.currentTarget.dataset.number
 
@@ -253,7 +325,7 @@ Page({
     wx.openLocation({
       latitude: 31, // 纬度，范围为-90~90，负数表示南纬
       longitude: 121, // 经度，范围为-180~180，负数表示西经
-      scale: 8, // 缩放比例
+      scale: 13, // 缩放比例
       name: "测试",
       address: "测试详细地址",
       success: function (r) {
@@ -281,6 +353,119 @@ Page({
   regionchange: function (e) {
     console.log(e)
   },
+
+  showdialog1() {
+    console.log("showdialog1")
+    let option = {
+      status: true,
+      closeicon: true,
+      content: `这里是弹窗1`,
+      foot: [{
+        text: '我知道了',
+        cb: () => {}
+      }]
+    }
+    app.globalData.emitter.emit("dialogstatus", option)
+    return
+  },
+
+  formSubmit(e) {
+    this.setData({
+      showRouter: !this.data.showRouter
+    })
+    if (!this.data.showRouter) {
+      return;
+    }
+
+    wx.showLoading({
+      title: '路线规划中',
+    })
+    //起点坐标：23.048914,113.390451 
+    //终点坐标：23.061793,113.392056
+
+    let from = {
+      "latitude": 36.071283,
+      "longitude": 120.42712
+    }
+    let dest = {
+      "latitude": 36.070432,
+      "longitude": 120.424168
+    }
+    var _this = this;
+    //调用距离计算接口
+    qqmapsdk.direction({
+      mode: 'walking', //可选值：'driving'（驾车）、'walking'（步行）、'bicycling'（骑行），不填默认：'driving',可不填
+      //from参数不填默认当前地址
+      from: from,
+      to: dest,
+      success: function (res) {
+        console.log(res);
+        var ret = res;
+        var coors = ret.result.routes[0].polyline,
+          pl = [];
+        //坐标解压（返回的点串坐标，通过前向差分进行压缩）
+        var kr = 1000000;
+        for (var i = 2; i < coors.length; i++) {
+          coors[i] = Number(coors[i - 2]) + Number(coors[i]) / kr;
+        }
+        //将解压后的坐标放入点串数组pl中
+        for (var i = 0; i < coors.length; i += 2) {
+          pl.push({
+            latitude: coors[i],
+            longitude: coors[i + 1]
+          })
+        }
+        console.log(pl)
+        //设置polyline属性，将路线显示出来,将解压坐标第一个数据作为起点
+        _this.setData({
+          includePoints: [{
+            "latitude": from.latitude,
+            "longitude": from.longitude
+          }, {
+            "latitude": dest.latitude,
+            "longitude": dest.longitude
+          }],
+          // latitude: (from.latitude + dest.latitude) / 2 - 0.001,
+          // longitude: (from.longitude + dest.longitude) / 2 - 0.0007,
+          polyline: [{
+            points: pl,
+            color: '#f00',
+            width: 4
+          }]
+        })
+      },
+      fail: function (error) {
+        console.log(error);
+      },
+      complete: function (res) {
+        console.log(res);
+        wx.hideLoading()
+      }
+    });
+  },
+  showdialog2() {
+    // - `size` 弹窗大小（normal：正常，large:大，small：小）
+    // - `type` 弹窗样式类型
+    // - `title` 弹窗标题
+    // - `content` 弹窗内容
+    // - `contentposition` 弹窗内容位置（居左或居中）
+    // - `status` 是否显示蒙版
+    // - `marsktap` 蒙版是否支持点击事件
+    // - `foot` 是否有点击按钮
+    let option = {
+      status: true,
+      closeicon: true,
+      content: `此处距离为近似值，具体距离请根据地图评估`,
+      marsktap: true,
+      title: '距离提示',
+      foot: [{
+        text: '我知道了',
+        cb: () => {}
+      }]
+    }
+    app.globalData.emitter.emit("bottomdialogstatus", option)
+    return
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -292,7 +477,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.data.isPreviewImgMode = false
   },
 
   /**

@@ -1,3 +1,4 @@
+<bottomdialog></bottomdialog>
 <view class="container">
   <view class="header">
     <view class="name">欢迎来到，</view>
@@ -5,7 +6,7 @@
       <iconfont size="18" name="xiaoxi1" />
     </view>
   </view>
-  <view class="top">
+  <view class="top" bindtap="showAboutDialog">
     <view class="slogan">
       生活地图
       <iconfont name="ditu" class="iconfont"

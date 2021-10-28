@@ -18,6 +18,7 @@
       "root": "packageSecondly",
       "pages": [
         "pages/moment/moment",
+        "pages/camera_scan/camera_scan",
         "pages/course_search/course_search",
         "pages/moment/edit/edit",
         "pages/telephone/telephone",
@@ -31,11 +32,11 @@
         "pages/major_detail/major_detail",
         "pages/major_list/major_list",
         "pages/major_class_list/major_class_list",
-        "pages/photo_maker/photo_maker",
         "pages/life_map/home/home",
         "pages/life_map/detail/detail",
         "pages/life_map/good_list/good_list",
-        "pages/life_map/list/list"
+        "pages/life_map/list/list",
+        "pages/cheat/cheat"
       ]
     },
     {
