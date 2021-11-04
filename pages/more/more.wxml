@@ -79,13 +79,18 @@
         <text style="font-size:12px;margin-top:9px;color:#141415;">测试扫码功能</text>
       </van-grid-item>
 
+      <van-grid-item badge="1" content-class="grid-item" link-type="navigateTo"
+        url="/packageSecondly/pages/life_map/home/home" use-slot>
+        <iconfont name="ditu" />
+        <text style="font-size:12px;margin-top:9px;color:#141415;">生活地图</text>
+        <!-- <text style="font-size:9px;color:#64656696">点击出来视频广告</text> -->
+      </van-grid-item>
+
       <van-grid-item badge="1" content-class="grid-item" bindtap="onShowAdBtnTapped" use-slot>
         <iconfont name="hezuo" />
         <text style="font-size:12px;margin-top:9px;color:#141415;">支持一下</text>
         <!-- <text style="font-size:9px;color:#64656696">点击出来视频广告</text> -->
       </van-grid-item>
-
-
 
     </van-grid>
   </view>
@@ -135,5 +140,8 @@
 <van-overlay show="{{ showAd }}" bind:click="onCloseAd">
   <view class="wrapper">
     <ad unit-id="adunit-d00b7ebf071441ae" ad-type="video" ad-theme="white"></ad>
+    <view
+      style="text-align: center;position:fixed;bottom:20px;background:white;width:50px;line-height:50px;height:50px;border-radius:50%;font-size:18px">
+      X</view>
   </view>
 </van-overlay>

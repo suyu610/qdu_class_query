@@ -1,0 +1,14 @@
+{
+  "usingComponents": {
+    "bottomdialog": "/components/bottomdialog/bottomdialog",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-button": "@vant/weapp/button/index"
+
+
+
+  },
+  "navigationBarBackgroundColor": "#fff"
+}

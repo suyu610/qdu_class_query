@@ -46,13 +46,13 @@
 
 .dialogconfirm .dialogBody {
   width: 100%;
-  height: 200rpx;
+  min-height: 200rpx;
   padding: 30rpx;
   text-align: center;
   box-sizing: border-box;
   display: flex;
   color: #666666;
- 
+
   text-align: left;
   align-items: center;
   font-size: 30rpx;
@@ -70,7 +70,7 @@
 .dialogconfirm .dialogFoot .item0 {
   width: 327rpx;
   height: 98rpx;
-  background: #FDE06B;
+  background: #fde06b;
   box-shadow: 0rpx 4rpx 6rpx 0rpx #fde06b73;
   border-radius: 12rpx;
   position: relative;
@@ -111,8 +111,7 @@
   position: relative;
   width: 327rpx;
   height: 98rpx;
-
-  background: #1a6eff;
+  background: #fde06b;
   box-shadow: 0rpx 4rpx 6rpx 0rpx rgba(27, 112, 255, 0.25);
   border-radius: 12rpx;
 }
@@ -128,13 +127,16 @@
 
 .dialogconfirm .dialogFoot .item2 .text {
   color: white;
+  color: black;
+  font-weight: bold;
+
   width: 100%;
   text-align: center;
   position: absolute;
   z-index: 1500;
   top: 50%;
   left: 50%;
-  font-size: 32rpx;
+  font-size: 28rpx;
   transform: translate(-50%, -50%);
 }
 
@@ -142,8 +144,8 @@
   width: 327rpx;
   height: 98rpx;
   background: #eaeaea;
+  background: #f8ecbc;
   border-radius: 12rpx;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -151,8 +153,8 @@
 }
 
 .dialogconfirm .dialogFoot .item1 .text {
-  color: #1a6eff;
-  font-size: 32rpx;
+  color: black;
+  font-size: 28rpx;
 }
 
 .mask {

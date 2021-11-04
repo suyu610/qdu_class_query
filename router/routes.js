@@ -37,7 +37,14 @@ module.exports = {
   multi_course_detail: {
     path: '/packageSecondly/pages/multi_course/detail/detail'
   },
+  msg: {
+    path: '/pages/msg/msg'
+  },
 
+  msg_detail:{
+    path: '/pages/msg/detail/detail'
+
+  },
   list: {
     path: '/pages/list/list'
   },
@@ -50,11 +57,22 @@ module.exports = {
   moment: {
     path: '/packageSecondly/pages/moment/moment',
   },
+  map_choose_point: {
+    path: '/packageSecondly/pages/map_choose_point/map_choose_point',
+
+  },
   life_map_home: {
     path: '/packageSecondly/pages/life_map/home/home',
   },
   camera_scan: {
     path: '/packageSecondly/pages/camera_scan/camera_scan',
+  },
+
+  life_map_comment: {
+    path: '/packageSecondly/pages/life_map/comment/comment',
+  },
+  life_map_add_store: {
+    path: '/packageSecondly/pages/life_map/add_store/add_store',
   },
   life_map_list: {
     path: '/packageSecondly/pages/life_map/list/list',
@@ -62,8 +80,8 @@ module.exports = {
   life_map_good_list: {
     path: '/packageSecondly/pages/life_map/good_list/good_list',
   },
-  life_map_detail: {
-    path: '/packageSecondly/pages/life_map/detail/detail',
+  life_map_good_detail: {
+    path: '/packageSecondly/pages/life_map/good_detail/good_detail',
   },
   more: {
     type: 'tab',

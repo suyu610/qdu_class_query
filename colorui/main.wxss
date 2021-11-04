@@ -14,7 +14,7 @@ page {
   /* var属性兼容性 --> https://www.caniuse.com/#feat=css-variables */
   /* 标准色 */
   --red: #e54d42;
-  --orange: #f37b1d;
+  --orange: #FEE161;
   --yellow: #fbbd08;
   --olive: #8dc63f;
   --green: #39b54a;
@@ -1245,7 +1245,7 @@ button.icon.lg {
 }
 
 .cu-list > .cu-item {
-  transition: all 0.6s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
   transform: translateX(0rpx);
 }
 
@@ -1277,7 +1277,7 @@ button.icon.lg {
   position: relative;
   display: flex;
   padding-right: 10rpx;
-  height: 103rpx;
+  height: 130rpx;
   background-color: var(--white);
   justify-content: flex-end;
   align-items: center;
@@ -1616,7 +1616,7 @@ button.icon.lg {
 
 .cu-bar .action:first-child {
   margin-left: 30rpx;
-  font-size: 30rpx;
+  font-size: 26rpx;
 }
 
 .cu-bar .action text.text-cut {
@@ -2297,7 +2297,7 @@ button.icon.lg {
   padding: 0 30rpx 0;
   max-height: 6.4em;
   overflow: hidden;
-  font-size: 30rpx;
+  font-size: 28rpx;
   margin-bottom: 20rpx;
 }
 
@@ -2375,7 +2375,7 @@ button.icon.lg {
 .cu-form-group .title {
   text-align: justify;
   padding-right: 30rpx;
-  font-size: 30rpx;
+  font-size: 26rpx;
   position: relative;
   height: 60rpx;
   line-height: 60rpx;
@@ -3444,7 +3444,7 @@ scroll-view.cu-steps .cu-item {
 
 .bg-orange {
   background-color: var(--orange);
-  color: var(--white);
+  color: var(--black);
 }
 
 .bg-yellow {

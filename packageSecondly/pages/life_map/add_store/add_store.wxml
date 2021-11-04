@@ -1,0 +1,231 @@
+<bottomdialog></bottomdialog>
+<view class="cu-bar bg-white" bindtap="showAboutDialog">
+  <view class="action sub-title">
+    <text class="text-lg text-bold text-black">添加商店 <text class=" cuIcon-question "></text>
+    </text>
+    <text class="bg-yellow"></text>
+  </view>
+</view>
+<form catchsubmit="formSubmit" catchreset="formReset">
+  <view class="cu-form-group padding-top">
+    <view class="title">商店名</view>
+    <input placeholder-class="text-sm text-gray" placeholder="在此输入商家名"></input>
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">地址</view>
+    <input placeholder-class="text-sm text-gray" placeholder="在此输入地址"
+      value="{{location.district}}{{location.name}}"></input>
+    <button class="cuIcon-locationfill  cu-btn sm bg-white shadow" bindtap="jump2ChoosePoint">地图选点</button>
+  </view>
+
+  <!-- <view class="cu-form-group">
+    <view class="title">{{inSchool?"校内":"校外"}}</view>
+    <switch class="red radius sm" checked="{{inSchool}}" bindchange="inSchoolChange"></switch>
+  </view> -->
+
+  <view class="cu-form-group">
+    <view class="title">联系方式1</view>
+    <!-- <view style="width:90vw"> -->
+      <input placeholder-class="text-sm text-gray" placeholder="手机"></input>
+    <!-- </view> -->
+  </view>
+  <view class="cu-form-group">
+    <view class="title">联系方式2</view>
+    <view style="width:35vw;border-bottom:1px dashed lightgrey"><input placeholder-class="text-sm text-gray" placeholder="QQ"></input></view>
+    <view style="width:35vw;border-bottom:1px dashed lightgrey"><input placeholder-class="text-sm text-gray" placeholder="微信"></input></view>
+  </view>
+
+  <view class="cu-form-group align-start">
+    <view class="title">商店介绍</view>
+    <textarea maxlength="-1" disabled="{{modalName!=null}}" placeholder-class="text-sm text-gray"
+      bindinput="textareaBInput" placeholder="在此输入商店介绍"></textarea>
+  </view>
+
+  <view class="cu-form-group margin-top">
+    <view class="title">店铺分类</view>
+    <picker bindchange="PickerChange" value="{{index}}" range-key="name" range="{{picker}}">
+      <view class="picker">
+        {{index?picker[index].name:'未选择'}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">开门时间</view>
+    <picker mode="time" value="{{openTime}}" start="09:01" end="21:01" bindchange="openTimeChange">
+      <view class="picker">
+        {{openTime}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">打烊时间</view>
+    <picker mode="time" value="{{closeTime}}" start="09:01" end="21:01" bindchange="closeTimeChange">
+      <view class="picker">
+        {{closeTime}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group arrow">
+    <view class="title">商品分类</view>
+    <view class="action">
+      <block wx:for="{{goodTypeList}}" wx:key="index">
+        <view class="cu-capsule round" data-id="{{item.id}}" bindtap="deleteGoodTypeItem">
+          <view class="cu-tag bg-red sm">
+            <text class="cuIcon-delete"></text>
+          </view>
+          <view class=" cu-tag line-red sm">
+            {{item.name}}
+          </view>
+        </view>
+      </block>
+      <view class="action " style="float: right; padding-left: 10px;" bindtap="onShowAddGoodTypePop">
+        <button class="cu-btn sm bg-white shadow">
+          <text class="cuIcon-add"></text>新增</button>
+      </view>
+      <!-- <view bindtap="onShowAddGoodTypePop" class="cu-tag round bg-blue" style="float: right">+ 新增</view> -->
+    </view>
+
+  </view>
+
+  <view class="cu-form-group">
+    <view class="title">商品列表</view>
+    <view class="action " bindtap="addGoodCount">
+      <button class="cu-btn sm bg-white shadow">
+        <text class="cuIcon-add"></text>新增</button>
+    </view>
+  </view>
+  <block wx:for="{{goodList}}" wx:key="index">
+    <view class="cu-form-group">
+      <view class="grid col-1 bg-white radius padding-right-sm" data-id="{{item.id}}" bindtap="deleteGoodCount">
+        <text class="cuIcon-close text-black sm"></text>
+      </view>
+      <view style="font-size:24rpx;width:7vw">{{index+1}}</view>
+      <view style="width:47vw">
+        <input data-id="{{item.id}}" value="{{item.name}}" bindinput="goodChanged" data-type="name"
+          placeholder-class="text-sm text-gray" placeholder="在此输入商品名"></input>
+      </view>
+      <view style="font-size:28rpx;width:12vw;border-bottom:1px dashed lightgrey">
+        <input data-id="{{item.id}}" value="{{item.price}}" data-type="price" bindinput="goodChanged" type="digit"
+          placeholder-class="text-md text-gray text-price" placeholder=""></input>
+      </view>
+      <picker style="width:20vw;font-size:20rpx" bindchange="pickerChangeGoodTypeId" data-id="{{item.id}}"
+        value="{{item.goodTypeId}}" range-key="name" range="{{goodTypeList}}">
+        <view class="picker" style="font-size:24rpx">
+          {{item.goodTypeId!=-1?goodTypeList[item.goodTypeId].name:'分类'}}
+        </view>
+      </picker>
+    </view>
+  </block>
+  <view class="cu-bar bg-white margin-top">
+    <view class="action">
+      图片上传
+    </view>
+    <view class="action">
+      {{imgList.length}}/4
+    </view>
+  </view>
+  <view class="cu-form-group">
+    <view class="grid col-4 grid-square flex-sub">
+      <view class="bg-img" wx:for="{{imgList}}" wx:key="index" bindtap="ViewImage" data-url="{{imgList[index]}}">
+        <image src='{{imgList[index]}}' mode='aspectFill'></image>
+        <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
+          <text class="cuIcon-close"></text>
+        </view>
+      </view>
+      <view class="solids" bindtap="ChooseImage" wx:if="{{imgList.length<4}}">
+        <text class="cuIcon-cameraadd"></text>
+      </view>
+    </view>
+  </view>
+
+  <button class="cu-btn block shadow margin-lg text-bold" style="background:#FEEBB5" formType="submit">提交</button>
+
+  <!--   
+  <view class="cu-form-group">
+    <view class="title">日期选择</view>
+    <picker mode="date" value="{{date}}" start="2015-09-01" end="2020-09-01" bindchange="DateChange">
+      <view class="picker">
+        {{date}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">地址选择</view>
+    <picker mode="region" bindchange="RegionChange" value="{{region}}" custom-item="{{customItem}}">
+      <view class="picker">
+        {{region[0]}}，{{region[1]}}，{{region[2]}}
+      </view>
+    </picker>
+  </view>
+  <view class="cu-form-group margin-top">
+    <view class="title">开关选择</view>
+    <switch></switch>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">定义颜色</view>
+    <switch class="red sm" checked></switch>
+  </view>
+  <view class="cu-form-group">
+    <switch class="switch-sex" checked></switch>
+    <view class="title">定义图标</view>
+  </view>
+
+  <radio-group class="block">
+    <view class="cu-form-group margin-top">
+      <view class="title">单选操作(radio)</view>
+      <radio checked></radio>
+    </view>
+    <view class="cu-form-group">
+      <view class="title">定义样式</view>
+      <radio class="radio"></radio>
+    </view>
+    <view class="cu-form-group">
+      <view class="title">定义颜色</view>
+      <view>
+        <radio class="blue radio"></radio>
+        <radio class="red margin-left-sm"></radio>
+      </view>
+    </view>
+  </radio-group>
+  <view class="cu-form-group margin-top">
+    <view class="title">复选选操作(checkbox)</view>
+    <checkbox></checkbox>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">定义形状</view>
+    <checkbox class="round" checked></checkbox>
+  </view>
+  <view class="cu-form-group">
+    <view class="title">定义颜色</view>
+    <checkbox class="round blue" checked></checkbox>
+  </view>
+-->
+
+
+</form>
+
+
+<van-popup show="{{ addGoodTypePopValue }}" round position="bottom" closeable bind:close="onCloseAddGoodTypePop"
+  custom-style="width:100%;height: 40%;">
+  <view class="cu-bar bg-white">
+    <view class="action sub-title">
+      <text class="text-lg text-bold text-black">商品分类</text>
+      <text class="bg-yellow"></text>
+    </view>
+  </view>
+
+  <view style="text-align:center;color:grey;font-size:28rpx">
+    <van-cell-group>
+      <van-field clearable wx:if="{{addGoodTypePopValue}}" model:value="{{ goodTypeInputValue }}" left-icon="edit"
+        placeholder="分类名" border="{{ true }}" />
+    </van-cell-group>
+  </view>
+
+  <view style="width:50vw;width: 50vw;margin-left: 25vw;position: absolute;bottom: 56rpx;text-align: center;">
+    <van-button custom-style="transition:.2s;border:2px solid #000;height:60rpx" block color="#000" plain round
+      bindtap="submitGoodType">
+      新增
+    </van-button>
+  </view>
+</van-popup>

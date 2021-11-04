@@ -1,2 +1,16 @@
-<!--packageSecondly/pages/life_map/good_list/good_list.wxml-->
-<text>packageSecondly/pages/life_map/good_list/good_list.wxml</text>
+<!--pages/category/category.wxml-->
+<van-tabs color="#b4282d" active="{{active}}" tab-class="tab" class="nav" swipeable animated bind:change="changeTab">
+  <van-tab wx:for="{{category.children}}" wx:key="index" title="{{item.title}}">
+    <view style="height:{{windowHeight-88}}rpx;">
+      <scroll-view bindscrolltolower="scrollListen" enable-back-to-top scroll-y class="product">
+        <!-- <view class="desc">{{description}}</view> -->
+        <view class="product-wrap">
+          <view class="item" wx:for="{{product}}" wx:for-item="item" wx:key="index" data-value="{{item}}"
+            bindtap="handleClick">
+            <product-big data="{{item}}" border="false"></product-big>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </van-tab>
+</van-tabs>

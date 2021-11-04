@@ -2,6 +2,7 @@
 var QQMapWX = require('../../../../libs/qqmap-wx-jssdk.min.js');
 var app = getApp()
 var qqmapsdk = "";
+const router = require('../../../../router/index.js');
 
 Page({
 
@@ -11,110 +12,218 @@ Page({
   data: {
     touchS: [0, 0],
     touchE: [0, 0],
-    scale: 16,
+    scale: 19,
     dy: 340,
-    showCommentValue: false,
     globalDetailMode: false,
     islike: false,
     theme: 3,
     longitude: 120.42712,
     latitude: 36.071283,
+    // 地图相关
     markers: [{
-      title: "理发店",
-      id: 1,
-      latitude: 36.071283,
-      longitude: 120.42712,
-      width: 1,
-      height: 1,
-      iconPath: "../../../../images/icon/icon_flag.png",
-      callout: {
+        title: "测试",
+        id: 0,
+        latitude: 36.070283,
+        longitude: 120.42712,
+        width: 1,
+        height: 1,
+        iconPath: "../../../../images/icon/icon_flag.png",
+        callout: {
+          id: 1,
+          borderRadius: 5,
+          padding: 7,
+          bgColor: '#FDE06B',
+          anchorX: 10,
+          anchorY: 20,
+          color: '#000',
+          content: "小兔崽干洗店",
+          display: 'ALWAYS',
+        },
+      }, {
+        title: "理发店",
         id: 1,
-        borderRadius: 5,
-        padding: 7,
-        bgColor: '#000000aa',
-        anchorX: 10,
-        anchorY: 20,
-        color: '#ffffff',
-        content: "小兔崽干洗店",
-        display: 'ALWAYS',
+        latitude: 36.071193,
+        longitude: 120.42712,
+        width: 1,
+        height: 1,
+        iconPath: "../../../../images/icon/icon_flag.png",
+        callout: {
+          id: 1,
+          borderRadius: 5,
+          padding: 7,
+          bgColor: '#00000077',
+          anchorX: 10,
+          anchorY: 20,
+          color: '#fff',
+          content: "小猪猪干洗店",
+          display: 'ALWAYS',
+        },
+      }, {
+        title: "理发店",
+        id: 2,
+        latitude: 36.073273,
+        longitude: 120.42712,
+        width: 1,
+        height: 1,
+        iconPath: "../../../../images/icon/icon_flag.png",
+        callout: {
+          id: 1,
+          borderRadius: 5,
+          padding: 7,
+          bgColor: '#00000077',
+          anchorX: 10,
+          anchorY: 20,
+          color: '#fff',
+          content: "小狗崽干洗店",
+          display: 'ALWAYS',
+        },
       },
-    }],
-    showCommentPopValue: false,
-    yourRate: 0,
-    isAd: false,
+      {
+        title: "黄鹏宇的干洗店",
+        id: 3,
+        latitude: 36.073373,
+        longitude: 120.42012,
+        width: 1,
+        height: 1,
+        iconPath: "../../../../images/icon/icon_flag.png",
+        callout: {
+          id: 4,
+          borderRadius: 5,
+          padding: 7,
+          bgColor: '#00000077',
+          anchorX: 10,
+          anchorY: 20,
+          color: '#fff',
+          content: "黄鹏宇的干洗店",
+          display: 'ALWAYS',
+        },
+      },
+
+    ],
+    isCanDraw: false,
+    showSharePopValue: false,
+    shareOptions: [{
+        name: '微信',
+        icon: 'wechat',
+        openType: 'share'
+      },
+      {
+        name: '分享海报',
+        icon: 'poster'
+      }
+    ],
     cardCur: 0,
     showRouter: false,
+    // 区分滑动和点击
     isTouchMoved: false,
     swiperList: [{
       id: 0,
-      storeName: 'UNIQLO',
-      type: 'image',
-      isAd: false,
-      isLike: false,
-      detailMode: false,
-      url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp6.zbjimg.com%2Fservice%2F2016-11%2F01%2Fservice%2F5818227c222c6.jpg&refer=http%3A%2F%2Fp6.zbjimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=375b0b30db03d4be6c4b366b39ffe70a'
-    }, {
-      id: 1,
       storeName: '小兔崽干洗店',
       type: 'image',
       isAd: false,
       isLike: false,
+      remark: 4,
       detailMode: false,
+      location: {
+        longitude: 120.42712,
+        latitude: 36.071283,
+      },
+      telNumber: 1311311311,
+      locationDesc: '浮山校区电动门旁边',
+      desc: "具段字乱具量。工一的仅序出工数段不数的于序。们的乱打会现字文后一一排致篇以章字文顺打该落他序，文与的以作用把也原乱仅改，顺其打变乱是文乱的打及次随顺，可文打机他列",
+      url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp6.zbjimg.com%2Fservice%2F2016-11%2F01%2Fservice%2F5818227c222c6.jpg&refer=http%3A%2F%2Fp6.zbjimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=375b0b30db03d4be6c4b366b39ffe70a',
+      menu: [{
+        menuName: "分类1",
+        goods: [{
+          name: "超声波除毛",
+          price: "123"
+        }, {
+          name: "超声波除毛",
+          price: "123"
+        }]
+      }, {
+        menuName: "分类2",
+        goods: [{
+          name: "超声波除毛",
+          price: "123"
+        }, {
+          name: "超声波除毛",
+          price: "123"
+        }]
+      }, {
+        menuName: "分类3",
+        goods: [{
+          name: "超声波除毛",
+          price: "123"
+        }, {
+          name: "超声波除毛",
+          price: "123"
+        }]
+      }],
+    }, {
+      id: 1,
+      storeName: '小猪猪干洗店',
+      type: 'image',
+      isAd: false,
+      isLike: false,
+      remark: 4,
+      telNumber: 1311311311,
+      detailMode: false,
+      desc: "其字文的仅随工顺的不序具打乱原的们可打变于字乱，他乱文，一的章序。段一字文他致排仅量数以篇与作序段机。后是出乱的用文次文现会改把顺打打具该一乱及也落，数工列以打顺",
       url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhomesitetask.zbjimg.com%2Fhomesite%2Ftask%2F20180402174823.jpg%2Forigine%2F79c48798-10e5-4af2-9b09-3c4a471ccf67&refer=http%3A%2F%2Fhomesitetask.zbjimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=c5713f7ead3de55e33d3a7dd0e9ea415',
+      menu: [{
+        menuName: "分类1",
+        goods: [{
+          name: "超声波除毛",
+          price: "123"
+        }, {
+          name: "超声波除毛",
+          price: "123"
+        }]
+      }, {
+        menuName: "分类2",
+        goods: [{
+          name: "超声波除毛",
+          price: "123"
+        }, {
+          name: "超声波除毛",
+          price: "123"
+        }]
+      }, {
+        menuName: "分类3",
+        goods: [{
+          name: "超声波除毛",
+          price: "123"
+        }, {
+          name: "超声波除毛",
+          price: "123"
+        }]
+      }],
     }, {
       id: 2,
       type: 'image',
       storeName: '小狗崽干洗店',
       isAd: true,
+      remark: 4,
+
       isLike: true,
+      desc: "具段字乱具量。工一的仅序出工数段不数的于序。们的乱打会现字文后一一排致篇以章字文顺打该落他序，文与的以作用把也原乱仅改，顺其打变乱是文乱的打及次随顺，可文打机他列",
       detailMode: false,
       url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fstatic-xiaoguotu.17house.com%2Fxgt%2Fs%2F22%2F1462891930156aa.jpg&refer=http%3A%2F%2Fstatic-xiaoguotu.17house.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=5c98b3efc359bf833d341d548ea5f02f'
     }, {
-      storeName: '小鸡崽干洗店',
-
+      storeName: '黄鹏宇的干洗店',
       id: 3,
+      remark: 4,
       type: 'image',
       isAd: false,
+      desc: "具段字乱具量。工一的仅序出工数段不数的于序。们的乱打会现字文后一一排致篇以章字文顺打该落他序，文与的以作用把也原乱仅改，顺其打变乱是文乱的打及次随顺，可文打机他列",
       isLike: false,
       detailMode: false,
       url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhomesitetask.zbjimg.com%2Fhomesite%2Ftask%2F%25E6%259C%2580%25E7%25BB%2588%25E6%2595%2588%25E6%259E%259C%25E5%259B%25BE-2.jpg%2Forigine%2Fd7316279-846b-4652-8f22-8718dfa86497&refer=http%3A%2F%2Fhomesitetask.zbjimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=0c0fd8c97981572aa165881e78a23346'
-    }, {
-      id: 4,
-      storeName: '小牛干洗店',
-
-      type: 'image',
-      isAd: false,
-      isLike: false,
-      detailMode: false,
-      url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20170407%2F0bb5bfc848e949ceb334d6b346eb1e5d_th.jpeg&refer=http%3A%2F%2Fimg.mp.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=096e5f33acecb87eb403192243dfcc26'
-    }, {
-      id: 5,
-      storeName: '小马干洗店',
-
-      type: 'image',
-      isAd: false,
-      isLike: false,
-      detailMode: false,
-      url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20170407%2F0bb5bfc848e949ceb334d6b346eb1e5d_th.jpeg&refer=http%3A%2F%2Fimg.mp.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=096e5f33acecb87eb403192243dfcc26'
-    }, {
-      id: 6,
-      storeName: '小猪干洗店',
-      type: 'image',
-      isAd: true,
-      isLike: false,
-      detailMode: false,
-      url: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20170407%2F0bb5bfc848e949ceb334d6b346eb1e5d_th.jpeg&refer=http%3A%2F%2Fimg.mp.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=096e5f33acecb87eb403192243dfcc26'
     }],
-    imgList: [
-      "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=508387608,2848974022&fm=26&gp=0.jpg",
-      "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3139953554,3011511497&fm=26&gp=0.jpg",
-      "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1022109268,3759531978&fm=26&gp=0.jpg"
-    ]
-  },
-  onChangeRateValue(e) {
-    this.setData({
-      yourRate: e.detail,
-    });
+    showFeedbackPopValue: false,
+    showDescPopValue: false,
+    feedbackInputValue: '',
   },
 
 
@@ -137,32 +246,78 @@ Page({
         }
       }
     })
+  },
 
+  jump2GoodDetail(e) {
+    router.push({
+      name: "life_map_good_detail",
+      data: {}
+    })
+  },
+
+  onShowDescPop() {
+    this.setData({
+      showDescPopValue: true,
+    })
+  },
+
+
+  onCloseDescPop() {
+    this.setData({
+      showDescPopValue: false,
+    })
+  },
+  submitFeedback() {
+    let that = this;
+    wx.showModal({
+      title: "你的反馈意见",
+      content: that.data.feedbackInputValue == '' ? '为空' : that.data.feedbackInputValue,
+      success(res) {
+        // 点击确定
+        if (res.confirm) {
+          wx.showToast({
+            title: '谢谢，反馈成功',
+          })
+          that.onCloseFeedbackPop()
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
   },
   noop() {
     console.log("noop")
-
   },
   onToggleRatePop(e) {
     this.setData({
       showRatePopValue: !this.data.showRatePopValue
     })
   },
-  onToggleShowComment(e) {
+
+
+  onCloseFeedbackPop() {
     this.setData({
-      showCommentValue: !this.data.showCommentValue
+      showFeedbackPopValue: false
     })
   },
-  onCloseCommentPop() {
+  onShowFeedbackPop() {
     this.setData({
-      showCommentPopValue: false
+      showFeedbackPopValue: true
     })
   },
-  onShowCommentPop() {
-    this.setData({
-      showCommentPopValue: true
+
+  jump2Comment(e) {
+    let source = e.currentTarget.dataset.source
+    router.push({
+      name: 'life_map_comment',
+      data: {
+        "source": source
+      }
     })
+
   },
+
+
   touchStart: function (e) {
     let sx = e.touches[0].pageX
     let sy = e.touches[0].pageY
@@ -204,21 +359,9 @@ Page({
       return;
     }
   },
-  // 图片预览
-  previewImages(e) {
-    this.data.isPreviewImgMode = true
-    let sx = e.touches[0].pageX
-    let sy = e.touches[0].pageY
-    this.data.touchS = [sx, sy]
-    let currentUrl = e.currentTarget.dataset.src
-    wx.previewImage({
-      current: currentUrl, // 当前显示图片的http链接
-      urls: this.data.imgList // 需要预览的图片http链接列表
-    })
-  },
+
 
   onCloseSwipeItem(e) {
-    console.log(this.data.isPreviewImgMode)
     if (this.data.isPreviewImgMode) return;
     wx.vibrateShort()
     let id = e.currentTarget.dataset.id
@@ -264,27 +407,35 @@ Page({
       globalDetailMode: true
     })
   },
-  onTaploveStoreBtn(e) {
-    let that = this
-    let id = e.currentTarget.dataset.id
-    let swiperList = this.data.swiperList
-    swiperList.forEach(element => {
-      if (element.id == id) {
-        element.isLike = !element.isLike
-        that.setData({
-          swiperList
-        })
-        return;
-      }
-    });
+  onCloseSharePop() {
+    this.setData({
+      showSharePopValue: false
+    })
   },
-
-  tel(e) {
-    let phoneNumber = e.currentTarget.dataset.number
+  onTapShareBtn(e) {
+    this.setData({
+      showSharePopValue: true
+    })
+  },
+  onSelectShareType(e) {
+    if (e.detail.name == "分享海报") {
+      wx.showToast({
+        icon: 'none',
+        title: '开发中',
+      })
+      // this.setData({
+      //   isCanDraw: !this.data.isCanDraw
+      // })
+    }
+  },
+  makeTel(e) {
+    // console.log(e.currentTarget.dataset)
+    let phoneNumber = 0
+    phoneNumber = e.currentTarget.dataset.telnumber
 
     wx.showModal({
       title: "要拨打商家电话吗？",
-      content: phoneNumber,
+      content: phoneNumber + "",
       success(res) {
         // 点击确定
         if (res.confirm) {
@@ -294,15 +445,93 @@ Page({
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
+      },
+      fail(e) {
+        console.log(e)
       }
     })
   },
 
+  tapCallout(e) {
+    let id = e.detail.markerId
+    this.setData({
+      cardCur: id
+    })
+  },
+  getUserLocation() {
+    wx.showLoading({
+      title: '定位中',
+    })
+    let that = this;
+    wx.getLocation({
+      type: 'gcj02',
+      success: (res) => {
+        wx.hideLoading()
+        var latitude = res.latitude
+        var longitude = res.longitude
+        var speed = res.speed
+        var accuracy = res.accuracy
+        var altitude = res.altitude
+        let markers = that.data.markers
+        markers.forEach(e => {
+          if (e.id == -1) {
+            var key = markers.indexOf(e)
+            markers.splice(key, 1)
+          }
+        })
+        markers.push({
+          title: "测试",
+          width: 50,
+          height: 50,
+          id: -1,
+          latitude: res.latitude,
+          longitude: res.longitude,
+          iconPath: "/images/icon/icon_flag_black.png",
+        })
+
+        that.setData({
+          userLongitude: res.longitude,
+          userLatitude: res.latitude,
+          longitude: res.longitude,
+          latitude: res.latitude,
+          markers
+        })
+      },
+      fail: () => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '定位失败',
+        })
+      }
+    })
+  },
   // cardSwiper
   cardSwiper(e) {
+    // 如果在路线规划中，就不许swiper
+    if (this.data.showRouter) {
+      this.setData({
+        showRouter: false
+      })
+    }
     let that = this
     let id = e.detail.current
     let swiperList = this.data.swiperList
+    let markers = this.data.markers
+    let longitude = 0
+    let latitude = 0
+    markers.forEach(element => {
+      if (element.id == id) {
+        element.callout.bgColor = "#FDE06B"
+        element.callout.color = "#000"
+        element.callout.content = element.callout.content
+        longitude = element.longitude
+        latitude = element.latitude
+      } else if (element.callout != null) {
+        element.callout.bgColor = "#00000077"
+        element.callout.color = "#fff"
+      }
+    });
+
     swiperList.forEach(element => {
       if (element.id == id) {
         element.detailMode = this.data.globalDetailMode
@@ -316,21 +545,44 @@ Page({
     this.setData({
       swiperList,
       cardCur: e.detail.current,
-      longitude: this.data.longitude + 0.0001,
-      latitude: this.data.latitude + 0.0001,
+      markers,
+      longitude,
+      latitude
     })
   },
 
-  toMapApp: function () {
-    wx.openLocation({
-      latitude: 31, // 纬度，范围为-90~90，负数表示南纬
-      longitude: 121, // 经度，范围为-180~180，负数表示西经
-      scale: 13, // 缩放比例
-      name: "测试",
-      address: "测试详细地址",
-      success: function (r) {
-        console.log(r)
+  jump2Navigation: function () {
+    let index = this.data.cardCur
+    let markers = this.data.markers
+
+    wx.showModal({
+      title: "要打开地图吗",
+      success(res) {
+        // 点击确定
+        if (res.confirm) {
+          wx.openLocation({
+            latitude: markers[index].latitude, // 纬度，范围为-90~90，负数表示南纬
+            longitude: markers[index].longitude, // 经度，范围为-180~180，负数表示西经
+            scale: 13, // 缩放比例
+            name: markers[index].callout.content,
+            address: "测试详细地址",
+            success: function (r) {
+              console.log(r)
+            }
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
       }
+    })
+
+
+  },
+
+  jump2Goodlist() {
+    router.push({
+      name: "life_map_good_list",
+      data: {}
     })
   },
   /**
@@ -349,9 +601,23 @@ Page({
       key: app.globalData.key
     });
   },
-
-  regionchange: function (e) {
+  test: function (e) {
     console.log(e)
+  },
+  regionchange: function (e) {
+
+    if (e.type == "begin") {
+      this.setData({
+        onSwipeMap: true
+      })
+    }
+    if (e.type == "end") {
+      this.setData({
+        onSwipeMap: false
+      })
+
+    }
+    // console.log(e)
   },
 
   showdialog1() {
@@ -368,11 +634,15 @@ Page({
     app.globalData.emitter.emit("dialogstatus", option)
     return
   },
-
-  formSubmit(e) {
+  scrolltolower(e) {
+    console.log(e)
+  },
+  generateRouter(e) {
+    let that = this
     this.setData({
       showRouter: !this.data.showRouter
     })
+
     if (!this.data.showRouter) {
       return;
     }
@@ -380,70 +650,125 @@ Page({
     wx.showLoading({
       title: '路线规划中',
     })
-    //起点坐标：23.048914,113.390451 
-    //终点坐标：23.061793,113.392056
 
-    let from = {
-      "latitude": 36.071283,
-      "longitude": 120.42712
-    }
-    let dest = {
-      "latitude": 36.070432,
-      "longitude": 120.424168
-    }
-    var _this = this;
-    //调用距离计算接口
-    qqmapsdk.direction({
-      mode: 'walking', //可选值：'driving'（驾车）、'walking'（步行）、'bicycling'（骑行），不填默认：'driving',可不填
-      //from参数不填默认当前地址
-      from: from,
-      to: dest,
-      success: function (res) {
-        console.log(res);
-        var ret = res;
-        var coors = ret.result.routes[0].polyline,
-          pl = [];
-        //坐标解压（返回的点串坐标，通过前向差分进行压缩）
-        var kr = 1000000;
-        for (var i = 2; i < coors.length; i++) {
-          coors[i] = Number(coors[i - 2]) + Number(coors[i]) / kr;
+    wx.showNavigationBarLoading()
+
+    wx.getLocation({
+      type: 'gcj02',
+      success: (res) => {
+        let markers = that.data.markers
+        // 得删掉一个id=-1的
+        markers.forEach(e => {
+          if (e.id == -1) {
+            var key = markers.indexOf(e)
+            markers.splice(key, 1)
+          }
+        })
+        markers.push({
+          title: "测试",
+          width: 50,
+          height: 50,
+          id: -1,
+          latitude: res.latitude,
+          longitude: res.longitude,
+          iconPath: "/images/icon/icon_flag_black.png",
+        })
+
+        that.setData({
+          userLongitude: res.longitude,
+          userLatitude: res.latitude,
+          longitude: res.longitude,
+          latitude: res.latitude,
+          markers
+        })
+
+        let dest = {}
+
+        let shopIndex = this.data.cardCur
+
+        that.data.markers.forEach(e => {
+          if (e.id == shopIndex) {
+            console.log(e)
+            dest = {
+              "latitude": e.latitude,
+              "longitude": e.longitude
+            }
+            console.log(dest)
+            return;
+          }
+        })
+        let from = {
+          "latitude": this.data.userLatitude,
+          "longitude": this.data.userLongitude
         }
-        //将解压后的坐标放入点串数组pl中
-        for (var i = 0; i < coors.length; i += 2) {
-          pl.push({
-            latitude: coors[i],
-            longitude: coors[i + 1]
-          })
-        }
-        console.log(pl)
-        //设置polyline属性，将路线显示出来,将解压坐标第一个数据作为起点
-        _this.setData({
-          includePoints: [{
-            "latitude": from.latitude,
-            "longitude": from.longitude
-          }, {
-            "latitude": dest.latitude,
-            "longitude": dest.longitude
-          }],
-          // latitude: (from.latitude + dest.latitude) / 2 - 0.001,
-          // longitude: (from.longitude + dest.longitude) / 2 - 0.0007,
-          polyline: [{
-            points: pl,
-            color: '#f00',
-            width: 4
-          }]
+
+        //调用距离计算接口
+        qqmapsdk.direction({
+          mode: 'walking', //可选值：'driving'（驾车）、'walking'（步行）、'bicycling'（骑行），不填默认：'driving',可不填
+          //from参数不填默认当前地址
+          from: from,
+          to: dest,
+          success: function (res) {
+            console.log(res);
+            var ret = res;
+            var coors = ret.result.routes[0].polyline,
+              pl = [];
+            //坐标解压（返回的点串坐标，通过前向差分进行压缩）
+            var kr = 1000000;
+            for (var i = 2; i < coors.length; i++) {
+              coors[i] = Number(coors[i - 2]) + Number(coors[i]) / kr;
+            }
+            //将解压后的坐标放入点串数组pl中
+            for (var i = 0; i < coors.length; i += 2) {
+              pl.push({
+                latitude: coors[i],
+                longitude: coors[i + 1]
+              })
+            }
+            // console.log(pl)
+            //设置polyline属性，将路线显示出来,将解压坐标第一个数据作为起点
+            that.setData({
+              includePoints: [{
+                "latitude": from.latitude,
+                "longitude": from.longitude
+              }, {
+                "latitude": dest.latitude,
+                "longitude": dest.longitude
+              }],
+              // latitude: (from.latitude + dest.latitude) / 2 - 0.001,
+              // longitude: (from.longitude + dest.longitude) / 2 - 0.0007,
+              polyline: [{
+                points: pl,
+                color: '#f00',
+                width: 4
+              }]
+            })
+          },
+          fail: function (error) {
+            console.log(error);
+          },
+          complete: function (res) {
+            console.log(res);
+            wx.hideLoading()
+            wx.hideNavigationBarLoading()
+          }
+        });
+      },
+      fail: () => {
+        wx.hideLoading()
+        wx.showToast({
+          icon: 'none',
+          title: '路线规划失败,请重试',
         })
       },
-      fail: function (error) {
-        console.log(error);
-      },
       complete: function (res) {
-        console.log(res);
         wx.hideLoading()
+        wx.hideNavigationBarLoading()
       }
-    });
+    })
+
   },
-  showdialog2() {
+  showdialog2(e) {
     // - `size` 弹窗大小（normal：正常，large:大，small：小）
     // - `type` 弹窗样式类型
     // - `title` 弹窗标题
@@ -452,16 +777,32 @@ Page({
     // - `status` 是否显示蒙版
     // - `marsktap` 蒙版是否支持点击事件
     // - `foot` 是否有点击按钮
-    let option = {
-      status: true,
-      closeicon: true,
-      content: `此处距离为近似值，具体距离请根据地图评估`,
-      marsktap: true,
-      title: '距离提示',
-      foot: [{
-        text: '我知道了',
-        cb: () => {}
-      }]
+    let type = e.currentTarget.dataset.type
+    let option = {}
+    if (type == "ad") {
+      option = {
+        status: true,
+        closeicon: true,
+        content: `带有AD图标的卡片为推广内容，虽然已经经过我们的筛选，但还请自行判断内容真实性。`,
+        marsktap: true,
+        title: '广告',
+        foot: [{
+          text: '我知道了',
+          cb: () => {}
+        }]
+      }
+    } else {
+      option = {
+        status: true,
+        closeicon: true,
+        content: `此处距离为学校中心点到店铺的粗略值，具体距离请根据地图评估`,
+        marsktap: true,
+        title: '距离提示',
+        foot: [{
+          text: '我知道了',
+          cb: () => {}
+        }]
+      }
     }
     app.globalData.emitter.emit("bottomdialogstatus", option)
     return
@@ -508,10 +849,27 @@ Page({
 
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (options) {
+    var shareObj = {
+      title: "点击查看" + this.data.swiperList[this.data.cardCur].storeName,
+      path: '/pages/empty/empty?url=life_map_list?id=123',
+      imageUrl: 'https://cdns.qdu.life/img/share_1.png',
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {}
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
 
-  }
+    // 来自页面内的按钮的转发
+    // if (options.from == 'button')       
+    return shareObj;
+  },
 })

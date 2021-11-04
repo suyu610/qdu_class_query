@@ -1,0 +1,7 @@
+.cu-form-group .title {
+  min-width: calc(4em + 30rpx);
+}
+.cu-tag.bg-yellow {
+  background-color: #FEEBB5;
+  color: black;
+}

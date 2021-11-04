@@ -1,0 +1,61 @@
+/* component/comment/comment.wxss */
+@import "/colorui/main.wxss";
+@import "/colorui/icon.wxss";
+.comment .header {
+  display: flex;
+  align-items: center;
+  height: 100rpx;
+}
+.comment-command-pannel {
+  display: flex;
+  padding-right: 15px;
+  padding-left: 60vw;
+  right: 0;
+  box-sizing: content-box;
+  position: relative;
+  justify-content: space-around;
+}
+.cu-card {
+  padding-top: 8rpx;
+  border-bottom: 1px dashed #0000001f;
+}
+
+.comment .name {
+  font-size: 26rpx;
+  color: #333;
+  margin: 0 15rpx;
+}
+
+.comment .rate {
+  margin-bottom: 15rpx;
+}
+
+.comment .time {
+  margin-right: 8rpx;
+}
+
+.comment .spec {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 15rpx;
+}
+
+.comment .content {
+  color: #333;
+  font-size: 27rpx;
+  margin-bottom: 15rpx;
+}
+
+.comment .pics .item {
+  height: 150rpx;
+  width: 150rpx;
+  margin-right: 28rpx;
+  margin-top: 10rpx;
+  border-radius: 5rpx;
+}
+
+.comment .add .title {
+  font-size: 27rpx;
+  color: #b4282d;
+  margin: 10rpx 0;
+}

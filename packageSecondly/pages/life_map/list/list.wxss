@@ -32,15 +32,17 @@ map {
   z-index: 0;
   background-color: #ffffffd1;
   border-radius: 20rpx;
-  transition: .4s;
-
+  transition: 0.4s;
 }
+
 .router {
-  transition: .4s;
+  transition: 0.4s;
   position: absolute;
   right: 30rpx;
   padding: 14rpx;
   margin: 0px auto;
+  text-align: center;
+  font-weight: bold;
   z-index: 1;
   border-radius: 20rpx;
 }
@@ -58,7 +60,7 @@ map {
   position: fixed;
   bottom: 0;
   width: 100%;
-  transition: .3s;
+  transition: 0.3s;
   z-index: 3;
 }
 
@@ -71,6 +73,7 @@ map {
   position: relative;
   box-shadow: 15px 2px 17px 10px #00000017;
 }
+
 .card-swiper {
   transition: all 0.3s ease-out 0s;
 }
@@ -106,19 +109,25 @@ map {
 }
 
 .swiper-item .info {
-  padding-top: 10px;
-  background-color: #fff;
+  background-color: red;
+  height: 32%;
+  padding-top: 24rpx;
   position: absolute;
   bottom: 10rpx;
   width: 92%;
   padding-left: 14rpx;
 }
-
-.swiper-item .info .telephone,
-.swiper-item .info .location {
+.swiper-item .info .info-bottom {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+.swiper-item .info .info-bottom .telephone,
+.swiper-item .info .info-bottom .location {
   font-size: 24rpx;
   color: grey;
 }
+
 .grid-item-text {
   text-align: center;
 }
@@ -130,7 +139,7 @@ map {
 }
 .swiper-item .good-list {
   position: absolute;
-  top: 40%;
+  top: 30%;
   width: 93%;
 }
 
@@ -160,7 +169,7 @@ map {
 .swiper-item .info .comments {
   position: absolute;
   bottom: 20rpx;
-  right: 14rpx;
+  right: 0;
 }
 
 .swiper-item .info .detail-switch {
@@ -211,12 +220,22 @@ map {
   border-radius: 20rpx;
 }
 
-.info .store-name {
+.info .info-bottom .store-name {
   font-weight: bold;
   font-size: 32rpx;
+  padding-top: 10rpx;
   transition: 0.2s;
 }
-.cu-card {
-  padding-top: 8rpx;
-  border-bottom: 1px solid #0000000a;
+.van-empty {
+  padding: 0 !important;
+}
+.info .info-bottom .store-desc {
+  overflow-wrap: break-word;
+  width: 97%;
+  /* font-size: 30rpx; */
+  font-weight: normal;
+  color: black;
+  margin: 10rpx 0px 20rpx;
+  font-size: 24rpx;
+  color: grey;
 }

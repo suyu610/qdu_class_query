@@ -11,11 +11,14 @@
     "van-tabs": "@vant/weapp/tabs/index",
     "van-cell": "@vant/weapp/cell/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
-    "bottomdialog":"/components/bottomdialog/bottomdialog",
-    "dialog":"/components/dialog/dialog"
+    "bottomdialog": "/components/bottomdialog/bottomdialog",
+    "dialog": "/components/dialog/dialog",
+    "van-field": "@vant/weapp/field/index",
+    "van-share-sheet": "@vant/weapp/share-sheet/index",
+    "share-box": "/components/shareBox/index",
+    "van-empty": "@vant/weapp/empty/index"
 
-  
-  
+
   },
   "navigationBarBackgroundColor": "#fff"
 }

@@ -1,15 +1,37 @@
 /* pages/empty/empty.wxss */
 
-.logo{
+.logo {
   animation: rotate 10s linear infinite;
-  animation-delay:.3s;
+  animation-delay: 0.3s;
+}
+.cheat-info {
+  transition: 0.4s;
+  background-color: #fde06b;
+  position: fixed;
+  bottom: 18vh;
+  left: 8vw;
+  padding: 20rpx;
+	width: 84vw;
+	height: 30vh;
+  /* border-bottom: 1px solid #000000; */
+  /* border-radius: 10rpx; */
 }
 
-@keyframes rotate{
-	0%{
-		transform: rotateZ(0deg);/*从0度开始*/
-	}
-	100%{
-		transform: rotateZ(360deg);/*360度结束*/
-	}
+.cheat-info .title {
+  transition: 0.4s;
+
+  font-weight: bold;
+  font-size: 30rpx;
+}
+
+.cheat-info .info {
+  padding-top: 20rpx;
+}
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0deg); /*从0度开始*/
+  }
+  100% {
+    transform: rotateZ(360deg); /*360度结束*/
+  }
 }

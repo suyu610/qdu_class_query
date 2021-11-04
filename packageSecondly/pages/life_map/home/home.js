@@ -39,14 +39,14 @@ let list = [{
   },
   {
     id: "i",
-    name: "健身馆",
+    name: "剧本杀",
     icon: "/images/printer.png"
-
   }
 ]
 
 Page({
   data: {
+    hasGotDate: false,
     currentStoreListIndex: 0,
     toStoreListView: 0,
     navigate_type: '', //分类类型，是否包含二级分类
@@ -56,6 +56,7 @@ Page({
     slideShow: true,
     slideRatio: '',
     tlist: list,
+    // 刷新
     triggered: true,
     showAllStorePopValue: false,
     showStoreListPopValue: false,
@@ -77,7 +78,6 @@ Page({
       }, {
         name: '衣丽诺诗干洗店',
         distance: "1.3km",
-
         image: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fstatic-xiaoguotu.17house.com%2Fxgt%2Fs%2F22%2F1462891930156aa.jpg&refer=http%3A%2F%2Fstatic-xiaoguotu.17house.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1637718218&t=5c98b3efc359bf833d341d548ea5f02f',
         remark: 4,
         businessHour: '10:00Am - 12:00 PM',
@@ -189,9 +189,28 @@ Page({
     let option = {
       status: true,
       closeicon: true,
-      content: `生活地图是一个巴拉巴拉巴拉巴拉`,
+      contentstyle: 'white-space:pre-wrap;justify-content:left',
+      content: '本模块会收集校内和周边的商家信息\r\n本校学生可以在法规允许内自由评论与评分\r\n商店按照同学们的评分排序',
       marsktap: true,
       title: '关于生活地图',
+      foot: [{
+        text: '推广内容的说明',
+        cb: () => {
+          app.globalData.emitter.emit("bottomdialogstatus", option2)
+        }
+      }, {
+        text: '我知道了',
+        cb: () => {}
+      }]
+    }
+
+    let option2 = {
+      status: true,
+      closeicon: true,
+      contentstyle: 'white-space:pre-wrap;justify-content:left',
+      content: '为了持续发展，我们可能会接一些推广内容，它们的左上角会被标上 [ ad ]。\r\n虽然这些内容已经过我们筛选，但也须提高警惕，辨别广告真实性',
+      marsktap: true,
+      title: '推广内容的说明',
       foot: [{
         text: '我知道了',
         cb: () => {}
@@ -199,6 +218,16 @@ Page({
     }
     app.globalData.emitter.emit("bottomdialogstatus", option)
     return
+  },
+  jump2Msg() {
+    router.push({
+      name: "msg"
+    })
+  },
+  jump2AddStore() {
+    router.push({
+      name: "life_map_add_store"
+    })
   },
   jump2StoreDetail(e) {
     router.push({
@@ -235,12 +264,14 @@ Page({
     if (this._freshing) return
     this._freshing = true
     setTimeout(() => {
+      wx.showToast({
+        title: '刷新成功',
+      })
       this.setData({
         triggered: false,
       })
       this._freshing = false
     }, 1000)
-
   },
 
   onRestore(e) {
@@ -254,6 +285,12 @@ Page({
     wx.setNavigationBarTitle({
       title: '青空教室 - 权小益出品',
     })
+
+    setTimeout(() => {
+      this.setData({
+        hasGotDate: true,
+      })
+    }, 1000)
     const _this = this;
     // TODO: 获取数据
     let systemInfo = wx.getSystemInfoSync();
@@ -298,7 +335,7 @@ Page({
       //拿到当前索引并动态改变
       currentStoreListIndex: e.currentTarget.dataset.id,
       currentStoreListName: e.currentTarget.dataset.name,
-      showStoreListPop: false
+      showStoreListPopValue: false
     })
   },
 

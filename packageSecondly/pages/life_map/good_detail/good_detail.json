@@ -1,0 +1,15 @@
+{
+  "usingComponents": {
+    "product-hot": "/components/product-hot/product-hot",
+    "comment": "/components/comment/comment",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-toast": "@vant/weapp/toast/index"
+
+  },
+  "navigationBarBackgroundColor": "#fff"
+
+}

@@ -1,10 +1,42 @@
 <!--pages/empty/empty.wxml-->
-<view style="height:100vh;width:100vw;background-color:#fde06b;text-align:center;padding-top:40vh">  
+<view class="cheat-info">
+  <van-transition name="fade-up" show="{{animation_1}}" duration="{{ { enter: 1000, leave: 1000 } }}">
+    <view class="title">>冒充朋友诈骗的常见话术</view>
+  </van-transition>
+  <van-transition name="fade-up" show="{{animation_2}}" duration="{{ { enter: 1000, leave: 1000 } }}">
+    <view class="info">1、"我先转到你卡里，你微信转给我行吗？"</view>
+  </van-transition>
+  <van-transition name="fade-up" show="{{animation_3}}" duration="{{ { enter: 1000, leave: 1000 } }}">
+
+    <view style="font-weight:bold"> * 伪造转账截图，并称跨行转账要2小时到账</view>
+  </van-transition>
+
+  <van-transition name="fade-up" show="{{animation_4}}" duration="{{ { enter: 1000, leave: 1000 } }}">
+    <view class="info">
+      2、"问你借钱，并能说出你的基本信息"</view>
+  </van-transition>
+  <van-transition name="fade-up" show="{{animation_5}}" duration="{{ { enter: 1000, leave: 1000 } }}">
+
+    <view style="font-weight:bold"> * 别忘了，聊天记录可以推断你的信息</view>
+  </van-transition>
+
+  <van-transition name="fade-up" show="{{animation_6}}" duration="{{ { enter: 1000, leave: 1000 } }}">
+    <view class="info title">转账前先电话证实对方身份!</view>
+  </van-transition>
+
+
+</view>
+
+<button
+  class="cu-btn bg-{{item.color}} animation-{{animation==item.name+'s'?item.name:''}} animation-reverse margin-sm basis-sm shadow"
+  bindtap="toggle" data-class="{{item.name+'s'}}" wx:for="{{list}}" wx:key="{{index}}">{{item.name}}</button>
+<view style="height:100vh;width:100vw;background-color:#fde06b;text-align:center;padding-top:20vh">
   <image src="/images/logo_trans_mid.png" style="width:15vw;height:15vw" mode="widthFix" class="logo"></image>
   <view style="padding-top:5vh"><text style="font-size:20px;font-weight:bold">青空</text></view>
-  <view style="padding-top:1vh"><text style="font-size:14px;">v {{version}}</text></view>
-  <view style="padding-top:20vh">
-    <view><text style="font-size:12px;font-weight:normal;color:#000">我们是开发者，更是用户</text></view>
-    <view style="padding-top:0vh"><text style="font-size:10px;color:#000000ff;opacity:0.5">build a Great Work we are Proud of</text></view>
+  <view style="padding-top:1vh"><text style="font-size:14px;font-weight:bold">{{version}}</text></view>
+  <view style="padding-top:45vh">
+    <view><text style="font-size:12px;font-weight:normal;color:#000">竢实扬华，自强不息</text></view>
+    <view style="padding-top:0vh"><text style="font-size:10px;color:#000000ff;opacity:0.5">build a Great Work we are
+        Proud of</text></view>
   </view>
 </view>

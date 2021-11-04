@@ -1,0 +1,47 @@
+<van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o" closeable text="可能要过很久才会来开发消息功能了.." />
+
+<van-sticky>
+  <view class="cu-list grid col-{{gridCol}} {{gridBorder?'':'no-border'}}">
+    <view class="cu-item" wx:for="{{iconList}}" wx:key="index" wx:if="{{index<gridCol*2}}">
+      <view class="cuIcon-{{item.icon}} text-{{item.color}}">
+        <view class="cu-tag badge" wx:if="{{item.badge!=0}}">
+          <block wx:if="{{item.badge!=1}}">{{item.badge>99?"99+":item.badge}}</block>
+        </view>
+      </view>
+      <text>{{item.name}}</text>
+    </view>
+  </view>
+
+  <view class="cu-bar bg-white solid-bottom">
+    <view class="action">
+      <text>聊天列表</text>
+    </view>
+    <view class="action">
+      <button class="cu-btn bg-red sm">全部已读</button>
+    </view>
+  </view>
+</van-sticky>
+
+<view class="cu-list menu-avatar">
+  <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{msgList}}" wx:key="index"
+    bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd"
+    data-target="move-box-{{index}}">
+    <view class="cu-avatar round lg"
+      style="background-image:url({{item.type=='admin'?'https://cdns.qdu.life/img/logo_mini_trans.png':item.avatar}});background-color:#fee161">
+    </view>
+    <view class="content">
+      <view class="text-grey text-bold">{{item.type=='admin'?'系统消息':item.author}}</view>
+      <view class="text-gray text-sm">
+        <text class="cuIcon-infofill text-red" wx:if="{{index%3==0}}"></text> {{item.content}}
+      </view>
+    </view>
+    <view class="action">
+      <view class="cu-tag round bg-red sm"></view>
+      <view class="text-grey text-xs">{{item.createTime}}</view>
+    </view>
+    <view class="move">
+      <!-- <view class="bg-grey">置顶</view> -->
+      <view class="bg-red" bindtap="delMsg" data-id="{{item.id}}">删除</view>
+    </view>
+  </view>
+</view>

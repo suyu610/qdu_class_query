@@ -16,7 +16,7 @@ Page({
   data: {
     showCampusSheet: false,
     showFirstLauchSheet: false,
-    showAboutPop: false,
+    showAboutPopValue: false,
     showPickTheme: false,
     currentTheme: '默认',
     currentCampusName: '浮山校区',
@@ -34,7 +34,6 @@ Page({
       name: '浮山校区',
     }, {
       name: '金家岭校区',
-      subname: '已支持',
     }],
     userInfo: {},
     hasUserInfo: false,
@@ -83,6 +82,18 @@ Page({
     this.onAboutPopClose()
   },
 
+  showDevPeopleListPop() {
+    this.setData({
+      showAboutPopValue: false,
+      showDevPeopleListValue: true
+    })
+  },
+  hideDevPeopleListPop() {
+    this.setData({
+      showAboutPopValue: true,
+      showDevPeopleListValue: false
+    })
+  },
   onAutoSearchSwitchChange(detail) {
     // 这是bug？
     wx.setStorage({
@@ -285,7 +296,7 @@ Page({
   },
   onAboutPopClose: function () {
     this.setData({
-      showAboutPop: false
+      showAboutPopValue: false
     })
   },
   // 跳转到公众号的文章
@@ -309,7 +320,7 @@ Page({
   },
   onAboutShow: function () {
     this.setData({
-      showAboutPop: true
+      showAboutPopValue: true
     })
   },
 

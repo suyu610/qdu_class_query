@@ -16,10 +16,12 @@ Component({
     },
   },
   data: {
+    canvasType: 'lifemap',
     isModal: false, //是否显示拒绝保存图片后的弹窗
     imgDraw: {}, //绘制图片的大对象
     sharePath: '', //生成的分享图
-    visible: false
+    visible: false,
+    picture: ''
   },
   methods: {
     handlePhotoSaved() {
@@ -48,7 +50,7 @@ Component({
           background: 'https://cdns.qdu.life/img/20190506share-bg.png',
           views: [{
               type: 'image',
-              url: 'https://cdns.qdu.life/img/multi_share_top_2.png',
+              url: this.data.canvasType == 'lifemap' ? this.data.picture : 'https://cdns.qdu.life/img/multi_share_top_2.png',
               css: {
                 top: '32rpx',
                 left: '30rpx',

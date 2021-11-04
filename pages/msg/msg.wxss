@@ -1,0 +1,10 @@
+/* pages/msg/msg.wxss */
+
+.page {
+  height: 100Vh;
+  width: 100vw;
+}
+
+.page.show {
+  overflow: hidden;
+}

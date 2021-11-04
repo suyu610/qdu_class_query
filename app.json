@@ -11,7 +11,9 @@
     "pages/webview/webview",
     "pages/course/course_setting/course_setting",
     "pages/faq/faq",
-    "pages/faq/faq_list/faq_list"
+    "pages/faq/faq_list/faq_list",
+    "pages/msg/msg",
+    "pages/msg/detail/detail"
   ],
   "subpackages": [
     {
@@ -33,10 +35,12 @@
         "pages/major_list/major_list",
         "pages/major_class_list/major_class_list",
         "pages/life_map/home/home",
-        "pages/life_map/detail/detail",
+        "pages/life_map/good_detail/good_detail",
         "pages/life_map/good_list/good_list",
         "pages/life_map/list/list",
-        "pages/cheat/cheat"
+        "pages/life_map/comment/comment",
+        "pages/cheat/cheat",
+        "pages/life_map/add_store/add_store"
       ]
     },
     {
@@ -88,7 +92,7 @@
   "sitemapLocation": "sitemap.json",
   "permission": {
     "scope.userLocation": {
-      "desc": "用于查询教室距离，非必选，仅影响距离功能"
+      "desc": "用于生活地图的路线，如不需要，可禁止"
     }
   },
   "usingComponents": {
@@ -99,5 +103,11 @@
   },
   "useExtendedLib": {
     "weui": true
+  },
+  "plugins": {
+    "chooseLocation": {
+      "version": "1.0.8",
+      "provider": "wx76a9a06e5b4e693e"
+    }
   }
 }

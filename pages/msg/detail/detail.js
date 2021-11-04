@@ -1,4 +1,4 @@
-// packageSecondly/pages/life_map/detail/detail.js
+// pages/msg/detail/detail.js
 Page({
 
   /**

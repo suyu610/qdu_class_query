@@ -132,9 +132,24 @@ export const MultiCourse_ExitRoomUrl = 'multicourse/exitRoom/'
 export const MultiCourse_GetRoomDetailUrl = 'multicourse/getRoomDetail/'
 
 
-
 /////////////////
 ///  faq相关  ///
 ////////////////
 export const Faq_GetFaqInitDataUrl = 'faq/getFaqInitData/'
 export const Faq_GetFaqListUrl = 'faq/getFaqList/'
+
+/////////////////
+///  生活地图  ///
+////////////////
+
+export const getInitDateUrl = 'lifemap/getInitDate' 
+export const getStoresByListIdUrl = 'lifemap/getStoresByListId'
+export const getCommentsByStoreIdUrl = 'lifemap/getCommentsByStoreId'
+export const getMultiGoodListByStoreIdUrl = 'lifemap/getMultiGoodListByStoreId'
+export const getUserAllUnreadMsgUrl = 'lifemap/getUserAllUnreadMsg'
+export const getGoodDetailByGoodIdUrl = 'lifemap/getGoodDetailByGoodId'
+export const addStoreCommentUrl = 'lifemap/addStoreComment'
+export const addFeedbackUrl = 'lifemap/addFeedback'
+export const addStoreUrl = 'lifemap/addStore'
+export const addStarCommentUrl = 'lifemap/addStarComment'
+export const deleteCommentUrl = 'lifemap/deleteComment'

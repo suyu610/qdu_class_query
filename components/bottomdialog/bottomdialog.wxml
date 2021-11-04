@@ -3,26 +3,20 @@
 
 		<view class="dialogTop">
 			<view style="font-size:34rpx;color:#333333;font-weight:bold;">{{title}}</view>
-			<view
-			 wx:if="{{closeicon}}"
-			 class="closedialog"
-			 bind:tap="closedialogconfirm"
-			>
-				<image
-				 class="imgclose"
-				 style="width:25rpx;height:25rpx;"
-				 src="../../images/icon_cancel@2x.png"
-				/>
+			<view wx:if="{{closeicon}}" class="closedialog" bind:tap="closedialogconfirm">
+				<image class="imgclose" style="width:25rpx;height:25rpx;" src="../../images/icon_cancel@2x.png" />
 			</view>
 		</view>
-		<view class="dialogBody" style="justify-content:{{contentposition}};{{contentstyle}}">{{content}}</view>
+		<view class="dialogBody" style="justify-content:{{contentposition}};{{contentstyle}};">{{content}}</view>
 		<view class="dialogFoot" wx:if="{{foot.length > 0}}">
-			<view style="display:flex;width:100%;height:100%;flex-direction: column;align-items: center;" wx:if="{{foot.length <=1}}">
+			<view style="display:flex;width:100%;height:100%;flex-direction: column;align-items: center;"
+				wx:if="{{foot.length <=1}}">
 				<view bindtap="fb0" class="item0">
 					<view class="text">{{foot[0].text}}</view>
 				</view>
 			</view>
-			<view style="display:flex;justify-content: space-between;width:100%;height:100%;align-items: center;" wx:if="{{foot.length==2}}">
+			<view style="display:flex;justify-content: space-between;width:100%;height:100%;align-items: center;"
+				wx:if="{{foot.length==2}}">
 				<view bindtap="fb0" class="item1">
 					<view class="text">{{foot[0].text}}</view>
 				</view>
@@ -40,4 +34,3 @@
 	<view class="mask {{status?'show':'noshow'}}"></view>
 
 </block>
-

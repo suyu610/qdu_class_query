@@ -1,6 +1,6 @@
 <scroll-view class="container" scroll-y="{{true}}">
 
-  <view style="padding-top:12vh">
+  <view style="padding-top:7vh">
     <van-row>
       <van-col span="8" offset="8" bindtap="onTapAvatar">
         <van-image wx:if="{{avatar!=null}}" id="avatarImg" use-loading-slot use-error-slot width="60px" height="60px"
@@ -25,13 +25,7 @@
   </view>
 
 
-  <!-- <van-cell center icon="chat-o dot" value="0" is-link link-type="switchTab" url="/pages/flag/flag">
-    <view slot="title">
-      <view class="van-cell-text">消息
-        <van-tag round color="#fde06b" text-color="#000">0</van-tag>
-      </view>
-    </view>
-  </van-cell> -->
+
 
   <van-cell-group title="设置">
     <!-- 校区选择 -->
@@ -59,19 +53,46 @@
     <van-cell is-link center title="启动页" bind:click="onShowFirstLauchPage" value="{{firstLauchPage}}">
       <iconfont slot="icon" name="huodong" size="18" style="padding-right:4px"></iconfont>
     </van-cell>
-
+    <van-cell center value="2" is-link url="/pages/msg/msg">
+      <view slot="title">
+        <view class="van-cell-text">消息
+          <van-tag round color="#fee1618c" text-color="#000">{{2}}</van-tag>
+        </view>
+      </view>
+      <iconfont slot="icon" name="xiaoxi" size="18" style="padding-right:4px"></iconfont>
+    </van-cell>
   </van-cell-group>
 
-  <van-popup show="{{ showAboutPop }}" closeable close-icon-position="top-right" close-icon="close" position="bottom"
-    round custom-style="height: 40%" bind:close="onAboutPopClose">
+
+  <van-popup show="{{ showAboutPopValue }}" closeable close-icon-position="top-right" close-icon="close"
+    position="bottom" round custom-style="height: 40%" bind:close="onAboutPopClose">
     <view class="aboutPop">
       <van-image round width="3.7rem" height="3.7rem"
         src="https://eat-what-1254798469.cos.ap-beijing.myqcloud.com/icons/logo.png" style="margin: 15rpx;" />
       <text style="margin: 10rpx;color:gray">青岛大学团委</text>
-      <text style="margin: 5rpx;font-size:17px;font-weight:bold">青岛大学权小益大学生权益维护中心宣传部</text>
-      <text style="margin-top: 5px;color:gray">出品</text>
-      <van-cell custom-style=" margin-top: 10px;color:gray" title-class="gray" title="开发人员名单"></van-cell>
+      <text style="margin: 5rpx;font-size:17px;font-weight:bold">大学生权益维护中心</text>
+      <text style="margin-top: 5px;color:gray">权小益宣传部 出品</text>
+      <van-cell custom-style=" margin-top: 10px;color:gray;text-decoration:underline" title-class="gray" title="开发人员名单"
+        bindtap="showDevPeopleListPop">
+      </van-cell>
     </view>
+  </van-popup>
+
+  <van-popup show="{{ showDevPeopleListValue }}" position="bottom" round custom-style="height: 40%"
+    bind:close="hideDevPeopleListPop">
+    <view class="cu-bar bg-white" bindtap="showAboutDialog">
+      <view class="action sub-title">
+        <text class="text-lg text-bold text-black">开发人员</text>
+        <text class="bg-yellow"></text>
+      </view>
+    </view>
+
+    <van-cell title="素语网络科技有限公司" value="中国22579475强企业"></van-cell>
+    <van-cell title="皇甫素素" value="测试工程师和监事"></van-cell>
+    <van-cell title="刘江舟" value="hello,world工程师"></van-cell>
+    <van-cell title="王鹏宇" value="只会花钱的CEO"></van-cell>
+    <van-cell title="齐彤" value="高冷法务"></van-cell>
+    <van-cell title="黄鹏宇" value="只会复制粘贴的码农"></van-cell>
   </van-popup>
 
   <van-popup show="{{ showThankUPop }}" closeable close-icon-position="top-right" close-icon="close" position="bottom"
@@ -99,8 +120,7 @@
     </view>
   </van-popup>
 
-
-  <view class="cell-group"></view>
+  <!-- <view class="cell-group"></view> -->
   <van-cell-group title="关于">
     <van-cell center title=" 使用帮助" bind:click="jump2Faq" is-link>
       <iconfont slot="icon" name="yiwen" size="18" style="padding-right:4px"></iconfont>

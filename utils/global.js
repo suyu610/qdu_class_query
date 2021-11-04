@@ -3,10 +3,14 @@ const globalData = {
     rediretTo: "",
     params: "",
     debug: true,
-    // debug: false,
-    // debugRouter: "cheat",
-    debugRouter: "life_map_list",
-    // 当前样式,注意这里配合腾讯地图，所以是从1开始
+    debug: false,
+
+    debugRouter: "life_map_add_store",
+    debugRouter: "life_map_comment",
+    debugRouter: "msg",
+    debugRouter:"life_map_home",
+    debugRouter:"",
+    // 当前样式,这里配合腾讯地图，所以是从1开始
     currentTheme: 1,
     currentCampus: 1709,
     myJwCourseKey: "my-jw-course-v4",
@@ -20,7 +24,7 @@ const globalData = {
     latitude: 36.070106,
     // longitude:120.479515,
     // latitude:36.115372,
-    version: '2.5.4',
+    version: '2.7.0',
     // 腾讯地图的key
     key: "5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO",
     // list界面的id,如果为0，则显示默认值

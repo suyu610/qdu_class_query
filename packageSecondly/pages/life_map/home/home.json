@@ -7,8 +7,8 @@
     "van-cell-group": "@vant/weapp/cell-group/index",
     "van-icon": "@vant/weapp/icon/index",
     "van-rate": "@vant/weapp/rate/index",
-    "bottomdialog":"/components/bottomdialog/bottomdialog"
-
+    "bottomdialog":"/components/bottomdialog/bottomdialog",
+    "van-skeleton": "@vant/weapp/skeleton/index"
   },
   "navigationBarBackgroundColor": "#fff"
 }
