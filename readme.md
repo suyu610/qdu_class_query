@@ -10,18 +10,18 @@
 
 ### 二、**小程序码：**
 
-![青空的二维码](C:\Users\Administrator.DESKTOP-1L0I6VV\Desktop\项目\青空的二维码.png)
+![青空的二维码](https://file.qdu.life/%E9%9D%92%E7%A9%BA%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
 
 ### 三、**界面截图**
 
-![image-20211104101416633](C:\Users\Administrator.DESKTOP-1L0I6VV\AppData\Roaming\Typora\typora-user-images\image-20211104101427186.png)
+![image-20211104101416633](https://file.qdu.life/image-20211104101427186.png)
 
-![image-20211104101402761](C:\Users\Administrator.DESKTOP-1L0I6VV\AppData\Roaming\Typora\typora-user-images\image-20211104101409275.png)
+![image-20211104101402761](https://file.qdu.life/image-20211104101409275.png)
 
-![img](file:///C:\Users\Administrator.DESKTOP-1L0I6VV\Documents\Tencent Files\372799030\Image\C2C\CFA8DBB48EDE94D73CD75B01831F1ED0.jpg)
+![img](https://file.qdu.life/CFA8DBB48EDE94D73CD75B01831F1ED0.jpg)
 
-![image-20211104101352688](C:\Users\Administrator.DESKTOP-1L0I6VV\AppData\Roaming\Typora\typora-user-images\image-20211104101352688.png)
+![image-20211104101352688](https://file.qdu.life/image-20211104101352688.png)
 
-![img](file:///C:\Users\Administrator.DESKTOP-1L0I6VV\Documents\Tencent Files\372799030\Image\C2C\87607FAF60D8AAFC79B4ED5D8452F942.jpg)
+![img](https://file.qdu.life/87607FAF60D8AAFC79B4ED5D8452F942.jpg)
 
-![img](file:///C:\Users\Administrator.DESKTOP-1L0I6VV\Documents\Tencent Files\372799030\Image\C2C\97E9524BDAA46DA589D2A44E20DDE809.jpg)
+![img](https://file.qdu.life/97E9524BDAA46DA589D2A44E20DDE809.jpg)
