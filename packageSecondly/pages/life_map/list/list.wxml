@@ -31,25 +31,27 @@
     <swiper current="{{cardCur}}" class="card-swiper round-dot {{globalDetailMode?'detail-mode':''}}"
       indicator-dots="true" circular="true" autoplay="{{false}}" bindchange="cardSwiper" indicator-color="#8799a3"
       indicator-active-color="#000" style="height:{{globalDetailMode?'1300rpx!important':'680rpx!important'}}">
-      <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':'not_cur'}}"
+      <swiper-item wx:for="{{storeList}}" wx:key="index" class="{{cardCur==index?'cur':'not_cur'}}"
         bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" data-id="{{item.id}}">
         <view class="swiper-item" data-id="{{item.id}}">
-          <view class="distance" catchtap="showdialog2" wx:if="{{!item.isAd}}">校内
+          <view class="distance" catchtap="showdialog2" wx:if="{{item.ad==0 && item.tag}}">{{item.tag}}
           </view>
-          <view class="ad" catchtap="showdialog2" data-type="ad" wx:else>
+          <view class="ad" catchtap="showdialog2" data-type="ad" wx:if="{{item.ad==1}}">
             <iconfont name="guanggao" />
           </view>
-          <view wx:if="{{!item.isAd}}" catchtap="onTapShareBtn" style="background-color:#ffffffd1" data-id="{{item.id}}"
+          <view wx:if="{{item.ad==0}}" catchtap="onTapShareBtn" style="background-color:#ffffffd1" data-id="{{item.id}}"
             class="love-btn">
             <iconfont name="fenxiang" />
           </view>
           <view data-id="{{item.id}}" class="img {{item.detailMode?'img-detail-mode':''}}" data-src="{{item.url}}"
             catchtap="{{item.detailMode?'onCloseSwipeItem':'onOpenSwipeItem'}}"
             style="height:{{globalDetailMode?'28%':'67%'}}">
-            <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+            <!-- <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image> -->
+            <image src="{{item.defaultPhotoUrl}}" mode="aspectFill"></image>
+
           </view>
           <view class="good-list" wx:if="{{item.detailMode}}">
-            <view class="title" bindtap="jump2Goodlist" wx:if="{{item.menu.length!=0 && item.menu!=null}}">
+            <view class="title" bindtap="jump2Goodlist" wx:if="{{item.goodMenus.length!=0 && item.goodMenus!=null}}">
               <view class="title_name">
                 <iconfont name="fenlei1" class="iconfont" size="12"></iconfont>
                 商品列表
@@ -59,14 +61,14 @@
                 <van-icon name="arrow" />
               </view>
             </view>
-            <view class="good-list-detail" wx:if="{{item.menu.length!=0 && item.menu!=null}}">
+            <view class="good-list-detail" wx:if="{{item.goodMenus.length!=0 && item.goodMenus!=null}}">
               <van-tabs active="{{ active }}" tab-class="tab-class" tab-active-class="tab-active text-black"
                 color="#FFE9A7" line-height="4" title-inactive-color="#aaa" animated>
-                <block wx:for="{{item.menu}}" wx:for-item="menu" wx:key="index">
+                <block wx:for="{{item.goodMenus}}" wx:for-item="menu" wx:key="index">
                   <van-tab title="{{menu.menuName}}">
                     <van-cell-group bindtap="jump2GoodDetail">
-                      <block wx:for="{{menu.goods}}" wx:for-item="good" wx:key="index">
-                        <van-cell title-class="cell-title" title-width="70%" title="{{good.name}}"
+                      <block wx:for="{{menu.goodList}}" wx:for-item="good" wx:key="index">
+                        <van-cell title-class="cell-title" title-width="70%" is-link title="{{good.name}}"
                           value="￥{{good.price}}" />
                       </block>
                     </van-cell-group>
@@ -81,16 +83,34 @@
 
           <view class="info" style="background-color:{{item.detailMode?'white':'transparent'}}">
             <view class="info-bottom">
-              <view class="store-name" style="font-size:{{item.detailMode? '45':'32'}}rpx">{{item.storeName}}</view>
+              <view class="store-name" style="font-size:{{item.detailMode? '45':'32'}}rpx">{{item.name}}</view>
               <view class="store-desc cell-title" wx:if="{{item.detailMode}}" catchtap="onShowDescPop">
-                <iconfont name="jinrong" class="iconfont" size="12"></iconfont>{{item.desc}}
+                <!-- <iconfont name="tongzhi" class="iconfont" size="12"></iconfont> -->
+                {{item.intro}}
               </view>
-              <view class="telephone" wx:if="{{item.detailMode}}" catchtap="makeTel"
-                data-telNumber="{{item.telNumber}}">
+              <view class="telephone" wx:if="{{item.detailMode && item.wechat!=null}}" data-wechat="{{item.wechat}}"
+                catchtap="copyWechat">
+                <view class="title">
+                  <view class="title_name">
+                    <iconfont name="tianjiahaoyou" class="iconfont" size="12"></iconfont>
+                    {{item.wechat}}
+                  </view>
+                </view>
+              </view>
+              <view class="telephone" wx:if="{{item.detailMode}}" catchtap="makeTel" data-telNumber="{{item.tel}}">
                 <view class="title">
                   <view class="title_name">
                     <iconfont name="tonghua" class="iconfont" size="12"></iconfont>
-                    {{item.telNumber==null?'暂无联系方式':item.telNumber}}
+                    {{item.tel==null?'暂无联系方式':item.tel}}
+                  </view>
+                </view>
+              </view>
+
+              <view class="location" wx:if="{{item.detailMode}}">
+                <view class="title">
+                  <view class="title_name">
+                    <iconfont name="shijian" class="iconfont" size="12"></iconfont>
+                    {{item.timetable==null?'暂无营业时间':item.timetable}}
                   </view>
                 </view>
               </view>
@@ -98,22 +118,23 @@
                 <view class="title">
                   <view class="title_name">
                     <iconfont name="daohang" class="iconfont" size="12"></iconfont>
-                    {{item.locationDesc==null?'暂无地址':item.locationDesc}}
+                    {{item.locationStr==null?'暂无地址':item.locationStr}}
                   </view>
                 </view>
               </view>
 
               <view class="rate" catchtap="onToggleRatePop" style="width: 50%;bottom: 10rpx;">
-                <van-rate size="{{ 16 }}" value="{{item.remark}}" color="#FDE06B" readonly />
+                <van-rate size="{{ 16 }}" value="{{item.avgRemark}}" color="#FDE06B" readonly />
               </view>
             </view>
             <view class="comments" catchtap="onShowFeedbackPop"
               style="transition:.3s;opacity:{{item.detailMode?'1':'0'}};    bottom: 5px;    right: 90rpx;">
               <iconfont name="yiwen" size="30" />
             </view>
-
-            <view class="comments" catchtap="jump2Comment" style="bottom:10rpx">
-              <iconfont name="pinglun" size="30" />
+            <view class="comments" catchtap="jump2Comment" data-store_id="{{item.id}}" style="bottom:10rpx">
+              <view style="text-align:center;font-size: 28rpx;    color: grey;margin-bottom:-8rpx">{{item.commentCount}}
+              </view>
+              <iconfont name="pinglun" size="30" style="z-index:9" />
             </view>
           </view>
         </view>
@@ -125,33 +146,36 @@
 <van-popup show="{{ showDescPopValue }}" round position="bottom" closeable bind:close="onCloseDescPop"
   custom-style="width:100%;height: 40%;">
   <view class="cu-bar bg-white">
-    <view class="action sub-title">
-      <text class="text-lg text-bold text-black">{{swiperList[cardCur].storeName}} - 店铺介绍</text>
-      <text class="bg-yellow"></text>
+    <view class="action title">
+      <text class="text-lg text-bold text-black">{{storeList[cardCur].name}} - 店铺介绍</text>
+      <!-- <text class="bg-yellow"></text> -->
     </view>
   </view>
-  <view style="padding:40rpx;padding-top:20rpx">{{swiperList[cardCur].desc}}</view>
+  <view style="padding:40rpx;padding-top:20rpx">{{storeList[cardCur].intro}}</view>
 </van-popup>
 <!-- 评分框 -->
 <van-popup show="{{ showRatePopValue }}" round position="bottom" closeable bind:close="onToggleRatePop"
   custom-style="width:100%;height: 40%;">
   <view class="cu-bar bg-white">
     <view class="action sub-title">
-      <text class="text-lg text-bold text-black">{{swiperList[cardCur].storeName}}</text>
+      <text class="text-lg text-bold text-black">{{storeList[cardCur].name}}</text>
       <text class="bg-yellow"></text>
     </view>
   </view>
 
   <view style="text-align:center;color:grey;font-size:28rpx">平均评分<text
-      style="font-size:80rpx;font-weight: bold;color:black;padding-left:10px;padding-right:10px">{{swiperList[cardCur].remark}}</text> ( 44人 )
+      style="font-size:80rpx;font-weight: bold;color:black;padding-left:10px;padding-right:10px">{{storeList[cardCur].avgRemark}}</text>
+    ( {{storeList[cardCur].remarkPeopleCount}}人 )
   </view>
 
   <view style="margin: 24rpx auto;text-align:center">
     <view class="rate">
-      <van-rate size="{{ 38 }}" value="{{swiperList[cardCur].remark}}" bind:change="onChangeRateValue" readonly color="#FDE06B" />
+      <van-rate size="{{ 38 }}" value="{{storeList[cardCur].avgRemark}}" bind:change="onChangeRateValue" readonly
+        color="#FDE06B" />
     </view>
   </view>
-  <view style="margin: 40rpx auto;width:50vw;text-align:center;color:lightgrey" bindtap="jump2Comment" data-source="rate">
+  <view style="margin: 40rpx auto;width:50vw;text-align:center;color:lightgrey" bindtap="jump2Comment"
+    data-source="rate">
     点击至评论页进行评分
   </view>
 </van-popup>
@@ -160,7 +184,7 @@
   custom-style="width:100%;height: 40%;">
   <view class="cu-bar bg-white">
     <view class="action sub-title">
-      <text class="text-lg text-bold text-black">{{swiperList[cardCur].storeName}} - 信息有误？</text>
+      <text class="text-lg text-bold text-black">{{storeList[cardCur].name}} - 信息有误？</text>
       <text class="bg-yellow"></text>
     </view>
   </view>
@@ -182,7 +206,7 @@
 <van-share-sheet show="{{ showSharePopValue }}" title="立即分享给好友" options="{{ shareOptions }}"
   bind:select="onSelectShareType" bind:close="onCloseSharePop" />
 <dialog></dialog>
-<share-box canvasType="lifemap" picture="{{swiperList[cardCur].url}}" isCanDraw="{{isCanDraw}}"
+<share-box canvasType="lifemap" picture="{{storeList[cardCur].url}}" isCanDraw="{{isCanDraw}}"
   bind:initData="onShareBtnTap" />
 
 <bottomdialog></bottomdialog>

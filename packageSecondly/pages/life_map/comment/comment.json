@@ -7,7 +7,10 @@
     "van-button": "@vant/weapp/button/index",
     "van-field": "@vant/weapp/field/index",
     "van-divider": "@vant/weapp/divider/index",
-    "bottomdialog": "/components/bottomdialog/bottomdialog"
+    "bottomdialog": "/components/bottomdialog/bottomdialog",
+    "van-empty": "@vant/weapp/empty/index"
+
   },
-  "navigationBarBackgroundColor": "#fff"
+  "navigationBarBackgroundColor": "#fff",
+  "enablePullDownRefresh": true
 }

@@ -4,7 +4,7 @@
     <view class="name">欢迎你，黄鹏宇</view>
     <view class="right">
       <view class="msg" bindtap="jump2Msg">
-        <view class="dot"></view>
+        <view class="dot" wx:if="{{hasNewMsg}}"></view>
         <iconfont size="18" name="xiaoxi1" />
       </view>
       <view class="msg" bindtap="jump2AddStore">
@@ -42,8 +42,9 @@
           <view class="navigator_second {{index == currentStoreListIndex ? 'navigator_second_selected' : ''}}"
             wx:for="{{tlist}}" wx:key="index" bindtap='titleClick' bindtap="titleClick" data-id="{{index}}"
             data-name="{{item.id}}" id="{{item.id}}">
-            <image class="navigator_icon" src="{{item.icon!=null?item.icon:'/images/none.png'}}"></image>
-            <view class="navigator_text">{{item.name}}</view>
+            <image class="navigator_icon"
+              src="{{item.iconUrl!=null?item.iconUrl:'https://cdns.qdu.life/lifemap/icons/none.png'}}"></image>
+            <view class="navigator_text">{{item.typeName}}</view>
           </view>
         </van-skeleton>
 
@@ -60,43 +61,55 @@
     </view>
   </view>
   <view class="recommend">
-    <view class="title" bindtap="showAllStorePop">
+    <view class="title" bindtap="showAllStorePop" wx:if="{{tlist[currentStoreListIndex].storeList.length!=0}}">
       <view class="title_name">
-        <iconfont name="dianpu" class="iconfont" size="12"></iconfont>{{tlist[currentStoreListIndex].name}} <view
+        <iconfont name="dianpu" class="iconfont" size="12"></iconfont>{{tlist[currentStoreListIndex].typeName}} <view
           style="color:#a5a5a5;font-size:20rpx;display:inline-block">
-          X {{storeList[currentStoreListIndex].length==null?'0':storeList[currentStoreListIndex].length}}</view>
+          X {{tlist[currentStoreListIndex].storeList.length==null?'0':tlist[currentStoreListIndex].storeList.length}}
+        </view>
       </view>
       <view class="see_all">
         <van-icon name="arrow" />
       </view>
     </view>
-    <van-skeleton avatar row="2" loading="{{ !hasGotDate }}" />
-    <van-skeleton avatar row="2" loading="{{ !hasGotDate }}" />
+    <view class="padding-bottom padding-top" wx:if="{{ !hasGotDate }}">
+      <van-skeleton avatar row="2" loading="{{ !hasGotDate }}" />
+    </view>
+    <view class="padding-bottom" wx:if="{{ !hasGotDate }}">
+      <van-skeleton avatar row="2" loading="{{ !hasGotDate }}" />
+    </view>
     <van-skeleton avatar row="2" loading="{{ !hasGotDate }}">
       <swiper class='swiper' bindchange='pagechange' current='{{currentStoreListIndex}}'>
-        <block wx:for="{{storeList}}" wx:for-item="storeListItem" wx:key="index">
+        <block wx:for="{{tlist}}" wx:for-item="storeListItem" wx:key="index">
           <swiper-item class='swiper-item'>
-            <scroll-view refresher-enabled class="store-list" scroll-y="true" refresher-enabled="{{true}}"
-              refresher-enabled="{{true}}" refresher-threshold="{{100}}" refresher-default-style="black"
-              refresher-background="transparent" refresher-triggered="{{triggered}}" bindrefresherpulling="onPulling"
-              bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore" bindrefresherabort="onAbort">
-              <block wx:for="{{storeList[index]}}" wx:key="index">
-                <view class='store-item' bindtap="jump2StoreDetail">
+            <scroll-view wx:if="{{storeListItem.storeList.length!=0}}" refresher-enabled class="store-list"
+              scroll-y="true" refresher-enabled="{{true}}" refresher-enabled="{{true}}" refresher-threshold="{{100}}"
+              refresher-default-style="black" refresher-background="transparent" refresher-triggered="{{triggered}}"
+              bindrefresherpulling="onPulling" bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore"
+              bindrefresherabort="onAbort">
+              <block wx:for="{{storeListItem.storeList}}" wx:key="index">
+                <view class='store-item' bindtap="jump2StoreDetail" data-list_id="{{tlist[currentStoreListIndex].id}}"
+                  data-store_id="{{item.id}}" data-store_name="{{item.name}}" id="{{item.id}}">
                   <view class="bg-img">
-                    <image mode="aspectFill" class="round" src="{{item.image}}"></image>
+                    <image mode="aspectFill" class="round"
+                      src="{{item.defaultPhotoUrl==null?'https://img1.baidu.com/it/u=2913732988,631660878&fm=26&fmt=auto':item.defaultPhotoUrl}}">
+                    </image>
                   </view>
                   <view class="store-name">{{item.name}}</view>
                   <view class="bottom-info">
                     <view class="business-hour">
-                      <iconfont name="shijian" size="12" class="iconfont" /><text>{{item.businessHour}}</text>
+                      <iconfont name="dingwei" size="12" class="iconfont" /><text>{{item.locationStr}}</text>
                     </view>
                     <view class="rate">
-                      <van-rate size="{{ 16 }}" value="{{ item.remark }}" color="#FDE06B" readonly />
+                      <van-rate size="{{ 16 }}" value="{{ item.avgRemark }}" color="#FDE06B" readonly />
                     </view>
                   </view>
                 </view>
               </block>
             </scroll-view>
+            <view wx:else>
+              <van-empty description="此分类下暂无商店" />
+            </view>
           </swiper-item>
         </block>
       </swiper>
@@ -110,14 +123,15 @@
   <van-cell-group>
     <view class="cu-bar bg-white">
       <view class="action sub-title">
-        <text class="text-lg text-bold text-black">{{tlist[currentStoreListIndex].name}}<text
-            style="color:#a5a5a5;font-size:24rpx"> X {{storeList[currentStoreListIndex].length}}</text></text>
+        <text class="text-lg text-bold text-black">{{tlist[currentStoreListIndex].typeName}}<text
+            style="color:#a5a5a5;font-size:24rpx"> X {{tlist[currentStoreListIndex].storeList.length}}</text></text>
         <text class="bg-yellow"></text>
       </view>
     </view>
-    <block wx:for="{{storeList[currentStoreListIndex]}}" wx:key="index" wx:key="index">
-      <van-cell title="{{item.name}}" bindtap="jump2StoreDetail" data-id="{{index}}" data-name="{{item.id}}"
-        id="{{item.id}}" value="评分：{{item.remark}}" is-link label="距离{{item.distance}}" />
+    <block wx:for="{{tlist[currentStoreListIndex].storeList}}" wx:key="index" wx:key="index">
+      <van-cell title="{{item.name}}" bindtap="jump2StoreDetail" data-list_id="{{tlist[currentStoreListIndex].id}}"
+        data-store_id="{{item.id}}" data-store_name="{{item.name}}" id="{{item.id}}" value="评分：{{item.avgRemark}}"
+        is-link />
     </block>
   </van-cell-group>
 </van-popup>
@@ -133,8 +147,8 @@
       </view>
     </view>
     <block wx:for="{{tlist}}" wx:key="index" wx:key="index">
-      <van-cell title="{{item.name}}" bindtap="titleClick" data-id="{{index}}" data-name="{{item.id}}" id="{{item.id}}"
-        value="{{storeList[index].length}}家" is-link />
+      <van-cell title="{{item.typeName}}" bindtap="titleClick" data-id="{{index}}" data-name="{{item.id}}"
+        id="{{item.id}}" value="{{item.storeList.length}}家" is-link />
     </block>
   </van-cell-group>
 </van-popup>

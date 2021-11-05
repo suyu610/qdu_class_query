@@ -5,8 +5,9 @@
     "van-field": "@vant/weapp/field/index",
     "van-cell": "@vant/weapp/cell/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
-    "van-button": "@vant/weapp/button/index"
-
+    "van-button": "@vant/weapp/button/index",
+    "van-steps": "@vant/weapp/steps/index",
+    "van-transition": "@vant/weapp/transition/index"
 
 
   },

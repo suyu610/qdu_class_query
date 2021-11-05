@@ -9,6 +9,16 @@ const location = JSON.stringify({
 const category = '大学,生活服务,娱乐休闲';
 Page({
   data: {
+    steps: [{
+        desc: '商店信息',
+      },
+      {
+        desc: '商品信息',
+      }, {
+        desc: '提交',
+      }
+    ],
+    activeStep: 0,
     goodTypeInputValue: '',
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
@@ -64,7 +74,6 @@ Page({
     date: '2018-12-25',
     region: ['广东省', '广州市', '海珠区'],
     imgList: [],
-    modalName: null,
     textareaAValue: '',
     textareaBValue: ''
   },
@@ -74,6 +83,16 @@ Page({
     });
   },
 
+  nextStep() {
+    this.setData({
+      activeStep: 1
+    })
+  },
+  prevStep() {
+    this.setData({
+      activeStep: 0
+    })
+  },
   PickerChange(e) {
     console.log(e);
     this.setData({

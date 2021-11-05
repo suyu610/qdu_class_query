@@ -1,15 +1,44 @@
 <!-- component/comment/comment.wxml -->
+<wxs module="filter">
+  var filter = {
+    getDateTime: function (value) {
+      //不能使用 new Date()
+      var time = getDate(value);
+      var year = time.getFullYear();
+      var month = time.getMonth() + 1;
+      var date = time.getDate();
+      var hour = time.getHours();
+      var minute = time.getMinutes();
+      var second = time.getSeconds();
+      month = month < 10 ? "0" + month : month;
+      date = date < 10 ? "0" + date : date;
+      hour = hour < 10 ? "0" + hour : hour;
+      minute = minute < 10 ? "0" + minute : minute;
+      second = second < 10 ? "0" + second : second;
+      return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+    }
+  }
+  // 导出对外暴露的属性
+  module.exports = {
+    getDateTime: filter.getDateTime
+  }
+</wxs>
 <view class="cu-card dynamic no-card">
   <view class="cu-item shadow">
     <view class="cu-list menu-avatar">
       <view class="cu-item">
-        <view class="cu-avatar round lg padding-right-sm" style="background-image:url({{data.avatar}});"></view>
+        <view class="cu-avatar round lg padding-right-sm bg-white"
+          style="background-image:url({{data.anonymous==1?'https://cdns.qdu.life/lifemap/icons/anonymous.png':data.avatar}});">
+        </view>
         <view class="content flex-sub">
-          <view class="text-bold"><text class="padding-right-sm ">{{data.nickname}}</text>
-            <van-rate color="#FDE06B" class="rate" value="{{data.rate}}" readonly />
+          <view class="text-bold">
+            <text class="padding-right-sm ">{{data.nickname}}</text>
+            <van-rate size="{{ 18 }}" color="#FDE06B" class="rate" value="{{data.rate}}" readonly />
+            <iconfont style="position:absolute;right:0" bindtap="delComment" data-id="{{data.id}}" size="18"
+              wx:if="{{data.isSelf==1}}" name="shanchu"></iconfont>
           </view>
           <view class="text-gray text-sm flex justify-between">
-            {{data.createTime}}
+            {{filter.getDateTime(data.createTime)}} / {{data.spec}}
           </view>
         </view>
       </view>
@@ -17,9 +46,12 @@
     <view class="text-content">
       {{data.content}} </view>
 
-    <view class="grid flex-sub padding-lr col-3 grid-square">
-      <view class="bg-img" wx:if="{{data.pics.length > 0}}" wx:for="{{data.pics}}" wx:key="index">
-        <image class="item" src="{{item}}" data-index="{{index}}" bindtap="previewImage" mode="aspectFill"></image>
+    <view class="grid flex-sub padding-lr col-3 grid-square" wx:if="{{data.pics.length > 0}}">
+      <view class="bg-img"  wx:for="{{data.pics}}" wx:key="index">
+        <image class="item" src="{{item.url}}" data-index="{{index}}" bindtap="previewImage" mode="aspectFill"
+          wx:if="{{item.fileType=='image'}}"></image>
+        <image bindtap="showVideo" mode='aspectFill' data-src="{{item.url}}" src='/images/video_thumb.png'
+          wx:if="{{item.fileType=='video'}}" />
       </view>
     </view>
     <view class="text-gray text-sm text-right padding comment-command-pannel padding-bottom-xs">
@@ -41,12 +73,17 @@
       </view>
     </block>
     <view class="cu-list menu-avatar comment" style="trnasition:.2s">
-      <block wx:for="{{data.subComment}}" wx:key="index" wx:for-item="subItem">
+      <block wx:for="{{data.subStoreComments}}" wx:key="index" wx:for-item="subItem">
         <view class="cu-item">
-          <view class="cu-avatar round"
-            style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+          <view class="cu-avatar round bg-white"
+            style="background-image:url({{subItem.anonymous==1?'https://cdns.qdu.life/lifemap/icons/anonymous.png':subItem.avatar}});">
+          </view>
           <view class="content">
-            <view class="text-bold">{{subItem.nickname}}</view>
+            <view class="text-bold">{{subItem.nickname}} <iconfont wx:if="{{subItem.isSelf==1}}"
+                style="position:absolute;right:0" bindtap="delComment" data-id="{{subItem.id}}" size="18"
+                name="shanchu">
+              </iconfont>
+            </view>
             <view class="text-black text-content text-df">
               {{subItem.content}}
             </view>
@@ -57,7 +94,7 @@
               </view>
             </view>
             <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-sm">{{subItem.createTime}}</view>
+              <view class="text-gray text-sm"> {{filter.getDateTime(subItem.createTime)}}</view>
               <view bindtap="replyLikeBtnTapped" data-id="{{subItem.id}}">
                 <text
                   class="text-sm margin-lr-xs {{subItem.hasLike?'text-red cuIcon-appreciatefill':'text-grey cuIcon-appreciate'}}">{{subItem.likeCount}}</text>

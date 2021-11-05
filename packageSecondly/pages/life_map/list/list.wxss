@@ -185,13 +185,13 @@ map {
   left: 38rpx;
   z-index: 999;
   background: #ffffffd1;
-  width: 112rpx;
-  font-weight: bold;
+  padding: 0 16rpx;
   height: 70rpx;
   color: black;
   line-height: 70rpx;
   border-radius: 20rpx;
   transition: all 0.2s ease-in 0s;
+  font-size: 24rpx;
 }
 
 .swiper-item .ad {

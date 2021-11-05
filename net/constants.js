@@ -1,6 +1,8 @@
 // export const Host =  'http://localhost:4396/v1/';
 export const Host = 'https://api.qdu.life/v1/';
+
 // export const Host = 'http://10.195.129.148:4396/v1/';
+// export const Host = 'http://192.168.1.125:4396/v1/';
 
 
 export const GetRoomCourseUrl = 'roomshedule/single';
@@ -142,14 +144,20 @@ export const Faq_GetFaqListUrl = 'faq/getFaqList/'
 ///  生活地图  ///
 ////////////////
 
-export const getInitDateUrl = 'lifemap/getInitDate' 
-export const getStoresByListIdUrl = 'lifemap/getStoresByListId'
-export const getCommentsByStoreIdUrl = 'lifemap/getCommentsByStoreId'
-export const getMultiGoodListByStoreIdUrl = 'lifemap/getMultiGoodListByStoreId'
-export const getUserAllUnreadMsgUrl = 'lifemap/getUserAllUnreadMsg'
-export const getGoodDetailByGoodIdUrl = 'lifemap/getGoodDetailByGoodId'
-export const addStoreCommentUrl = 'lifemap/addStoreComment'
-export const addFeedbackUrl = 'lifemap/addFeedback'
-export const addStoreUrl = 'lifemap/addStore'
-export const addStarCommentUrl = 'lifemap/addStarComment'
-export const deleteCommentUrl = 'lifemap/deleteComment'
+export const getInitDataUrl = 'lifemap/getInitData' 
+export const getStoresByListIdUrl = 'lifemap/getStoresByListId/'
+export const getMultiGoodListByStoreIdUrl = 'lifemap/getMultiGoodListByStoreId/'
+export const getUserAllUnreadMsgUrl = 'lifemap/getUserAllUnreadMsg/'
+export const getGoodDetailByGoodIdUrl = 'lifemap/getGoodDetailByGoodId/'
+
+///// 评论
+
+export const getCommentsByStoreIdUrl = 'lifemap/getCommentsByStoreId/'
+export const submitStoreCommentUrl = 'lifemap/submitStoreComment'
+export const submitReplyStoreCommentUrl = 'lifemap/submitReplyStoreComment'
+
+export const deleteCommentUrl = 'lifemap/deleteComment/' 
+
+export const addFeedbackUrl = 'lifemap/addFeedback/'
+export const addStoreUrl = 'lifemap/addStore/'
+export const addStarCommentUrl = 'lifemap/addStarComment/'

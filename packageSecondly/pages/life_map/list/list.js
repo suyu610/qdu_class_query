@@ -3,7 +3,8 @@ var QQMapWX = require('../../../../libs/qqmap-wx-jssdk.min.js');
 var app = getApp()
 var qqmapsdk = "";
 const router = require('../../../../router/index.js');
-
+import lifemapService from '../../../../net/lifemapService.js'
+import util from '../../../../utils/util.js'
 Page({
 
   /**
@@ -20,86 +21,7 @@ Page({
     longitude: 120.42712,
     latitude: 36.071283,
     // 地图相关
-    markers: [{
-        title: "测试",
-        id: 0,
-        latitude: 36.070283,
-        longitude: 120.42712,
-        width: 1,
-        height: 1,
-        iconPath: "../../../../images/icon/icon_flag.png",
-        callout: {
-          id: 1,
-          borderRadius: 5,
-          padding: 7,
-          bgColor: '#FDE06B',
-          anchorX: 10,
-          anchorY: 20,
-          color: '#000',
-          content: "小兔崽干洗店",
-          display: 'ALWAYS',
-        },
-      }, {
-        title: "理发店",
-        id: 1,
-        latitude: 36.071193,
-        longitude: 120.42712,
-        width: 1,
-        height: 1,
-        iconPath: "../../../../images/icon/icon_flag.png",
-        callout: {
-          id: 1,
-          borderRadius: 5,
-          padding: 7,
-          bgColor: '#00000077',
-          anchorX: 10,
-          anchorY: 20,
-          color: '#fff',
-          content: "小猪猪干洗店",
-          display: 'ALWAYS',
-        },
-      }, {
-        title: "理发店",
-        id: 2,
-        latitude: 36.073273,
-        longitude: 120.42712,
-        width: 1,
-        height: 1,
-        iconPath: "../../../../images/icon/icon_flag.png",
-        callout: {
-          id: 1,
-          borderRadius: 5,
-          padding: 7,
-          bgColor: '#00000077',
-          anchorX: 10,
-          anchorY: 20,
-          color: '#fff',
-          content: "小狗崽干洗店",
-          display: 'ALWAYS',
-        },
-      },
-      {
-        title: "黄鹏宇的干洗店",
-        id: 3,
-        latitude: 36.073373,
-        longitude: 120.42012,
-        width: 1,
-        height: 1,
-        iconPath: "../../../../images/icon/icon_flag.png",
-        callout: {
-          id: 4,
-          borderRadius: 5,
-          padding: 7,
-          bgColor: '#00000077',
-          anchorX: 10,
-          anchorY: 20,
-          color: '#fff',
-          content: "黄鹏宇的干洗店",
-          display: 'ALWAYS',
-        },
-      },
-
-    ],
+    markers: [],
     isCanDraw: false,
     showSharePopValue: false,
     shareOptions: [{
@@ -116,7 +38,7 @@ Page({
     showRouter: false,
     // 区分滑动和点击
     isTouchMoved: false,
-    swiperList: [{
+    storeList: [{
       id: 0,
       storeName: '小兔崽干洗店',
       type: 'image',
@@ -128,6 +50,8 @@ Page({
         longitude: 120.42712,
         latitude: 36.071283,
       },
+      tag: "好评如潮",
+      timetable: "06:00 - 22:00",
       telNumber: 1311311311,
       locationDesc: '浮山校区电动门旁边',
       desc: "具段字乱具量。工一的仅序出工数段不数的于序。们的乱打会现字文后一一排致篇以章字文顺打该落他序，文与的以作用把也原乱仅改，顺其打变乱是文乱的打及次随顺，可文打机他列",
@@ -165,7 +89,6 @@ Page({
       storeName: '小猪猪干洗店',
       type: 'image',
       isAd: false,
-      isLike: false,
       remark: 4,
       telNumber: 1311311311,
       detailMode: false,
@@ -308,10 +231,14 @@ Page({
 
   jump2Comment(e) {
     let source = e.currentTarget.dataset.source
+    let store_id = e.currentTarget.dataset.store_id
+
     router.push({
       name: 'life_map_comment',
       data: {
-        "source": source
+        "source": source,
+        "store_id": store_id,
+        "store_name": this.data.storeList[this.data.cardCur].name
       }
     })
 
@@ -365,8 +292,8 @@ Page({
     if (this.data.isPreviewImgMode) return;
     wx.vibrateShort()
     let id = e.currentTarget.dataset.id
-    let swiperList = this.data.swiperList
-    swiperList.forEach(element => {
+    let storeList = this.data.storeList
+    storeList.forEach(element => {
       if (element.id == id) {
         element.detailMode = false;
         return;
@@ -376,7 +303,7 @@ Page({
     });
 
     this.setData({
-      swiperList,
+      storeList,
       globalDetailMode: false
     })
   },
@@ -392,8 +319,8 @@ Page({
       }
     })
     let id = e.currentTarget.dataset.id
-    let swiperList = this.data.swiperList
-    swiperList.forEach(element => {
+    let storeList = this.data.storeList
+    storeList.forEach(element => {
       if (element.id == id) {
         element.detailMode = true;
         return;
@@ -403,7 +330,7 @@ Page({
     });
 
     this.setData({
-      swiperList,
+      storeList,
       globalDetailMode: true
     })
   },
@@ -453,10 +380,16 @@ Page({
   },
 
   tapCallout(e) {
+    let that = this
     let id = e.detail.markerId
-    this.setData({
-      cardCur: id
-    })
+    this.data.storeList.forEach(e => {
+      if (e.id == id) {
+        that.setData({
+          cardCur: that.data.storeList.indexOf(e)
+        })
+      }
+    });
+
   },
   getUserLocation() {
     wx.showLoading({
@@ -514,8 +447,8 @@ Page({
       })
     }
     let that = this
-    let id = e.detail.current
-    let swiperList = this.data.swiperList
+    let id = this.data.storeList[e.detail.current].id
+    let storeList = this.data.storeList
     let markers = this.data.markers
     let longitude = 0
     let latitude = 0
@@ -532,18 +465,18 @@ Page({
       }
     });
 
-    swiperList.forEach(element => {
+    storeList.forEach(element => {
       if (element.id == id) {
         element.detailMode = this.data.globalDetailMode
         wx.setNavigationBarTitle({
-          title: element.storeName,
+          title: element.name,
         })
         return;
       }
     });
 
     this.setData({
-      swiperList,
+      storeList,
       cardCur: e.detail.current,
       markers,
       longitude,
@@ -585,6 +518,66 @@ Page({
       data: {}
     })
   },
+
+  handleGetStoresByListId: function (e) {
+    let that = this;
+    // 放到marker里
+    let markers = [];
+    let cardCur = 0
+    e.forEach(element => {
+      console.log(element)
+      if (element.id == that.data.enteredStoreId) {
+        cardCur = e.indexOf(element)
+      }
+
+      // 转换一下营业时间
+      element.timetable = util.formatTime(element.openTime, 'h:m') + " - " + util.formatTime(element.closeTime, 'h:m')
+      markers.push({
+        title: element.name,
+        id: element.id,
+        latitude: element.latitude,
+        longitude: element.longitude,
+        width: 1,
+        height: 1,
+        iconPath: "../../../../images/icon/icon_flag.png",
+        callout: {
+          id: 1,
+          borderRadius: 5,
+          padding: 7,
+          bgColor: element.id == that.data.enteredStoreId ? '#FDE06B' : '#00000077',
+          anchorX: 10,
+          anchorY: 20,
+          color: element.id == that.data.enteredStoreId ? '#000' : '#fff',
+          content: element.name,
+          display: 'ALWAYS',
+        },
+      })
+    })
+    this.setData({
+      cardCur,
+      markers,
+      storeList: e
+    })
+
+    wx.setNavigationBarTitle({
+      title: e[cardCur].name,
+    })
+  },
+
+  copyWechat(e) {
+    wx.setClipboardData({
+      data: e.currentTarget.dataset.wechat,
+      success: function (res) {
+        wx.getClipboardData({
+          success: function (res) {
+            wx.showToast({
+              title: '已复制商家微信'
+            })
+          }
+        })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -593,9 +586,18 @@ Page({
     // wx.hideNavigationBarLoading({
     //   success: (res) => {},
     // })
-    wx.setNavigationBarTitle({
-      title: '洗衣店',
+
+    const data = router.extract(options);
+    console.log(data)
+    var list_id = 'a';
+    list_id = data.list_id;
+    var store_id = 1;
+    store_id = data.store_id;
+    this.setData({
+      enteredStoreId: store_id
     })
+    lifemapService.getStoresByListId(list_id, this.handleGetStoresByListId)
+
     this.mapCtx = wx.createMapContext('map')
     qqmapsdk = new QQMapWX({
       key: app.globalData.key
@@ -682,21 +684,13 @@ Page({
           markers
         })
 
-        let dest = {}
 
         let shopIndex = this.data.cardCur
+        let dest = {
+          "latitude": that.data.storeList[shopIndex].latitude,
+          "longitude": that.data.storeList[shopIndex].longitude
+        }
 
-        that.data.markers.forEach(e => {
-          if (e.id == shopIndex) {
-            console.log(e)
-            dest = {
-              "latitude": e.latitude,
-              "longitude": e.longitude
-            }
-            console.log(dest)
-            return;
-          }
-        })
         let from = {
           "latitude": this.data.userLatitude,
           "longitude": this.data.userLongitude
@@ -735,8 +729,6 @@ Page({
                 "latitude": dest.latitude,
                 "longitude": dest.longitude
               }],
-              // latitude: (from.latitude + dest.latitude) / 2 - 0.001,
-              // longitude: (from.longitude + dest.longitude) / 2 - 0.0007,
               polyline: [{
                 points: pl,
                 color: '#f00',
@@ -748,7 +740,6 @@ Page({
             console.log(error);
           },
           complete: function (res) {
-            console.log(res);
             wx.hideLoading()
             wx.hideNavigationBarLoading()
           }
@@ -851,7 +842,7 @@ Page({
 
   onShareAppMessage: function (options) {
     var shareObj = {
-      title: "点击查看" + this.data.swiperList[this.data.cardCur].storeName,
+      title: "点击查看" + this.data.storeList[this.data.cardCur].storeName,
       path: '/pages/empty/empty?url=life_map_list?id=123',
       imageUrl: 'https://cdns.qdu.life/img/share_1.png',
       success: function (res) {

@@ -8,7 +8,9 @@
     "van-icon": "@vant/weapp/icon/index",
     "van-rate": "@vant/weapp/rate/index",
     "bottomdialog":"/components/bottomdialog/bottomdialog",
-    "van-skeleton": "@vant/weapp/skeleton/index"
+    "van-skeleton": "@vant/weapp/skeleton/index",
+    "van-empty": "@vant/weapp/empty/index"
+
   },
   "navigationBarBackgroundColor": "#fff"
 }

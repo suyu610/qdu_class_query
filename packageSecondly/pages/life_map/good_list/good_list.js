@@ -1,5 +1,6 @@
 // pages/category/category.js
 const router = require('../../../../router/index.js');
+import lifemapService from '../../../../net/lifemapService.js'
 
 Page({
 
@@ -124,6 +125,8 @@ Page({
         });
       }
     });
+
+
   },
 
   /**

@@ -1,51 +1,12 @@
 //获取应用实例
 let app = getApp();
 const router = require('../../../../router/index.js');
+import lifemapService from '../../../../net/lifemapService.js'
 
-// 模拟数据
-let list = [{
-    id: 'a',
-    name: "干洗店",
-    icon: "/images/temp.png"
-  }, {
-    id: "b",
-    name: "打印店",
-    icon: "/images/printer.png"
-  },
-  {
-    id: "c",
-    name: "修手机",
-    icon: "/images/iphone.png"
-  },
-  {
-    id: "d",
-    name: "眼镜店"
-  },
-  {
-    id: "e",
-    name: "配钥匙"
-  },
-  {
-    id: "f",
-    name: "花店"
-  },
-  {
-    id: "g",
-    name: "药店"
-  },
-  {
-    id: "h",
-    name: "理发店"
-  },
-  {
-    id: "i",
-    name: "剧本杀",
-    icon: "/images/printer.png"
-  }
-]
 
 Page({
   data: {
+    hasNewMsg: false,
     hasGotDate: false,
     currentStoreListIndex: 0,
     toStoreListView: 0,
@@ -55,7 +16,7 @@ Page({
     totalLength: '', //当前滚动列表总长
     slideShow: true,
     slideRatio: '',
-    tlist: list,
+    tlist: [],
     // 刷新
     triggered: true,
     showAllStorePopValue: false,
@@ -177,7 +138,6 @@ Page({
     ],
   },
   showAboutDialog() {
-    console.log("123")
     // - `size` 弹窗大小（normal：正常，large:大，small：小）
     // - `type` 弹窗样式类型
     // - `title` 弹窗标题
@@ -186,13 +146,25 @@ Page({
     // - `status` 是否显示蒙版
     // - `marsktap` 蒙版是否支持点击事件
     // - `foot` 是否有点击按钮
+    let dialog_1 = {}
+    let dialog_2 = {}
+    this.data.dialogList.forEach(e => {
+      if (e.pid == 1) {
+        dialog_1 = e
+      }
+      if (e.pid == 2) {
+        dialog_2 = e
+      }
+    });
+
+
     let option = {
       status: true,
       closeicon: true,
       contentstyle: 'white-space:pre-wrap;justify-content:left',
-      content: '本模块会收集校内和周边的商家信息\r\n本校学生可以在法规允许内自由评论与评分\r\n商店按照同学们的评分排序',
+      content: dialog_1.content.replace(/\\n/g, '\n'),
       marsktap: true,
-      title: '关于生活地图',
+      title: dialog_1.title,
       foot: [{
         text: '推广内容的说明',
         cb: () => {
@@ -208,9 +180,9 @@ Page({
       status: true,
       closeicon: true,
       contentstyle: 'white-space:pre-wrap;justify-content:left',
-      content: '为了持续发展，我们可能会接一些推广内容，它们的左上角会被标上 [ ad ]。\r\n虽然这些内容已经过我们筛选，但也须提高警惕，辨别广告真实性',
+      content: dialog_2.content.replace(/\\n/g, '\n'),
       marsktap: true,
-      title: '推广内容的说明',
+      title: dialog_2.title,
       foot: [{
         text: '我知道了',
         cb: () => {}
@@ -231,7 +203,11 @@ Page({
   },
   jump2StoreDetail(e) {
     router.push({
-      name: "life_map_list"
+      name: "life_map_list",
+      data: {
+        list_id: e.currentTarget.dataset.list_id,
+        store_id: e.currentTarget.dataset.store_id
+      }
     })
   },
   showAllStorePop() {
@@ -258,7 +234,7 @@ Page({
     })
   },
   onPulling(e) {
-    console.log('onPulling:', e)
+    // console.log('onPulling:', e)
   },
   onRefresh() {
     if (this._freshing) return
@@ -281,16 +257,31 @@ Page({
   onAbort(e) {
     console.log('onAbort', e)
   },
+
+  //////////////////////
+  ////// 服务端 ////////
+  /////////////////////
+  handleGetInitDataSuccess(e) {
+    console.log(e)
+    this.setData({
+      dialogList: e.dialogList,
+      tlist: e.storeTypeList,
+      hasGotDate: true,
+      hasNewMsg: e.hasUnreadMsg
+    })
+    app.globalData.dialogList = e.dialogList
+    //计算比例
+    this.getRatio();
+  },
+
   onLoad: function () {
+    lifemapService.getInitData(this.handleGetInitDataSuccess)
+
     wx.setNavigationBarTitle({
       title: '青空教室 - 权小益出品',
     })
 
-    setTimeout(() => {
-      this.setData({
-        hasGotDate: true,
-      })
-    }, 1000)
+
     const _this = this;
     // TODO: 获取数据
     let systemInfo = wx.getSystemInfoSync();
@@ -298,8 +289,7 @@ Page({
       windowHeight: systemInfo.windowHeight - 35,
       windowWidth: systemInfo.windowWidth,
     })
-    //计算比例
-    _this.getRatio();
+
   },
 
   //根据分类获取比例

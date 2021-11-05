@@ -35,8 +35,8 @@
 }
 
 .tag.selected {
-  border: 2rpx solid #fde06b;
-  background-color: #fde06b;
+  border: 2rpx solid #FEEBB5;
+  background-color: #FEEBB5;
   color: #000000;
 }
 

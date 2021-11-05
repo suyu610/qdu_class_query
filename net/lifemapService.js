@@ -1,46 +1,82 @@
 import httpService from "./httpService";
 
-import {  
-  GetWholeRandomFoodUrl,CommentByFoodidUrl,InsertCommentByFoodidUrl,ToggleLikeFoodUrl
+import {
+  getInitDataUrl,
+  getStoresByListIdUrl,
+  getCommentsByStoreIdUrl,
+  submitStoreCommentUrl,
+  submitReplyStoreCommentUrl,
+  getMultiGoodListByStoreIdUrl,
+  getUserAllUnreadMsgUrl,
+  getGoodDetailByGoodIdUrl,
+  addStoreCommentUrl,
+  addFeedbackUrl,
+  addStoreUrl,
+  addStarCommentUrl,
+  deleteCommentUrl
 } from "./constants";
 
-function getWholeRandomFood(handleSuccess){
+
+function deleteComment(commentId, handleSuccess) {
   httpService.get(
-    GetWholeRandomFoodUrl,
+    deleteCommentUrl + commentId,
     "",
-    res=>{
+    res => {
       handleSuccess(res.data['data'])
-    }) 
+    })
 }
 
-function toggleLike(foodId){
-  httpService.post(
-    ToggleLikeFoodUrl+"?foodId="+foodId,
-    "",
-    )
-}
-
-function getCommentByFoodid(foodId,handleSuccess){
+function getInitData(handleSuccess) {
   httpService.get(
-    CommentByFoodidUrl+"?foodId="+foodId,
+    getInitDataUrl,
     "",
-    res=>{
+    res => {
       handleSuccess(res.data['data'])
-    }) 
+    })
 }
 
-function insertCommentByFoodid(params,handleSuccess){
-  httpService.post(
-    InsertCommentByFoodidUrl,
-    params,
-    res=>{
+function getStoresByListId(listId, handleSuccess) {
+  httpService.get(
+    getStoresByListIdUrl + listId,
+    "",
+    res => {
       handleSuccess(res.data['data'])
-    }) 
+    })
 }
+
+function getCommentsByStoreId(shopId, handleSuccess) {
+  httpService.get(
+    getCommentsByStoreIdUrl + shopId,
+    "",
+    res => {
+      handleSuccess(res.data['data'])
+    })
+}
+
+function submitStoreComment(data, handleSuccess) {
+  httpService.post(
+    submitStoreCommentUrl,
+    data,
+    res => {
+      handleSuccess(res.data['data'])
+    })
+}
+
+function submitReplyStoreComment(data, handleSuccess) {
+  httpService.post(
+    submitReplyStoreCommentUrl,
+    data,
+    res => {
+      handleSuccess(res.data['data'])
+    })
+}
+
 
 module.exports = {
-  getWholeRandomFood:getWholeRandomFood,
-  getCommentByFoodid:getCommentByFoodid,
-  insertCommentByFoodid:insertCommentByFoodid,
-  toggleLike:toggleLike
+  getInitData,
+  getStoresByListId,
+  getCommentsByStoreId,
+  submitStoreComment,
+  submitReplyStoreComment,
+  deleteComment
 }

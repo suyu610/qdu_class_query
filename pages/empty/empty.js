@@ -194,36 +194,36 @@ Page({
   onLoad: function (options) {
     let that = this;
 
-    setTimeout(function () {
-      that.setData({
-        animation_1: true
-      })
-    }, 0)
-    setTimeout(function () {
-      that.setData({
-        animation_2: true
-      })
-    }, 1000)
-    setTimeout(function () {
-      that.setData({
-        animation_3: true
-      })
-    }, 2000)
-    setTimeout(function () {
-      that.setData({
-        animation_4: true
-      })
-    }, 3000)
-    setTimeout(function () {
-      that.setData({
-        animation_5: true
-      })
-    }, 3500)
-    setTimeout(function () {
-      that.setData({
-        animation_6: true
-      })
-    }, 4000)
+    // setTimeout(function () {
+    //   that.setData({
+    //     animation_1: true
+    //   })
+    // }, 0)
+    // setTimeout(function () {
+    //   that.setData({
+    //     animation_2: true
+    //   })
+    // }, 1000)
+    // setTimeout(function () {
+    //   that.setData({
+    //     animation_3: true
+    //   })
+    // }, 2000)
+    // setTimeout(function () {
+    //   that.setData({
+    //     animation_4: true
+    //   })
+    // }, 3000)
+    // setTimeout(function () {
+    //   that.setData({
+    //     animation_5: true
+    //   })
+    // }, 3500)
+    // setTimeout(function () {
+    //   that.setData({
+    //     animation_6: true
+    //   })
+    // }, 4000)
     this.setData({
       version: app.globalData.version
     })
@@ -232,45 +232,43 @@ Page({
       options: options
     })
 
-    setTimeout(function () {
-      // 判断校区
-      // 如果没获取到值，则为浮山校区
-      wx.getStorage({
-        key: 'currentCampus',
-        success(res) {
-          if (res.data == "浮山校区") {
-            app.globalData.currentCampus = 1709
-            app.globalData.longitude = 120.423621
-            app.globalData.latitude = 36.070106
-          } else {
-            app.globalData.currentCampus = 13041
-            app.globalData.longitude = 120.478779
-            app.globalData.latitude = 36.115249
-          }
-        },
-        fail() {
+    // 判断校区
+    // 如果没获取到值，则为浮山校区
+    wx.getStorage({
+      key: 'currentCampus',
+      success(res) {
+        if (res.data == "浮山校区") {
           app.globalData.currentCampus = 1709
           app.globalData.longitude = 120.423621
           app.globalData.latitude = 36.070106
+        } else {
+          app.globalData.currentCampus = 13041
+          app.globalData.longitude = 120.478779
+          app.globalData.latitude = 36.115249
         }
-      })
+      },
+      fail() {
+        app.globalData.currentCampus = 1709
+        app.globalData.longitude = 120.423621
+        app.globalData.latitude = 36.070106
+      }
+    })
 
-      // 判断本地是否有token
-      wx.getStorage({
-        key: app.globalData.tokenKey,
-        success(res) {
-          console.log("存在token")
-          if (res.data.token != null) {
-            that.loginByToken(res.data.token);
-          } else {
-            that.loginByToken(res.data);
-          }
-        },
-        fail() {
-          console.log("不存在token")
-          that.loginByWxCode()
+    // 判断本地是否有token
+    wx.getStorage({
+      key: app.globalData.tokenKey,
+      success(res) {
+        console.log("存在token")
+        if (res.data.token != null) {
+          that.loginByToken(res.data.token);
+        } else {
+          that.loginByToken(res.data);
         }
-      })
-    }, 3000)
+      },
+      fail() {
+        console.log("不存在token")
+        that.loginByWxCode()
+      }
+    })
   }
 })

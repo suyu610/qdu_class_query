@@ -21,10 +21,17 @@ Component({
    */
   methods: {
     previewImage: function (e) {
+      let urls = []
+      this.data.data.pics.forEach(e => {
+        if (e.fileType == 'image') {
+          urls.push(e.url)
+        }
+      })
+
       let index = e.target.dataset.index;
       wx.previewImage({
-        current: this.data.data.pics[index], // 当前显示图片的http链接
-        urls: this.data.data.pics // 需要预览的图片http链接列表
+        current: this.data.data.pics[index].url, // 当前显示图片的http链接
+        urls: urls // 需要预览的图片http链接列表
       })
     },
     previewAddImage: function (e) {
@@ -33,6 +40,18 @@ Component({
         current: this.data.data.addComment.pics[index], // 当前显示图片的http链接
         urls: this.data.data.addComment.pics // 需要预览的图片http链接列表
       })
+    },
+    showVideo: function (e) {
+      this.triggerEvent('showVideoTapped', {
+        src: e.currentTarget.dataset.src
+      })
+    },
+
+    delComment: function (e) {
+      this.triggerEvent('delComment', {
+        id: e.currentTarget.dataset.id
+      })
+
     },
     likeBtnTapped(e) {
       let data = this.data.data
