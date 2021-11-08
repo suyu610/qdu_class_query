@@ -17,9 +17,6 @@ module.exports = {
     path: '/pages/faq/faq_list/faq_list',
   },
 
-  lucky_draw: {
-    path: '/packageSecondly/pages/lucky_draw/lucky_draw',
-  },
 
   course: {
     type: 'tab',
@@ -30,9 +27,11 @@ module.exports = {
     path: '/packageImportCourse/pages/course_import/course_import'
   },
 
+
   multi_course: {
     path: '/packageSecondly/pages/multi_course/multi_course'
   },
+
 
   multi_course_detail: {
     path: '/packageSecondly/pages/multi_course/detail/detail'
@@ -41,7 +40,7 @@ module.exports = {
     path: '/pages/msg/msg'
   },
 
-  msg_detail:{
+  msg_detail: {
     path: '/pages/msg/detail/detail'
 
   },
@@ -121,6 +120,10 @@ module.exports = {
 
   major_list: {
     path: "/packageSecondly/pages/major_list/major_list"
+  },
+
+  lucky_draw: {
+    path: '/packageSecondly/pages/lucky_draw/lucky_draw',
   },
 
 };

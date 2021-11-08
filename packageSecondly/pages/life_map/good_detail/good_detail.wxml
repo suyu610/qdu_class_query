@@ -1,6 +1,7 @@
 <!--pages/product/product.wxml-->
 <import src="/libs/wxParse/wxParse.wxml" />
 <wxs module="common" src="/utils/common.wxs"></wxs>
+<van-notice-bar  left-icon="info-o" mode="closeable" text="这个页面暂未开发，数据为演示数据，等商家数据采集到一定量以后再做" />
 
 <swiper class="gallery" indicator-dots="true" indicator-color="#999" indicator-active-color="#000" autoplay="true"
   interval="3000" duration="1000">
@@ -101,7 +102,7 @@
 </view>
 
 <!-- 评论统计 -->
-<view class="attr-wrap comments" hover-class="active" bindtap="toComment" wx:if="{{product.comment.count > 0}}">
+<!-- <view class="attr-wrap comments" hover-class="active" bindtap="toComment" wx:if="{{product.comment.count > 0}}">
   <view class="header">
     <text class="title">用户评价({{product.comment.count}})</text>
     <view class="right">
@@ -110,12 +111,12 @@
       <image class="arrow" src="/images/icon/icon_rightArrow.png"></image>
     </view>
   </view>
-</view>
+</view> -->
 
 <!-- 精选评论 -->
-<view class="select-comment">
+<!-- <view class="select-comment">
   <comment data="{{product.comment.goodComment}}"></comment>
-</view>
+</view> -->
 
 <!-- 推荐 -->
 <view class="recommend">

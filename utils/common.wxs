@@ -1,4 +1,8 @@
 var toFix = function (value) {
+
+  if (value == null) {
+    return 0;
+  }
   return value.toFixed(2);
 }
 
@@ -10,6 +14,7 @@ var format = function (time, format) {
   }
   time = parseInt(time);
   var realDate = getDate(time);
+
   function timeFormat(num) {
     return num < 10 ? '0' + num : num;
   }
@@ -34,14 +39,15 @@ var format = function (time, format) {
 
     var reg2 = getRegExp("(" + k + ")").exec(format);
     if (reg2) {
-      format = format.replace(reg2[1], reg2[1].length == 1
-        ? v : ("00" + v).substring(("" + v).length));
+      format = format.replace(reg2[1], reg2[1].length == 1 ?
+        v : ("00" + v).substring(("" + v).length));
     }
   }
   return format;
 }
 
+
 module.exports = {
   toFix: toFix,
-  format: format
+  format: format,
 }

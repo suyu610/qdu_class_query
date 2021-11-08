@@ -6,6 +6,7 @@ import {
   getCommentsByStoreIdUrl,
   submitStoreCommentUrl,
   submitReplyStoreCommentUrl,
+  toggleCommentLikeUrl,
   getMultiGoodListByStoreIdUrl,
   getUserAllUnreadMsgUrl,
   getGoodDetailByGoodIdUrl,
@@ -72,11 +73,23 @@ function submitReplyStoreComment(data, handleSuccess) {
 }
 
 
+function toggleCommentLike(commentId, handleSuccess) {
+  httpService.get(
+    toggleCommentLikeUrl + commentId,
+    "",
+    res => {
+      handleSuccess(res.data['data'])
+    })
+}
+
+
+
 module.exports = {
   getInitData,
   getStoresByListId,
   getCommentsByStoreId,
   submitStoreComment,
   submitReplyStoreComment,
-  deleteComment
+  deleteComment,
+  toggleCommentLike
 }

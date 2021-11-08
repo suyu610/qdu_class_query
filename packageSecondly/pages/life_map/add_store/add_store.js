@@ -2,6 +2,9 @@ const app = getApp();
 const chooseLocation = requirePlugin('chooseLocation');
 const key = '5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO'; //使用在腾讯位置服务申请的key
 const referer = '青岛大学空教室查询'; //调用插件的app的名称
+import lifemapService from '../../../../net/lifemapService.js'
+import userService from '../../../../net/userService.js'
+
 const location = JSON.stringify({
   latitude: 36.06623,
   longitude: 120.38299
@@ -19,14 +22,13 @@ Page({
       }
     ],
     activeStep: 0,
+    storeNameValue: '',
     goodTypeInputValue: '',
-    StatusBar: app.globalData.StatusBar,
-    CustomBar: app.globalData.CustomBar,
-    index: null,
+    shopTypeIndex: null,
     inSchool: true,
     goodList: [],
     goodTypeList: [],
-    picker: [{
+    storeTypePicker: [{
         id: 'a',
         name: "干洗店",
         icon: "/images/temp.png"
@@ -67,12 +69,8 @@ Page({
       }
     ],
 
-    multiIndex: [0, 0, 0],
     openTime: '09:00',
     closeTime: '22:00',
-
-    date: '2018-12-25',
-    region: ['广东省', '广州市', '海珠区'],
     imgList: [],
     textareaAValue: '',
     textareaBValue: ''
@@ -83,7 +81,37 @@ Page({
     });
   },
 
+  inputChange(e) {
+    let type = e.currentTarget.dataset.type;
+    let value = e.detail.value
+    this.setData({
+      [type]: value
+    })
+  },
+
+
   nextStep() {
+    if (this.data.shopTypeIndex == null) {
+      wx.showToast({
+        icon: 'error',
+        title: '未选择商店类型',
+      })
+      return;
+    }
+    // 打印一下基本信息
+    console.log(this.data.storeNameValue)
+    console.log(this.data.addressValue)
+    console.log(this.data.location)
+    console.log(this.data.telValue)
+    console.log(this.data.wechatValue)
+    console.log(this.data.qqValue)
+    console.log(this.data.storeTypePicker[this.data.shopTypeIndex].id)
+    console.log(this.data.storeTypePicker[this.data.shopTypeIndex].typeName)
+    console.log(this.data.openTime)
+    console.log(this.data.closeTime)
+    console.log(this.data.shopIntroValue)
+
+
     this.setData({
       activeStep: 1
     })
@@ -93,10 +121,9 @@ Page({
       activeStep: 0
     })
   },
-  PickerChange(e) {
-    console.log(e);
+  storeTypePickerChange(e) {
     this.setData({
-      index: e.detail.value
+      shopTypeIndex: e.detail.value
     })
   },
   inSchoolChange(e) {
@@ -106,6 +133,10 @@ Page({
   },
   formSubmit(e) {
     console.log('form发生了submit事件，携带数据为：', e)
+    wx.showToast({
+      icon: 'error',
+      title: '暂不可用',
+    })
   },
   pickerChangeGoodTypeId(e) {
     console.log(e)
@@ -303,21 +334,13 @@ Page({
       closeTime: e.detail.value
     })
   },
-  DateChange(e) {
-    this.setData({
-      date: e.detail.value
-    })
-  },
-  RegionChange: function (e) {
-    this.setData({
-      region: e.detail.value
-    })
-  },
+
+
   ChooseImage() {
     wx.chooseImage({
       count: 4, //默认9
       sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album'], //从相册选择
+      sourceType: ['album', 'camera']	, //从相册选择
       success: (res) => {
         if (this.data.imgList.length != 0) {
           this.setData({
@@ -353,29 +376,49 @@ Page({
       }
     })
   },
-  textareaAInput(e) {
-    this.setData({
-      textareaAValue: e.detail.value
-    })
-  },
-  textareaBInput(e) {
-    this.setData({
-      textareaBValue: e.detail.value
-    })
-  },
+
+
   // 从地图选点插件返回后，在页面的onShow生命周期函数中能够调用插件接口，取得选点结果对象
   onShow() {
     const location = chooseLocation.getLocation(); // 如果点击确认选点按钮，则返回选点结果对象，否则返回null
-    this.setData({
-      location
-    })
-    console.log(location)
+    if (location != null) {
+      this.setData({
+        location,
+        point: location.longitude + "," + location.latitude,
+        pointStr: location.address + location.name
+      })
+    }
   },
   onUnload() {
     // 页面卸载时设置插件选点数据为null，防止再次进入页面，geLocation返回的是上次选点结果
     chooseLocation.setLocation(null);
   },
+
+  //////////////////////
+  ////// 服务端 ////////
+  /////////////////////
+  handleGetInitDataSuccess(e) {
+    this.setData({
+      dialogList: e.dialogList,
+      storeTypePicker: e.storeTypeList,
+    })
+  },
+
   onLoad(options) {
+    lifemapService.getInitData(this.handleGetInitDataSuccess)
+
+    // 解决placeholder错位的问题
+    this.setData({
+      shopIntroValue: "请输入"
+    }, () => {
+      let timeout = setTimeout(() => {
+        this.setData({
+          shopIntroValue: ""
+        })
+        clearTimeout(timeout)
+      }, 50)
+    })
+
     wx.enableAlertBeforeUnload({
       message: "数据未保存，你确定要返回吗？"
     })

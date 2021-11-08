@@ -1,4 +1,5 @@
 <bottomdialog></bottomdialog>
+<!-- <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o" closeable text="添加商店、消息提醒、商品详情功能暂未开发，其他已经好了" /> -->
 
 <view class="cu-bar bg-white">
   <view class="action sub-title" bindtap="showAboutDialog">
@@ -33,36 +34,43 @@
   <van-transition name="fade-up" show="{{activeStep==0}}" custom-class="block">
     <view class="cu-form-group margin-top">
       <view class="title">商店名</view>
-      <input placeholder-class="text-sm text-gray" placeholder="在此输入商家名"></input>
+      <input placeholder-class="text-sm text-gray" value="{{storeNameValue}}" bindinput="inputChange"
+        data-type="storeNameValue" placeholder="在此输入商家名"></input>
     </view>
 
     <view class="cu-form-group">
       <view class="title">地址</view>
-      <input placeholder-class="text-sm text-gray" placeholder="在此输入地址"
-        value="{{location.district}}{{location.name}}"></input>
-      <button class="cuIcon-locationfill  cu-btn sm bg-white shadow" bindtap="jump2ChoosePoint">地图选点</button>
+      <input placeholder-class="text-sm text-gray" value="{{addressValue}}" bindinput="inputChange"
+        data-type="addressValue" placeholder="比如地下通道右侧" value="{{locationStr}}"></input>
     </view>
     <view class="cu-form-group">
       <view class="title">经纬度</view>
-      <input placeholder-class="text-sm text-gray" placeholder="在此输入经纬度"
-        value="{{location.longitude}} {{location.latitude}}"></input>
-      <!-- <button class="cuIcon-locationfill  cu-btn sm bg-white shadow" bindtap="jump2ChoosePoint">地图选点</button> -->
+      <input disabled="{{true}}" placeholder-class="text-sm text-gray" placeholder="请点击地图选点" value="{{point}}"></input>
+      <button class="cuIcon-locationfill  cu-btn sm bg-white shadow" bindtap="jump2ChoosePoint">地图选点</button>
+    </view>
+    <view class="cu-form-group">
+      <view class="title">选点结果</view>
+      <input disabled="{{true}}" placeholder-class="text-sm text-gray" placeholder="请点击地图选点"
+        value="{{pointStr}}"></input>
     </view>
     <view class="cu-form-group">
       <view class="title">手机</view>
-      <input placeholder-class="text-sm text-gray" placeholder="手机"></input>
+      <input placeholder-class="text-sm text-gray" value="{{telValue}}" bindinput="inputChange" data-type="telValue"
+        placeholder="手机"></input>
     </view>
     <view class="cu-form-group">
       <view class="title">社交</view>
-      <view style=""><input placeholder-class="text-sm text-gray" placeholder="QQ"></input></view>
+      <view><input placeholder-class="text-sm text-gray" placeholder="QQ" value="{{qqValue}}" bindinput="inputChange"
+          data-type="qqValue"></input></view>
       <view style="width:35vw;border-left:1px solid lightgrey;padding-left:5px"><input
-          placeholder-class="text-sm text-gray" placeholder="微信"></input></view>
+          placeholder-class="text-sm text-gray" placeholder="微信" value="{{wechatValue}}" bindinput="inputChange"
+          data-type="wechatValue"></input></view>
     </view>
     <view class="cu-form-group margin-top-sm">
-      <view class="title">店铺分类</view>
-      <picker bindchange="PickerChange" value="{{index}}" range-key="name" range="{{picker}}">
+      <view class="title">商店类型</view>
+      <picker bindchange="storeTypePickerChange" value="{{shopTypeIndex}}" range-key="typeName" range="{{storeTypePicker}}">
         <view class="picker">
-          {{index?picker[index].name:'未选择'}}
+          {{shopTypeIndex?storeTypePicker[shopTypeIndex].typeName:'未选择'}}
         </view>
       </picker>
     </view>
@@ -84,8 +92,8 @@
     </view>
     <view class="cu-form-group align-start">
       <view class="title">商店介绍</view>
-      <textarea maxlength="-1" placeholder-class="text-sm text-gray" bindinput="textareaBInput"
-        placeholder="在此输入商店介绍"></textarea>
+      <textarea maxlength="-1" value="{{shopIntroValue}}" bindinput="inputChange" data-type="shopIntroValue"
+        placeholder-class="text-sm text-gray" name="textarea" placeholder="在此输入商店介绍"></textarea>
     </view>
     <view class="cu-bar bg-white margin-top-sm">
       <view class="action">
@@ -128,7 +136,6 @@
           <button class="cu-btn sm bg-white shadow">
             <text class="cuIcon-add"></text>新增</button>
         </view>
-        <!-- <view bindtap="onShowAddGoodTypePop" class="cu-tag round bg-blue" style="float: right">+ 新增</view> -->
       </view>
 
     </view>
@@ -192,22 +199,7 @@
     formType="submit">提交</button>
 
   <!--   
-  <view class="cu-form-group">
-    <view class="title">日期选择</view>
-    <picker mode="date" value="{{date}}" start="2015-09-01" end="2020-09-01" bindchange="DateChange">
-      <view class="picker">
-        {{date}}
-      </view>
-    </picker>
-  </view>
-  <view class="cu-form-group">
-    <view class="title">地址选择</view>
-    <picker mode="region" bindchange="RegionChange" value="{{region}}" custom-item="{{customItem}}">
-      <view class="picker">
-        {{region[0]}}，{{region[1]}}，{{region[2]}}
-      </view>
-    </picker>
-  </view>
+
   <view class="cu-form-group margin-top">
     <view class="title">开关选择</view>
     <switch></switch>

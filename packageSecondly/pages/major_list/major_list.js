@@ -155,7 +155,9 @@ Page({
 
   },
   handleCheckImportFromJwSuccess: function (e) {
-    if (!e) {
+    console.log(e)
+
+    if (e == '-1' || e == "") {
       wx.hideLoading()
       // 如果false，则跳转
       Dialog.confirm({

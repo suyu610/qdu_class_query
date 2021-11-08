@@ -886,7 +886,7 @@ Page({
     })
     wx.showToast({
       icon: 'none',
-      title: '即将上线',
+      title: '数据采集中',
     })
   },
 

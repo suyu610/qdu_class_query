@@ -1,11 +1,13 @@
-// export const Host =  'http://localhost:4396/v1/';
-export const Host = 'https://api.qdu.life/v1/';
+// export const Host = 'https://api.qdu.life/v1/';
+// export const Host = 'http://localhost:4396/v1/';
 
 // export const Host = 'http://10.195.129.148:4396/v1/';
-// export const Host = 'http://192.168.1.125:4396/v1/';
+export const Host = 'http://192.168.43.29:4396/v1/';
 
+export const TencentCloudStoragyUrl = "cloud://qdu-class-query-0gjy63ub39e21b96.7164-qdu-class-query-0gjy63ub39e21b96-1304496923/"
 
 export const GetRoomCourseUrl = 'roomshedule/single';
+
 
 ////////////
 /// 天气 ///
@@ -144,7 +146,7 @@ export const Faq_GetFaqListUrl = 'faq/getFaqList/'
 ///  生活地图  ///
 ////////////////
 
-export const getInitDataUrl = 'lifemap/getInitData' 
+export const getInitDataUrl = 'lifemap/getInitData'
 export const getStoresByListIdUrl = 'lifemap/getStoresByListId/'
 export const getMultiGoodListByStoreIdUrl = 'lifemap/getMultiGoodListByStoreId/'
 export const getUserAllUnreadMsgUrl = 'lifemap/getUserAllUnreadMsg/'
@@ -156,7 +158,9 @@ export const getCommentsByStoreIdUrl = 'lifemap/getCommentsByStoreId/'
 export const submitStoreCommentUrl = 'lifemap/submitStoreComment'
 export const submitReplyStoreCommentUrl = 'lifemap/submitReplyStoreComment'
 
-export const deleteCommentUrl = 'lifemap/deleteComment/' 
+export const deleteCommentUrl = 'lifemap/deleteComment/'
+
+export const toggleCommentLikeUrl = 'lifemap/toggleCommentLike/'
 
 export const addFeedbackUrl = 'lifemap/addFeedback/'
 export const addStoreUrl = 'lifemap/addStore/'

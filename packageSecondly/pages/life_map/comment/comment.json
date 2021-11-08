@@ -8,7 +8,10 @@
     "van-field": "@vant/weapp/field/index",
     "van-divider": "@vant/weapp/divider/index",
     "bottomdialog": "/components/bottomdialog/bottomdialog",
-    "van-empty": "@vant/weapp/empty/index"
+    "van-skeleton": "@vant/weapp/skeleton/index",
+    "van-empty": "@vant/weapp/empty/index",
+    "van-overlay": "@vant/weapp/overlay/index"
+
 
   },
   "navigationBarBackgroundColor": "#fff",

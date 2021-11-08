@@ -45,40 +45,36 @@ Page({
           sortOrder: 5
         }
       ], // 轮播图
-      title: "Apple iPhone XS Max (A2104)",
-      description: "A12仿生芯片流畅体验，支持双卡！",
-      defaultPrice: 1.00, // 默认显示价格
-      price: 1.00,
-      originPrice: 9588.00,
-      detail: '<div><img src="https://img14.360buyimg.com/cms/jfs/t1/25195/1/9487/388554/5c7f80a5E8b8f8f0c/46818404849d6ec6.jpg"><img src="https://img12.360buyimg.com/cms/jfs/t1/15853/18/9628/325164/5c7f80a5E7172b236/ba9f3f63a83a9b65.jpg"></div>', // 商品详情
+      title: "这个功能等商家数据采集到一定量以后再做",
+      description: "演示商品介绍",
+      defaultPrice: '演示价格', // 默认显示价格
+      price: 0.00,
+      originPrice: 0.00,
+      detail: "<div><img src='//img30.360buyimg.com/sku/jfs/t1/203337/8/1544/187195/6119cf1bE92014ce3/b94beab1debab233.jpg!q70.dpg.webp'><img src = '//img30.360buyimg.com/sku/jfs/t1/198589/9/3381/184882/6119cf1bE3d35bc7e/c4361ecbc5371e1d.jpg!q70.dpg.webp'><img src ='//img30.360buyimg.com/sku/jfs/t1/200269/16/3262/146936/6119cf1aE5fd1fa59/43dab8900a382d33.jpg!q70.dpg.webp' > </div>",
+      //商品详情
       tags: [{
           id: 1,
-          title: "官方自营品牌"
+          title: "演示标签-1"
         },
         {
           id: 2,
-          title: "新品"
+          title: "演示标签-2"
         }
       ],
       serviceList: [{
           id: 1,
-          title: "48小时快速退款",
-          desc: "收到退货包裹并确认无误后，将在48小时内办理退款，退款将原路返回，不同银行处理时间不同，预计1-5个工作日到账。"
+          title: "演示商家提供的服务 - 1",
+          desc: "巴拉巴拉巴拉"
         },
         {
           id: 2,
-          title: "满88元免邮费",
-          desc: "单笔订单金额（不含运费），大陆地区满88元免邮，不满88元收取10元邮费；港澳台地区满500元免邮，不满500元收取30元运费；海外地区以下单页提示运费为准。"
+          title: "演示商家提供的服务 - 2",
+          desc: "巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉"
         },
         {
           id: 3,
-          title: "官方自营品牌",
-          desc: "官方原创生活类电商品牌，所有商品均为官方自营，品质保证。"
-        },
-        {
-          id: 4,
-          title: "国内部分地区无法配送",
-          desc: "不支持省份: 台湾、香港、澳门、新疆"
+          title: "演示商家提供的服务 - 3",
+          desc: "巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉"
         }
       ],
       comment: {
@@ -99,23 +95,23 @@ Page({
       },
       attribute: [{
           name: "品牌",
-          value: "Apple"
+          value: "青空"
         },
         {
           name: "颜色",
-          value: "银色、黑色"
+          value: "黄色、黑色"
         },
         {
           name: "容量",
-          value: "64G、256G"
+          value: "8G 16核 20M"
         }
       ] // 商品属性
     },
     recommend: [{
         id: 1,
         relateId: 0,
-        title: "各色DNA检测套装",
-        description: "千万级基因位点数据解读",
+        title: "演示推荐的商品1",
+        description: "演示推荐的商品1",
         price: 499.00,
         type: 0,
         picUrl: "https://resource.smartisan.com/resource/9bffe702b1f0aea221b1f18ddf886958.jpg"
@@ -123,8 +119,8 @@ Page({
       {
         id: 2,
         relateId: 0,
-        title: "畅呼吸智能空气净化器",
-        description: "超强净化能力，超低噪音",
+        title: "演示推荐的商品2",
+        description: "演示推荐的商品2",
         price: 1299.00,
         type: 0,
         picUrl: "https://resource.smartisan.com/resource/6ff92d05a3bfab4fad489ca04d3eea5a.png"
@@ -132,8 +128,8 @@ Page({
       {
         id: 3,
         relateId: 0,
-        title: "坚果 Pro 2",
-        description: "漂亮得不像实力派",
+        title: "演示推荐的商品3",
+        description: "演示推荐的商品3",
         price: 1799.00,
         type: 0,
         picUrl: "https://resource.smartisan.com/resource/c71ce2297b362f415f1e74d56d867aed.png"
@@ -141,8 +137,8 @@ Page({
       {
         id: 4,
         relateId: 0,
-        title: "Smartisan 帆布鞋",
-        description: "一双踏实、舒适的帆布鞋",
+        title: "演示推荐的商品4",
+        description: "演示推荐的商品4",
         price: 199.00,
         type: 0,
         picUrl: "https://resource.smartisan.com/resource/578116bddf1d170c89e9af7ba5073fb6.jpg"

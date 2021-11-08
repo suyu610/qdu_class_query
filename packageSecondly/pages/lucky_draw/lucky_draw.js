@@ -6,6 +6,7 @@ const app = getApp()
 
 const wxCharts = require("../../../utils/wxcharts.js")
 var lineChart = null;
+
 //计数器
 var interval = null;
 

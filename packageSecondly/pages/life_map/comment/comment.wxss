@@ -1,5 +1,8 @@
 /* pages/comment/comment.wxss */
-
+.container {
+  background-color: #fff;
+  height: 100vh;
+}
 .wrap {
   background: #fff;
   display: flex;
@@ -8,11 +11,16 @@
   flex-direction: column;
   align-items: center;
 }
-
+.video-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: .2s;
+}
 .header {
   width: 100vw;
 }
-
 
 .tag-wrap {
   display: flex;
@@ -35,8 +43,8 @@
 }
 
 .tag.selected {
-  border: 2rpx solid #FEEBB5;
-  background-color: #FEEBB5;
+  border: 2rpx solid #feebb5;
+  background-color: #feebb5;
   color: #000000;
 }
 

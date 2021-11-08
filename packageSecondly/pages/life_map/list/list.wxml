@@ -1,7 +1,9 @@
 <!--packageSecondly/pages/life_map/list/list.wxml-->
+<wxs module="common" src="/utils/common.wxs"></wxs>
+
 <view class="container" style="{{ themeData.myStyle }}">
   <map polyline="{{showRouter?polyline:''}}" bindregionchange="regionchange" style="z-index:-1" id="map" min-scale="5"
-    max-scale="19" enable-rotate enable-zoom subkey="5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO" layer-style="{{theme}}"
+    max-scale="19" enable-rotate enable-zoom layer-style="3" subkey="5WCBZ-U7RLU-RFHVG-2N6Q7-76LT6-DZBJO"
     scale="{{scale}}" longitude="{{longitude}}" latitude="{{latitude}}" include-points="{{includePoints}}"
     bindcallouttap="tapCallout" markers="{{markers}}">
     <!-- <view class="center-position">
@@ -15,9 +17,9 @@
   </view>
 
   <view bindtap="generateRouter" class="router"
-    style="{{showRouter?'width: 138px;':''}} opacity:{{showRouter?'1': '0.7'}};bottom:{{showRouter?'130rpx': '680rpx'}};background-color:{{showRouter?'#fde06b':'#ffffffd1'}}">
+    style="{{showRouter?'width: 180px;':''}} opacity:{{showRouter?'1': '0.7'}};bottom:{{showRouter?'130rpx': '680rpx'}};background-color:{{showRouter?'#fde06b':'#ffffffd1'}}">
     <iconfont wx:if="{{!showRouter}}" name="chuhang" size="30"></iconfont>
-    <text wx:else>退出路线规划</text>
+    <text wx:else>*使用wifi能更精确定位* \n退出路线规划</text>
     <!-- <van-icon size="30px" name="/images/icon/icon_foot.png"></van-icon> -->
   </view>
   <!-- 搜索框 -->
@@ -124,7 +126,8 @@
               </view>
 
               <view class="rate" catchtap="onToggleRatePop" style="width: 50%;bottom: 10rpx;">
-                <van-rate size="{{ 16 }}" value="{{item.avgRemark}}" color="#FDE06B" readonly />
+                <van-rate allow-half size="{{ 16 }}" void-color="#f1f1f1" value="{{item.avgRemark}}" color="#FDE06B"
+                  readonly />
               </view>
             </view>
             <view class="comments" catchtap="onShowFeedbackPop"
@@ -155,7 +158,7 @@
 </van-popup>
 <!-- 评分框 -->
 <van-popup show="{{ showRatePopValue }}" round position="bottom" closeable bind:close="onToggleRatePop"
-  custom-style="width:100%;height: 40%;">
+  custom-style="width:100%;height: 60%;">
   <view class="cu-bar bg-white">
     <view class="action sub-title">
       <text class="text-lg text-bold text-black">{{storeList[cardCur].name}}</text>
@@ -163,28 +166,38 @@
     </view>
   </view>
 
-  <view style="text-align:center;color:grey;font-size:28rpx">平均评分<text
-      style="font-size:80rpx;font-weight: bold;color:black;padding-left:10px;padding-right:10px">{{storeList[cardCur].avgRemark}}</text>
-    ( {{storeList[cardCur].remarkPeopleCount}}人 )
-  </view>
+  <view bindtap="jump2Comment" data-store_id="{{storeList[cardCur].id}}" data-source="rate"
+    style="text-align:center;color:grey;font-size:28rpx">平均得分
+    <text
+      style="font-size:80rpx;font-weight: bold;color:black;padding-left:10px;padding-right:10px">{{common.toFix(storeList[cardCur].avgRemark)}}</text>
+    ( {{storeList[cardCur].scoreCount}}人 )
 
-  <view style="margin: 24rpx auto;text-align:center">
-    <view class="rate">
-      <van-rate size="{{ 38 }}" value="{{storeList[cardCur].avgRemark}}" bind:change="onChangeRateValue" readonly
-        color="#FDE06B" />
-    </view>
   </view>
-  <view style="margin: 40rpx auto;width:50vw;text-align:center;color:lightgrey" bindtap="jump2Comment"
-    data-source="rate">
+  <view wx:if="{{storeList[cardCur].scoreNumList.length!=0}}" bindtap="jump2Comment"
+    data-store_id="{{storeList[cardCur].id}}" data-source="rate"
+    style="margin: 10rpx auto;width:50vw;text-align:center;color:lightgrey">
     点击至评论页进行评分
   </view>
+
+  <view style="margin: 24rpx auto;text-align:center" bindtap="jump2Comment" data-store_id="{{storeList[cardCur].id}}"
+    data-source="rate">
+    <view class="rate">
+      <view wx:if="{{storeList[cardCur].scoreNumList.length==0}}"
+        style="font-size: 28px;font-weight: bold;padding-top: 10px;color: lightgrey;">暂无评分，点击评分</view>
+      <canvas canvas-id="radarCanvas" class="canvas"
+        wx:if="{{showRatePopValue && storeList[cardCur].scoreNumList.length!=0}}"
+        bindtouchstart="touchHandler"></canvas>
+    </view>
+
+  </view>
+
 </van-popup>
 
 <van-popup show="{{ showFeedbackPopValue }}" round position="bottom" closeable bind:close="onCloseFeedbackPop"
   custom-style="width:100%;height: 40%;">
   <view class="cu-bar bg-white">
     <view class="action sub-title">
-      <text class="text-lg text-bold text-black">{{storeList[cardCur].name}} - 信息有误？</text>
+      <text class="text-lg text-bold text-black">信息有误？（还没做这个功能）</text>
       <text class="bg-yellow"></text>
     </view>
   </view>
@@ -192,7 +205,7 @@
   <view style="padding-top:60rpx;text-align:center;color:grey;font-size:28rpx">
     <van-cell-group>
       <van-field clearable wx:if="{{showFeedbackPopValue}}" model:value="{{ feedbackInputValue }}" left-icon="edit"
-        placeholder="若方便，请描述一下错误信息。" border="{{ true }}" />
+        placeholder="（还没做这个功能）若方便，请描述一下错误信息。" border="{{ true }}" />
     </van-cell-group>
   </view>
 

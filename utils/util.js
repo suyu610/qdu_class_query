@@ -205,6 +205,8 @@ const setStorage = (key, cont) => {
     data: cont
   })
 }
+
+
 module.exports = {
   gapDay: gapDay,
   formatTime: formatTime,

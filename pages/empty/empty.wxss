@@ -8,13 +8,16 @@
   transition: 0.4s;
   background-color: #fde06b;
   position: fixed;
-  bottom: 18vh;
+  top: 18vh;
   left: 8vw;
+  text-align: center;
   padding: 20rpx;
-	width: 84vw;
-	height: 30vh;
-  /* border-bottom: 1px solid #000000; */
-  /* border-radius: 10rpx; */
+  width: 84vw;
+  height: 30vh;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #00000038;
+
 }
 
 .cheat-info .title {

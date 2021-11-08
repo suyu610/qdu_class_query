@@ -1,4 +1,6 @@
 <!--pages/category/category.wxml-->
+<van-notice-bar  left-icon="info-o" mode="closeable" text="这个页面暂未开发，数据为演示数据，等商家数据采集到一定量以后再做" />
+
 <van-tabs color="#b4282d" active="{{active}}" tab-class="tab" class="nav" swipeable animated bind:change="changeTab">
   <van-tab wx:for="{{category.children}}" wx:key="index" title="{{item.title}}">
     <view style="height:{{windowHeight-88}}rpx;">

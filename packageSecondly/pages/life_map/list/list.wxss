@@ -193,6 +193,11 @@ map {
   transition: all 0.2s ease-in 0s;
   font-size: 24rpx;
 }
+.canvas {
+  width: 100%;
+  margin: 0 auto;
+  height: 540rpx;
+}
 
 .swiper-item .ad {
   position: absolute;

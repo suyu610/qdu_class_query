@@ -7,7 +7,9 @@
     "van-icon": "@vant/weapp/icon/index",
     "van-tag": "@vant/weapp/tag/index",
     "van-popup": "@vant/weapp/popup/index",
-    "van-toast": "@vant/weapp/toast/index"
+    "van-toast": "@vant/weapp/toast/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index"
+
 
   },
   "navigationBarBackgroundColor": "#fff"

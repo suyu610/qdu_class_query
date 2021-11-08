@@ -37,9 +37,9 @@
           "scene": null
         },
         {
-          "name": "index",
-          "pathName": "pages/index/index",
-          "query": "",
+          "name": "store",
+          "pathName": "/pages/empty/empty",
+          "query": "url=life_map_list&list_id=a",
           "scene": null
         }
       ]

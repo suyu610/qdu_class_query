@@ -1,28 +1,5 @@
 <!-- component/comment/comment.wxml -->
-<wxs module="filter">
-  var filter = {
-    getDateTime: function (value) {
-      //不能使用 new Date()
-      var time = getDate(value);
-      var year = time.getFullYear();
-      var month = time.getMonth() + 1;
-      var date = time.getDate();
-      var hour = time.getHours();
-      var minute = time.getMinutes();
-      var second = time.getSeconds();
-      month = month < 10 ? "0" + month : month;
-      date = date < 10 ? "0" + date : date;
-      hour = hour < 10 ? "0" + hour : hour;
-      minute = minute < 10 ? "0" + minute : minute;
-      second = second < 10 ? "0" + second : second;
-      return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
-    }
-  }
-  // 导出对外暴露的属性
-  module.exports = {
-    getDateTime: filter.getDateTime
-  }
-</wxs>
+<wxs module="filter" src="../../utils/filter.wxs" />
 <view class="cu-card dynamic no-card">
   <view class="cu-item shadow">
     <view class="cu-list menu-avatar">
@@ -38,7 +15,9 @@
               wx:if="{{data.isSelf==1}}" name="shanchu"></iconfont>
           </view>
           <view class="text-gray text-sm flex justify-between">
-            {{filter.getDateTime(data.createTime)}} / {{data.spec}}
+            <!-- {{filter.getDateTime(data.createTime)}} / {{data.spec}} -->
+            {{data.createTime}}
+
           </view>
         </view>
       </view>
@@ -47,64 +26,81 @@
       {{data.content}} </view>
 
     <view class="grid flex-sub padding-lr col-3 grid-square" wx:if="{{data.pics.length > 0}}">
-      <view class="bg-img"  wx:for="{{data.pics}}" wx:key="index">
+      <view class="bg-img" wx:for="{{data.pics}}" wx:key="index">
         <image class="item" src="{{item.url}}" data-index="{{index}}" bindtap="previewImage" mode="aspectFill"
           wx:if="{{item.fileType=='image'}}"></image>
-        <image bindtap="showVideo" mode='aspectFill' data-src="{{item.url}}" src='/images/video_thumb.png'
-          wx:if="{{item.fileType=='video'}}" />
-      </view>
-    </view>
-    <view class="text-gray text-sm text-right padding comment-command-pannel padding-bottom-xs">
-      <view class="padding-md"><text class="cuIcon-attention margin-lr-xs"></text> {{data.viewCount}}</view>
-      <view class="padding-md" bindtap="likeBtnTapped" data-id="{{data.id}}">
-        <text class="margin-lr-xs {{data.hasLike?'text-red cuIcon-appreciatefill':'cuIcon-appreciate'}}"></text>
-        {{data.likeCount}}
-      </view>
-      <view class="padding-md" bindtap="commentBtnTapped" data-id="{{data.id}}">
-        <text class="cuIcon-message margin-lr-xs"></text> {{data.subComment==null?'0':data.subComment.length}}
-      </view>
-    </view>
-    <block wx:if="{{data.businessReply}}">
-      <view class="bg-grey padding-xs radius margin-bottom-sm text-sm margin-left-lg margin-right-lg ">
-        <view class="flex">
-          <view>商家：</view>
-          <view class="flex-sub">{{data.businessReply.content}}</view>
+        <view bindtap="showVideo" data-src="{{item.url}}">
+          <image style="filter: brightness(0.7);" mode='aspectFill' src='{{item.thumb}}'
+            wx:if="{{item.fileType=='video'}}" />
+          <iconfont name="bofang" size="28" color="white"
+            style="position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);"
+            wx:if="{{item.fileType=='video'}}"></iconfont>
+          <text wx:if="{{item.fileType=='video'}}"
+            style="color:white;position: absolute;left: 50%;top: 78%;transform: translate(-50%,-50%);">{{filter.parseMinute(item.duration)}}</text>
         </view>
       </view>
-    </block>
-    <view class="cu-list menu-avatar comment" style="trnasition:.2s">
-      <block wx:for="{{data.subStoreComments}}" wx:key="index" wx:for-item="subItem">
-        <view class="cu-item">
-          <view class="cu-avatar round bg-white"
-            style="background-image:url({{subItem.anonymous==1?'https://cdns.qdu.life/lifemap/icons/anonymous.png':subItem.avatar}});">
+    </view>
+  </view>
+  <view class=" text-gray text-sm text-right padding comment-command-pannel padding-bottom-xs">
+    <view class="padding-md"><text class="cuIcon-attention margin-lr-xs"></text> {{data.viewCount}}</view>
+    <view class="padding-md" bindtap="likeBtnTapped" data-id="{{data.id}}">
+      <text class="margin-lr-xs {{data.hasLike?'text-red cuIcon-appreciatefill':'cuIcon-appreciate'}}"></text>
+      {{data.likeCount}}
+    </view>
+    <view class="padding-md" bindtap="commentBtnTapped" data-id="{{data.id}}">
+      <text class="cuIcon-message margin-lr-xs"></text>
+      {{data.subStoreComments==null?'0':data.subStoreComments.length}}
+    </view>
+  </view>
+  <block wx:if="{{data.businessReply}}">
+    <view class="bg-grey padding-xs radius margin-bottom-sm text-sm margin-left-lg margin-right-lg ">
+      <view class="flex">
+        <view>商家：</view>
+        <view class="flex-sub">{{data.businessReply.content}}</view>
+      </view>
+    </view>
+  </block>
+  <van-divider wx:if="{{data.subStoreComments.length!=0}}" textColor="lightgrey" contentPosition="center" hairline
+    dashed>
+    共{{data.subStoreComments.length}}条回复</van-divider>
+  <view class="cu-list menu-avatar comment padding-left-xs" style="trnasition:.2s">
+    <block wx:for="{{data.subStoreComments}}" wx:key="index" wx:for-item="subItem">
+      <view class="cu-item">
+        <view class="cu-avatar round bg-white"
+          style="background-image:url({{subItem.anonymous==1?'https://cdns.qdu.life/lifemap/icons/anonymous.png':subItem.avatar}});">
+        </view>
+        <view class="content">
+          <view class="text-bold">{{subItem.nickname}} <iconfont wx:if="{{subItem.isSelf==1}}"
+              style="position:absolute;right:0" bindtap="delComment" data-id="{{subItem.id}}" size="18" name="shanchu">
+            </iconfont>
           </view>
-          <view class="content">
-            <view class="text-bold">{{subItem.nickname}} <iconfont wx:if="{{subItem.isSelf==1}}"
-                style="position:absolute;right:0" bindtap="delComment" data-id="{{subItem.id}}" size="18"
-                name="shanchu">
-              </iconfont>
+          <view class="text-black text-content text-df">
+            {{subItem.content}}
+          </view>
+          <view wx:if="{{subItem.businessReply}}" class="bg-grey padding-sm radius margin-top-sm  text-sm">
+            <view class="flex">
+              <view>商家：</view>
+              <view class="flex-sub">{{subItem.businessReply.content}}</view>
             </view>
-            <view class="text-black text-content text-df">
-              {{subItem.content}}
-            </view>
-            <view wx:if="{{subItem.businessReply}}" class="bg-grey padding-sm radius margin-top-sm  text-sm">
-              <view class="flex">
-                <view>商家：</view>
-                <view class="flex-sub">{{subItem.businessReply.content}}</view>
+          </view>
+          <view class="margin-top-sm flex justify-between">
+            <view class="text-gray text-sm"> {{subItem.createTime}}</view>
+            <view class="flex">
+              <view class="padding-md text-grey"><text class="text-grey cuIcon-attention margin-lr-xs"></text>
+                {{subItem.viewCount}}
               </view>
-            </view>
-            <view class="margin-top-sm flex justify-between">
-              <view class="text-gray text-sm"> {{filter.getDateTime(subItem.createTime)}}</view>
-              <view bindtap="replyLikeBtnTapped" data-id="{{subItem.id}}">
+              <view bindtap="replyLikeBtnTapped" class="padding-left padding-md" data-id="{{subItem.id}}">
                 <text
-                  class="text-sm margin-lr-xs {{subItem.hasLike?'text-red cuIcon-appreciatefill':'text-grey cuIcon-appreciate'}}">{{subItem.likeCount}}</text>
+                  class="text-sm margin-lr-xs {{subItem.hasLike?'text-red cuIcon-appreciatefill':'text-grey cuIcon-appreciate'}}">
+                  {{subItem.likeCount}}</text>
               </view>
+
             </view>
           </view>
         </view>
+      </view>
 
-      </block>
+    </block>
 
-    </view>
   </view>
 </view>

@@ -1,124 +1,161 @@
 <!--pages/comment/comment.wxml-->
-<video wx:if="{{fullScreen}}" data-src="{{video_data}}" id="myVideo" src="{{video_data}}" binderror="videoErrorCallback"
-  show-center-play-btn='{{true}}' show-play-btn="{{true}}" controls bindfullscreenchange="closeVideo"></video>
-<bottomdialog></bottomdialog>
-<view class="wrap">
-  <view class="cu-bar bg-white header">
-    <view class="action sub-title">
-      <text class="text-lg text-bold text-black">{{store_name}}的评论</text>
-      <text class="bg-yellow"></text>
+
+<wxs module="filter" src="../../../../utils/filter.wxs" />
+
+
+<view class="container">
+  <van-overlay show="{{ isPlayingVideo }}" bind:click="closeVideo">
+    <iconfont name="guanbi1" size="45"
+      style="    padding: 10rpx;border-radius: 50%;background: white;position: absolute;left: 50%;bottom: 4%;transform: translate(-50%,-50%);">
+    </iconfont>
+    <view class="video-wrapper">
+      <video style="width:100vw;height:50vh" catchtap="noop" data-src="{{video_data}}" id="myVideo" src="{{video_data}}"
+        binderror="videoErrorCallback" show-center-play-btn='{{true}}' show-play-btn="{{true}}" controls></video>
     </view>
-    <iconfont bindtap="onShowAddCommentPop" name="tianjia" style="padding-right: 18px;"></iconfont>
-  </view>
-  <view class="tag-wrap" wx:if="{{comment.length!=0}}">
-    <view class="tag {{active=='all' ? 'selected':''}}" data-value="all" bindtap="changeTag">全部({{commentList.length}})
+  </van-overlay>
+
+  <bottomdialog></bottomdialog>
+  <view class="wrap">
+    <view class="cu-bar bg-white header">
+      <view class="action sub-title">
+        <text class="text-lg text-bold text-black">{{store_name}}的评论</text>
+        <text class="bg-yellow"></text>
+      </view>
+      <iconfont bindtap="onShowAddCommentPop" name="tianjia" style="padding-right: 18px;"></iconfont>
     </view>
-    <view class="tag {{active=='new' ? 'selected':''}}" data-value="new" bindtap="changeTag">最新</view>
-    <view class="tag {{active=='pic' ? 'selected':''}}" data-value="pic" bindtap="changeTag">有图({{count.pic}})</view>
-    <view class="tag {{active=='reply' ? 'selected':''}}" data-value="reply" bindtap="changeTag">商家回复({{count.reply}})
+    <view class="tag-wrap" wx:if="{{commentList.length!=0}}">
+      <view class="tag {{active=='all' ? 'selected':''}}" data-value="all" bindtap="changeTag">
+        全部({{commentList.length}})
+      </view>
+      <view class="tag {{active=='new' ? 'selected':''}}" data-value="new" bindtap="changeTag">最新</view>
+      <view class="tag {{active=='pic' ? 'selected':''}}" data-value="pic" bindtap="changeTag">有图({{count.pic}})</view>
+      <view class="tag {{active=='reply' ? 'selected':''}}" data-value="reply" bindtap="changeTag">商家回复({{count.reply}})
+      </view>
+      <view class="tag {{active=='good' ? 'selected':''}}" data-value="good" bindtap="changeTag">好评({{count.good}})
+      </view>
+      <view class="tag {{active=='mid' ? 'selected':''}}" data-value="mid" bindtap="changeTag">中评({{count.mid}})</view>
+      <view class="tag {{active=='bad' ? 'selected':''}}" data-value="bad" bindtap="changeTag">差评({{count.bad}})</view>
     </view>
-    <view class="tag {{active=='good' ? 'selected':''}}" data-value="good" bindtap="changeTag">好评({{count.good}})</view>
-    <view class="tag {{active=='mid' ? 'selected':''}}" data-value="mid" bindtap="changeTag">中评({{count.mid}})</view>
-    <view class="tag {{active=='bad' ? 'selected':''}}" data-value="bad" bindtap="changeTag">差评({{count.bad}})</view>
-  </view>
-  <view class="item-wrap">
-    <comment wx:if="{{comment.length!=0}}" bind:delComment="delComment" data="{{item}}" wx:for="{{comment}}"
-      bind:showVideoTapped="showVideo" wx:key="index" class="item" bind:likeBtnTapped="likeBtnTapped"
-      bind:commentBtnTapped="commentBtnTapped"></comment>
+    <view class="item-wrap">
+      <view class="padding-top" wx:if="{{!hasGotDate}}"></view>
+      <van-skeleton row="3" avatar loading="{{ !hasGotDate }}" />
+      <view class="padding-top" wx:if="{{!hasGotDate}}"></view>
+      <van-skeleton row="3" avatar loading="{{ !hasGotDate }}" />
+      <view class="padding-top" wx:if="{{!hasGotDate}}"></view>
+      <van-skeleton row="3" avatar loading="{{ !hasGotDate }}" />
+      <view class="padding-top" wx:if="{{!hasGotDate}}"></view>
+      <van-skeleton row="3" avatar loading="{{ !hasGotDate }}" />
 
-    <van-empty wx:if="{{comment.length==0}}" description="暂无评论"></van-empty>
+      <comment bind:forbidNoNameTouch="forbidNoNameTouch" realName="{{realName}}"
+        wx:if="{{comment.length!=0 && hasGotDate}}" bind:delComment="delComment" data="{{item}}" wx:for="{{comment}}"
+        bind:showVideoTapped="showVideo" wx:key="index" class="item" bind:replyLikeBtnTapped="likeBtnTapped"
+        bind:likeBtnTapped="likeBtnTapped" bind:commentBtnTapped="commentBtnTapped"></comment>
 
-  </view>
-</view>
+      <van-empty wx:if="{{comment.length==0 && hasGotDate}}" description="暂无评论"></van-empty>
 
-
-<!-- 添加评论框 -->
-<van-popup lock-scroll show="{{ showAddCommentPopValue }}" round position="bottom" closeable
-  bind:close="onCloseAddCommentPop" custom-style="width:100%;height: 60%;">
-  <view class="cu-bar bg-white" bindtap="showAddCommentDialog">
-    <view class="action sub-title">
-      <text class="text-lg text-bold text-black">添加评论评分<text class=" cuIcon-question "></text></text>
-      <text class="bg-yellow"></text>
-    </view>
-  </view>
-
-  <view style="margin: 0 auto;text-align:center;">
-    <view class="rate">
-      <van-rate size="{{ 38 }}" value="{{yourRate}}" bind:change="onChangeRateValue" color="#FDE06B" />
     </view>
   </view>
 
-  <van-divider hairline />
 
-  <view style="text-align:center;color:grey;font-size:28rpx;">
-    <van-cell-group>
-      <van-field left-icon="edit" border="{{ false }}" clearable model:value="{{ commentValue }}" placeholder="在此输入评论"
-        placeholder-class="text-sm text-gray" autosize border="{{ true }}" />
-    </van-cell-group>
-  </view>
+  <!-- 添加评论框 -->
+  <van-popup lock-scroll show="{{ showAddCommentPopValue }}" round position="bottom" closeable
+    bind:close="onCloseAddCommentPop" custom-style="width:100%;height: 60%;">
+    <view class="cu-bar bg-white" bindtap="showAddCommentDialog">
+      <view class="action sub-title">
+        <text class="text-lg text-bold text-black">添加评论评分<text class=" cuIcon-question "></text></text>
+        <text class="bg-yellow"></text>
+      </view>
+    </view>
 
-  <view class="cu-form-group padding-top">
-    <view class="grid col-4 grid-square flex-sub">
-      <view class="bg-img" wx:for="{{appendixList}}" wx:key="index" bindtap="viewImage"
-        data-url="{{appendixList[index].url}}">
-        <image src='{{appendixList[index].url}}' wx:if="{{appendixList[index].fileType=='image'}}" mode='aspectFill' />
-        <image catchtap="showPopVideo" data-source="pop" data-src="{{appendixList[index].url}}" mode='aspectFill'
-          src='/images/video_thumb.png' wx:if="{{appendixList[index].fileType=='video'}}"></image>
-        <view></view>
-        <!-- todo: 视频 -->z
-        <view class="cu-tag bg-red" catchtap="delImg" data-index="{{index}}">
-          <text class="cuIcon-close"></text>
+    <view style="margin: 0 auto;text-align:center;">
+      <view class="rate">
+        <van-rate size="{{ 38 }}" value="{{yourRate}}" bind:change="onChangeRateValue" color="#FDE06B" />
+      </view>
+    </view>
+
+    <van-divider hairline />
+
+    <view style="text-align:center;color:grey;font-size:28rpx;">
+      <van-cell-group>
+        <van-field left-icon="edit" border="{{ false }}" clearable model:value="{{ commentValue }}" placeholder="在此输入评论"
+          placeholder-class="text-sm text-gray" autosize border="{{ true }}" />
+      </van-cell-group>
+    </view>
+
+    <view class="cu-form-group padding-top">
+      <view class="grid col-4 grid-square flex-sub">
+        <view class="bg-img" wx:for="{{appendixList}}" wx:key="index" bindtap="viewImage"
+          data-url="{{appendixList[index].url}}">
+          <image src='{{appendixList[index].url}}' wx:if="{{appendixList[index].fileType=='image'}}"
+            mode='aspectFill' />
+          <!-- <image catchtap="showPopVideo" data-source="pop" data-src="{{appendixList[index].url}}" mode='aspectFill'
+            src='/images/video_thumb.png' wx:if="{{appendixList[index].fileType=='video'}}"></image> -->
+
+          <image style="filter: brightness(0.7);" bindtap="showVideo" mode='aspectFill'
+            data-src="{{appendixList[index].url}}" src='{{appendixList[index].thumb}}'
+            wx:if="{{appendixList[index].fileType=='video'}}" />
+          <iconfont name="bofang" size="28" color="white"
+            style="position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%);"
+            wx:if="{{appendixList[index].fileType=='video'}}"></iconfont>
+          <text wx:if="{{appendixList[index].fileType=='video'}}"
+            style="color:white;position: absolute;left: 50%;top: 78%;transform: translate(-50%,-50%);">{{filter.parseMinute(appendixList[index].duration)}}</text>
+          <view></view>
+          <!-- todo: 视频 -->
+          <view class="cu-tag bg-red" catchtap="delImg" data-index="{{index}}">
+            <text class="cuIcon-close"></text>
+          </view>
+        </view>
+        <view class="solids" bindtap="chooseImage" wx:if="{{appendixList.length<4}}">
+          <text class="cuIcon-cameraadd"></text>
         </view>
       </view>
-      <view class="solids" bindtap="chooseImage" wx:if="{{appendixList.length<4}}">
-        <text class="cuIcon-cameraadd"></text>
+    </view>
+    <view>
+      <view class="cu-form-group">
+        <view class="title text-bold">{{isAnonymous?"匿名: "+protectName:"公开: "+ realName}}</view>
+        <switch class="yellow radius sm" style="background:#feebb5" checked="{{isAnonymous}}"
+          bindchange="anonymousChange">
+        </switch>
       </view>
     </view>
-  </view>
-  <view>
-    <view class="cu-form-group">
-      <view class="title text-bold">{{isAnonymous?"匿名: 黄*宇":"公开: 黄鹏宇"}}</view>
-      <switch class="yellow radius sm" style="background:#feebb5" checked="{{isAnonymous}}"
-        bindchange="anonymousChange">
-      </switch>
+    <view style="width:50vw;width: 50vw;margin-left: 25vw;text-align: center;" class="margin-top">
+      <van-button custom-style="transition:.2s;border:2px solid {{commentValue==''?'#C8C9D3':'#000'}};height:60rpx"
+        block color="{{commentValue==''?'#C8C9D3':'#000'}}" plain round bindtap="submitComment">
+        提交
+      </van-button>
     </view>
-  </view>
-  <view style="width:50vw;width: 50vw;margin-left: 25vw;text-align: center;" class="margin-top">
-    <van-button custom-style="transition:.2s;border:2px solid {{commentValue==''?'#C8C9D3':'#000'}};height:60rpx" block
-      color="{{commentValue==''?'#C8C9D3':'#000'}}" plain round bindtap="submitComment">
-      提交
-    </van-button>
-  </view>
-</van-popup>
+  </van-popup>
 
 
-<!-- 添加回复的评论框 -->
-<van-popup lock-scroll show="{{ showAddReplyCommentPopValue }}" round position="bottom" closeable
-  bind:close="onCloseAddReplyCommentPop" custom-style="width:100%;height: 60%;">
-  <view class="cu-bar bg-white" bindtap="showAddCommentDialog">
-    <view class="action sub-title">
-      <text class="text-lg text-bold text-black">回复<text class=" cuIcon-question "></text></text>
-      <text class="bg-yellow"></text>
+  <!-- 添加回复的评论框 -->
+  <van-popup lock-scroll show="{{ showAddReplyCommentPopValue }}" round position="bottom" closeable
+    bind:close="onCloseAddReplyCommentPop" custom-style="width:100%;height: 60%;">
+    <view class="cu-bar bg-white" bindtap="showAddCommentDialog">
+      <view class="action sub-title">
+        <text class="text-lg text-bold text-black">回复<text class=" cuIcon-question "></text></text>
+        <text class="bg-yellow"></text>
+      </view>
     </view>
-  </view>
-  <view style="text-align:center;color:grey;font-size:28rpx;" class="padding-top">
-    <van-cell-group>
-      <van-field left-icon="edit" border="{{ false }}" clearable model:value="{{ commentValue }}" placeholder="在此输入评论"
-        placeholder-class="text-sm text-gray" autosize border="{{ true }}" />
-    </van-cell-group>
-  </view>
-  <view class="padding-top">
-    <view class="cu-form-group">
-      <view class="title">{{isAnonymous?"匿名(2019****13 黄*宇)":"公开(2019205913 黄鹏宇)"}}</view>
-      <switch class="yellow radius sm" style="background:#feebb5" checked="{{isAnonymous}}"
-        bindchange="anonymousChange">
-      </switch>
+    <view style="text-align:center;color:grey;font-size:28rpx;" class="padding-top">
+      <van-cell-group>
+        <van-field left-icon="edit" border="{{ false }}" clearable model:value="{{ commentValue }}" placeholder="在此输入评论"
+          placeholder-class="text-sm text-gray" autosize border="{{ true }}" />
+      </van-cell-group>
     </view>
-  </view>
-  <view style="width:50vw;width: 50vw;margin-left: 25vw;text-align: center;" class="margin-top">
-    <van-button custom-style="transition:.2s;border:2px solid {{commentValue==''?'#C8C9D3':'#000'}};height:60rpx" block
-      color="{{commentValue==''?'#C8C9D3':'#000'}}" plain round bindtap="submitReplyComment">
-      提交
-    </van-button>
-  </view>
-</van-popup>
+    <view class="padding-top">
+      <view class="cu-form-group">
+        <view class="title">{{isAnonymous?"匿名：黄*宇":"公开：{{realName}}"}}</view>
+        <switch class="yellow radius sm" style="background:#feebb5" checked="{{isAnonymous}}"
+          bindchange="anonymousChange">
+        </switch>
+      </view>
+    </view>
+    <view style="width:50vw;width: 50vw;margin-left: 25vw;text-align: center;" class="margin-top">
+      <van-button custom-style="transition:.2s;border:2px solid {{commentValue==''?'#C8C9D3':'#000'}};height:60rpx"
+        block color="{{commentValue==''?'#C8C9D3':'#000'}}" plain round bindtap="submitReplyComment">
+        提交
+      </van-button>
+    </view>
+  </van-popup>
+
+</view>

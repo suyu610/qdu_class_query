@@ -29,6 +29,7 @@ Page({
       console.log("empty.js: debug模式")
       router.relaunch({
         name: app.globalData.debugRouter
+        // name: "lucky_draw"
       });
       return;
     }
@@ -41,6 +42,24 @@ Page({
           name: options.url,
           data: options.params
         })
+        return;
+      }
+      if (options.url == "life_map_list") {
+        if (options.store_id == null) {
+          options.store_id = 1
+        }
+        if (options.list_id == null) {
+          options.list_id = 'a'
+
+        }
+        router.replace({
+          name: options.url,
+          data: {
+            list_id: options.list_id,
+            store_id: options.store_id
+          }
+        });
+        return;
       }
       router.replace({
         name: options.url,

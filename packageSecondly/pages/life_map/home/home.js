@@ -2,12 +2,16 @@
 let app = getApp();
 const router = require('../../../../router/index.js');
 import lifemapService from '../../../../net/lifemapService.js'
+import userService from '../../../../net/userService.js'
+
 
 
 Page({
   data: {
+    realName: '',
     hasNewMsg: false,
     hasGotDate: false,
+    hasGotRealName: false,
     currentStoreListIndex: 0,
     toStoreListView: 0,
     navigate_type: '', //分类类型，是否包含二级分类
@@ -289,7 +293,48 @@ Page({
       windowHeight: systemInfo.windowHeight - 35,
       windowWidth: systemInfo.windowWidth,
     })
+  },
 
+  handleCheckImportFromJwSuccess(e) {
+    let realName = e
+
+    app.globalData.realName = realName
+    this.setData({
+      realName,
+      hasGotRealName: true
+    })
+    // 返回姓名
+  },
+  showLogin() {
+    let option = {
+      status: true,
+      closeicon: true,
+      contentstyle: 'white-space:pre-wrap;justify-content:left',
+      content: "本模块基于青大学生评分，未实名登录则只能浏览。\n目前只支持导入教务课表的方式登录。\n未来会添加青大邮箱、校园卡验证等多种方式。",
+      marsktap: true,
+      title: this.data.realName == '' || this.data.realName == '-1' ? '游客，' + "你好" : this.data.realName + "你好",
+      foot: this.data.realName == '' || this.data.realName == '-1' ? [{
+        text: '我知道了',
+        cb: () => {}
+      }, {
+        text: '登录',
+        cb: () => {
+          router.push({
+            name: 'course_import'
+          })
+        }
+      }] : [{
+        text: '我知道了',
+        cb: () => {}
+      }]
+    }
+
+
+    app.globalData.emitter.emit("bottomdialogstatus", option)
+    return
+  },
+  onShow() {
+    userService.CheckImportFromJw(this.handleCheckImportFromJwSuccess)
   },
 
   //根据分类获取比例

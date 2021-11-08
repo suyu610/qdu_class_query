@@ -5,12 +5,17 @@ var qqmapsdk = "";
 const router = require('../../../../router/index.js');
 import lifemapService from '../../../../net/lifemapService.js'
 import util from '../../../../utils/util.js'
+
+const wxCharts = require("../../../../utils/wxcharts.js")
+var radarChart = null;
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    showRatePopValue: false,
     touchS: [0, 0],
     touchE: [0, 0],
     scale: 19,
@@ -150,27 +155,6 @@ Page({
   },
 
 
-  submitRate() {
-    let that = this;
-    wx.showModal({
-      title: "你的评分是",
-      content: that.data.yourRate + "分",
-      success(res) {
-        // 点击确定
-        if (res.confirm) {
-          wx.showToast({
-            title: '评分成功',
-          })
-          that.setData({
-            showRatePopValue: !that.data.showRatePopValue
-          })
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
-  },
-
   jump2GoodDetail(e) {
     router.push({
       name: "life_map_good_detail",
@@ -211,10 +195,75 @@ Page({
   noop() {
     console.log("noop")
   },
+
+
   onToggleRatePop(e) {
+
     this.setData({
       showRatePopValue: !this.data.showRatePopValue
     })
+    if (this.data.showRatePopValue) {
+      // 画图
+      let scoreList = [0, 0, 0, 0, 0, 0];
+      if (this.data.storeList[this.data.cardCur].scoreNumList.length != 0) {
+        this.data.storeList[this.data.cardCur].scoreNumList.forEach(e => {
+          scoreList[e.score] = e.scoreNumber;
+        })
+      }
+      radarChart = new wxCharts({
+        canvasId: 'radarCanvas',
+        type: 'ring',
+        categories: ['0分', '1分', '2分', '3分', '4分', '5分'],
+
+        series: [{
+          name: '0分',
+          data: scoreList[0],
+          color: "#ff0000",
+          format: function (val) {
+            return "0分, " + val * 100 + "% , " + scoreList[0] + '人';
+          }
+        }, {
+          name: '1分',
+          data: scoreList[1],
+          color: "#ff4040",
+          format: function (val) {
+            return "1分, " + val * 100 + "% , " + scoreList[1] + '人';
+          }
+        }, {
+          name: '2分',
+          data: scoreList[2],
+          color: "#ff7373",
+          format: function (val) {
+            return "2分, " + val * 100 + "% , " + scoreList[2] + '人';
+          }
+        }, {
+          name: '3分',
+          data: scoreList[3],
+          color: "#876ed7",
+          format: function (val) {
+            return "3分, " + val * 100 + "% , " + scoreList[3] + '人';
+          }
+        }, {
+          name: '4分',
+          data: scoreList[4],
+          color: "#6a48d7",
+          format: function (val) {
+            return "4分, " + val * 100 + "% , " + scoreList[4] + '人';
+          }
+        }, {
+          name: '5分',
+          data: scoreList[5],
+          color: "#3914af",
+          format: function (val) {
+            return "5分, " + val * 100 + "% , " + scoreList[5] + '人';
+          }
+        }, ],
+        width: this.data.windowWidth,
+        height: 250,
+        dataPointShape: false,
+
+      });
+    }
   },
 
 
@@ -520,6 +569,8 @@ Page({
   },
 
   handleGetStoresByListId: function (e) {
+    wx.hideNavigationBarLoading()
+
     let that = this;
     // 放到marker里
     let markers = [];
@@ -578,26 +629,55 @@ Page({
       }
     })
   },
+
+
+  onShareAppMessage: function (options) {
+
+    let that = this
+    console.log("/pages/empty/empty?url=life_map_list&list_id=" + that.data.listId + "&store_id=" + that.data.storeList[that.data.cardCur].id)
+    var shareObj = {
+      title: "给你推荐《" + this.data.storeList[this.data.cardCur].name + "》，点击查看吧~",
+      path: "/pages/empty/empty?url=life_map_list&list_id=" + that.data.listId + "&store_id=" + that.data.storeList[that.data.cardCur].id,
+      imageUrl: 'https://cdns.qdu.life/img/share_3.png',
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {}
+        console.log(res)
+      },
+
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+    }
+
+    // 来自页面内的按钮的转发
+    // if (options.from == 'button')       
+    return shareObj;
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // wx.showNavigationBarLoading()
-    // wx.hideNavigationBarLoading({
-    //   success: (res) => {},
-    // })
-
+    wx.showNavigationBarLoading()
     const data = router.extract(options);
-    console.log(data)
     var list_id = 'a';
-    list_id = data.list_id;
-    var store_id = 1;
-    store_id = data.store_id;
-    this.setData({
-      enteredStoreId: store_id
-    })
-    lifemapService.getStoresByListId(list_id, this.handleGetStoresByListId)
-
+    if (data != null) {
+      list_id = data.list_id;
+      var store_id = 1;
+      store_id = data.store_id;
+      this.setData({
+        enteredStoreId: store_id,
+        listId: list_id,
+      })
+      lifemapService.getStoresByListId(list_id, this.handleGetStoresByListId)
+    } else {
+      lifemapService.getStoresByListId('a', this.handleGetStoresByListId)
+    }
     this.mapCtx = wx.createMapContext('map')
     qqmapsdk = new QQMapWX({
       key: app.globalData.key
@@ -801,10 +881,20 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function (e) {
+    var windowWidth = 320;
+    try {
+      var res = wx.getSystemInfoSync();
+      windowWidth = res.windowWidth;
+    } catch (e) {
+      console.error('getSystemInfoSync failed!');
+    }
+
+    this.setData({
+      windowWidth
+    })
 
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -826,41 +916,5 @@ Page({
 
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
 
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  onShareAppMessage: function (options) {
-    var shareObj = {
-      title: "点击查看" + this.data.storeList[this.data.cardCur].storeName,
-      path: '/pages/empty/empty?url=life_map_list?id=123',
-      imageUrl: 'https://cdns.qdu.life/img/share_1.png',
-      success: function (res) {
-        // 转发成功之后的回调
-        if (res.errMsg == 'shareAppMessage:ok') {}
-      },
-      fail: function () {
-        // 转发失败之后的回调
-        if (res.errMsg == 'shareAppMessage:fail cancel') {
-          // 用户取消转发
-        } else if (res.errMsg == 'shareAppMessage:fail') {
-          // 转发失败，其中 detail message 为详细失败信息
-        }
-      },
-    }
-
-    // 来自页面内的按钮的转发
-    // if (options.from == 'button')       
-    return shareObj;
-  },
 })

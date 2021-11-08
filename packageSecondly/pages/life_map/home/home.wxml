@@ -1,7 +1,9 @@
 <bottomdialog></bottomdialog>
 <view class="container">
   <view class="header">
-    <view class="name">欢迎你，黄鹏宇</view>
+    <view bindtap="showLogin" class="name" style="{{realName=='-1'||realName=='' ?'text-decoration:underline':''}}">
+      {{realName=="-1"||realName==''?'点击登录':'欢迎你，'+realName}}
+    </view>
     <view class="right">
       <view class="msg" bindtap="jump2Msg">
         <view class="dot" wx:if="{{hasNewMsg}}"></view>
@@ -12,6 +14,7 @@
       </view>
     </view>
   </view>
+
   <view class="top" bindtap="showAboutDialog">
     <view class="slogan">
       生活地图
@@ -101,7 +104,9 @@
                       <iconfont name="dingwei" size="12" class="iconfont" /><text>{{item.locationStr}}</text>
                     </view>
                     <view class="rate">
-                      <van-rate size="{{ 16 }}" value="{{ item.avgRemark }}" color="#FDE06B" readonly />
+                      <van-rate allow-half void-color="#f1f1f1" size="{{ 16 }}" value="{{ item.avgRemark }}"
+                        color="#FDE06B" readonly />
+                        
                     </view>
                   </view>
                 </view>

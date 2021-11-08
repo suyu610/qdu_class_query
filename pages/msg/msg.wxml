@@ -1,4 +1,4 @@
-<van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o" closeable text="可能要过很久才会来开发消息功能了.." />
+<van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o" mode="closeable" text="消息提醒功能有点难，还没做..." />
 
 <van-sticky>
   <view class="cu-list grid col-{{gridCol}} {{gridBorder?'':'no-border'}}">

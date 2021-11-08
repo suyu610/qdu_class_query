@@ -2,7 +2,12 @@
 let app = getApp()
 const router = require('../../../../router/index.js');
 import lifemapService from '../../../../net/lifemapService.js'
+import userService from '../../../../net/userService.js'
+import {
+  TencentCloudStoragyUrl
+} from "../../../../net/constants";
 
+var videoContext = null
 Page({
 
   /**
@@ -10,113 +15,21 @@ Page({
    */
   data: {
     storeId: 1,
+    isPlayingVideo: false,
     showAddCommentPopValue: false,
     showAddReplyCommentPopValue: false,
     active: "all",
     video_data: {}, //要播放的视频对象
-    fullScreen: false, //视频是否全屏
-
+    hasGotDate: false,
     isAnonymous: false,
-    count: {
-      pic: 2,
-      reply: 1,
-      good: 3,
-      mid: 0,
-      bad: 0
-    },
+    count: {},
     yourRate: 0,
     commentValue: '',
     goodCommentRate: 100,
     rate: 5,
     appendixList: [],
     comment: [],
-    commentList: [{
-        id: 0,
-        nickname: "李梓赫",
-        avatar: "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJTqQ5hNKicCNEwW3cATfOTaXk6xMlNEfh1gm0kicPDtJrXwTf5YEqQXYea3m5vsuPyJUXc3U0OicXtA/132",
-        content: "很好，手机很有质感，值得购买。",
-        rate: 5,
-        likeCount: 24,
-        viewCount: 12,
-        createTime: '2019.08.18',
-        spec: "银色 64G",
-        hasLike: true,
-        pics: [
-          "https://img30.360buyimg.com/shaidan/s616x405_jfs/t1/65005/20/4818/92581/5d2ffdb6Ebcbf3018/35411a583e29d52d.jpg",
-          "https://img30.360buyimg.com/shaidan/s616x405_jfs/t1/74460/28/4830/96562/5d2ffdb7Ed5e9ce7a/e764b3daa92a9c67.jpg",
-          "https://img13.360buyimg.com/n1/g6/M03/04/1A/rBEGC1DJTIkIAAAAAAIol0ZV_NgAAA8fQDxtksAAiiv498.jpg",
-          "https://img30.360buyimg.com/shaidan/s616x405_LBVeTh98J1pdxlJY.jpg",
-          "https://img30.360buyimg.com/shaidan/s616x405_jfs/t1/186649/2/10243/117965/60d69108E21ff8400/1e94dc197aaaa420.jpg"
-
-        ],
-        businessReply: {
-          content: '感谢支持'
-        }
-      },
-      {
-        id: 1,
-        nickname: "黄*宇",
-        hasLike: false,
-        likeCount: 3,
-        viewCount: 12,
-        avatar: "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJTqQ5hNKicCNEwW3cATfOTaXk6xMlNEfh1gm0kicPDtJrXwTf5YEqQXYea3m5vsuPyJUXc3U0OicXtA/132",
-        content: "使用了一段时间了，没有问题，美观大方实用，屏幕分辨率高，屏幕也很大，上网速度快，一点儿也不卡，非常喜欢，应该是正品，高大上的手机。",
-        rate: 2,
-        createTime: '2019.07.18',
-        spec: "银色 128G",
-        pics: [
-          "https://img30.360buyimg.com/shaidan/s616x405_jfs/t30139/201/1464242510/283903/eb956f0c/5ce123a6Na2d27731.jpg"
-        ]
-      },
-      {
-        id: 2,
-        nickname: "甫素崽",
-        avatar: "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJTqQ5hNKicCNEwW3cATfOTaXk6xMlNEfh1gm0kicPDtJrXwTf5YEqQXYea3m5vsuPyJUXc3U0OicXtA/132",
-        content: "不错不错不错不错",
-        likeCount: 17,
-        viewCount: 12,
-        rate: 3,
-        createTime: '2019.09.18',
-        spec: "银色 64G",
-        pics: [
-          "https://img30.360buyimg.com/shaidan/s616x405_jfs/t1/65005/20/4818/92581/5d2ffdb6Ebcbf3018/35411a583e29d52d.jpg",
-          "https://img30.360buyimg.com/shaidan/s616x405_jfs/t1/74460/28/4830/96562/5d2ffdb7Ed5e9ce7a/e764b3daa92a9c67.jpg",
-          "https://img13.360buyimg.com/n1/g6/M03/04/1A/rBEGC1DJTIkIAAAAAAIol0ZV_NgAAA8fQDxtksAAiiv498.jpg",
-        ],
-        hasLike: false,
-        subComment: [{
-          hasLike: false,
-          viewCount: 88,
-          likeCount: 10,
-          id: 3,
-          nickname: "张峻宁",
-          avatar: "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJTqQ5hNKicCNEwW3cATfOTaXk6xMlNEfh1gm0kicPDtJrXwTf5YEqQXYea3m5vsuPyJUXc3U0OicXtA/132",
-          content: "123123",
-          rate: 3,
-          createTime: '2019.09.18',
-          spec: "银色 64G",
-          pics: [],
-          businessReply: {
-            content: '123'
-          }
-        }, {
-          id: 4,
-          nickname: "皇甫素崽",
-          avatar: "https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTJTqQ5hNKicCNEwW3cATfOTaXk6xMlNEfh1gm0kicPDtJrXwTf5YEqQXYea3m5vsuPyJUXc3U0OicXtA/132",
-          content: "123123",
-          rate: 3,
-          createTime: '2019.09.18',
-          viewCount: 12,
-          likeCount: 12,
-          spec: "银色 64G",
-          pics: [],
-          hasLike: false,
-          businessReply: {
-            content: '123'
-          }
-        }]
-      }
-    ]
+    commentList: []
   },
   handleDelCommentSuccess(e) {
     wx.hideLoading()
@@ -142,9 +55,6 @@ Page({
       }
     })
   },
-  likeBtnTapped(e) {
-    let id = e.detail.id
-  },
 
   commentBtnTapped(e) {
     this.setData({
@@ -162,11 +72,11 @@ Page({
     let option = {
       status: true,
       closeicon: true,
-      content: `请`,
+      content: `当同一用户存在多条评论时，其评分只会取最后一条`,
       marsktap: true,
-      title: '关于评论',
+      title: '关于评论评分',
       foot: [{
-        text: '我知道了',
+        text: '知道了',
         cb: () => {}
       }]
     }
@@ -200,14 +110,16 @@ Page({
     console.log(e)
   },
 
-
-
   delImg(e) {
     wx.showModal({
       content: '要删除这张照片吗？',
       success: res => {
         if (res.confirm) {
           this.data.appendixList.splice(e.currentTarget.dataset.index, 1);
+          // 把他后面的都减一
+          this.data.appendixList.forEach(e => {
+            e.sort = this.data.appendixList.indexOf(e)
+          })
           this.setData({
             appendixList: this.data.appendixList
           })
@@ -247,17 +159,22 @@ Page({
       success: (res) => {
         console.log(res)
         res.tempFiles.forEach(e => {
-          if (e.fileType == "image") {
+          if (res.type == "image") {
             appendixList.push({
-              fileType: e.fileType,
+              fileType: res.type,
               url: e.tempFilePath,
+              size: e.size,
+              sort: 0
             })
           }
-          if (e.fileType == "video") {
+          if (res.type == "video") {
             appendixList.push({
-              fileType: e.fileType,
+              fileType: res.type,
               url: e.tempFilePath,
-              thumb: e.thumbTempFilePath
+              thumb: e.thumbTempFilePath,
+              size: e.size,
+              duration: e.duration,
+              sort: 0
             })
           }
         })
@@ -302,12 +219,13 @@ Page({
     }
 
     wx.showModal({
-      content: "评论是" + this.data.commentValue,
+      content: this.data.commentValue,
       success(res) {
         if (res.confirm) {
           wx.showLoading({
             title: '提交中',
           })
+
 
           lifemapService.submitReplyStoreComment(data, that.handleSubmitReplyStoreCommentSuccess)
         } else if (res.cancel) {
@@ -334,7 +252,7 @@ Page({
     }
     wx.showModal({
       title: '评分为：' + that.data.yourRate,
-      content: "评论是" + that.data.commentValue,
+      content: that.data.commentValue,
       success(res) {
         // 点击确定
         if (res.confirm) {
@@ -343,6 +261,9 @@ Page({
           })
           // todo
           // 要上传一下图片，传到微信云存储里吧
+          data.appendixList.forEach(e => {
+            e.sort = data.appendixList.indexOf(e)
+          })
           that.uploadToCloud(data)
         } else if (res.cancel) {
           console.log('用户点击取消')
@@ -370,11 +291,18 @@ Page({
       var name = Date.parse(new Date()) / 1000; //时间戳
       const cloudPath = 'lifemap/store_comment/' + random + name
 
-      const uploadTasks = fileList.map((file, index) =>
-        //获取后缀,原文件名
+      const uploadTasks = fileList.map((file, index) => {
+        // 获取后缀,原文件名
         // 还有thumb也要传一下
-        this.uploadFilePromise(cloudPath + '_' + index + "." + file.url.substr(file.url.lastIndexOf(".") + 1), file.url)
-      );
+        // 如果是video，则上传他的thumb
+        if (file.fileType == "video") {
+
+          this.uploadFilePromise(cloudPath + '_thumb_' + index + "." + file.thumb.substr(file.url.lastIndexOf(".") + 1), file.thumb)
+          file.thumb = TencentCloudStoragyUrl + cloudPath + '_thumb_' + index + "." + file.thumb.substr(file.url.lastIndexOf(".") + 1)
+        }
+
+        return this.uploadFilePromise(cloudPath + '_' + index + "." + file.url.substr(file.url.lastIndexOf(".") + 1), file.url)
+      });
 
       Promise.all(uploadTasks)
         .then(result => {
@@ -383,7 +311,10 @@ Page({
             let startIndex = e.fileID.lastIndexOf("_") + 1
             let endIndex = e.fileID.lastIndexOf(".")
             let index = e.fileID.substring(startIndex, endIndex)
-            data.appendixList[index].url = e.fileID
+            console.log(e.fileID.substring(startIndex - 5, startIndex))
+            if (e.fileID.substring(startIndex - 5, startIndex) != 'thumb') {
+              data.appendixList[index].url = e.fileID
+            }
           })
 
           lifemapService.submitStoreComment(data, that.handleSubmitStoreCommentSuccess);
@@ -411,8 +342,45 @@ Page({
       showAddCommentPopValue: false
     })
   },
+  handleToggleCommentLikeSuccess(e) {
+    console.log(e)
+  },
+  likeBtnTapped(e) {
+    let id = e.detail.id
+    console.log(id)
+    lifemapService.toggleCommentLike(id, this.handleToggleCommentLikeSuccess)
+  },
+  getTimer: function (stringTime) {
+    var minute = 1000 * 60;
+    var hour = minute * 60;
+    var day = hour * 24;
+    var week = day * 7;
+    var month = day * 30;
 
-  handleGetCommentsByStoreIdSuccess(e) {
+    var time1 = new Date().getTime(); //当前的时间戳
+    var time2 = Date.parse(new Date(stringTime)); //指定时间的时间戳
+    var time = time1 - time2;
+
+    var result = null;
+    if (time < 0) {
+      alert("设置的时间不能早于当前时间！");
+    } else if (time / month >= 1) {
+      result = "发布于" + parseInt(time / month) + "月前";
+    } else if (time / week >= 1) {
+      result = "发布于" + parseInt(time / week) + "周前";
+    } else if (time / day >= 1) {
+      result = "发布于" + parseInt(time / day) + "天前";
+    } else if (time / hour >= 1) {
+      result = "发布于" + parseInt(time / hour) + "小时前";
+    } else if (time / minute >= 1) {
+      result = "发布于" + parseInt(time / minute) + "分钟前";
+    } else {
+      result = "刚刚发布";
+    }
+    return result;
+  },
+
+  handleGetCommentsByStoreIdSuccess(element) {
     wx.stopPullDownRefresh()
     wx.hideLoading()
     wx.hideToast()
@@ -424,7 +392,13 @@ Page({
     let good = 0
     let mid = 0
     let bad = 0
-    e.forEach(e => {
+    element.forEach(e => {
+      // 把时间格式化一下
+      e.createTime = this.getTimer(e.createTime)
+      e.subStoreComments.forEach(el => {
+        el.createTime = this.getTimer(el.createTime)
+      });
+
       if (e.pics.length > 0) pic++
       if (e.businessReply) reply++
       if (e.rate >= 4) good++
@@ -433,8 +407,9 @@ Page({
     })
 
     this.setData({
-      commentList: e,
-      comment: e,
+      commentList: element,
+      comment: element,
+      hasGotDate: true,
       count: {
         pic,
         reply,
@@ -443,6 +418,61 @@ Page({
         bad
       }
     })
+  },
+
+  protectNameFunc: function (name) {
+    if (name == null) {
+      return
+    }
+    if (name.length == 0 || name == undefined) {
+      return "";
+    }
+    var length = name.length;
+    //判断当字符串长度为二时,隐藏末尾
+    if (length === 2) {
+      return name.substring(0, 1) + '*';
+    }
+    if (length === 3) {
+      return name.substring(0, 1) + '*' + name.substring(2, 3);
+    }
+
+    //判断字符串长度大于首尾字符串长度之和时,隐藏中间部分
+    else {
+      return name.substring(0, 1) + "*".repeat(length - 2) + name.substring(length - 1, length);
+    }
+  },
+
+  forbidNoNameTouch() {
+    console.log("forbidNoNameTouch")
+    wx.showModal({
+      title: '注意',
+      content: '未登录，不能点赞和评论哦',
+      confirmText: '去登录',
+      success(res) {
+        if (res.confirm) {
+          router.push({
+            name: 'course_import'
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+
+  handleCheckImportFromJwSuccess(e) {
+    let realName = e
+    let protectName = ''
+    if (e != '' && e != -1) {
+      protectName = this.protectNameFunc(realName)
+    }
+    app.globalData.realName = realName
+    this.setData({
+      realName,
+      hasGotRealName: true,
+      protectName
+    })
+    // 返回姓名
   },
   /**
    * 生命周期函数--监听页面加载
@@ -458,60 +488,69 @@ Page({
         showAddCommentPopValue: true
       })
     }
+    let protectName = ""
+    let realName = app.globalData.realName
+    if (realName && realName != '' && realName != '-1') {
+      protectName = this.protectNameFunc(realName)
+    }
+
+
     if (data != null) {
       this.setData({
         "storeId": data.store_id,
-        "store_name":data.store_name,
+        "store_name": data.store_name,
+        realName,
+        protectName
       })
+      lifemapService.getCommentsByStoreId(data.store_id, this.handleGetCommentsByStoreIdSuccess)
+
+    } else {
+      lifemapService.getCommentsByStoreId(1, this.handleGetCommentsByStoreIdSuccess)
+
     }
-    lifemapService.getCommentsByStoreId(data.store_id, this.handleGetCommentsByStoreIdSuccess)
 
     wx.setNavigationBarTitle({
       title: '评论',
     })
   },
+  noop() {
 
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    console.log("好了")
   },
 
   //弹出视频图层。播放视频
   showVideo(e) {
+    console.log(e)
+    let that = this
     let src = e.detail.src
-    var videoContext = wx.createVideoContext('myVideo', this);
-    videoContext.requestFullScreen();
     this.setData({
       video_data: src,
-      fullScreen: true
+      isPlayingVideo: true
     })
-    videoContext.play()
-  },
+    if (this.videoContext == null) {
+      console.log("videoContext == null")
+      this.videoContext = wx.createVideoContext('myVideo')
+    }
 
+    setTimeout(function () {
+      that.videoContext.play()
+    }, 500)
 
-  showPopVideo(e) {
-    let src = e.currentTarget.dataset.src
-    var videoContext = wx.createVideoContext('myVideo', this);
-    videoContext.requestFullScreen();
-    this.setData({
-      video_data: src,
-      fullScreen: true
-    })
-    videoContext.play()
   },
 
   closeVideo(e) {
-    if (!e.detail.fullscreen) {
-      //执行退出全屏方法
-      this.setData({
-        fullScreen: e.detail.fullScreen
-      })
-      var videoContext = wx.createVideoContext('myVideo', this);
-      videoContext.stop()
-      videoContext.exitFullScreen();
-    }
+    //执行退出全屏方法
+    this.setData({
+      isPlayingVideo: false,
+    })
+    this.videoContext.stop()
+    this.videoContext.seek(0)
+
   },
 
 
@@ -519,7 +558,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    if (app.globalData.realName == '' || app.globalData.realName == '-1') {
 
+      userService.CheckImportFromJw(this.handleCheckImportFromJwSuccess)
+    }
   },
 
   /**

@@ -15,11 +15,11 @@
     "pages/msg/msg",
     "pages/msg/detail/detail"
   ],
-  "subpackages": [
-    {
+  "subpackages": [{
       "root": "packageSecondly",
       "pages": [
         "pages/moment/moment",
+        "pages/lucky_draw/lucky_draw",
         "pages/camera_scan/camera_scan",
         "pages/course_search/course_search",
         "pages/moment/edit/edit",
@@ -62,8 +62,7 @@
     "backgroundColor": "#ffffff",
     "color": "#979795",
     "selectedColor": "#1c1c1b",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/index/index",
         "text": "空教室",
         "iconPath": "/images/icon/icon_home.png",

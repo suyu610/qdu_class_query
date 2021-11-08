@@ -6,6 +6,9 @@ Component({
   properties: {
     data: {
       type: Object
+    },
+    realName: {
+      type: String
     }
   },
 
@@ -13,6 +16,15 @@ Component({
    * 组件的初始数据
    */
   data: {
+
+  },
+
+
+  lifetimes: {
+    // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
+    ready: function () {
+
+    },
 
   },
 
@@ -53,7 +65,16 @@ Component({
       })
 
     },
+    forbidNoNameTouch() {
+      console.log("forbid")
+      this.triggerEvent('forbidNoNameTouch', {})
+    },
     likeBtnTapped(e) {
+
+      if (this.data.realName == "" || this.data.realName == -1) {
+        this.forbidNoNameTouch()
+        return
+      }
       let data = this.data.data
       data.hasLike = !data.hasLike
       if (data.hasLike) {
@@ -64,15 +85,23 @@ Component({
       this.setData({
         data
       })
+      wx.vibrateShort({
+        type: 'medium',
+      })
       this.triggerEvent('likeBtnTapped', {
         id: e.currentTarget.dataset.id
       }) //triggerEvent广播数据 index为广播事件
     },
 
+
     replyLikeBtnTapped(e) {
+      if (this.data.realName == "" || this.data.realName == -1) {
+        this.forbidNoNameTouch()
+        return
+      }
       let id = e.currentTarget.dataset.id
       let data = this.data.data
-      let subComment = data.subComment
+      let subComment = data.subStoreComments
       subComment.forEach(e => {
         if (id == e.id) {
           e.hasLike = !e.hasLike
@@ -87,13 +116,22 @@ Component({
       this.setData({
         data
       })
+      wx.vibrateShort({
+        type: 'medium',
+      })
       this.triggerEvent('replyLikeBtnTapped', {
         id: e.currentTarget.dataset.id
       }) //triggerEvent广播数据 index为广播事件
     },
+
     commentBtnTapped(e) {
+      if (this.data.realName == "" || this.data.realName == -1) {
+        this.forbidNoNameTouch()
+        return
+      }
+      let id = e.currentTarget.dataset.id
       this.triggerEvent('commentBtnTapped', {
-        id: e.currentTarget.dataset.id
+        id
       }) //triggerEvent广播数据 index为广播事件
     }
 
